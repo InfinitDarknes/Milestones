@@ -646,6 +646,10 @@ function DisplayHome() {
   AppendHTMLElements("AppendCompleteTaskButton");
   AppendHTMLElements("AppendFailTaskButton");
   AppendHTMLElements("AppendAllCategories");
+  if (!localStorage.getItem("SelectedCategory")) {
+    CategoriesTasks("category-to-do");
+    return;
+  }
   if (localStorage.getItem("SelectedCategory").includes("UserCategory")) {
     CategoriesTasks("category-to-do");
   }
