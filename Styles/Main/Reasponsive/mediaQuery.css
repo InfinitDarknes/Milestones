@@ -1,0 +1,32 @@
+@media screen and (width <= 800px) {
+  #main-container {
+    width: 100%;
+  }
+  #add-task-section {
+    display: none;
+  }
+  #task-bar {
+    position: relative;
+    width: calc(100% - 10px);
+    height: fit-content;
+    flex-direction: column;
+    padding: 0 5px;
+    top: 0;
+    right: 0;
+  }
+  #list-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: calc(100% - 10px);
+    top: 0;
+    padding: 5px;
+    margin-top: 20px;
+  }
+  .task-container {
+    margin: 18px 0;
+  }
+  /* #category-bar {
+  } */
+}

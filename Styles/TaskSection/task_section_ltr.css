@@ -1,0 +1,339 @@
+/* Select All Section */
+#select-all-section {
+  order: 1;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  color: #dad6d6;
+}
+
+/* Top Bar Section */
+#tasks-section {
+  order: 3;
+  position: absolute;
+  top: 60px;
+  left: 250px;
+  width: calc(100% - 250px);
+  height: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 20px 0;
+}
+
+/* Task Bar */
+#task-bar {
+  width: calc(100% - 40px);
+  height: 70px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* Category Bar */
+#category-bar {
+  order: 3;
+  display: flex;
+  flex-direction: row;
+}
+
+/* Category Buttons */
+.category-buttons {
+  order: 7;
+  background-color: #1b1a1d;
+  border-bottom: 2px solid rgba(218, 165, 32, 0.3);
+  font-size: 1.1em;
+  border: 0;
+  margin: 0 5px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: #dad6d6;
+  transition: all 0.5s;
+}
+
+.category-buttons:hover {
+  transform: scale(1.1);
+  background-color: #40c057;
+}
+
+/* Individual Category Styles */
+#category-to-do {
+  order: 1;
+}
+#category-today {
+  order: 2;
+}
+#category-tomorrow {
+  order: 3;
+}
+#category-in-2-days {
+  order: 4;
+}
+#category-failed {
+  order: 5;
+}
+#category-completed {
+  order: 6;
+}
+
+/* Task Buttons Container */
+#task-buttons-container {
+  order: 2;
+  width: fit-content;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+/* Restore Tasks Button */
+#restore-task-button {
+  order: 3;
+  width: 45px;
+  height: 45px;
+  margin: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: #40c057;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+/* Restore Tasks Button Icon */
+#restore-task-button-icon {
+  width: 25px;
+  height: 25px;
+}
+#fail-task-button {
+  order: 4;
+  width: 45px;
+  height: 45px;
+  margin: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: #ff4545;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+#fail-task-button-icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* Delete and Complete Task Buttons */
+#delete-task-button,
+#task-completed-button {
+  width: 45px;
+  height: 45px;
+  margin: 0 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+}
+
+#delete-task-button {
+  order: 1;
+  background-color: rgb(255, 69, 69);
+}
+#task-completed-button {
+  order: 2;
+  background-color: rgb(64, 192, 87);
+}
+
+/* Delete and Complete Task Button Icons */
+#delete-task-button-icon,
+#task-completed-button-icon {
+  width: 25px;
+  transition-duration: 0.3s;
+}
+
+/* List Section */
+#list-section {
+  order: 2;
+  width: calc(65% - 40px);
+  height: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-y: scroll;
+  padding: 20px 20px;
+  margin-top: 20px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Custom Scrollbar Styling */
+#list-section::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* Task Container */
+.task-container {
+  width: calc(100% - 30px);
+  max-width: 800px;
+  padding: 10px 0;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 15px 0;
+  background: #2e3843;
+  border-radius: 10px;
+}
+
+/* Task Title */
+.task-title {
+  width: 70%;
+  font-size: 1.1em;
+  color: #1b1a1d;
+  direction: ltr;
+  padding: 10px;
+  text-align: left;
+}
+
+/* Date Container */
+.date-container {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: -20px;
+  left: 0px;
+  background: #1b1a1d;
+  border-radius: 0;
+  margin: 0;
+}
+
+/* Task Date */
+.task-date {
+  order: 2;
+  padding: 3px 5px;
+  font-size: 1em;
+  color: #dad6d6;
+  direction: ltr;
+}
+
+/* Task Time */
+.task-time {
+  order: 1;
+  padding: 3px 5px;
+  font-size: 1em;
+  color: #dad6d6;
+}
+
+/* Select Task Checkbox */
+.select-task-checkbox {
+  width: 25px;
+  height: 25px;
+  margin-left: 15px;
+}
+
+/* Badges for Failed and Completed Tasks */
+.failed-task-badge,
+.completed-task-badge,
+.category-badge{
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  padding: 0 8px;
+  height: 100%;
+  color: #dad6d6;
+  position: absolute;
+  right: 0;
+  font-size: 1em;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.category-badge-icon{
+  order: 1;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+.category-badge-name{
+  order: 2;
+  font-size: 0.9em;
+}
+
+.failed-task-badge {
+  background-color: #ff4545;
+}
+.completed-task-badge {
+  background-color: #40c057;
+}
+
+/* Edit Task Button */
+.edit-task-button {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 10px;
+  background: none;
+  transition: 0.5s;
+}
+
+/* Edit Task Button Icon */
+.edit-task-button img {
+  width: 100%;
+  height: 100%;
+}
+
+/* Folding Task Button */
+.fold-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  background-color: transparent;
+  border: 0;
+}
+
+/* Folding Task Button Icon */
+.fold-btn img {
+  width: 40px;
+  height: 40px;
+}
+
+/* Empty Box Container */
+#empty-box-container {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Empty Box Image */
+#empty-box-container img {
+  width: 150px;
+  height: 150px;
+}
+
+/* Empty Box Text */
+#empty-box-text {
+  padding: 10px;
+  font-size: 1.3em;
+  color: wheat;
+  direction: ltr;
+}

@@ -1,0 +1,29 @@
+#trash-bin-section {
+  order: 3;
+  position: absolute;
+  top: 60px;
+  right: 250px;
+  width: calc(100% - 250px);
+  height: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 20px 0;
+}
+.trashed-task-badge {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  padding: 0 8px;
+  height: 100%;
+  color: #dad6d6;
+  position: absolute;
+  left: 0;
+  font-size: 1.1em;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: #ff4545;
+}

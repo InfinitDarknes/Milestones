@@ -1,0 +1,192 @@
+@font-face {
+    font-family: SpaceGrotesk;
+    src: url(../../Fonts/SpaceGrotesk-Regular.ttf);
+  }
+  #date-picker * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    direction: ltr;
+  }
+  .active {
+    display: flex !important;
+  }
+  button {
+    cursor: pointer;
+  }
+  #task-date-input {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    font-family: SpaceGrotesk;
+    font-size: 1.2em;
+    direction: ltr;
+  }
+  #date-picker {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    height: fit-content;
+    background-color: rgba(54, 54, 59, 1);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 99;
+  }
+  #pick-year-month-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: 50px;
+    background-color: rgba(54, 54, 59, 0.4);
+    padding: 5px;
+  }
+  #next-month{
+    order: 3;
+  }
+  #previous-month{
+    order: 1;
+  }
+  #year-month-container{
+    order: 2;
+  }
+  #pick-year-month-container button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    padding: 5px;
+    border: 0;
+    background-color: #1B1A1D;
+    transition: 0.3s;
+  }
+  #pick-year-month-container button:hover {
+    transform: scale(1.2);
+  }
+  #pick-year-month-container button img {
+    width: 20px;
+    height: 20px;
+  }
+  #year,
+  #month {
+    font-size: 1.4em;
+    font-family: SpaceGrotesk,vazir;
+    color: #dad6d6;
+    margin: 0 5px;
+  }
+  #pick-days {
+    padding: 10px;
+    display: grid;
+    gap: 6px;
+    grid-template-columns: repeat(7, 1fr);
+    justify-content: center;
+    width: 100%;
+  }
+  .pick-day-button {
+    width: 35px;
+    height: 35px;
+    border: 0;
+    font-size: 1.2em;
+    font-family: SpaceGrotesk;
+    color: #dad6d6;
+    background: none;
+    border-radius: 50%;
+    transition: 0.1s;
+  }
+  .pick-day-button:hover {
+    transform: scale(1.1);
+    background-color: #40C057;
+  }
+  #date-picker-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+  }
+  #pick-today-button,
+  #pick-tomorrow-button,
+  #pick-in-2-days-button {
+    width: fit-content;
+    height: fit-content;
+    padding: 5px;
+    border: 0;
+    border-radius: 5px;
+    margin-left: 10px;
+    font-family: SpaceGrotesk;
+    font-size: 1.2em;
+    transition: 0.3s;
+    background-color: #1B1A1D;
+    color: #dad6d6;
+  }
+  #pick-today-button:hover,
+  #pick-tomorrow-button:hover,
+  #pick-in-2-days-button:hover {
+    transform: scale(1.1);
+    background-color: #40C057;
+  }
+  
+  #time-picker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 92px;
+    padding: 10px 0;
+  }
+  #time-picker-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 15px;
+    font-size: 1.2em;
+    color: crimson;
+  }
+  #time-picker-separator img {
+    width: 25px;
+    height: 25px;
+  }
+  .time-picker-inner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+    height: 100%;
+  }
+  .time-picker-input {
+    width: 80%;
+    height: 100%;
+    border-radius: 5px;
+    border: 0;
+    margin-right: 4px !important;
+    font-size: 1.2em;
+    font-family: SpaceGrotesk;
+    text-align: center;
+    background-color: #dad6d6;
+  }
+  .tweak-time-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 30px;
+    height: 100%;
+  }
+  .tweak-time-buttons button {
+    width: 30px;
+    height: 30px;
+    background-color: #1B1A1D;
+    border: 0;
+    border-radius: 5px;
+    margin: 3px 0 !important;
+  }
+  .tweak-time-buttons button img {
+    width: 80%;
+    height: 80%;
+  }
+  
