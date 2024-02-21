@@ -6,7 +6,7 @@ const UserSettings = {
   AutoBackUp: null,
   Calendar: null,
   ClockFormat: null,
-  Theme: null,
+  Theme: "Light",
 };
 function DisplaySettings() {
   if (DoesElementExist("settings-container")) return;
@@ -24,7 +24,7 @@ function DisplaySettings() {
   HideSettingButton.id = "hide-settings-button";
   HideSettingButtonIcon.id = "hide-settings-button-icon";
   SettingTitle.innerText = Strings.SettingTitle[UserSettings.CurrentLang];
-  HideSettingButtonIcon.src = "Icons/CrossSign.png";
+  HideSettingButtonIcon.src = IconsSrc.CloseIcon[UserSettings.Theme];
   HideSettingButton.addEventListener("click", HideSettings);
   SettingHeader.appendChild(SettingTitle);
   SettingHeader.appendChild(HideSettingButton);
@@ -64,115 +64,6 @@ function DisplaySettings() {
     LanguageSwitcher("fa");
   });
   LanguageSettingSelectBox.appendChild(FA);
-  // Arabic
-  const AR = document.createElement("option");
-  AR.innerText = "العربية";
-  AR.id = "lang-ar";
-  AR.value = "ar";
-  AR.title = "Arabic";
-  AR.addEventListener("click", function () {
-    LanguageSwitcher("ar");
-  });
-  LanguageSettingSelectBox.appendChild(AR);
-  // Spanish
-  const ES = document.createElement("option");
-  ES.innerText = "Español";
-  ES.id = "lang-es";
-  ES.value = "es";
-  ES.title = "Spanish";
-  ES.addEventListener("click", function () {
-    LanguageSwitcher("es");
-  });
-  LanguageSettingSelectBox.appendChild(ES);
-  // French
-  const FR = document.createElement("option");
-  FR.innerText = "Français";
-  FR.id = "lang-fr";
-  FR.value = "fr";
-  FR.title = "French";
-  FR.addEventListener("click", function () {
-    LanguageSwitcher("fr");
-  });
-  LanguageSettingSelectBox.appendChild(FR);
-  // German
-  const DE = document.createElement("option");
-  DE.innerText = "Deutsch";
-  DE.id = "lang-de";
-  DE.value = "de";
-  DE.title = "German";
-  DE.addEventListener("click", function () {
-    LanguageSwitcher("de");
-  });
-  LanguageSettingSelectBox.appendChild(DE);
-  // Russian
-  const RU = document.createElement("option");
-  RU.innerText = "Русский";
-  RU.id = "lang-ru";
-  RU.value = "ru";
-  RU.title = "Russian";
-  RU.addEventListener("click", function () {
-    LanguageSwitcher("ru");
-  });
-  LanguageSettingSelectBox.appendChild(RU);
-  // Chinese
-  const ZH = document.createElement("option");
-  ZH.innerText = "中文";
-  ZH.id = "lang-zh";
-  ZH.value = "zh";
-  ZH.title = "Chineese";
-  ZH.addEventListener("click", function () {
-    LanguageSwitcher("zh");
-  });
-  LanguageSettingSelectBox.appendChild(ZH);
-  // Hindi
-  const HI = document.createElement("option");
-  HI.innerText = "हिन्दी";
-  HI.id = "lang-hi";
-  HI.value = "hi";
-  HI.title = "Indian";
-  HI.addEventListener("click", function () {
-    LanguageSwitcher("hi");
-  });
-  LanguageSettingSelectBox.appendChild(HI);
-  // Japanese
-  const JA = document.createElement("option");
-  JA.innerText = "日本語";
-  JA.id = "lang-ja";
-  JA.value = "ja";
-  JA.title = "Japeneese";
-  JA.addEventListener("click", function () {
-    LanguageSwitcher("ja");
-  });
-  // Korean
-  const KR = document.createElement("option");
-  KR.innerText = "한국어";
-  KR.id = "lang-kr";
-  KR.value = "kr";
-  KR.title = "Korean";
-  KR.addEventListener("click", function () {
-    LanguageSwitcher("kr");
-  });
-  LanguageSettingSelectBox.appendChild(KR);
-  // Portuguese
-  const PT = document.createElement("option");
-  PT.innerText = "Português";
-  PT.id = "lang-pt";
-  PT.value = "pt";
-  PT.title = "Portugues";
-  PT.addEventListener("click", function () {
-    LanguageSwitcher("pt");
-  });
-  LanguageSettingSelectBox.appendChild(PT);
-  // Urdu
-  const UR = document.createElement("option");
-  UR.innerText = "اردو";
-  UR.id = "lang-ur";
-  UR.value = "ur";
-  UR.title = "Urdu";
-  UR.addEventListener("click", function () {
-    LanguageSwitcher("ur");
-  });
-  LanguageSettingSelectBox.appendChild(UR);
   // Sidebar Setting
   const SideBarSettingContainer = document.createElement("section");
   const SideBarSettingTitle = document.createElement("span");
@@ -320,6 +211,9 @@ function DisplaySettings() {
   ThemeSettingTitle.className = "setting-title";
   ThemeSettingTitle.id = "theme-setting-title";
   ThemeSettingSelectBox.className = "setting-select-box";
+  ThemeSettingSelectBox.addEventListener("change", () => {
+    ThemeSwitcher(ThemeSettingSelectBox.value);
+  });
   ThemeSettingTitle.innerText = Strings.ThemeSetting[UserSettings.CurrentLang];
   ThemeSettingContainer.appendChild(ThemeSettingTitle);
   ThemeSettingContainer.appendChild(ThemeSettingSelectBox);
@@ -328,12 +222,15 @@ function DisplaySettings() {
   const DarkThemeOption = document.createElement("option");
   DarkThemeOption.innerText = Strings.DarkThemeOption[UserSettings.CurrentLang];
   DarkThemeOption.id = "dark-theme-option";
+  DarkThemeOption.value = "Dark";
   const LightThemeOption = document.createElement("option");
   LightThemeOption.innerText = Strings.LightThemeOption[UserSettings.CurrentLang];
   LightThemeOption.id = "light-theme-option";
+  LightThemeOption.value = "Light";
   const NeonThemeOption = document.createElement("option");
   NeonThemeOption.innerText = Strings.NeonThemeOption[UserSettings.CurrentLang];
   NeonThemeOption.id = "neon-theme-option";
+  NeonThemeOption.value = "Neon";
   ThemeSettingSelectBox.appendChild(DarkThemeOption);
   ThemeSettingSelectBox.appendChild(LightThemeOption);
   ThemeSettingSelectBox.appendChild(NeonThemeOption);
@@ -342,7 +239,7 @@ function DisplaySettings() {
   const CloudStorgeButtonIcon = document.createElement("img");
   const CloudStorgeButtonText = document.createElement("span");
   CloudStorgeButtonIcon.className = "side-bar-item-icon";
-  CloudStorgeButtonIcon.src = `Icons/CloudStorgeIcon.png`;
+  CloudStorgeButtonIcon.src = IconsSrc.CloudStorgeIcon[UserSettings.Theme];
   CloudStorgeButtonText.className = "side-bar-item-text";
   CloudStorgeButton.id = "cloud-storge-button";
   CloudStorgeButtonText.id = "cloud-storge-button-text";
@@ -356,7 +253,7 @@ function DisplaySettings() {
   const GenerateBackUpFileButtonIcon = document.createElement("img");
   const GenerateBackUpFileButtonText = document.createElement("span");
   GenerateBackUpFileButtonIcon.className = "side-bar-item-icon";
-  GenerateBackUpFileButtonIcon.src = `Icons/GenerateBackUpIcon.png`;
+  GenerateBackUpFileButtonIcon.src = IconsSrc.GenerateBackupIcon[UserSettings.Theme];
   GenerateBackUpFileButtonText.className = "side-bar-item-text";
   GenerateBackUpFileButton.id = "generate-backup-button";
   GenerateBackUpFileButtonText.id = "generate-backup-button-text";
@@ -368,7 +265,7 @@ function DisplaySettings() {
   //
   void SettingsContainer.offsetWidth;
   SettingsContainer.classList.add("setting-in");
-  DisplayUserSettingIntoDom("DisplayLang");
+  DisplayUserSettingIntoDom();
 }
 function HideSettings() {
   if (DoesElementExist("settings-container")) {
@@ -381,83 +278,68 @@ function HideSettings() {
 function LanguageSwitcher(Lang) {
   UserSettings.CurrentLang = Lang;
   FixDirection();
-  RefreshItemsInnerText();
   ShowDateAndClock();
   localStorage.setItem("Lang", Lang.toString());
+  location.reload();
+}
+function ThemeSwitcher(Theme) {
+  UserSettings.Theme = Theme;
+  localStorage.setItem("Theme", Theme.toString());
+  document.body.className = Theme;
+  location.reload();
 }
 function DatePickerSwitcher(Type) {
   UserSettings.Calendar = Type;
   DatePickerSettings.type = Type;
   localStorage.setItem("DatePickerType", Type);
 }
-function LoadUserSettings(Action) {
-  if (Action === "LoadLang") {
-    UserSettings.CurrentLang = localStorage.getItem("Lang") ? localStorage.getItem("Lang") : "en";
-  }
-  if (Action === "LoadDatePickerType") {
-    UserSettings.Calendar = localStorage.getItem("DatePickerType")
-      ? localStorage.getItem("DatePickerType")
-      : "Gregorian";
-    DatePickerSettings.type = localStorage.getItem("DatePickerType")
-      ? localStorage.getItem("DatePickerType")
-      : "Gregorian";
-  }
+function LoadUserSettings() {
+  UserSettings.CurrentLang = localStorage.getItem("Lang") ? localStorage.getItem("Lang") : "en";
+  UserSettings.Theme = localStorage.getItem("Theme") ? localStorage.getItem("Theme") : "Dark";
+  document.body.className = UserSettings.Theme;
+  UserSettings.Calendar = localStorage.getItem("DatePickerType") ? localStorage.getItem("DatePickerType") : "Gregorian";
+  DatePickerSettings.type = localStorage.getItem("DatePickerType") ? localStorage.getItem("DatePickerType") : "Gregorian";
 }
-function DisplayUserSettingIntoDom(Action) {
-  if (Action === "DisplayLang") {
-    switch (UserSettings.CurrentLang) {
-      case "fa":
-        const FA = document.getElementById("lang-fa");
-        FA.selected = true;
-        break;
-      case "en":
-        const EN = document.getElementById("lang-en");
-        EN.selected = true;
-        break;
-      case "ar":
-        const AR = document.getElementById("lang-ar");
-        AR.selected = true;
-        break;
-      case "es":
-        const ES = document.getElementById("lang-es");
-        ES.selected = true;
-        break;
-      case "fr":
-        const FR = document.getElementById("lang-fr");
-        FR.selected = true;
-        break;
-      case "de":
-        const DE = document.getElementById("lang-de");
-        DE.selected = true;
-        break;
-      case "ru":
-        const RU = document.getElementById("lang-ru");
-        RU.selected = true;
-        break;
-      case "zh":
-        const ZH = document.getElementById("lang-zh");
-        ZH.selected = true;
-        break;
-      case "hi":
-        const HI = document.getElementById("lang-hi");
-        HI.selected = true;
-        break;
-      case "ja":
-        const JA = document.getElementById("lang-ja");
-        JA.selected = true;
-        break;
-      case "kr":
-        const KR = document.getElementById("lang-kr");
-        KR.selected = true;
-        break;
-      case "pt":
-        const PT = document.getElementById("lang-pt");
-        PT.selected = true;
-        break;
-      case "ur":
-        const UR = document.getElementById("lang-ur");
-        UR.selected = true;
-        break;
-    }
+function DisplayUserSettingIntoDom() {
+  // Lang
+  switch (UserSettings.CurrentLang) {
+    case "fa":
+      const FA = document.getElementById("lang-fa");
+      FA.selected = true;
+      break;
+    case "en":
+      const EN = document.getElementById("lang-en");
+      EN.selected = true;
+      break;
+  }
+  // Date Picker
+  switch (UserSettings.Calendar) {
+    case "Solar":
+      const Solar = document.getElementById("solar-option");
+      Solar.selected = true;
+      break;
+    case "Lunar":
+      const Lunar = document.getElementById("lunar-option");
+      Lunar.selected = true;
+      break;
+    case "Gregorian":
+      const Gregorian = document.getElementById("gregorian-option");
+      Gregorian.selected = true;
+      break;
+  }
+  // Theme
+  switch (UserSettings.Theme) {
+    case "Dark":
+      const Dark = document.getElementById("dark-theme-option");
+      Dark.selected = true;
+      break;
+    case "Light":
+      const Light = document.getElementById("light-theme-option");
+      Light.selected = true;
+      break;
+    case "Neon":
+      const Neon = document.getElementById("neon-theme-option");
+      Neon.selected = true;
+      break;
   }
 }

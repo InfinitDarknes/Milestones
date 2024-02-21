@@ -1,31 +1,32 @@
-#user-category-page{
-    position: absolute;
-    top: 60px;
-    right: 250px;
-    width: calc(100% - 250px);
-    height: calc(100% - 80px);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin: 20px 0;
-  }
-#user-category-page-header{
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
-    width: calc(100% - 40px);
-    max-width: 850px;
-    margin-right: 20px;
-    padding: 0 10px 10px 10px;
-    border-bottom: 2px solid #dad6d6;
+#user-category-page {
+  position: absolute;
+  top: 62px;
+  right: 252px;
+  width: calc(100% - 252px);
+  height: calc(100% - 62px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: #232d3f;
 }
-#user-category-page-title{
-    color: #dad6d6;
-    font-size: 1.5em;
+#user-category-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: calc(100% - 40px);
+  max-width: 850px;
+  margin: 10px 20px 15px 0;
+  padding: 10px;
+  background-color: #1a1b1d;
+  border-radius: 10px;
 }
-#user-category-page-icon{
-    width: 50px;
-    height: 50px;
-    margin-left: 20px;
+#user-category-page-title {
+  color: #dad6d6;
+  font-size: 1.7em;
+}
+#user-category-page-icon {
+  width: 50px;
+  height: 50px;
+  margin-left: 20px;
 }

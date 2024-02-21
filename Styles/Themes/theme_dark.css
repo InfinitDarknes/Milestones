@@ -1,0 +1,219 @@
+/*Dark*/
+/* Select All Section */
+.Dark .hovered {
+  background-color: #40c057 !important;
+}
+.Dark #select-all-section {
+  color: #dad6d6;
+}
+.Dark #tasks-section {
+  background-color: #232d3f;
+}
+.Dark .sort-buttons {
+  background-color: #1b1a1d;
+  color: #dad6d6;
+}
+.Dark #search-bar {
+  background-color: #1b1a1d;
+  color: #dad6d6;
+}
+.Dark .hover-title {
+  background-color: rgba(218, 214, 214, 0.9);
+}
+.Dark .task-container {
+  background: #3a4166;
+}
+.Dark .task-title {
+  color: #1b1a1d;
+}
+.Dark .date-container {
+  background: #1b1a1d;
+}
+.Dark .task-date {
+  color: #dad6d6;
+}
+.Dark .failed-task-badge,
+.Dark .completed-task-badge,
+.Dark .category-badge {
+  color: #dad6d6;
+}
+.Dark .task-time {
+  color: #dad6d6;
+}
+.Dark #empty-box-text {
+  color: #dad6d6;
+}
+.Dark #side-bar {
+  background: #232d3f;
+}
+.Dark .side-bar-item {
+  background: #1b1a1d;
+  color: #dad6d6;
+}
+.Dark #full-date {
+  color: #f5deb3;
+}
+.Dark #time {
+  color: wheat;
+}
+.Dark .user-category-name {
+  color: #dad6d6;
+}
+.Dark #settings-container {
+  background: #2e3843;
+}
+.Dark #settings-header {
+  border-bottom: 3px solid #dad6d6;
+}
+.Dark #settings-title {
+  color: #1b1a1d;
+}
+.Dark .setting-item {
+  background-color: #1b1a1d;
+}
+.Dark .setting-select-box {
+  color: #1b1a1d;
+  background-color: #dad6d6;
+}
+.Dark .setting-select-box option {
+  color: #1b1a1d;
+}
+.Dark .setting-title {
+  color: #dad6d6;
+}
+.Dark #generate-backup-button {
+  background: #1b1a1d;
+  color: #dad6d6;
+}
+.Dark #cloud-storge-button {
+  background: #1b1a1d;
+  color: #dad6d6;
+}
+.Dark #modal-container {
+  background-color: #1b1a1d;
+}
+.Dark #modal-text {
+  color: #dad6d6;
+}
+.Dark #move-to-trash-text {
+  color: #fed402;
+}
+.Dark #confirm-btn,
+.Dark #cancel-btn {
+  color: #dad6d6;
+}
+.Dark .green-btn {
+  background-color: rgb(64, 192, 87);
+}
+.Dark .red-btn {
+  background-color: rgb(255, 69, 69);
+}
+.Dark #select-category-select-box {
+  background-color: #dad6d6;
+  color: #1b1a1d;
+}
+.Dark .task-input {
+  background-color: #dad6d6;
+}
+.Dark .badge {
+  background: #1b1a1d;
+  border-bottom: 1px solid #dad6d6;
+  color: #dad6d6;
+}
+.Dark .badge-modified {
+  background: #1b1a1d;
+  border: 1px solid #dad6d6;
+  color: #dad6d6;
+}
+.Dark .character-limit {
+  border: 1px solid #dad6d6;
+  color: #dad6d6;
+  background: #1b1a1d;
+}
+.Dark .pick-category-icon-button {
+  background-color: #264261;
+}
+.Dark #preloader {
+  background-color: #3a4166;
+}
+.Dark #preloader-text {
+  color: #dad6d6;
+}
+body.Dark {
+  background: #3a4166;
+}
+.Dark #date-picker {
+  background-color: #36363b;
+}
+.Dark #pick-year-month-container {
+  background-color: #36363b66;
+}
+.Dark #pick-year-month-container button {
+  background-color: #1b1a1d;
+}
+.Dark #year,
+.Dark #month {
+  color: #dad6d6;
+}
+.Dark .pick-day-button {
+  color: #dad6d6;
+}
+.Dark #pick-today-button,
+.Dark #pick-tomorrow-button,
+.Dark #pick-in-2-days-button {
+  background-color: #1b1a1d;
+}
+.Dark .time-picker-input {
+  background-color: #dad6d6;
+}
+.Dark .tweak-time-buttons button {
+  background-color: #1b1a1d;
+}
+.Dark #context-menu {
+  background-color: #1b1a1d;
+}
+.Dark .context-menu-item {
+  background-color: #1b1a1d;
+}
+.Dark .context-menu-text {
+  color: #dad6d6;
+}
+.Dark #top-bar {
+  background: #232d3f;
+}
+.Dark #display-text {
+  color: #dad6d6;
+}
+.Dark #trash-bin-section {
+  background-color: #232d3f;
+}
+.Dark #trash-bin-header {
+  background-color: #1a1b1d;
+}
+.Dark #trash-bin-title {
+  color: #dad6d6;
+}
+.Dark .trashed-task-badge {
+  color: #dad6d6;
+  background-color: #ff4545;
+}
+.Dark #user-category-page {
+  background-color: #232d3f;
+}
+.Dark #user-category-page-header {
+  background-color: #1a1b1d;
+}
+.Dark #user-category-page-title {
+  color: #dad6d6;
+}
+.Dark .checkmark {
+  --clr: #008ffd;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 1.2em;
+  width: 1.2em;
+  background-color: #ccc;
+  border-radius: 50%;
+  transition: 300ms;
+}

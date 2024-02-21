@@ -1,861 +1,851 @@
 function HighLightSelectedSideBarItem(ID) {
-  return new Promise((Resolve, Reject) => {
-    localStorage.setItem("SelectedSideBarItem", ID.toString());
-    let SideBarItems = document.querySelectorAll(".side-bar-item");
-    for (n in SideBarItems) {
-      if (SideBarItems[n].id === ID) {
-        SideBarItems[n].style.backgroundColor = "#40C057";
-      } else {
-        SideBarItems[n].style = "";
-        SideBarItems[n].style = "";
-      }
-    }
-    Resolve();
+  const SideBarItems = document.querySelectorAll(".side-bar-item");
+  SideBarItems.forEach((Item) => {
+    if (Item.id === ID) Item.classList.add("hovered");
+    else Item.classList.remove("hovered");
   });
 }
 function FixDirection() {
-  return new Promise((resolve, reject) => {
-    let MainStyleSheet = document.getElementById("main-style-sheet");
-    switch (UserSettings.CurrentLang) {
-      case "en":
-        MainStyleSheet.href = "Styles/Main/style_ltr.css";
-        break;
-      case "fa":
-        MainStyleSheet.href = "Styles/Main/style_rtl.css";
-        break;
-      case "ar":
-        MainStyleSheet.href = "Styles/Main/style_rtl.css";
-        break;
-      case "es":
-        MainStyleSheet.href = "Styles/Main/style_ltr.css";
-        break;
-      case "fr":
-        MainStyleSheet.href = "Styles/Main/style_ltr.css";
-        break;
-      case "de":
-        MainStyleSheet.href = "Styles/Main/style_ltr.css";
-        break;
-      case "ru":
-        MainStyleSheet.href = "Styles/Main/style_ltr.css";
-        break;
-      case "zh":
-        MainStyleSheet.href = "Styles/Main/style_ltr.css";
-        break;
-      case "hi":
-        MainStyleSheet.href = "Styles/Main/style_ltr.css";
-        break;
-      case "ja":
-        MainStyleSheet.href = "Styles/Main/style_ltr.css";
-        break;
-      case "kr":
-        MainStyleSheet.href = "Styles/Main/style_ltr.css";
-        break;
-      case "pt":
-        MainStyleSheet.href = "Styles/Main/style_ltr.css";
-        break;
-      case "ur":
-        MainStyleSheet.href = "Styles/Main/style_rtl.css";
-        break;
-    }
-    resolve();
-  });
+  const MainStyleSheet = document.getElementById("main-style-sheet");
+  switch (UserSettings.CurrentLang) {
+    case "en":
+      MainStyleSheet.href = "Styles/Main/style_ltr.css";
+      break;
+    case "fa":
+      MainStyleSheet.href = "Styles/Main/style_rtl.css";
+      break;
+  }
 }
-function AppendHTMLElements(Action, Array) {
-  let TaskArray = Array;
-  if (Action === "AppendTopBar") {
-    if (DoesElementExist("top-bar")) return;
-    const TopBar = document.createElement("section");
-    TopBar.id = "top-bar";
-    const DisplayText = document.createElement("section");
-    DisplayText.id = "display-text";
-    TopBar.appendChild(DisplayText);
-    document.body.appendChild(TopBar);
+function AppendHTMLElements(Action) {
+  if (Action === "AppendCategoryUnfinishedButton") {
+    if (DoesElementExist("sort-unfinished")) return;
+    const SortBar = document.getElementById("sort-bar");
+    const SortUnfinished = document.createElement("button");
+    SortUnfinished.className = "sort-buttons";
+    SortUnfinished.id = "sort-unfinished";
+    SortUnfinished.textContent = Strings.SortUnfinished[UserSettings.CurrentLang];
+    SortUnfinished.addEventListener("click", () => {
+      CurrentWindow = "Home-Unfinished";
+      LoadUnfinishedTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-unfinished");
+      DeselectAll();
+    });
+    SortUnfinished.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      SortUnfinished.style.backgroundColor = HoverColor[UserSettings.Theme];
+      SortUnfinished.style.transform = "scale(1.1)";
+    });
+    SortUnfinished.addEventListener("dragleave", () => {
+      SortUnfinished.style.backgroundColor = "";
+      SortUnfinished.style.transform = "";
+    });
+    SortUnfinished.addEventListener("drop", (event) => {
+      SortUnfinished.style.backgroundColor = "";
+      SortUnfinished.style.transform = "";
+      if (SelectMode) {
+        let DragableElements = ReturnSelectedTasks();
+        let ValidDragableElements = DragableElements.filter((Task) => {
+          return Task.IsTaskTrashed || Task.IsTaskCompleted || Task.IsTaskFailed;
+        });
+        ValidDragableElements.forEach((Task) => {
+          Task.IsTaskFailed = false;
+          Task.IsTaskCompleted = false;
+          Task.IsTaskTrashed = false;
+        });
+      } else {
+        let DraggedElementID = event.dataTransfer.getData("DragableElementID");
+        let DragableElement = AllTasksArray.find((Task) => {
+          return Task.ID === DraggedElementID;
+        });
+        if (!DragableElement.IsTaskTrashed && !DragableElement.IsTaskCompleted && !DragableElement.IsTaskFailed) return false;
+        DragableElement.IsTaskFailed = false;
+        DragableElement.IsTaskCompleted = false;
+        DragableElement.IsTaskTrashed = false;
+      }
+      localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
+      CurrentWindow = "Home-Unfinished";
+      LoadUnfinishedTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-unfinished");
+      DeselectAll();
+    });
+    SortBar.append(SortUnfinished);
   }
-  if (Action === "AppendTaskSection") {
-    if (DoesElementExist("tasks-section")) return;
-    const TaskSection = document.createElement("section");
-    const ListSection = document.createElement("section");
-    TaskSection.id = "tasks-section";
-    ListSection.id = "list-section";
-    TaskSection.appendChild(ListSection);
-    document.body.appendChild(TaskSection);
+  if (Action === "AppendSortTodayButton") {
+    if (DoesElementExist("sort-today")) return;
+    const SortBar = document.getElementById("sort-bar");
+    const SortToday = document.createElement("button");
+    SortToday.className = "sort-buttons";
+    SortToday.id = "sort-today";
+    SortToday.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
+    SortToday.addEventListener("click", () => {
+      CurrentWindow = "Home-Today";
+      LoadTodayTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-today");
+      DeselectAll();
+    });
+    SortToday.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      SortToday.style.backgroundColor = HoverColor[UserSettings.Theme];
+      SortToday.style.transform = "scale(1.1)";
+    });
+    SortToday.addEventListener("dragleave", () => {
+      SortToday.style.backgroundColor = "";
+      SortToday.style.transform = "";
+    });
+    SortToday.addEventListener("drop", (event) => {
+      SortToday.style.backgroundColor = "";
+      SortToday.style.transform = "";
+      if (SelectMode) {
+        let DragableElements = ReturnSelectedTasks();
+        let ValidDragableElements = DragableElements.filter((Task) => {
+          return !Task.IsTaskTrashed && !Task.IsTaskCompleted && !Task.IsTaskFailed;
+        });
+        ValidDragableElements.forEach((Task) => {
+          MoveToToday(Task.ID);
+        });
+      } else {
+        let DraggedElementID = event.dataTransfer.getData("DragableElementID");
+        let DragableElement = AllTasksArray.find((Task) => {
+          return Task.ID === DraggedElementID;
+        });
+        if (DragableElement.IsTaskTrashed || DragableElement.IsTaskCompleted || DragableElement.IsTaskFailed) return false;
+        MoveToToday(DraggedElementID);
+      }
+      CurrentWindow = "Home-Today";
+      LoadTodayTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-today");
+      DeselectAll();
+    });
+    SortBar.append(SortToday);
   }
-  if (Action === "AppendTaskBar") {
-    if (DoesElementExist("task-bar")) return;
-    const TaskBar = document.createElement("section");
-    const SelectAllSection = document.createElement("section");
-    const TaskButtonContainer = document.createElement("section");
-    const CategoryBar = document.createElement("section");
-    TaskBar.id = "task-bar";
-    SelectAllSection.id = "select-all-section";
-    TaskButtonContainer.id = "task-buttons-container";
-    CategoryBar.id = "category-bar";
-    TaskBar.appendChild(SelectAllSection);
-    TaskBar.appendChild(TaskButtonContainer);
-    TaskBar.appendChild(CategoryBar);
-    if (DoesElementExist("trash-bin-section")) document.getElementById("trash-bin-section").appendChild(TaskBar);
-    if (DoesElementExist("tasks-section")) document.getElementById("tasks-section").appendChild(TaskBar);
+  if (Action === "AppendSortTomorrowButton") {
+    if (DoesElementExist("sort-tomorrow")) return;
+    const SortBar = document.getElementById("sort-bar");
+    const SortTomorrow = document.createElement("button");
+    SortTomorrow.className = "sort-buttons";
+    SortTomorrow.id = "sort-tomorrow";
+    SortTomorrow.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
+    SortTomorrow.addEventListener("click", () => {
+      CurrentWindow = "Home-Tomorrow";
+      LoadTomorrowTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-tomorrow");
+      DeselectAll();
+    });
+    SortTomorrow.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      SortTomorrow.style.backgroundColor = HoverColor[UserSettings.Theme];
+      SortTomorrow.style.transform = "scale(1.1)";
+    });
+    SortTomorrow.addEventListener("dragleave", () => {
+      SortTomorrow.style.backgroundColor = "";
+      SortTomorrow.style.transform = "";
+    });
+    SortTomorrow.addEventListener("drop", (event) => {
+      SortTomorrow.style.backgroundColor = "";
+      SortTomorrow.style.transform = "";
+      if (SelectMode) {
+        let DragableElements = ReturnSelectedTasks();
+        let ValidDragableElements = DragableElements.filter((Task) => {
+          return !Task.IsTaskTrashed && !Task.IsTaskCompleted && !Task.IsTaskFailed;
+        });
+        ValidDragableElements.forEach((Task) => {
+          MoveToTomorrow(Task.ID);
+        });
+      } else {
+        let DraggedElementID = event.dataTransfer.getData("DragableElementID");
+        let DragableElement = AllTasksArray.find((Task) => {
+          return Task.ID === DraggedElementID;
+        });
+        if (DragableElement.IsTaskTrashed || DragableElement.IsTaskCompleted || DragableElement.IsTaskFailed) return false;
+        MoveToTomorrow(DraggedElementID);
+      }
+      CurrentWindow = "Home-Tomorrow";
+      LoadTomorrowTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-tomorrow");
+      DeselectAll();
+    });
+    SortBar.append(SortTomorrow);
   }
-  if (Action === "AppendSideBar") {
-    if (DoesElementExist("side-bar")) return;
-    // Defining Items (buttons)
-    const SideBar = document.createElement("aside");
-    const SideBarFooter = document.createElement("footer");
-    const UserCategoryContainer = document.createElement("section");
-    const Clock = document.createElement("section");
-    const TimeIcon = document.createElement("span");
-    const Time = document.createElement("span");
-    const FullDate = document.createElement("section");
-    const HomeButton = document.createElement("button");
-    const NewTaskButton = document.createElement("button");
-    const NewCategoryButton = document.createElement("button");
-    const Calendar = document.createElement("button");
-    const Notes = document.createElement("button");
-    const Alarms = document.createElement("button");
-    const TrashBin = document.createElement("button");
-    const SettingsButton = document.createElement("button");
-    // Defining Icons
-    const HomeButtonIcon = document.createElement("img");
-    const NewTaskButtonIcon = document.createElement("img");
-    const NewCategoryButtonIcon = document.createElement("img");
-    const CalendarIcon = document.createElement("img");
-    const NotesIcon = document.createElement("img");
-    const AlarmsIcon = document.createElement("img");
-    const TrashBinIcon = document.createElement("img");
-    const SettingsButtonIcon = document.createElement("img");
-    // Defining Items Text
-    const HomeButtonText = document.createElement("span");
-    const NewTaskButtonText = document.createElement("span");
-    const NewCategoryButtonText = document.createElement("span");
-    const CalendarText = document.createElement("span");
-    const NotesText = document.createElement("span");
-    const AlarmsText = document.createElement("span");
-    const TrashBinText = document.createElement("span");
-    const SettingsButtonText = document.createElement("span");
-    // Assing classNames to Items
-    HomeButton.className = "side-bar-item";
-    NewTaskButton.className = "side-bar-item";
-    NewCategoryButton.className = "side-bar-item";
-    Calendar.className = "side-bar-item";
-    Notes.className = "side-bar-item";
-    Alarms.className = "side-bar-item";
-    TrashBin.className = "side-bar-item";
-    SettingsButton.className = "side-bar-item";
-    // Assining classNames to icons
-    HomeButtonIcon.className = "side-bar-item-icon";
-    NewTaskButtonIcon.className = "side-bar-item-icon";
-    NewCategoryButtonIcon.className = "side-bar-item-icon";
-    CalendarIcon.className = "side-bar-item-icon";
-    NotesIcon.className = "side-bar-item-icon";
-    AlarmsIcon.className = "side-bar-item-icon";
-    TrashBinIcon.className = "side-bar-item-icon";
-    SettingsButtonIcon.className = "side-bar-item-icon";
-    // Assining classNames to Texts
-    HomeButtonText.className = "side-bar-item-text";
-    NewTaskButtonText.className = "side-bar-item-text";
-    NewCategoryButtonText.className = "side-bar-item-text";
-    CalendarText.className = "side-bar-item-text";
-    NotesText.className = "side-bar-item-text";
-    AlarmsText.className = "side-bar-item-text";
-    TrashBinText.className = "side-bar-item-text";
-    SettingsButtonText.className = "side-bar-item-text";
-    // Assign sources to icons
-    HomeButtonIcon.src = `Icons/HomeIcon.png`;
-    NewTaskButtonIcon.src = `Icons/NewTaskIcon.png`;
-    NewCategoryButtonIcon.src = `Icons/NewCategoryIcon.png`;
-    CalendarIcon.src = `Icons/CalendarIcon.png`;
-    NotesIcon.src = `Icons/NotesIcon.png`;
-    AlarmsIcon.src = `Icons/AlarmsIcon.png`;
-    TrashBinIcon.src = `Icons/TrashBinIcon.png`;
-    SettingsButtonIcon.src = `Icons/SettingsIcon.png`;
-    // Assidn ID to Items
-    SideBar.id = "side-bar";
-    SideBarFooter.id = "side-bar-footer";
-    UserCategoryContainer.id = "user-category-container";
-    Clock.id = "clock";
-    TimeIcon.id = "time-icon";
-    Time.id = "time";
-    Time.setAttribute("inert", "");
-    FullDate.id = "full-date";
-    FullDate.setAttribute("inert", "");
-    HomeButton.id = "home-button";
-    NewTaskButton.id = "new-task-button";
-    NewCategoryButton.id = "new-category-button";
-    Calendar.id = "calendar-button";
-    Notes.id = "notes-button";
-    Alarms.id = "alarms-button";
-    TrashBin.id = "trash-bin-button";
-    SettingsButton.id = "settings-button";
-    // Assign ID to Texts
-    HomeButtonText.id = "home-button-text";
-    NewTaskButtonText.id = "new-task-button-text";
-    NewCategoryButtonText.id = "new-category-button-text";
-    CalendarText.id = "calendar-button-text";
-    NotesText.id = "notes-button-text";
-    AlarmsText.id = "alarms-button-text";
-    TrashBinText.id = "trash-bin-button-text";
-    SettingsButtonText.id = "settings-button-text";
-    // Assining InnerText
-    HomeButtonText.innerText = Strings.HomeButton[UserSettings.CurrentLang];
-    NewTaskButtonText.innerText = Strings.NewTaskButton[UserSettings.CurrentLang];
-    NewCategoryButtonText.innerText = Strings.NewCategoryButton[UserSettings.CurrentLang];
-    CalendarText.innerText = Strings.CalendarButton[UserSettings.CurrentLang];
-    NotesText.innerText = Strings.NotesButton[UserSettings.CurrentLang];
-    AlarmsText.innerText = Strings.AlarmsButton[UserSettings.CurrentLang];
-    TrashBinText.innerText = Strings.TrashBinButton[UserSettings.CurrentLang];
-    SettingsButtonText.innerText = Strings.SettingsButton[UserSettings.CurrentLang];
-    // Event Listeners
-    HomeButton.addEventListener("click", () => {
-      HighLightSelectedSideBarItem(HomeButton.id);
-      DisplayHome();
+  if (Action === "AppendCategorySortIn2DaysButton") {
+    if (DoesElementExist("sort-in-2-days")) return;
+    const SortBar = document.getElementById("sort-bar");
+    const SortIn2Days = document.createElement("button");
+    SortIn2Days.className = "sort-buttons";
+    SortIn2Days.id = "sort-in-2-days";
+    SortIn2Days.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
+    SortIn2Days.addEventListener("click", () => {
+      CurrentWindow = "Home-In2Days";
+      LoadIn2DaysTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-in-2-days");
+      DeselectAll();
     });
-    NewTaskButton.addEventListener("click", () => {
-      NewTaskPopUp();
+    SortIn2Days.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      SortIn2Days.style.backgroundColor = HoverColor[UserSettings.Theme];
+      SortIn2Days.style.transform = "scale(1.1)";
     });
-    NewCategoryButton.addEventListener("click", () => {
-      NewCategoryPopUp();
+    SortIn2Days.addEventListener("dragleave", () => {
+      SortIn2Days.style.backgroundColor = "";
+      SortIn2Days.style.transform = "";
     });
-    Calendar.addEventListener("click", () => {
-      HighLightSelectedSideBarItem(Calendar.id);
+    SortIn2Days.addEventListener("drop", (event) => {
+      SortIn2Days.style.backgroundColor = "";
+      SortIn2Days.style.transform = "";
+      if (SelectMode) {
+        let DragableElements = ReturnSelectedTasks();
+        let ValidDragableElements = DragableElements.filter((Task) => {
+          return !Task.IsTaskTrashed && !Task.IsTaskCompleted && !Task.IsTaskFailed;
+        });
+        ValidDragableElements.forEach((Task) => {
+          MoveIn2Days(Task.ID);
+        });
+      } else {
+        let DraggedElementID = event.dataTransfer.getData("DragableElementID");
+        let DragableElement = AllTasksArray.find((Task) => {
+          return Task.ID === DraggedElementID;
+        });
+        if (DragableElement.IsTaskTrashed || DragableElement.IsTaskCompleted || DragableElement.IsTaskFailed) return false;
+        MoveIn2Days(DraggedElementID);
+      }
+      CurrentWindow = "Home-In2Days";
+      LoadIn2DaysTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-in-2-days");
+      DeselectAll();
     });
-    Notes.addEventListener("click", () => {
-      HighLightSelectedSideBarItem(Notes.id);
-    });
-    Alarms.addEventListener("click", () => {
-      HighLightSelectedSideBarItem(Alarms.id);
-    });
-    TrashBin.addEventListener("click", () => {
-      HighLightSelectedSideBarItem(TrashBin.id);
-      DisplayTrashBin();
-    });
-    SettingsButton.addEventListener("click", () => {
-      DisplaySettings();
-    });
-    // Appending icons
-    HomeButton.appendChild(HomeButtonIcon);
-    NewTaskButton.appendChild(NewTaskButtonIcon);
-    NewCategoryButton.appendChild(NewCategoryButtonIcon);
-    Calendar.appendChild(CalendarIcon);
-    Notes.appendChild(NotesIcon);
-    Alarms.appendChild(AlarmsIcon);
-    TrashBin.appendChild(TrashBinIcon);
-    SettingsButton.appendChild(SettingsButtonIcon);
-    // Appending texts
-    // Append spans to buttons
-    HomeButton.appendChild(HomeButtonText);
-    NewTaskButton.appendChild(NewTaskButtonText);
-    NewCategoryButton.appendChild(NewCategoryButtonText);
-    Calendar.appendChild(CalendarText);
-    Notes.appendChild(NotesText);
-    Alarms.appendChild(AlarmsText);
-    TrashBin.appendChild(TrashBinText);
-    SettingsButton.appendChild(SettingsButtonText);
-    // Appending buttons to side bar
-    SideBar.appendChild(Clock);
-    Clock.appendChild(TimeIcon);
-    Clock.appendChild(Time);
-    SideBar.appendChild(FullDate);
-    SideBar.appendChild(HomeButton);
-    SideBar.appendChild(NewTaskButton);
-    SideBar.appendChild(NewCategoryButton);
-    SideBar.appendChild(Calendar);
-    SideBar.appendChild(Notes);
-    SideBar.appendChild(Alarms);
-    SideBar.appendChild(TrashBin);
-    SideBar.appendChild(UserCategoryContainer);
-    SideBarFooter.appendChild(SettingsButton);
-    SideBar.appendChild(SideBarFooter);
-    // Appending to DOM
-    document.body.appendChild(SideBar);
-  }
-  if (Action === "AppendDeleteTaskButton") {
-    if (DoesElementExist("delete-task-button")) return;
-    let DeleteTaskButton = document.createElement("button");
-    let DeleteTaskButtonIcon = document.createElement("img");
-    DeleteTaskButton.id = "delete-task-button";
-    DeleteTaskButtonIcon.id = "delete-task-button-icon";
-    DeleteTaskButtonIcon.src = "Icons/TrashBinIcon.png";
-    DeleteTaskButton.appendChild(DeleteTaskButtonIcon);
-    DeleteTaskButton.addEventListener("click", () => {
-      if (DoesElementExist("trash-bin-section")) DeletePopUp("DeleteTrash");
-      if (DoesElementExist("tasks-section")) DeletePopUp("Delete");
-    });
-    document.getElementById("task-buttons-container").appendChild(DeleteTaskButton);
-  }
-  if (Action === "AppendCompleteTaskButton") {
-    if (document.getElementById("restore-task-button")) {
-      document.getElementById("restore-task-button").remove();
-    }
-    if (document.getElementById("task-completed-button")) return;
-    let CompleteTaskButton = document.createElement("button");
-    let CompletedTaskButtonIcon = document.createElement("img");
-    CompleteTaskButton.id = "task-completed-button";
-    CompletedTaskButtonIcon.id = "task-completed-button-icon";
-    CompletedTaskButtonIcon.src = "Icons/DoneIcon.png";
-    CompleteTaskButton.appendChild(CompletedTaskButtonIcon);
-    CompleteTaskButton.addEventListener("click", CompleteTask);
-    document.getElementById("task-buttons-container").appendChild(CompleteTaskButton);
-  }
-  if (Action === "AppendRestoreTaskButton") {
-    if (DoesElementExist("task-completed-button")) {
-      document.getElementById("task-completed-button").remove();
-    }
-    if (DoesElementExist("restore-task-button")) return;
-    let RestoreTasksButton = document.createElement("button");
-    RestoreTasksButton.id = "restore-task-button";
-    let RestoreTasksButtonIcon = document.createElement("img");
-    RestoreTasksButtonIcon.id = "restore-task-button-icon";
-    RestoreTasksButtonIcon.src = "Icons/RestoreIcon.png";
-    RestoreTasksButton.appendChild(RestoreTasksButtonIcon);
-    RestoreTasksButton.addEventListener("click", function () {
-      RestoreTasks();
-    });
-    document.getElementById("task-buttons-container").appendChild(RestoreTasksButton);
-  }
-  if (Action === "AppendFailTaskButton") {
-    if (DoesElementExist("fail-task-button")) return;
-    const FailTaskButton = document.createElement("button");
-    FailTaskButton.id = "fail-task-button";
-    const FailTaskButtonIcon = document.createElement("img");
-    FailTaskButtonIcon.id = "fail-task-button-icon";
-    FailTaskButtonIcon.src = "Icons/FailedIcon.png";
-    FailTaskButton.appendChild(FailTaskButtonIcon);
-    FailTaskButton.addEventListener("click", function () {
-      FailTask();
-    });
-    document.getElementById("task-buttons-container").appendChild(FailTaskButton);
-  }
-  if (Action === "AppendSelectAllButton") {
-    if (document.getElementById("select-all-button")) return;
-    let SpanElement = document.createElement("span");
-    SpanElement.textContent = Strings.SelectAllCheckBox[UserSettings.CurrentLang];
-    let CheckBoxLable = document.createElement("label");
-    CheckBoxLable.className = "checkbox-container";
-    let CheckBox = document.createElement("input");
-    CheckBox.type = "checkbox";
-    CheckBox.id = "select-all-checkbox";
-    CheckBox.className = "checkbox";
-    let Checkmark = document.createElement("div");
-    Checkmark.className = "checkmark";
-    CheckBoxLable.appendChild(CheckBox);
-    CheckBoxLable.appendChild(Checkmark);
-    document.getElementById("select-all-section").innerHTML = "";
-    document.getElementById("select-all-section").appendChild(SpanElement);
-    document.getElementById("select-all-section").appendChild(CheckBoxLable);
-    document.getElementById("select-all-checkbox").addEventListener("change", SelectAll);
-  }
-  if (Action === "AppendCategoryToDoButton") {
-    if (document.getElementById("category-to-do")) return;
-    const CategoryToDo = document.createElement("button");
-    CategoryToDo.className = "category-buttons";
-    CategoryToDo.id = "category-to-do";
-    CategoryToDo.textContent = Strings.CategoryToDoButton[UserSettings.CurrentLang];
-    CategoryToDo.addEventListener("click", () => {
-      CategoriesTasks("category-to-do");
-    });
-    document.getElementById("category-bar").appendChild(CategoryToDo);
-  }
-  if (Action === "AppendCategoryTodayButton") {
-    if (document.getElementById("category-today")) return;
-    const CategoryToday = document.createElement("button");
-    CategoryToday.className = "category-buttons";
-    CategoryToday.id = "category-today";
-    CategoryToday.textContent = Strings.CategoryTodayButton[UserSettings.CurrentLang];
-    CategoryToday.addEventListener("click", () => {
-      CategoriesTasks("category-today");
-    });
-    document.getElementById("category-bar").appendChild(CategoryToday);
-  }
-  if (Action === "AppendCategoryTomorrowButton") {
-    if (document.getElementById("category-tomorrow")) return;
-    const CategoryTomorrow = document.createElement("button");
-    CategoryTomorrow.className = "category-buttons";
-    CategoryTomorrow.id = "category-tomorrow";
-    CategoryTomorrow.textContent = Strings.CategoryTomorrowButton[UserSettings.CurrentLang];
-    CategoryTomorrow.addEventListener("click", () => {
-      CategoriesTasks("category-tomorrow");
-    });
-    document.getElementById("category-bar").appendChild(CategoryTomorrow);
-  }
-  if (Action === "AppendCategoryCategoryIn2DaysButton") {
-    if (document.getElementById("category-in-2-days")) return;
-    const CategoryIn2Days = document.createElement("button");
-    CategoryIn2Days.className = "category-buttons";
-    CategoryIn2Days.id = "category-in-2-days";
-    CategoryIn2Days.textContent = Strings.CategoryIn2DaysButton[UserSettings.CurrentLang];
-    CategoryIn2Days.addEventListener("click", () => {
-      CategoriesTasks("category-in-2-days");
-    });
-    document.getElementById("category-bar").appendChild(CategoryIn2Days);
+    SortBar.append(SortIn2Days);
   }
   if (Action === "AppendCategoryFailedButton") {
-    if (document.getElementById("category-failed")) return;
+    if (DoesElementExist("sort-failed")) return;
+    const SortBar = document.getElementById("sort-bar");
     const CategoryFailed = document.createElement("button");
-    CategoryFailed.className = "category-buttons";
-    CategoryFailed.id = "category-failed";
+    CategoryFailed.className = "sort-buttons";
+    CategoryFailed.id = "sort-failed";
     CategoryFailed.textContent = Strings.CategoryFailedButton[UserSettings.CurrentLang];
     CategoryFailed.addEventListener("click", () => {
-      CategoriesTasks("category-failed");
+      CurrentWindow = "Home-Failed";
+      LoadFailedTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-failed");
+      DeselectAll();
     });
-    document.getElementById("category-bar").appendChild(CategoryFailed);
+    CategoryFailed.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      CategoryFailed.style.backgroundColor = HoverColor[UserSettings.Theme];
+      CategoryFailed.style.transform = "scale(1.1)";
+    });
+    CategoryFailed.addEventListener("dragleave", () => {
+      CategoryFailed.style.backgroundColor = "";
+      CategoryFailed.style.transform = "";
+    });
+    CategoryFailed.addEventListener("drop", (event) => {
+      CategoryFailed.style.backgroundColor = "";
+      CategoryFailed.style.transform = "";
+      if (SelectMode) {
+        let DragableElements = ReturnSelectedTasks();
+        let ValidDragableElements = DragableElements.filter((Task) => {
+          return !Task.IsTaskTrashed && !Task.IsTaskFailed;
+        });
+        ValidDragableElements.forEach((Task) => {
+          FailTask(Task.ID);
+        });
+      } else {
+        let DraggedElementID = event.dataTransfer.getData("DragableElementID");
+        let DragableElement = AllTasksArray.find((Task) => {
+          return Task.ID === DraggedElementID;
+        });
+        if (DragableElement.IsTaskTrashed || DragableElement.IsTaskFailed) return false;
+        FailTask(DraggedElementID);
+      }
+      CurrentWindow = "Home-Failed";
+      LoadFailedTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-failed");
+      DeselectAll();
+    });
+    SortBar.append(CategoryFailed);
   }
   if (Action === "AppendCategoryCompletedButton") {
-    if (document.getElementById("category-completed")) return;
+    if (DoesElementExist("sort-completed")) return;
+    const SortBar = document.getElementById("sort-bar");
     const CategoryCompleted = document.createElement("button");
-    CategoryCompleted.className = "category-buttons";
-    CategoryCompleted.id = "category-completed";
+    CategoryCompleted.className = "sort-buttons";
+    CategoryCompleted.id = "sort-completed";
     CategoryCompleted.textContent = Strings.CategoryCompletedButton[UserSettings.CurrentLang];
     CategoryCompleted.addEventListener("click", () => {
-      CategoriesTasks("category-completed");
+      CurrentWindow = "Home-Completed";
+      LoadCompletedTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-completed");
+      DeselectAll();
     });
-    document.getElementById("category-bar").appendChild(CategoryCompleted);
+    CategoryCompleted.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      CategoryCompleted.style.backgroundColor = HoverColor[UserSettings.Theme];
+      CategoryCompleted.style.transform = "scale(1.1)";
+    });
+    CategoryCompleted.addEventListener("dragleave", () => {
+      CategoryCompleted.style.backgroundColor = "";
+      CategoryCompleted.style.transform = "";
+    });
+    CategoryCompleted.addEventListener("drop", (event) => {
+      CategoryCompleted.style.backgroundColor = "";
+      CategoryCompleted.style.transform = "";
+      if (SelectMode) {
+        let DragableElements = ReturnSelectedTasks();
+        let ValidDragableElements = DragableElements.filter((Task) => {
+          return !Task.IsTaskTrashed && !Task.IsTaskFailed && !Task.IsTaskCompleted;
+        });
+        ValidDragableElements.forEach((Task) => {
+          CompleteTask(Task.ID);
+        });
+      } else {
+        let DraggedElementID = event.dataTransfer.getData("DragableElementID");
+        let DragableElement = AllTasksArray.find((Task) => {
+          return Task.ID === DraggedElementID;
+        });
+        if (DragableElement.IsTaskTrashed || DragableElement.IsTaskFailed || DragableElement.IsTaskCompleted) return false;
+        CompleteTask(DraggedElementID);
+      }
+      CurrentWindow = "Home-Completed";
+      LoadCompletedTasks();
+      ToggleSelectMode();
+      HighLightSelectedSortButton("sort-completed");
+      DeselectAll();
+    });
+    SortBar.append(CategoryCompleted);
   }
   if (Action === "AppendAllCategories") {
-    AppendHTMLElements("AppendCategoryToDoButton");
-    AppendHTMLElements("AppendCategoryTodayButton");
-    AppendHTMLElements("AppendCategoryTomorrowButton");
-    AppendHTMLElements("AppendCategoryCategoryIn2DaysButton");
+    AppendHTMLElements("AppendCategoryUnfinishedButton");
+    AppendHTMLElements("AppendSortTodayButton");
+    AppendHTMLElements("AppendSortTomorrowButton");
+    AppendHTMLElements("AppendCategorySortIn2DaysButton");
     AppendHTMLElements("AppendCategoryFailedButton");
     AppendHTMLElements("AppendCategoryCompletedButton");
   }
-  if (Action === "AppendFailedTaskContainer") {
-    for (n of TaskArray) {
-      let FailedTask = document.createElement("section");
-      FailedTask.className = "task-container";
-      FailedTask.id = n.ID.toString();
-      let CheckBoxContainer = document.createElement("label");
-      CheckBoxContainer.className = "checkbox-container";
-      let Checkbox = document.createElement("input");
-      Checkbox.type = "checkbox";
-      Checkbox.className = "checkbox";
-      Checkbox.addEventListener("change", CheckForSelectedTasks);
-      let CheckMark = document.createElement("div");
-      CheckMark.className = "checkmark";
-      let FailedTaskTitle = document.createElement("strike");
-      FailedTaskTitle.className = "task-title";
-      FailedTaskTitle.setAttribute("inert", "");
-      let DateContainer = document.createElement("section");
-      DateContainer.className = "date-container";
-      DateContainer.classList.add("disabled");
-      let FailedTaskDate = document.createElement("section");
-      FailedTaskDate.className = "task-date";
-      let FailedTaskTime = document.createElement("section");
-      FailedTaskTime.className = "task-time";
-      let FailedTaskBadge = document.createElement("span");
-      FailedTaskBadge.className = "failed-task-badge";
-      FailedTaskBadge.innerHTML = Strings.FailedTaskBadge[UserSettings.CurrentLang];
-      FailedTaskBadge.setAttribute("inert", "");
-      FailedTask.addEventListener("contextmenu", (Event) => {
-        Event.preventDefault();
-        DisplayTaskContextMenu(Event, "Failed");
+}
+function AppendTopBar() {
+  if (DoesElementExist("top-bar")) return;
+  const TopBar = document.createElement("section");
+  TopBar.id = "top-bar";
+  document.body.append(TopBar);
+  const DisplayText = document.createElement("section");
+  DisplayText.id = "display-text";
+  TopBar.append(DisplayText);
+}
+function AppendTaskBar() {
+  if (DoesElementExist("task-bar")) return;
+  const UserCategoryPage = document.getElementById("user-category-page");
+  const TrashBinSection = document.getElementById("trash-bin-section");
+  const TasksSection = document.getElementById("tasks-section");
+  const TaskBar = document.createElement("section");
+  TaskBar.id = "task-bar";
+  const SortBar = document.createElement("section");
+  SortBar.id = "sort-bar";
+  TaskBar.append(SortBar);
+  if (CurrentWindow.includes("UserCategory")) UserCategoryPage.append(TaskBar);
+  if (CurrentWindow.includes("Trash")) TrashBinSection.append(TaskBar);
+  if (CurrentWindow.includes("Home")) TasksSection.append(TaskBar);
+}
+function AppendTaskSection() {
+  if (DoesElementExist("tasks-section")) return;
+  const TaskSection = document.createElement("section");
+  const ListSection = document.createElement("section");
+  TaskSection.id = "tasks-section";
+  ListSection.id = "list-section";
+  TaskSection.append(ListSection);
+  document.body.append(TaskSection);
+}
+function AppendSelectAllSection() {
+  if (DoesElementExist("select-all-section")) return;
+  const TaskBar = document.getElementById("task-bar");
+  const SelectAllSection = document.createElement("section");
+  SelectAllSection.id = "select-all-section";
+  const SpanElement = document.createElement("span");
+  SpanElement.textContent = Strings.SelectAllCheckBox[UserSettings.CurrentLang];
+  const CheckBoxLable = document.createElement("label");
+  CheckBoxLable.className = "checkbox-container";
+  const CheckBox = document.createElement("input");
+  CheckBox.type = "checkbox";
+  CheckBox.id = "select-all-checkbox";
+  CheckBox.className = "checkbox";
+  const Checkmark = document.createElement("div");
+  Checkmark.className = "checkmark";
+  CheckBoxLable.append(CheckBox, Checkmark);
+  SelectAllSection.append(SpanElement, CheckBoxLable);
+  CheckBox.addEventListener("change", (Event) => {
+    if (Event.target.checked) SelectAll();
+    else DeselectAll();
+  });
+  TaskBar.append(SelectAllSection);
+}
+function AppendSideBar() {
+  if (DoesElementExist("side-bar")) return;
+  // Defining Items (buttons)
+  const SideBar = document.createElement("aside");
+  SideBar.id = "side-bar";
+  // Home button
+  const HomeButton = document.createElement("button");
+  HomeButton.id = "home-button";
+  HomeButton.className = "side-bar-item";
+  const HomeButtonIcon = document.createElement("img");
+  HomeButtonIcon.className = "side-bar-item-icon";
+  HomeButtonIcon.src = IconsSrc.HomeIcon[UserSettings.Theme];
+  const HomeButtonText = document.createElement("span");
+  HomeButtonText.id = "home-button-text";
+  HomeButtonText.className = "side-bar-item-text";
+  HomeButtonText.innerText = Strings.HomeButton[UserSettings.CurrentLang];
+  HomeButton.addEventListener("click", () => {
+    HighLightSelectedSideBarItem(HomeButton.id);
+    DisplayHome();
+  });
+  HomeButton.append(HomeButtonIcon, HomeButtonText);
+  // New task button
+  const NewTaskButton = document.createElement("button");
+  NewTaskButton.id = "new-task-button";
+  NewTaskButton.className = "side-bar-item";
+  const NewTaskButtonIcon = document.createElement("img");
+  NewTaskButtonIcon.className = "side-bar-item-icon";
+  const NewTaskButtonText = document.createElement("span");
+  NewTaskButtonIcon.src = IconsSrc.NewTaskIcon[UserSettings.Theme];
+  NewTaskButtonText.className = "side-bar-item-text";
+  NewTaskButtonText.id = "new-task-button-text";
+  NewTaskButtonText.innerText = Strings.NewTaskButton[UserSettings.CurrentLang];
+  NewTaskButton.addEventListener("click", NewTaskModal);
+  NewTaskButton.append(NewTaskButtonIcon, NewTaskButtonText);
+  // New Category Button
+  const NewCategoryButton = document.createElement("button");
+  NewCategoryButton.id = "new-category-button";
+  NewCategoryButton.className = "side-bar-item";
+  NewCategoryButton.addEventListener("click", NewCategoryModal);
+  const NewCategoryButtonIcon = document.createElement("img");
+  NewCategoryButtonIcon.className = "side-bar-item-icon";
+  NewCategoryButtonIcon.src = IconsSrc.NewCategoryIcon[UserSettings.Theme];
+  const NewCategoryButtonText = document.createElement("span");
+  NewCategoryButtonText.id = "new-category-button-text";
+  NewCategoryButtonText.className = "side-bar-item-text";
+  NewCategoryButtonText.innerText = Strings.NewCategoryButton[UserSettings.CurrentLang];
+  NewCategoryButton.append(NewCategoryButtonIcon, NewCategoryButtonText);
+  // Calendar Button
+  const Calendar = document.createElement("button");
+  Calendar.id = "calendar-button";
+  Calendar.className = "side-bar-item";
+  Calendar.addEventListener("click", () => {
+    HighLightSelectedSideBarItem(Calendar.id);
+  });
+  const CalendarIcon = document.createElement("img");
+  CalendarIcon.className = "side-bar-item-icon";
+  CalendarIcon.src = IconsSrc.CalendarIcon[UserSettings.Theme];
+  const CalendarText = document.createElement("span");
+  CalendarText.id = "calendar-button-text";
+  CalendarText.className = "side-bar-item-text";
+  CalendarText.innerText = Strings.CalendarButton[UserSettings.CurrentLang];
+  Calendar.append(CalendarIcon, CalendarText);
+  // Notes Button
+  const Notes = document.createElement("button");
+  Notes.id = "notes-button";
+  Notes.className = "side-bar-item";
+  Notes.addEventListener("click", () => {
+    HighLightSelectedSideBarItem(Notes.id);
+  });
+  const NotesIcon = document.createElement("img");
+  NotesIcon.className = "side-bar-item-icon";
+  NotesIcon.src = IconsSrc.MyNotesIcon[UserSettings.Theme];
+  const NotesText = document.createElement("span");
+  NotesText.id = "notes-button-text";
+  NotesText.className = "side-bar-item-text";
+  NotesText.innerText = Strings.NotesButton[UserSettings.CurrentLang];
+  Notes.append(NotesIcon, NotesText);
+  // Alarms Button
+  const Alarms = document.createElement("button");
+  Alarms.id = "alarms-button";
+  Alarms.className = "side-bar-item";
+  Alarms.addEventListener("click", () => {
+    HighLightSelectedSideBarItem(Alarms.id);
+  });
+  const AlarmsIcon = document.createElement("img");
+  AlarmsIcon.className = "side-bar-item-icon";
+  AlarmsIcon.src = IconsSrc.MyAlarmsIcon[UserSettings.Theme];
+  const AlarmsText = document.createElement("span");
+  AlarmsText.id = "alarms-button-text";
+  AlarmsText.className = "side-bar-item-text";
+  AlarmsText.innerText = Strings.AlarmsButton[UserSettings.CurrentLang];
+  Alarms.append(AlarmsIcon, AlarmsText);
+  // Trash Bin Button
+  const TrashBin = document.createElement("button");
+  TrashBin.id = "trash-bin-button";
+  TrashBin.className = "side-bar-item";
+  TrashBin.addEventListener("click", () => {
+    HighLightSelectedSideBarItem(TrashBin.id);
+    DisplayTrashBin();
+  });
+  TrashBin.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    TrashBin.style.backgroundColor = HoverColor[UserSettings.Theme];
+    TrashBin.style.transform = "scale(1.1)";
+  });
+  TrashBin.addEventListener("dragleave", () => {
+    TrashBin.style.backgroundColor = "";
+    TrashBin.style.transform = "";
+  });
+  TrashBin.addEventListener("drop", (event) => {
+    TrashBin.style.backgroundColor = "";
+    TrashBin.style.transform = "";
+    if (SelectMode) {
+      let DragableElements = ReturnSelectedTasks();
+      let ValidDragableElements = DragableElements.filter((Task) => {
+        return !Task.IsTaskTrashed;
       });
-      FailedTask.appendChild(CheckBoxContainer);
-      CheckBoxContainer.appendChild(Checkbox);
-      CheckBoxContainer.appendChild(CheckMark);
-      FailedTask.appendChild(FailedTaskTitle);
-      FailedTask.appendChild(FailedTaskBadge);
-      FailedTask.appendChild(DateContainer);
-      DateContainer.appendChild(FailedTaskDate);
-      DateContainer.appendChild(FailedTaskTime);
-      FailedTaskTitle.textContent = n.Title;
-      FailedTaskDate.textContent = n.DisplayDate;
-      FailedTaskTime.textContent = n.DisplayTime;
-      document.getElementById("list-section").appendChild(FailedTask);
+      ValidDragableElements.forEach((Task) => {
+        MoveToTrash(Task.ID);
+      });
+    } else {
+      let DraggedElementID = event.dataTransfer.getData("DragableElementID");
+      let DragableElement = AllTasksArray.find((Task) => {
+        return Task.ID === DraggedElementID;
+      });
+      if (DragableElement.IsTaskTrashed) return false;
+      MoveToTrash(DraggedElementID);
     }
-  }
-  if (Action === "AppendCompletedTaskContainer") {
-    for (CompletedTaskCounter = 0; CompletedTaskCounter < TaskArray.length; CompletedTaskCounter++) {
-      let CompletedTask = document.createElement("section");
-      CompletedTask.className = "task-container";
-      CompletedTask.id = TaskArray[CompletedTaskCounter].ID.toString();
-      let CheckBoxContainer = document.createElement("label");
-      CheckBoxContainer.className = "checkbox-container";
-      let Checkbox = document.createElement("input");
-      Checkbox.type = "checkbox";
-      Checkbox.className = "checkbox";
-      Checkbox.addEventListener("change", CheckForSelectedTasks);
-      let CheckMark = document.createElement("div");
-      CheckMark.className = "checkmark";
-      let TaskTitle = document.createElement("section");
-      TaskTitle.className = "task-title";
-      TaskTitle.setAttribute("inert", "");
-      let DateContainer = document.createElement("section");
-      DateContainer.className = "date-container";
-      DateContainer.classList.add("disabled");
-      let TaskDate = document.createElement("section");
-      TaskDate.className = "task-date";
-      let TaskTime = document.createElement("section");
-      TaskTime.className = "task-time";
-      let CompletedTaskBadge = document.createElement("span");
-      CompletedTaskBadge.className = "completed-task-badge";
-      CompletedTaskBadge.innerHTML = Strings.CompletedTaskBadge[UserSettings.CurrentLang];
-      CompletedTaskBadge.setAttribute("inert", "");
-      CompletedTask.addEventListener("contextmenu", (Event) => {
-        Event.preventDefault();
-        DisplayTaskContextMenu(Event, "Completed");
-      });
-      CompletedTask.appendChild(CheckBoxContainer);
-      CheckBoxContainer.appendChild(Checkbox);
-      CheckBoxContainer.appendChild(CheckMark);
-      CompletedTask.appendChild(TaskTitle);
-      CompletedTask.appendChild(DateContainer);
-      DateContainer.appendChild(TaskDate);
-      DateContainer.appendChild(TaskTime);
-      TaskTitle.textContent = TaskArray[CompletedTaskCounter].Title;
-      TaskDate.textContent = TaskArray[CompletedTaskCounter].DisplayDate;
-      TaskTime.textContent = TaskArray[CompletedTaskCounter].DisplayTime;
-      CompletedTask.appendChild(CompletedTaskBadge);
-      document.getElementById("list-section").appendChild(CompletedTask);
-    }
-  }
-  if (Action === "AppendTaskContainer") {
-    for (n of TaskArray) {
-      const TaskContainer = document.createElement("section");
-      TaskContainer.className = "task-container";
-      TaskContainer.id = n.ID.toString();
-      const CheckBoxContainer = document.createElement("label");
-      CheckBoxContainer.className = "checkbox-container";
-      const Checkbox = document.createElement("input");
-      Checkbox.type = "checkbox";
-      Checkbox.className = "checkbox";
-      Checkbox.addEventListener("change", CheckForSelectedTasks);
-      const CheckMark = document.createElement("div");
-      CheckMark.className = "checkmark";
-      const TaskTitle = document.createElement("section");
-      TaskTitle.className = "task-title";
-      TaskTitle.setAttribute("inert", "");
-      const DateContainer = document.createElement("section");
-      DateContainer.className = "date-container";
-      const TaskDate = document.createElement("section");
-      TaskDate.className = "task-date";
-      const TaskTime = document.createElement("section");
-      TaskTime.className = "task-time";
-      TaskContainer.addEventListener("contextmenu", (Event) => {
-        Event.preventDefault();
-        DisplayTaskContextMenu(Event, "Normal");
-      });
-      TaskContainer.appendChild(CheckBoxContainer);
-      CheckBoxContainer.appendChild(Checkbox);
-      CheckBoxContainer.appendChild(CheckMark);
-      TaskContainer.appendChild(TaskTitle);
-      TaskContainer.appendChild(DateContainer);
-      DateContainer.appendChild(TaskDate);
-      DateContainer.appendChild(TaskTime);
-      if (n.UserCategory !== "None") {
-        let Color;
-        let Name;
-        let Icon;
-        UserCategoriesArray.forEach((Category) => {
-          if (Category.ID === n.UserCategory) {
-            Color = Category.Color;
-            Name = Category.Name;
-            Icon = Category.Icon;
-          }
-        });
-        const CategoryBadge = document.createElement("section");
-        const CategoryBadgeName = document.createElement("span");
-        const CategoryBadgeIcon = document.createElement("img");
-        CategoryBadge.className = "category-badge";
-        CategoryBadgeName.className = "category-badge-name";
-        CategoryBadgeIcon.className = "category-badge-icon";
-        CategoryBadge.style.backgroundColor = Color;
-        CategoryBadge.setAttribute("inert", "");
-        CategoryBadgeName.innerText = Name;
-        CategoryBadgeIcon.src = Icon;
-        CategoryBadge.appendChild(CategoryBadgeIcon);
-        CategoryBadge.appendChild(CategoryBadgeName);
-        TaskContainer.appendChild(CategoryBadge);
+  });
+  const TrashBinIcon = document.createElement("img");
+  TrashBinIcon.className = "side-bar-item-icon";
+  TrashBinIcon.src = IconsSrc.TrashIcon[UserSettings.Theme];
+  const TrashBinText = document.createElement("span");
+  TrashBinText.id = "trash-bin-button-text";
+  TrashBinText.className = "side-bar-item-text";
+  TrashBinText.innerText = Strings.TrashBinButton[UserSettings.CurrentLang];
+  TrashBin.append(TrashBinIcon, TrashBinText);
+  // Settings Button
+  const SettingsButton = document.createElement("button");
+  SettingsButton.id = "settings-button";
+  SettingsButton.className = "side-bar-item";
+  SettingsButton.addEventListener("click", () => {
+    DisplaySettings();
+  });
+  const SettingsButtonIcon = document.createElement("img");
+  SettingsButtonIcon.className = "side-bar-item-icon";
+  SettingsButtonIcon.src = IconsSrc.SettingsIcon[UserSettings.Theme];
+  const SettingsButtonText = document.createElement("span");
+  SettingsButtonText.id = "settings-button-text";
+  SettingsButtonText.className = "side-bar-item-text";
+  SettingsButtonText.innerText = Strings.SettingsButton[UserSettings.CurrentLang];
+  SettingsButton.append(SettingsButtonIcon, SettingsButtonText);
+  // User Category Container
+  const UserCategoryContainer = document.createElement("div");
+  UserCategoryContainer.id = "user-category-container";
+  // Clock Section
+  const Clock = document.createElement("div");
+  Clock.id = "clock";
+  const TimeIcon = document.createElement("img");
+  TimeIcon.id = "time-icon";
+  const Time = document.createElement("span");
+  Time.id = "time";
+  Time.setAttribute("inert", "");
+  const FullDate = document.createElement("span");
+  FullDate.id = "full-date";
+  FullDate.setAttribute("inert", "");
+  Clock.append(TimeIcon, Time);
+  // Footer Section
+  const SideBarFooter = document.createElement("div");
+  SideBarFooter.id = "side-bar-footer";
+  SideBarFooter.append(SettingsButton);
+  // Appending elements to DOM
+  SideBar.append(
+    Clock,
+    FullDate,
+    HomeButton,
+    NewTaskButton,
+    NewCategoryButton,
+    Calendar,
+    Notes,
+    Alarms,
+    TrashBin,
+    UserCategoryContainer,
+    SideBarFooter
+  );
+  // Appending SideBar to DOM
+  document.body.append(SideBar);
+}
+function AppendSearchBar() {
+  if (DoesElementExist("search-bar")) return;
+  const TaskBar = document.getElementById("task-bar");
+  const SearchBar = document.createElement("input");
+  SearchBar.id = "search-bar";
+  SearchBar.placeholder = Strings.Search[UserSettings.CurrentLang];
+  SearchBar.addEventListener("input", () => {
+    Search(SearchBar.value);
+  });
+  TaskBar.append(SearchBar);
+}
+function AppendCompletedTaskContainer(CompletedTasks) {
+  CompletedTasks.forEach((Task) => {
+    const ListSection = document.getElementById("list-section");
+    const TaskContainer = document.createElement("section");
+    TaskContainer.className = "task-container";
+    TaskContainer.id = Task.ID.toString();
+    TaskContainer.draggable = "true";
+    const CheckBoxContainer = document.createElement("label");
+    CheckBoxContainer.className = "checkbox-container";
+    CheckBoxContainer.style.display = "none";
+    const Checkbox = document.createElement("input");
+    Checkbox.type = "checkbox";
+    Checkbox.className = "checkbox task-checkbox";
+    Checkbox.addEventListener("change", () => {
+      if (Checkbox.checked) SelectTask(TaskContainer.id);
+      else DeSelectTask(TaskContainer.id);
+    });
+    const CheckMark = document.createElement("div");
+    CheckMark.className = "checkmark";
+    const TaskTitle = document.createElement("section");
+    TaskTitle.className = "task-title";
+    TaskTitle.setAttribute("inert", "");
+    const DateContainer = document.createElement("section");
+    DateContainer.className = "date-container";
+    DateContainer.inert = "true";
+    const TaskDate = document.createElement("section");
+    TaskDate.className = "task-date";
+    const TaskTime = document.createElement("section");
+    TaskTime.className = "task-time";
+    TaskContainer.append(CheckBoxContainer, TaskTitle, DateContainer);
+    CheckBoxContainer.append(Checkbox, CheckMark);
+    DateContainer.append(TaskDate, TaskTime);
+    const CompletedTaskBadge = document.createElement("span");
+    CompletedTaskBadge.className = "completed-task-badge";
+    CompletedTaskBadge.innerHTML = Strings.CompletedTaskBadge[UserSettings.CurrentLang];
+    CompletedTaskBadge.setAttribute("inert", "");
+    TaskContainer.append(CompletedTaskBadge);
+    TaskContainer.addEventListener("contextmenu", (Event) => {
+      Event.preventDefault();
+      DisplayTaskContextMenu(Event, "Completed");
+    });
+    TaskContainer.addEventListener("click", (Event) => {
+      if (!SelectMode) return;
+      let Task = AllTasksArray[FindIndexOfTask(Event.target.id)];
+      let TaskID = Event.target.id;
+      if (Task.Selected) {
+        DeSelectTask(TaskID);
+      } else {
+        SelectTask(TaskID);
       }
-      TaskTitle.textContent = n.Title;
-      TaskDate.textContent = n.DisplayDate;
-      TaskTime.textContent = n.DisplayTime;
-      document.getElementById("list-section").appendChild(TaskContainer);
+    });
+    TaskContainer.addEventListener("dragstart", (event) => {
+      event.dataTransfer.setData("DragableElementID", event.target.id);
+      console.log(event.target.id);
+    });
+    TaskTitle.textContent = Task.Title;
+    TaskDate.textContent = Task.DisplayDate;
+    TaskTime.textContent = Task.DisplayTime;
+    ListSection.append(TaskContainer);
+  });
+}
+function AppendFailedTaskContainer(FailedTasks) {
+  FailedTasks.forEach((Task) => {
+    const ListSection = document.getElementById("list-section");
+    const TaskContainer = document.createElement("section");
+    TaskContainer.className = "task-container";
+    TaskContainer.id = Task.ID.toString();
+    TaskContainer.draggable = "true";
+    const CheckBoxContainer = document.createElement("label");
+    CheckBoxContainer.className = "checkbox-container";
+    CheckBoxContainer.style.display = "none";
+    const Checkbox = document.createElement("input");
+    Checkbox.type = "checkbox";
+    Checkbox.className = "checkbox task-checkbox";
+    Checkbox.addEventListener("change", () => {
+      if (Checkbox.checked) SelectTask(TaskContainer.id);
+      else DeSelectTask(TaskContainer.id);
+    });
+    const CheckMark = document.createElement("div");
+    CheckMark.className = "checkmark";
+    const TaskTitle = document.createElement("section");
+    TaskTitle.className = "task-title";
+    TaskTitle.setAttribute("inert", "");
+    const DateContainer = document.createElement("section");
+    DateContainer.className = "date-container";
+    DateContainer.inert = "true";
+    const TaskDate = document.createElement("section");
+    TaskDate.className = "task-date";
+    const TaskTime = document.createElement("section");
+    TaskTime.className = "task-time";
+    TaskContainer.append(CheckBoxContainer, TaskTitle, DateContainer);
+    CheckBoxContainer.append(Checkbox, CheckMark);
+    DateContainer.append(TaskDate, TaskTime);
+    const FailedTaskBadge = document.createElement("span");
+    FailedTaskBadge.className = "failed-task-badge";
+    FailedTaskBadge.innerHTML = Strings.FailedTaskBadge[UserSettings.CurrentLang];
+    FailedTaskBadge.setAttribute("inert", "");
+    TaskContainer.append(FailedTaskBadge);
+    TaskContainer.addEventListener("contextmenu", (Event) => {
+      Event.preventDefault();
+      DisplayTaskContextMenu(Event, "Failed");
+    });
+    TaskContainer.addEventListener("click", (Event) => {
+      if (!SelectMode) return;
+      let Task = AllTasksArray[FindIndexOfTask(Event.target.id)];
+      let TaskID = Event.target.id;
+      if (Task.Selected) {
+        DeSelectTask(TaskID);
+      } else {
+        SelectTask(TaskID);
+      }
+    });
+    TaskContainer.addEventListener("dragstart", (event) => {
+      event.dataTransfer.setData("DragableElementID", event.target.id);
+    });
+    TaskTitle.textContent = Task.Title;
+    TaskDate.textContent = Task.DisplayDate;
+    TaskTime.textContent = Task.DisplayTime;
+    ListSection.append(TaskContainer);
+  });
+}
+function AppendNormalTaskContainer(Tasks) {
+  Tasks.forEach((Task) => {
+    const ListSection = document.getElementById("list-section");
+    const TaskContainer = document.createElement("section");
+    TaskContainer.className = "task-container";
+    TaskContainer.id = Task.ID.toString();
+    TaskContainer.draggable = "true";
+    const CheckBoxContainer = document.createElement("label");
+    CheckBoxContainer.className = "checkbox-container";
+    CheckBoxContainer.style.display = "none";
+    const Checkbox = document.createElement("input");
+    Checkbox.type = "checkbox";
+    Checkbox.className = "checkbox task-checkbox";
+    Checkbox.addEventListener("change", () => {
+      if (Checkbox.checked) SelectTask(TaskContainer.id);
+      else DeSelectTask(TaskContainer.id);
+    });
+    const CheckMark = document.createElement("div");
+    CheckMark.className = "checkmark";
+    const TaskTitle = document.createElement("section");
+    TaskTitle.className = "task-title";
+    TaskTitle.setAttribute("inert", "");
+    const DateContainer = document.createElement("section");
+    DateContainer.className = "date-container";
+    DateContainer.inert = "true";
+    const TaskDate = document.createElement("section");
+    TaskDate.className = "task-date";
+    const TaskTime = document.createElement("section");
+    TaskTime.className = "task-time";
+    TaskContainer.append(CheckBoxContainer, TaskTitle, DateContainer);
+    CheckBoxContainer.append(Checkbox, CheckMark);
+    DateContainer.append(TaskDate, TaskTime);
+    if (Task.UserCategory !== "None" && !Task.IsTaskCompleted && !Task.IsTaskFailed && !Task.IsTaskTrashed) {
+      let Color, Name, Icon;
+      UserCategoriesArray.forEach((Category) => {
+        if (Category.ID !== Task.UserCategory) return;
+        Color = Category.Color;
+        Name = Category.Name;
+        Icon = Category.Icon;
+      });
+      const CategoryBadge = document.createElement("section");
+      const CategoryBadgeName = document.createElement("span");
+      const CategoryBadgeIcon = document.createElement("img");
+      CategoryBadge.className = "category-badge";
+      CategoryBadgeName.className = "category-badge-name";
+      CategoryBadgeIcon.className = "category-badge-icon";
+      CategoryBadge.style.backgroundColor = Color;
+      CategoryBadge.setAttribute("inert", "");
+      CategoryBadgeName.innerText = Name;
+      CategoryBadgeIcon.src = Icon;
+      CategoryBadge.append(CategoryBadgeIcon, CategoryBadgeName);
+      TaskContainer.append(CategoryBadge);
     }
-  }
+    TaskContainer.addEventListener("contextmenu", (Event) => {
+      Event.preventDefault();
+      DisplayTaskContextMenu(Event, "Normal");
+    });
+    TaskContainer.addEventListener("click", (Event) => {
+      if (!SelectMode || !Event.target.id.includes("Task")) return;
+      let Task = AllTasksArray[FindIndexOfTask(Event.target.id)];
+      let TaskID = Event.target.id;
+      if (Task.Selected) {
+        DeSelectTask(TaskID);
+      } else {
+        SelectTask(TaskID);
+      }
+    });
+    TaskContainer.addEventListener("dragstart", (Event) => {
+      Event.dataTransfer.setData("DragableElementID", Event.target.id);
+    });
+    if (Task.IsTaskPinned) {
+      const PinBadge = document.createElement("img");
+      PinBadge.className = "pinned-task-badge";
+      PinBadge.inert = "true";
+      PinBadge.src = IconsSrc.PaperClipIcon[UserSettings.Theme];
+      TaskContainer.append(PinBadge);
+    }
+    TaskTitle.textContent = Task.Title;
+    TaskDate.textContent = Task.DisplayDate;
+    TaskTime.textContent = Task.DisplayTime;
+    ListSection.append(TaskContainer);
+  });
 }
 function ClearListSection() {
-  document.getElementById("list-section").innerHTML = "";
-  document.getElementById("list-section").style = "";
+  let ListSection = document.getElementById("list-section");
+  if (!ListSection) return;
+  ListSection.innerHTML = "";
+  ListSection.style = "";
 }
 function EmptyBox(Text) {
+  const ListSection = document.getElementById("list-section");
   const EmptyBoxIconContainer = document.createElement("section");
   EmptyBoxIconContainer.id = "empty-box-container";
   // Empty box icon
   const EmptyBoxIcon = document.createElement("img");
-  EmptyBoxIcon.src = "Icons/EmptyIcon.png";
-  EmptyBoxIconContainer.appendChild(EmptyBoxIcon);
+  EmptyBoxIcon.src = IconsSrc.EmptyBoxIcon[UserSettings.Theme];
   // Empty box text
   const EmptyBoxText = document.createElement("p");
   EmptyBoxText.id = "empty-box-text";
-  EmptyBoxIconContainer.appendChild(EmptyBoxText);
   EmptyBoxText.innerText = Text;
   // Modifing List Section
   ClearListSection();
-  document.getElementById("list-section").style.display = "flex";
-  document.getElementById("list-section").style.alignItems = "center";
-  document.getElementById("list-section").style.justifyContent = "center";
+  ListSection.style.display = "flex";
+  ListSection.style.alignItems = "center";
+  ListSection.style.justifyContent = "center";
   // Appending to DOM
-  document.getElementById("list-section").appendChild(EmptyBoxIconContainer);
-}
-function CheckForSelectedTasks() {
-  let CheckBoxes = document.querySelectorAll(".task-container input[type='checkbox']");
-  let CheckedBoxes = [];
-  CheckBoxes.forEach(function (CheckBox) {
-    if (CheckBox.checked) {
-      CheckedBoxes.push(CheckBox);
-    }
-  });
-  if (CheckedBoxes.length < 1) {
-    if (DoesElementExist("select-all-checkbox") && document.getElementById("select-all-checkbox").checked) {
-      document.getElementById("select-all-checkbox").checked = false;
-    }
-    DisableTaskBarButtons();
-  } else {
-    EnableTaskBarButtons();
-  }
-}
-function SelectAll() {
-  let CheckBoxes = document.getElementById("list-section").querySelectorAll(".checkbox");
-  if (document.getElementById("select-all-checkbox").checked) {
-    for (n of CheckBoxes) {
-      n.checked = true;
-    }
-    CheckForSelectedTasks();
-  } else {
-    for (n of CheckBoxes) {
-      n.checked = false;
-    }
-    CheckForSelectedTasks();
-  }
+  EmptyBoxIconContainer.append(EmptyBoxIcon, EmptyBoxText);
+  ListSection.append(EmptyBoxIconContainer);
 }
 function DisplayHome() {
-  HighLightSelectedSideBarItem("home-button");
-  if (DoesElementExist("settings-container")) {
-    HideSettings();
+  const TrashBinSection = document.getElementById("trash-bin-section");
+  const UserCategoryPage = document.getElementById("user-category-page");
+  if (DoesElementExist("settings-container")) HideSettings();
+  if (CurrentWindow.includes("Trash")) TrashBinSection.remove();
+  if (CurrentWindow.includes("UserCategory")) {
+    UserCategoryPage.remove();
+    SelectedUserCategory = "";
   }
-  if (DoesElementExist("trash-bin-section")) {
-    document.getElementById("trash-bin-section").remove();
-  }
-  if (DoesElementExist("user-category-page")) {
-    document.getElementById("user-category-page").remove();
-  }
-  AppendHTMLElements("AppendTaskSection");
-  AppendHTMLElements("AppendTaskBar");
-  AppendHTMLElements("AppendSelectAllButton");
-  AppendHTMLElements("AppendDeleteTaskButton");
-  AppendHTMLElements("AppendCompleteTaskButton");
-  AppendHTMLElements("AppendFailTaskButton");
+  CurrentWindow = "Home-Unfinished";
+  AppendTaskSection();
+  AppendTaskBar();
+  AppendSelectAllSection();
   AppendHTMLElements("AppendAllCategories");
-  if (!localStorage.getItem("SelectedCategory")) {
-    CategoriesTasks("category-to-do");
-    return;
-  }
-  if (localStorage.getItem("SelectedCategory").includes("UserCategory")) {
-    CategoriesTasks("category-to-do");
-  }
-  // includes category- indiciates the selected category is one of main 5 categories and not a user generated one
-  if (localStorage.getItem("SelectedCategory").includes("category-")) {
-    CategoriesTasks(localStorage.getItem("SelectedCategory"));
-  }
+  AppendSearchBar();
+  UpdateInbox();
+  HighLightSelectedSideBarItem("home-button");
+  HighLightSelectedSortButton("sort-unfinished");
 }
-function DisableSelectAllOption() {
-  document.getElementById("select-all-checkbox") && document.getElementById("select-all-checkbox").disabled === false
-    ? ((document.getElementById("select-all-checkbox").disabled = true),
-      document.querySelector("#select-all-section span").classList.add("disabled"),
-      document.querySelector("#select-all-section .checkbox-container").classList.add("disabled"))
-    : undefined;
+function ScrollRight(ID) {
+  const Target = document.getElementById(ID);
+  Target.scrollLeft += 100;
 }
-function EnableSelectAllOption() {
-  document.getElementById("select-all-checkbox") && document.getElementById("select-all-checkbox").disabled === true
-    ? ((document.getElementById("select-all-checkbox").disabled = false),
-      document.querySelector("#select-all-section span").classList.remove("disabled"),
-      document.querySelector("#select-all-section .checkbox-container").classList.remove("disabled"))
-    : undefined;
+function ScrollLeft(ID) {
+  const Target = document.getElementById(ID);
+  Target.scrollLeft -= 100;
 }
-function DisableTaskBarButtons() {
-  DoesElementExist("delete-task-button") && document.getElementById("delete-task-button").disabled === false
-    ? ((document.getElementById("delete-task-button").disabled = true),
-      document.getElementById("delete-task-button").classList.add("disabled"))
-    : undefined;
-  DoesElementExist("restore-task-button") && document.getElementById("restore-task-button").disabled === false
-    ? ((document.getElementById("restore-task-button").disabled = true),
-      document.getElementById("restore-task-button").classList.add("disabled"))
-    : undefined;
-  DoesElementExist("fail-task-button") && document.getElementById("fail-task-button").disabled === false
-    ? ((document.getElementById("fail-task-button").disabled = true),
-      document.getElementById("fail-task-button").classList.add("disabled"))
-    : undefined;
-  DoesElementExist("task-completed-button") && document.getElementById("task-completed-button").disabled === false
-    ? ((document.getElementById("task-completed-button").disabled = true),
-      document.getElementById("task-completed-button").classList.add("disabled"))
-    : undefined;
-}
-function EnableTaskBarButtons() {
-  DoesElementExist("delete-task-button") && document.getElementById("delete-task-button").disabled === true
-    ? ((document.getElementById("delete-task-button").disabled = false),
-      document.getElementById("delete-task-button").classList.remove("disabled"))
-    : undefined;
-  DoesElementExist("restore-task-button") && document.getElementById("restore-task-button").disabled === true
-    ? ((document.getElementById("restore-task-button").disabled = false),
-      document.getElementById("restore-task-button").classList.remove("disabled"))
-    : undefined;
-  DoesElementExist("fail-task-button") && document.getElementById("fail-task-button").disabled === true
-    ? ((document.getElementById("fail-task-button").disabled = false),
-      document.getElementById("fail-task-button").classList.remove("disabled"))
-    : undefined;
-  DoesElementExist("task-completed-button") && document.getElementById("task-completed-button").disabled === true
-    ? ((document.getElementById("task-completed-button").disabled = false),
-      document.getElementById("task-completed-button").classList.remove("disabled"))
-    : undefined;
-}
-function RefreshItemsInnerText() {
-  // Side Bar
-  if (DoesElementExist("home-button-text"))
-    document.getElementById("home-button-text").innerText = Strings.HomeButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("new-task-button-text"))
-    document.getElementById("new-task-button-text").innerText = Strings.NewTaskButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("new-category-button-text"))
-    document.getElementById("new-category-button-text").innerText = Strings.NewCategoryButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("calendar-button-text"))
-    document.getElementById("calendar-button-text").innerText = Strings.CalendarButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("notes-button-text"))
-    document.getElementById("notes-button-text").innerText = Strings.NotesButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("alarms-button-text"))
-    document.getElementById("alarms-button-text").innerText = Strings.AlarmsButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("trash-bin-button-text"))
-    document.getElementById("trash-bin-button-text").innerText = Strings.TrashBinButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("generate-backup-button-text"))
-    document.getElementById("generate-backup-button-text").innerText =
-      Strings.GenerateBackUpButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("cloud-storge-button-text"))
-    document.getElementById("cloud-storge-button-text").innerText = Strings.CouldStorgeButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("settings-button-text"))
-    document.getElementById("settings-button-text").innerText = Strings.SettingsButton[UserSettings.CurrentLang];
-
-  // Setting
-  if (DoesElementExist("settings-title"))
-    document.getElementById("settings-title").innerText = Strings.SettingTitle[UserSettings.CurrentLang];
-
-  if (DoesElementExist("language-setting-title"))
-    document.getElementById("language-setting-title").innerText = Strings.LanguageSetting[UserSettings.CurrentLang];
-
-  if (DoesElementExist("sidebar-setting-title"))
-    document.getElementById("sidebar-setting-title").innerText = Strings.SideBarSetting[UserSettings.CurrentLang];
-
-  if (DoesElementExist("topbar-setting-title"))
-    document.getElementById("topbar-setting-title").innerText = Strings.TopBarSetting[UserSettings.CurrentLang];
-
-  if (DoesElementExist("auto-writer-setting-title"))
-    document.getElementById("auto-writer-setting-title").innerText =
-      Strings.AutoWriterSetting[UserSettings.CurrentLang];
-
-  if (DoesElementExist("auto-backup-setting-title"))
-    document.getElementById("auto-backup-setting-title").innerText =
-      Strings.AutoBackupSetting[UserSettings.CurrentLang];
-
-  if (DoesElementExist("date-picker-setting-title"))
-    document.getElementById("date-picker-setting-title").innerText =
-      Strings.DatePickerSetting[UserSettings.CurrentLang];
-
-  if (DoesElementExist("clock-setting-title"))
-    document.getElementById("clock-setting-title").innerText = Strings.ClockSetting[UserSettings.CurrentLang];
-
-  if (DoesElementExist("theme-setting-title"))
-    document.getElementById("theme-setting-title").innerText = Strings.ThemeSetting[UserSettings.CurrentLang];
-
-  // Option
-  if (DoesElementExist("show-sidebar-option"))
-    document.getElementById("show-sidebar-option").innerText = Strings.ShowSideBarOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("hide-sidebar-option"))
-    document.getElementById("hide-sidebar-option").innerText = Strings.HideSideBarOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("disable-topbar-option"))
-    document.getElementById("disable-topbar-option").innerText = Strings.DisableOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("enable-topbar-option"))
-    document.getElementById("enable-topbar-option").innerText = Strings.EnableOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("disable-auto-writer-option"))
-    document.getElementById("disable-auto-writer-option").innerText = Strings.DisableOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("enable-auto-writer-option"))
-    document.getElementById("enable-auto-writer-option").innerText = Strings.EnableOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("disable-auto-backup-option"))
-    document.getElementById("disable-auto-backup-option").innerText = Strings.DisableOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("enable-auto-backup-option"))
-    document.getElementById("enable-auto-backup-option").innerText = Strings.EnableOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("lunar-option"))
-    document.getElementById("lunar-option").innerText = Strings.LunarOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("solar-option"))
-    document.getElementById("solar-option").innerText = Strings.SolarOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("gregorian-option"))
-    document.getElementById("gregorian-option").innerText = Strings.GregorianOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("dark-theme-option"))
-    document.getElementById("dark-theme-option").innerText = Strings.DarkThemeOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("light-theme-option"))
-    document.getElementById("light-theme-option").innerText = Strings.LightThemeOption[UserSettings.CurrentLang];
-
-  if (DoesElementExist("neon-theme-option"))
-    document.getElementById("neon-theme-option").innerText = Strings.NeonThemeOption[UserSettings.CurrentLang];
-
-  // Category Bar
-  if (DoesElementExist("category-to-do"))
-    document.getElementById("category-to-do").innerText = Strings.CategoryToDoButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("category-today"))
-    document.getElementById("category-today").innerText = Strings.CategoryTodayButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("category-tomorrow"))
-    document.getElementById("category-tomorrow").innerText = Strings.CategoryTomorrowButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("category-in-2-days"))
-    document.getElementById("category-in-2-days").innerText = Strings.CategoryIn2DaysButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("category-failed"))
-    document.getElementById("category-failed").innerText = Strings.CategoryFailedButton[UserSettings.CurrentLang];
-
-  if (DoesElementExist("category-completed"))
-    document.getElementById("category-completed").innerText = Strings.CategoryCompletedButton[UserSettings.CurrentLang];
-
-  // Task Bar
-  if (document.querySelector("#select-all-section span"))
-    document.querySelector("#select-all-section span").innerText = Strings.SelectAllCheckBox[UserSettings.CurrentLang];
-
-  // List Section
-  if (document.querySelectorAll(".completed-task-badge").length >= 1) {
-    let Badges = document.querySelectorAll(".completed-task-badge");
-    for (n of Badges) {
-      n.innerText = Strings.CompletedTaskBadge[UserSettings.CurrentLang];
-    }
-  }
-  if (document.querySelectorAll(".failed-task-badge").length >= 1) {
-    let Badges = document.querySelectorAll(".failed-task-badge");
-    for (n of Badges) {
-      n.innerText = Strings.CompletedTaskBadge[UserSettings.CurrentLang];
-    }
-  }
-  // Task Section
-  if (document.querySelectorAll(".trashed-task-badge").length >= 1) {
-    let Badges = document.querySelectorAll(".trashed-task-badge");
-    for (n of Badges) {
-      n.innerText = Strings.TrashedTaskBadge[UserSettings.CurrentLang];
-    }
-  }
+function HighLightSelectedSortButton(ID) {
+  const SortButton = document.querySelectorAll(".sort-buttons");
+  SortButton.forEach((Button) => {
+    if (Button.id === ID) Button.classList.add("hovered");
+    else Button.classList.remove("hovered");
+  });
 }

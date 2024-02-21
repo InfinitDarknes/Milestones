@@ -1,6 +1,7 @@
 // UGCM = User Generated Category Manager
 // UGCP = User Generated Category Page
 // UGC = User Generated Category
+let SelectedUserCategory = "";
 let UserCategoriesArray = [];
 let TempUserCategoryInfo = {
   Name: null,
@@ -39,7 +40,13 @@ let CategoryIcons = [
   { Name: "ChoreIcon", ID: "chore-icon-button", Source: `Icons/CategoryIcons/ChoreIcon.png` },
   { Name: "FutureIcon", ID: "future-icon-button", Source: `Icons/CategoryIcons/FutureIcon.png` },
   { Name: "GameIcon", ID: "game-icon-button", Source: `Icons/CategoryIcons/GameIcon.png` },
-  { Name: "ImportantIcon", ID: "important-icon-button", Source: `Icons/CategoryIcons/ImportantIcon.png` },
+  { Name: "ProgrammingIcon1", ID: "programming-icon-button", Source: `Icons/CategoryIcons/ProgrammingIcon.png` },
+  { Name: "ProgrammingIcon2", ID: "programming-icon2-button", Source: `Icons/CategoryIcons/ProgrammingIcon2.png` },
+  { Name: "FlightIcon", ID: "flight-icon-button", Source: `Icons/CategoryIcons/FlightIcon.png` },
+  { Name: "PlanIcon", ID: "plan-icon-button", Source: `Icons/CategoryIcons/PlanIcon.png` },
+  { Name: "CampingIcon", ID: "camping-icon-button", Source: `Icons/CategoryIcons/CampingIcon.png` },
+  { Name: "SportIcon1", ID: "sport-icon1-button", Source: `Icons/CategoryIcons/SportIcon1.png` },
+  { Name: "SportIcon2", ID: "sport-icon2-button", Source: `Icons/CategoryIcons/SportIcon2.png` },
   { Name: "MeetingIcon", ID: "meeting-icon-button", Source: `Icons/CategoryIcons/MeetingIcon.png` },
   { Name: "ShoppingIcon", ID: "shopping-icon-button", Source: `Icons/CategoryIcons/ShoppingIcon.png` },
   { Name: "StudyIcon", ID: "study-icon-button", Source: `Icons/CategoryIcons/StudyIcon.png` },
@@ -65,18 +72,21 @@ function AppendUGC() {
     UserCategoryIcon.src = Category.Icon;
     UserCategoryButton.style.backgroundColor = Category.Color;
     UserCategoryButton.addEventListener("click", () => {
-      CategoriesTasks(Category.ID);
+      CurrentWindow = `UserCategory-Unfinished`;
+      SelectedUserCategory = Category.ID;
+      DisplayUGCP(Category.ID);
+      LoadUserCategorisedTasks(ReturnUnfinishedTasks());
+      HighLightSelectedSortButton("sort-unfinished");
     });
     UserCategoryButton.addEventListener("contextmenu", (Event) => {
       Event.preventDefault();
       DisplayUserCategoryContextMenu(Event);
     });
-    UserCategoryButton.appendChild(UserCategoryIcon);
-    UserCategoryButton.appendChild(UserCategoryName);
-    document.getElementById("user-category-container").appendChild(UserCategoryButton);
+    UserCategoryButton.append(UserCategoryIcon, UserCategoryName);
+    document.getElementById("user-category-container").append(UserCategoryButton);
   });
 }
-function DisplayUGCP(Name, Icon) {
+function DisplayUGCP(ID) {
   if (DoesElementExist("settings-container")) HideSettings();
 
   if (DoesElementExist("trash-bin-section")) document.getElementById("trash-bin-section").remove();
@@ -84,7 +94,13 @@ function DisplayUGCP(Name, Icon) {
   if (DoesElementExist("tasks-section")) document.getElementById("tasks-section").remove();
 
   if (DoesElementExist("user-category-page")) document.getElementById("user-category-page").remove();
-
+  // Find Usercategory info based on id
+  let SelectedCategory = UserCategoriesArray.find((Category) => {
+    return Category.ID === ID;
+  });
+  let Name = SelectedCategory.Name;
+  let Icon = SelectedCategory.Icon;
+  //
   const UserCategoryPage = document.createElement("section");
   UserCategoryPage.id = "user-category-page";
   // Header
@@ -96,30 +112,79 @@ function DisplayUGCP(Name, Icon) {
   UserCategoryPageTitle.innerText = Name;
   UserCategoryPageIcon.id = "user-category-page-icon";
   UserCategoryPageIcon.src = Icon;
-  UserCategoryPageHeader.appendChild(UserCategoryPageIcon);
-  UserCategoryPageHeader.appendChild(UserCategoryPageTitle);
-  UserCategoryPage.appendChild(UserCategoryPageHeader);
-  // Task Bar
-  const TaskBar = document.createElement("section");
-  const SelectAllSection = document.createElement("section");
-  const TaskButtonContainer = document.createElement("section");
-  TaskBar.id = "task-bar";
-  SelectAllSection.id = "select-all-section";
-  TaskButtonContainer.id = "task-buttons-container";
-  TaskBar.appendChild(SelectAllSection);
-  TaskBar.appendChild(TaskButtonContainer);
-  UserCategoryPage.appendChild(TaskBar);
-  // List Section
   const ListSection = document.createElement("section");
   ListSection.id = "list-section";
-  UserCategoryPage.appendChild(ListSection);
-  document.body.appendChild(UserCategoryPage);
-  // Buttons and Checkboxes
-  AppendHTMLElements("AppendSelectAllButton");
-  AppendHTMLElements("AppendDeleteTaskButton");
-  AppendHTMLElements("AppendCompleteTaskButton");
-  AppendHTMLElements("AppendFailTaskButton");
-  CheckForSelectedTasks();
+  UserCategoryPageHeader.append(UserCategoryPageIcon, UserCategoryPageTitle);
+  UserCategoryPage.append(UserCategoryPageHeader, ListSection);
+  document.body.append(UserCategoryPage);
+  AppendTaskBar();
+  AppendSelectAllSection();
+  // Sort unfinished button
+  if (!DoesElementExist("sort-unfinished")) {
+    const SortBar = document.getElementById("sort-bar");
+    const SortUnfinished = document.createElement("button");
+    SortUnfinished.className = "sort-buttons";
+    SortUnfinished.id = "sort-unfinished";
+    SortUnfinished.textContent = Strings.SortUnfinished[UserSettings.CurrentLang];
+    SortUnfinished.addEventListener("click", () => {
+      CurrentWindow = `UserCategory-Unfinished`;
+      LoadUserCategorisedTasks(ReturnUnfinishedTasks());
+      HighLightSelectedSortButton("sort-unfinished");
+      ToggleSelectMode();
+      DeselectAll();
+    });
+    SortBar.append(SortUnfinished);
+  }
+  // Sort today button
+  if (!DoesElementExist("sort-today")) {
+    const SortBar = document.getElementById("sort-bar");
+    const SortToday = document.createElement("button");
+    SortToday.className = "sort-buttons";
+    SortToday.id = "sort-today";
+    SortToday.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
+    SortToday.addEventListener("click", () => {
+      CurrentWindow = `UserCategory-Today`;
+      LoadUserCategorisedTasks(ReturnTodayTasks());
+      HighLightSelectedSortButton("sort-today");
+    });
+    SortBar.append(SortToday);
+  }
+  // Sort tomorrow button
+  if (!DoesElementExist("sort-tomorrow")) {
+    const SortBar = document.getElementById("sort-bar");
+    const SortTomorrow = document.createElement("button");
+    SortTomorrow.className = "sort-buttons";
+    SortTomorrow.id = "sort-tomorrow";
+    SortTomorrow.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
+    SortTomorrow.addEventListener("click", () => {
+      CurrentWindow = `UserCategory-Tomorrow`;
+      LoadUserCategorisedTasks(ReturnTomorrowTasks());
+      HighLightSelectedSortButton("sort-tomorrow");
+    });
+    SortBar.append(SortTomorrow);
+  }
+  // Sort in 2 days button
+  if (!DoesElementExist("sort-in-2-days")) {
+    const SortBar = document.getElementById("sort-bar");
+    const SortIn2Days = document.createElement("button");
+    SortIn2Days.className = "sort-buttons";
+    SortIn2Days.id = "sort-in-2-days";
+    SortIn2Days.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
+    SortIn2Days.addEventListener("click", () => {
+      CurrentWindow = `UserCategory-In2Days`;
+      LoadUserCategorisedTasks(ReturnIn2DaysTasks());
+      HighLightSelectedSortButton("sort-in-2-days");
+    });
+    SortBar.append(SortIn2Days);
+  }
+  // Search bar
+  AppendSearchBar();
+  // Unhover the sidebar items because the UGC are also in sidebar
+  const SidebarItems = document.querySelectorAll(".side-bar-item");
+  SidebarItems.forEach((Item) => {
+    if (Item.className.includes("hovered")) Item.classList.remove("hovered");
+  });
+  ToggleSelectMode();
 }
 function NewCategoryConstructor(ID, Name, Color, Icon) {
   this.ID = ID;
@@ -128,38 +193,29 @@ function NewCategoryConstructor(ID, Name, Color, Icon) {
   this.Icon = Icon;
 }
 function AddCategory() {
-  if (!TempUserCategoryInfo.Name || !TempUserCategoryInfo.Color || !TempUserCategoryInfo.Icon) {
-    return false;
-  } else {
-    let Name = TempUserCategoryInfo.Name;
-    let Color = TempUserCategoryInfo.Color;
-    let Icon = TempUserCategoryInfo.Icon;
-    let ID = "UserCategory-" + GenerateUniqeID(8);
-    UserCategoriesArray.push(new NewCategoryConstructor(ID, Name, Color, Icon));
-    localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
-    AppendUGC();
-    ResetTempUserCategoryInfo();
-    return true;
-  }
+  if (!TempUserCategoryInfo.Name || !TempUserCategoryInfo.Color || !TempUserCategoryInfo.Icon) return false;
+  let Name = TempUserCategoryInfo.Name;
+  let Color = TempUserCategoryInfo.Color;
+  let Icon = TempUserCategoryInfo.Icon;
+  let ID = "UserCategory-" + GenerateUniqeID(8);
+  UserCategoriesArray.push(new NewCategoryConstructor(ID, Name, Color, Icon));
+  localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
+  AppendUGC();
+  ResetTempUserCategoryInfo();
+  return true;
 }
 function DeleteCategory(ID) {
   AllTasksArray.forEach((Task) => {
-    if (Task.UserCategory === ID) {
-      AllTasksArray.splice(AllTasksArray.indexOf(Task));
-      localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-    }
+    if (Task.UserCategory !== ID) return;
+    AllTasksArray.splice(AllTasksArray.indexOf(Task));
   });
   UserCategoriesArray.forEach((Category) => {
-    if (Category.ID === ID) {
-      let Index = UserCategoriesArray.indexOf(Category);
-      UserCategoriesArray.splice(Index, 1);
-      localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
-    }
+    if (Category.ID !== ID) return;
+    let Index = UserCategoriesArray.indexOf(Category);
+    UserCategoriesArray.splice(Index, 1);
   });
-  if (localStorage.getItem("SelectedCategory") && localStorage.getItem("SelectedCategory") === ID) {
-    localStorage.setItem("SelectedCategory", "");
-    LoadSelectedCategory();
-  }
+  localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
+  localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
   AppendUGC();
 }
 function ResetTempUserCategoryInfo() {

@@ -1,4 +1,6 @@
 function DisplayTrashBin() {
+  SelectedUserCategory = "";
+  CurrentWindow = `Trash-All`;
   if (DoesElementExist("trash-bin-section")) return;
 
   if (DoesElementExist("settings-container")) HideSettings();
@@ -10,106 +12,180 @@ function DisplayTrashBin() {
   // Trash Bin Section
   const TrashBinSection = document.createElement("section");
   TrashBinSection.id = "trash-bin-section";
-  document.body.appendChild(TrashBinSection);
+  document.body.append(TrashBinSection);
   // List Section
   const ListSection = document.createElement("section");
   ListSection.id = "list-section";
-  TrashBinSection.appendChild(ListSection);
+  // Trashbin header
+  const TrashBinHeader = document.createElement("section");
+  TrashBinHeader.id = "trash-bin-header";
+  const TrashBinIcon = document.createElement("img");
+  TrashBinIcon.id = "trash-bin-icon";
+  TrashBinIcon.src = IconsSrc.TrashIcon[UserSettings.Theme];
+  const TrashBinTitle = document.createElement("span");
+  TrashBinTitle.id = "trash-bin-title";
+  TrashBinTitle.innerText = Strings.TrashBinTitle[UserSettings.CurrentLang];
+  TrashBinHeader.append(TrashBinIcon, TrashBinTitle);
+  // Appending
+  TrashBinSection.append(TrashBinHeader, ListSection);
   // Task Bar
-  AppendHTMLElements("AppendTaskBar");
-  AppendHTMLElements("AppendSelectAllButton");
-  AppendHTMLElements("AppendDeleteTaskButton");
-  AppendHTMLElements("AppendRestoreTaskButton");
-  CheckForSelectedTasks();
-  LoadTrashedTasks();
+  AppendTaskBar();
+  AppendSelectAllSection();
+  // Sort All trash button
+  if (!DoesElementExist("sort-all-trash")) {
+    const SortBar = document.getElementById("sort-bar");
+    const SortAllTrash = document.createElement("button");
+    SortAllTrash.className = "sort-buttons";
+    SortAllTrash.id = "sort-all-trash";
+    SortAllTrash.textContent = Strings.SortAllTrash[UserSettings.CurrentLang];
+    SortAllTrash.addEventListener("click", () => {
+      CurrentWindow = `Trash-All`;
+      LoadTrashedTasks(ReturnTrashedTasks());
+      HighLightSelectedSortButton("sort-all-trash");
+    });
+    SortBar.append(SortAllTrash);
+  }
+  // Sort today button
+  if (!DoesElementExist("sort-today")) {
+    const SortBar = document.getElementById("sort-bar");
+    const SortToday = document.createElement("button");
+    SortToday.className = "sort-buttons";
+    SortToday.id = "sort-today";
+    SortToday.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
+    SortToday.addEventListener("click", () => {
+      CurrentWindow = `Trash-Today`;
+      LoadTrashedTasks(ReturnTodayTasks(ReturnTrashedTasks()));
+      HighLightSelectedSortButton("sort-today");
+    });
+    SortBar.append(SortToday);
+  }
+  // Sort tomorrow button
+  if (!DoesElementExist("sort-tomorrow")) {
+    const SortBar = document.getElementById("sort-bar");
+    const SortTomorrow = document.createElement("button");
+    SortTomorrow.className = "sort-buttons";
+    SortTomorrow.id = "sort-tomorrow";
+    SortTomorrow.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
+    SortTomorrow.addEventListener("click", () => {
+      CurrentWindow = `Trash-Tomorrow`;
+      LoadTrashedTasks(ReturnTomorrowTasks(ReturnTrashedTasks()));
+      HighLightSelectedSortButton("sort-tomorrow");
+    });
+    SortBar.append(SortTomorrow);
+  }
+  // Sort in 2 days button
+  if (!DoesElementExist("sort-in-2-days")) {
+    const SortBar = document.getElementById("sort-bar");
+    const SortIn2Days = document.createElement("button");
+    SortIn2Days.className = "sort-buttons";
+    SortIn2Days.id = "sort-in-2-days";
+    SortIn2Days.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
+    SortIn2Days.addEventListener("click", () => {
+      CurrentWindow = `Trash-In2Days`;
+      LoadTrashedTasks(ReturnIn2DaysTasks(ReturnTrashedTasks()));
+      HighLightSelectedSortButton("sort-in-2-days");
+    });
+    SortBar.append(SortIn2Days);
+  }
+  AppendSearchBar();
+  LoadTrashedTasks(ReturnTrashedTasks());
+  HighLightSelectedSortButton("sort-all-trash");
 }
-function LoadTrashedTasks() {
-  if (!CheckForSave("AllTasks")) {
-    EmptyBox("You have no task in trash bin");
-    return;
-  }
-  let TrashedTasksArray = [];
-  AllTasksArray.forEach((Task) => {
-    if (Task.IsTaskTrashed) {
-      TrashedTasksArray.push(Task);
-    }
+function ReturnTrashedTasks() {
+  return AllTasksArray.filter((Task) => {
+    return Task.IsTaskTrashed;
   });
-  if (TrashedTasksArray.length === 0) {
+}
+function LoadTrashedTasks(TargetArray) {
+  if (TargetArray.length === 0) {
     EmptyBox("You have no task in trash bin");
     return;
   }
-  CheckForSelectedTasks();
-  EnableSelectAllOption();
   ClearListSection();
-  TrashedTasksArray.forEach((Task) => {
-    const TrashedTask = document.createElement("section");
-    TrashedTask.className = "task-container";
-    TrashedTask.id = Task.ID.toString();
+  AppendTrashedTaskContainer(TargetArray);
+  DeselectAll();
+}
+function MoveToTrash(ID) {
+  const SelectAllButton = document.getElementById("select-all-checkbox");
+  if (SelectMode) {
+    ReturnSelectedTasks().forEach((Task) => {
+      Task.IsTaskPinned = false;
+      Task.IsTaskTrashed = true;
+      Task.Selected = false;
+    });
+  } else {
+    let Task = AllTasksArray[FindIndexOfTask(ID)];
+    Task.IsTaskPinned = false;
+    Task.IsTaskTrashed = true;
+    Task.Selected = false;
+  }
+  localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
+  if (SelectAllButton.checked) SelectAllButton.checked = false;
+  UpdateInbox();
+  ToggleSelectMode();
+}
+function AppendTrashedTaskContainer(TrashedTasks) {
+  TrashedTasks.forEach((Task) => {
+    const ListSection = document.getElementById("list-section");
+    const TaskContainer = document.createElement("section");
+    TaskContainer.className = "task-container";
+    TaskContainer.id = Task.ID.toString();
+    TaskContainer.draggable = "true";
     const CheckBoxContainer = document.createElement("label");
     CheckBoxContainer.className = "checkbox-container";
+    CheckBoxContainer.style.display = "none";
     const Checkbox = document.createElement("input");
     Checkbox.type = "checkbox";
-    Checkbox.className = "checkbox";
-    Checkbox.addEventListener("change", CheckForSelectedTasks);
+    Checkbox.className = "checkbox task-checkbox";
+    Checkbox.addEventListener("change", () => {
+      if (Checkbox.checked) SelectTask(TaskContainer.id);
+      else DeSelectTask(TaskContainer.id);
+    });
     const CheckMark = document.createElement("div");
     CheckMark.className = "checkmark";
-    const TrashedTaskTitle = document.createElement("section");
-    TrashedTaskTitle.className = "task-title";
-    TrashedTaskTitle.setAttribute("inert", "");
+    const TaskTitle = document.createElement("section");
+    TaskTitle.className = "task-title";
+    TaskTitle.setAttribute("inert", "");
     const DateContainer = document.createElement("section");
     DateContainer.className = "date-container";
-    DateContainer.classList.add("disabled");
-    const TrashedTaskDate = document.createElement("section");
-    TrashedTaskDate.className = "task-date";
-    const TrashedTaskTime = document.createElement("section");
-    TrashedTaskTime.className = "task-time";
+    DateContainer.inert = "true";
+    const TaskDate = document.createElement("section");
+    TaskDate.className = "task-date";
+    const TaskTime = document.createElement("section");
+    TaskTime.className = "task-time";
+    TaskContainer.append(CheckBoxContainer);
+    CheckBoxContainer.append(Checkbox);
+    CheckBoxContainer.append(CheckMark);
+    TaskContainer.append(TaskTitle);
+    TaskContainer.append(DateContainer);
+    DateContainer.append(TaskDate);
+    DateContainer.append(TaskTime);
     const TrashedTaskBadge = document.createElement("span");
     TrashedTaskBadge.className = "trashed-task-badge";
     TrashedTaskBadge.innerHTML = Strings.TrashedTaskBadge[UserSettings.CurrentLang];
     TrashedTaskBadge.setAttribute("inert", "");
-    TrashedTask.addEventListener("contextmenu", (Event) => {
+    TaskContainer.append(TrashedTaskBadge);
+    TaskContainer.addEventListener("contextmenu", (Event) => {
       Event.preventDefault();
       DisplayTaskContextMenu(Event, "Trashed");
     });
-    TrashedTask.appendChild(CheckBoxContainer);
-    CheckBoxContainer.appendChild(Checkbox);
-    CheckBoxContainer.appendChild(CheckMark);
-    TrashedTask.appendChild(TrashedTaskTitle);
-    TrashedTask.appendChild(TrashedTaskBadge);
-    TrashedTask.appendChild(DateContainer);
-    DateContainer.appendChild(TrashedTaskDate);
-    DateContainer.appendChild(TrashedTaskTime);
-    TrashedTaskTitle.textContent = Task.Title;
-    TrashedTaskDate.textContent = Task.DisplayDate;
-    TrashedTaskTime.textContent = Task.DisplayTime;
-    document.getElementById("list-section").appendChild(TrashedTask);
+    TaskContainer.addEventListener("click", (Event) => {
+      if (!SelectMode) return;
+      let Task = AllTasksArray[FindIndexOfTask(Event.target.id)];
+      let TaskID = Event.target.id;
+      if (Task.Selected) {
+        DeSelectTask(TaskID);
+      } else {
+        SelectTask(TaskID);
+      }
+    });
+    TaskContainer.addEventListener("dragstart", (event) => {
+      event.dataTransfer.setData("DragableElementID", event.target.id);
+      console.log(event.target.id);
+    });
+    TaskTitle.textContent = Task.Title;
+    TaskDate.textContent = Task.DisplayDate;
+    TaskTime.textContent = Task.DisplayTime;
+    ListSection.append(TaskContainer);
   });
-}
-function MoveToTrash(ActionType, ID) {
-  if (ActionType === "SingleOperation") {
-    for (i = 0; i < AllTasksArray.length; i++) {
-      if (AllTasksArray[i].ID === ID) {
-        AllTasksArray[i].IsTaskTrashed = true;
-        localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-      }
-    }
-    CategoriesTasks(localStorage.getItem("SelectedCategory"));
-    CheckForSelectedTasks();
-  } else {
-    let CheckBoxes = document.querySelectorAll(".checkbox");
-    for (n of CheckBoxes) {
-      if (n.checked) {
-        for (i = 0; i < AllTasksArray.length; i++) {
-          if (AllTasksArray[i].ID === n.parentNode.parentNode.id) {
-            AllTasksArray[i].IsTaskTrashed = true;
-            localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-          }
-        }
-        CategoriesTasks(localStorage.getItem("SelectedCategory"));
-      }
-    }
-  }
-  if (document.getElementById("select-all-checkbox").checked) {
-    document.getElementById("select-all-checkbox").checked = false;
-  }
 }

@@ -1,0 +1,236 @@
+/*Light*/
+/* Select All Section */
+.Light .hovered {
+  background-color: #ffc069 !important;
+}
+.Light #select-all-section {
+  color: #1b1a1d;
+}
+.Light #tasks-section {
+  background-color: #fff;
+}
+.Light .sort-buttons {
+  background: #dad6d6;
+  color: #1b1a1d;
+}
+.Light .sort-buttons:hover {
+  transform: scale(1.1);
+  background: #ffc069 !important;
+}
+
+.Light #search-bar {
+  background: #dad6d6;
+  color: #1b1a1d;
+}
+.Light .hover-title {
+  background-color: #fff9e3;
+}
+.Light .task-container {
+  background: #dad6d6;
+}
+.Light .task-title {
+  color: #1b1a1d;
+}
+.Light .date-container {
+  background: #ffc069;
+}
+.Light .task-date {
+  color: #1b1a1d;
+}
+.Light .failed-task-badge,
+.Light .completed-task-badge,
+.Light .category-badge {
+  color: #1b1a1d;
+}
+.Light .task-time {
+  color: #1b1a1d;
+}
+.Light #empty-box-text {
+  color: #1b1a1d;
+}
+.Light #side-bar {
+  background: #fff;
+}
+.Light .side-bar-item {
+  font-family: SpaceGrotesk;
+  background: #dad6d6;
+  color: #1b1a1d;
+}
+.Light .side-bar-item:hover {
+  background-color: #ffc069 !important;
+  transform: scale(1.1) !important;
+}
+
+.Light #full-date {
+  color: #1b1a1d;
+}
+.Light #time {
+  color: #1b1a1d;
+}
+.Light .user-category-name {
+  color: #1b1a1d;
+}
+.Light #settings-container {
+  background: #dad6d6;
+}
+.Light #settings-header {
+  border-bottom: 3px solid #fff;
+}
+.Light #settings-title {
+  color: #1b1a1d;
+}
+.Light .setting-item {
+  background-color: #fff;
+}
+.Light .setting-select-box {
+  color: #1b1a1d;
+  background-color: #dad6d6;
+}
+.Light .setting-select-box option {
+  color: #1b1a1d;
+}
+.Light .setting-title {
+  color: #1b1a1d;
+}
+.Light #generate-backup-button {
+  background: #fff;
+  color: #1b1a1d;
+}
+.Light #cloud-storge-button {
+  background: #fff;
+  color: #1b1a1d;
+}
+.Light #modal-container {
+  background-color: #fff;
+  box-shadow: 0px 0px 20px 10px #000;
+}
+.Light #modal-text {
+  color: #1b1a1d;
+}
+.Light #move-to-trash-text {
+  color: #ffc069;
+}
+.Light #confirm-btn,
+.Light #cancel-btn {
+  color: #1b1a1d;
+}
+.Light .green-btn {
+  background-color: #40c057;
+}
+.Light .red-btn {
+  background-color: #ff4545;
+}
+
+.Light #select-category-select-box {
+  background-color: #dad6d6;
+  color: #1b1a1d;
+}
+.Light .task-input {
+  background-color: #dad6d6;
+}
+.Light .badge {
+  background: #ffc069;
+  border-bottom: 1px solid #1b1a1d;
+  color: #1b1a1d;
+}
+.Light .badge-modified {
+  background: #ffc069;
+  border: 1px solid #1b1a1d;
+  color: #1b1a1d;
+}
+.Light .character-limit {
+  border: 1px solid #1b1a1d;
+  color: #1b1a1d;
+  background: #ffc069;
+}
+.Light .pick-category-icon-button {
+  background-color: #264261;
+}
+.Light #preloader {
+  background-color: #fff;
+}
+.Light #preloader-text {
+  color: #1b1a1d;
+}
+body.Light {
+  background: #dad6d6;
+}
+.Light #date-picker {
+  background-color: #36363b;
+}
+.Light #pick-year-month-container {
+  background-color: #36363b66;
+}
+.Light #pick-year-month-container button {
+  background-color: #40c057;
+}
+.Light #year,
+.Light #month {
+  color: #1b1a1d;
+}
+.Light .pick-day-button {
+  color: #1b1a1d;
+}
+.Light #pick-today-button,
+.Light #pick-tomorrow-button,
+.Light #pick-in-2-days-button {
+  background-color: #40c057;
+}
+.Light .time-picker-input {
+  background-color: #1b1a1d;
+}
+.Light .tweak-time-buttons button {
+  background-color: #40c057;
+}
+.Light #context-menu {
+  background-color: #fff9e3;
+}
+.Light .context-menu-item {
+  background-color: #fff9e3;
+}
+.Light .context-menu-item:not(.disabled):hover {
+  background-color: #ffc069;
+}
+
+.Light .context-menu-text {
+  color: #1b1a1d;
+}
+.Light #top-bar {
+  background: #fff;
+}
+.Light #display-text {
+  color: #1b1a1d;
+}
+.Light #trash-bin-section {
+  background-color: #fff;
+}
+.Light #trash-bin-header {
+  background-color: #dad6d6;
+}
+.Light #trash-bin-title {
+  color: #1b1a1d;
+}
+.Light .trashed-task-badge {
+  color: #fff;
+  background-color: #ff4545;
+}
+.Light #user-category-page {
+  background-color: #fff;
+}
+.Light #user-category-page-header {
+  background-color: #dad6d6;
+}
+.Light #user-category-page-title {
+  color: #1b1a1d;
+}
+.Light .checkmark {
+  --clr: #008ffd;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 1.2em;
+  width: 1.2em;
+  background-color: #f3ead3;
+  border-radius: 50%;
+  transition: 300ms;
+}

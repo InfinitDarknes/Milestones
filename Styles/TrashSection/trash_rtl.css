@@ -1,15 +1,37 @@
 #trash-bin-section {
   order: 3;
   position: absolute;
-  top: 60px;
-  right: 250px;
-  width: calc(100% - 250px);
-  height: calc(100% - 80px);
+  top: 62px;
+  right: 252px;
+  width: calc(100% - 252px);
+  height: calc(100% - 62px);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  margin: 20px 0;
+  background-color: #232d3f;
+}
+#trash-bin-header {
+  display: flex;
+  align-items: center;
+  width: calc(100% - 30px);
+  max-width: 850px;
+  margin: 10px 20px 15px 0;
+  height: fit-content;
+  padding: 10px;
+  background-color: #1a1b1d;
+  border-radius: 10px;
+}
+#trash-bin-icon {
+  width: 50px;
+  height: 50px;
+}
+#trash-bin-title {
+  font-size: 1.7em;
+  color: #dad6d6;
+}
+#sort-all-trash {
+  order: 1;
 }
 .trashed-task-badge {
   width: fit-content;

@@ -2,7 +2,7 @@
 @import url("../TopBar/top_bar_rtl.css");
 @import url("../SideBar/side_bar_rtl.css");
 @import url("../TaskSection/task_section_rtl.css");
-@import url("../PopUp/pop_up_rtl.css");
+@import url("../Modal/modal_rtl.css");
 @import url("../Settings/settings_rtl.css");
 @import url("../TrashSection/trash_rtl.css");
 @import url("../UserCategoryPage/user_category_page_rtl.css");
@@ -20,6 +20,28 @@
   font-family: dastnevis;
   src: url(../../Fonts/danstevis.otf);
 }
+#preloader {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1000;
+  background-color: #3a4166;
+  transition: 1s;
+}
+#preloader-gif {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+#preloader-text {
+  color: #dad6d6;
+  font-family: SpaceGroteskMed;
+  font-size: 1.8em;
+}
 button {
   border: none;
   cursor: pointer;
@@ -29,6 +51,12 @@ input {
 }
 input[type="checkbox"] {
   cursor: pointer;
+}
+.visible {
+  display: flex !important;
+}
+.hidden {
+  display: none !important;
 }
 .disabled {
   opacity: 0.55;
@@ -46,7 +74,7 @@ body {
   box-sizing: border-box;
   width: 100%;
   height: 100vh;
-  background: #264261;
+  background: #3a4166;
   font-family: vazir;
   direction: rtl;
   overflow: hidden;
@@ -59,6 +87,7 @@ body {
   width: 0;
 }
 .checkbox-container {
+  order: 1;
   display: block;
   position: relative;
   font-size: 1.5rem;

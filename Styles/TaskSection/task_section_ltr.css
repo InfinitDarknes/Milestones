@@ -1,28 +1,33 @@
-/* Select All Section */
 #select-all-section {
   order: 1;
   width: fit-content;
-  display: flex;
-  flex-direction: row;
+  display: none;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 1.2em;
-  color: #dad6d6;
+  padding-top: 20px;
+}
+#select-all-checkbox {
+  order: 1;
+}
+#select-all-section span {
+  order: 2;
+  margin-top: 5px;
 }
 
 /* Top Bar Section */
 #tasks-section {
   order: 3;
   position: absolute;
-  top: 60px;
-  left: 250px;
-  width: calc(100% - 250px);
-  height: calc(100% - 80px);
+  top: 62px;
+  left: 252px;
+  width: calc(100% - 252px);
+  height: calc(100% - 62px);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  margin: 20px 0;
 }
 
 /* Task Bar */
@@ -35,136 +40,65 @@
   padding: 0 20px;
 }
 
-/* Category Bar */
-#category-bar {
+/* sort Bar */
+#sort-bar {
   order: 3;
   display: flex;
   flex-direction: row;
 }
 
-/* Category Buttons */
-.category-buttons {
+/* sort Buttons */
+.sort-buttons {
   order: 7;
-  background-color: #1b1a1d;
-  border-bottom: 2px solid rgba(218, 165, 32, 0.3);
   font-size: 1.1em;
   border: 0;
   margin: 0 5px;
   padding: 8px 15px;
   border-radius: 5px;
-  color: #dad6d6;
   transition: all 0.5s;
 }
 
-.category-buttons:hover {
+.sort-buttons:hover {
   transform: scale(1.1);
-  background-color: #40c057;
+  background-color: #40c057 !important;
 }
 
-/* Individual Category Styles */
-#category-to-do {
+/* Individual sort Styles */
+#sort-unfinished {
   order: 1;
 }
-#category-today {
+#sort-today {
   order: 2;
 }
-#category-tomorrow {
+#sort-tomorrow {
   order: 3;
 }
-#category-in-2-days {
+#sort-in-2-days {
   order: 4;
 }
-#category-failed {
+#sort-failed {
   order: 5;
 }
-#category-completed {
+#sort-completed {
   order: 6;
 }
-
-/* Task Buttons Container */
-#task-buttons-container {
-  order: 2;
-  width: fit-content;
-  height: 70px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-}
-
-/* Restore Tasks Button */
-#restore-task-button {
+#search-bar {
   order: 3;
-  width: 45px;
-  height: 45px;
-  margin: 0 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  background-color: #40c057;
-  border-radius: 50%;
-  transition: 0.4s;
+  height: fit-content;
+  border-radius: 5px;
+  border: 0;
+  font-size: 1.1em;
+  padding: 9px 20px;
 }
-
-/* Restore Tasks Button Icon */
-#restore-task-button-icon {
-  width: 25px;
-  height: 25px;
-}
-#fail-task-button {
-  order: 4;
-  width: 45px;
-  height: 45px;
-  margin: 0 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  background-color: #ff4545;
-  border-radius: 50%;
-  transition: 0.4s;
-}
-#fail-task-button-icon {
-  width: 30px;
-  height: 30px;
-}
-
-/* Delete and Complete Task Buttons */
-#delete-task-button,
-#task-completed-button {
-  width: 45px;
-  height: 45px;
-  margin: 0 5px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
-  transition-duration: 0.3s;
-  overflow: hidden;
-  position: relative;
-}
-
-#delete-task-button {
-  order: 1;
-  background-color: rgb(255, 69, 69);
-}
-#task-completed-button {
-  order: 2;
-  background-color: rgb(64, 192, 87);
-}
-
-/* Delete and Complete Task Button Icons */
-#delete-task-button-icon,
-#task-completed-button-icon {
-  width: 25px;
-  transition-duration: 0.3s;
+#search-bar:focus {
+  border: 0;
+  outline: 0;
 }
 
 /* List Section */
 #list-section {
   order: 2;
+  position: relative;
   width: calc(65% - 40px);
   height: calc(100% - 40px);
   display: flex;
@@ -194,18 +128,19 @@
   justify-content: flex-start;
   align-items: center;
   margin: 15px 0;
-  background: #2e3843;
   border-radius: 10px;
 }
 
 /* Task Title */
 .task-title {
+  order: 3;
   width: 70%;
   font-size: 1.1em;
-  color: #1b1a1d;
   direction: ltr;
-  padding: 10px;
+  padding: 10px 10px 10px 5px;
+  margin-left: 5px;
   text-align: left;
+  border-radius: 5px;
 }
 
 /* Date Container */
@@ -216,7 +151,6 @@
   position: absolute;
   top: -20px;
   left: 0px;
-  background: #1b1a1d;
   border-radius: 0;
   margin: 0;
 }
@@ -226,7 +160,6 @@
   order: 2;
   padding: 3px 5px;
   font-size: 1em;
-  color: #dad6d6;
   direction: ltr;
 }
 
@@ -235,7 +168,6 @@
   order: 1;
   padding: 3px 5px;
   font-size: 1em;
-  color: #dad6d6;
 }
 
 /* Select Task Checkbox */
@@ -248,7 +180,8 @@
 /* Badges for Failed and Completed Tasks */
 .failed-task-badge,
 .completed-task-badge,
-.category-badge{
+.category-badge {
+  order: 4;
   width: fit-content;
   display: flex;
   align-items: center;
@@ -256,20 +189,27 @@
   min-width: 90px;
   padding: 0 8px;
   height: 100%;
-  color: #dad6d6;
   position: absolute;
   right: 0;
   font-size: 1em;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
-.category-badge-icon{
+.pinned-task-badge {
+  order: 2;
+  /* position: absolute;
+  left: 10px; */
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
+}
+.category-badge-icon {
   order: 1;
   width: 30px;
   height: 30px;
   margin-right: 5px;
 }
-.category-badge-name{
+.category-badge-name {
   order: 2;
   font-size: 0.9em;
 }
@@ -280,7 +220,9 @@
 .completed-task-badge {
   background-color: #40c057;
 }
-
+.task-container .checkbox-container {
+  order: 1;
+}
 /* Edit Task Button */
 .edit-task-button {
   width: 30px;
@@ -334,6 +276,5 @@
 #empty-box-text {
   padding: 10px;
   font-size: 1.3em;
-  color: wheat;
   direction: ltr;
 }
