@@ -85,7 +85,7 @@ function LoadCurrentDate() {
     DateObject.GregorianDay = GregorianDay;
   }
 }
-function PickDay(Day) {
+function PickDays(Day) {
   if (DatePickerSettings.type === "Solar") {
     DateObject.SolarDay = Number(Day);
     LoadGregorianDateFromSolar();
@@ -241,7 +241,10 @@ function ExtractDate(Request, DateType) {
     if (DateType === "Object") {
       return { Year: DateObject.GregorianYear, Month: DateObject.GregorianMonth, Day: DateObject.GregorianDay };
     } else if (DateType === "String") {
-      return `${DateObject.GregorianYear} / ${DateObject.GregorianMonth.toString().padStart(2, "0")} / ${DateObject.GregorianDay.toString().padStart(2, "0")}`;
+      return `${DateObject.GregorianYear} / ${DateObject.GregorianMonth.toString().padStart(2, "0")} / ${DateObject.GregorianDay.toString().padStart(
+        2,
+        "0"
+      )}`;
     }
   }
   if (Request === "Solar") {
@@ -264,144 +267,118 @@ function ExtractDate(Request, DateType) {
 // Functions that change the input values of datepicker and manuplate what user sees
 function CreateDatePicker(ID) {
   TargetInputID = ID;
-  let TargetInput = document.getElementById(ID.toString());
-  let DatePickerElement = document.createElement("div");
+  const TargetInput = document.getElementById(ID.toString());
+  const DatePickerElement = document.createElement("div");
   DatePickerElement.id = "date-picker";
   let DatePickerHeader;
   DatePickerHeader = document.createElement("div");
   DatePickerHeader.id = "date-picker-header";
-  DatePickerElement.appendChild(DatePickerHeader);
-
-  let PickTodayBtn = document.createElement("button");
+  //
+  const PickTodayBtn = document.createElement("button");
   PickTodayBtn.id = "pick-today-button";
   PickTodayBtn.innerText = DPStrings.PickTodayButton[UserSettings.CurrentLang];
-  DatePickerHeader.appendChild(PickTodayBtn);
-
-  let PickTomorrowBtn = document.createElement("button");
+  //
+  const PickTomorrowBtn = document.createElement("button");
   PickTomorrowBtn.id = "pick-tomorrow-button";
   PickTomorrowBtn.innerText = DPStrings.PickTomorrowButton[UserSettings.CurrentLang];
-  DatePickerHeader.appendChild(PickTomorrowBtn);
-
-  let PickIn2DaysButton = document.createElement("button");
+  //
+  const PickIn2DaysButton = document.createElement("button");
   PickIn2DaysButton.id = "pick-in-2-days-button";
   PickIn2DaysButton.innerText = DPStrings.PickIn2DaysButton[UserSettings.CurrentLang];
-  DatePickerHeader.appendChild(PickIn2DaysButton);
-
+  DatePickerHeader.append(PickTodayBtn, PickTomorrowBtn, PickIn2DaysButton);
   // Create the main container div
   const container = document.createElement("div");
   container.id = "time-picker";
-
   // Create the first time picker section
   const timePickerInnerContainer1 = document.createElement("div");
   timePickerInnerContainer1.className = "time-picker-inner-container";
-
+  //
   const taskHourInput = document.createElement("input");
   taskHourInput.type = "text";
   taskHourInput.id = "task-hour-input";
   taskHourInput.className = "time-picker-input";
-
+  //
   const tweakTimeButtons1 = document.createElement("div");
   tweakTimeButtons1.className = "tweak-time-buttons";
   let FastIncreament, FastDecreament;
   const IncreamentHourButton = document.createElement("button");
   IncreamentHourButton.id = "increament-hour";
   const increaseHourImage = document.createElement("img");
-  increaseHourImage.src = "Icons/UpArrowIcon.png";
+  increaseHourImage.src = IconsSrc.UpArrowIcon[UserSettings.Theme];
   IncreamentHourButton.addEventListener("click", IncreamentHour);
   IncreamentHourButton.appendChild(increaseHourImage);
   const DecreamentHourButton = document.createElement("button");
   DecreamentHourButton.id = "decreament-hour";
   const decreaseHourImage = document.createElement("img");
-  decreaseHourImage.src = "Icons/DownArrowIcon.png";
+  decreaseHourImage.src = IconsSrc.DownArrowIcon[UserSettings.Theme];
   DecreamentHourButton.addEventListener("click", DecreamentHour);
   DecreamentHourButton.appendChild(decreaseHourImage);
-
-  tweakTimeButtons1.appendChild(IncreamentHourButton);
-  tweakTimeButtons1.appendChild(DecreamentHourButton);
-
-  timePickerInnerContainer1.appendChild(taskHourInput);
-  timePickerInnerContainer1.appendChild(tweakTimeButtons1);
-
+  tweakTimeButtons1.append(IncreamentHourButton, DecreamentHourButton);
+  timePickerInnerContainer1.append(taskHourInput, tweakTimeButtons1);
   // Create the separator span element
   const timePickerSeparator = document.createElement("span");
   timePickerSeparator.id = "time-picker-separator";
   const separatorImage = document.createElement("img");
-  separatorImage.src = "Icons/SeperatorIcon.png";
+  separatorImage.src = IconsSrc.SeperatorIcon[UserSettings.Theme];
   timePickerSeparator.appendChild(separatorImage);
-
   // Create the second time picker section
   const timePickerInnerContainer2 = document.createElement("div");
   timePickerInnerContainer2.className = "time-picker-inner-container";
-
   const taskMinuteInput = document.createElement("input");
   taskMinuteInput.type = "text";
   taskMinuteInput.id = "task-minute-input";
   taskMinuteInput.className = "time-picker-input";
-
   const tweakTimeButtons2 = document.createElement("div");
   tweakTimeButtons2.className = "tweak-time-buttons";
-
   const IncreamentMinuteButton = document.createElement("button");
   IncreamentMinuteButton.id = "increament-minute";
   const increaseMinuteImage = document.createElement("img");
-  increaseMinuteImage.src = "Icons/UpArrowIcon.png";
+  increaseMinuteImage.src = IconsSrc.UpArrowIcon[UserSettings.Theme];
   IncreamentMinuteButton.addEventListener("click", IncreamentMinute);
   IncreamentMinuteButton.appendChild(increaseMinuteImage);
-
   const DecreamenMinuteButton = document.createElement("button");
   DecreamenMinuteButton.id = "decreament-minute";
   const decreaseMinuteImage = document.createElement("img");
-  decreaseMinuteImage.src = "Icons/DownArrowIcon.png";
+  decreaseMinuteImage.src = IconsSrc.DownArrowIcon[UserSettings.Theme];
   DecreamenMinuteButton.addEventListener("click", DecreamentMinute);
   DecreamenMinuteButton.appendChild(decreaseMinuteImage);
-
-  tweakTimeButtons2.appendChild(IncreamentMinuteButton);
-  tweakTimeButtons2.appendChild(DecreamenMinuteButton);
-
-  timePickerInnerContainer2.appendChild(taskMinuteInput);
-  timePickerInnerContainer2.appendChild(tweakTimeButtons2);
-
+  tweakTimeButtons2.append(IncreamentMinuteButton, DecreamenMinuteButton);
+  timePickerInnerContainer2.append(taskMinuteInput, tweakTimeButtons2);
   // Append all elements to the main container div
-  container.appendChild(timePickerInnerContainer1);
-  container.appendChild(timePickerSeparator);
-  container.appendChild(timePickerInnerContainer2);
-
-  // Append the main container div to the document body
-  DatePickerElement.appendChild(container);
-
+  container.append(timePickerInnerContainer1, timePickerSeparator, timePickerInnerContainer2);
   //
-  let PickYearMonthContainer = document.createElement("div");
-  let NextMonthButton = document.createElement("button");
-  let PreviousMonthButton = document.createElement("button");
-  let YearMonthContainer = document.createElement("div");
-  let Month = document.createElement("span");
-  let Year = document.createElement("span");
+  const PickYearMonthContainer = document.createElement("div");
+  const NextMonthButton = document.createElement("button");
+  const PreviousMonthButton = document.createElement("button");
+  const NextMonthButtonIcon = document.createElement("img");
+  const PreviousMonthButtonIcon = document.createElement("img");
+  const YearMonthContainer = document.createElement("div");
+  const Month = document.createElement("span");
+  const Year = document.createElement("span");
   PickYearMonthContainer.id = "pick-year-month-container";
   NextMonthButton.id = "next-month";
   PreviousMonthButton.id = "previous-month";
   YearMonthContainer.id = "year-month-container";
   Month.id = "month";
   Year.id = "year";
-  NextMonthButton.innerHTML = '<img src="Icons/RightArrowIcon.png">';
-  PreviousMonthButton.innerHTML = '<img src="Icons/LeftArrowIcon.png">';
-  DatePickerElement.appendChild(PickYearMonthContainer);
-  PickYearMonthContainer.appendChild(PreviousMonthButton);
-  PickYearMonthContainer.appendChild(YearMonthContainer);
-  PickYearMonthContainer.appendChild(NextMonthButton);
-  YearMonthContainer.appendChild(Month);
-  YearMonthContainer.appendChild(Year);
+  NextMonthButtonIcon.src = IconsSrc.RightArrowIcon[UserSettings.Theme];
+  PreviousMonthButtonIcon.src = IconsSrc.LeftArrowIcon[UserSettings.Theme];
+  NextMonthButton.appendChild(NextMonthButtonIcon);
+  PreviousMonthButton.appendChild(PreviousMonthButtonIcon);
+  PickYearMonthContainer.append(PreviousMonthButton, YearMonthContainer, NextMonthButton);
+  YearMonthContainer.append(Month, Year);
   //
-  let PickDay = document.createElement("div");
-  PickDay.id = "pick-days";
+  const PickDays = document.createElement("div");
+  PickDays.id = "pick-days";
   for (Counter = 1; Counter <= 31; Counter++) {
-    let PickDayButton = document.createElement("button");
-    PickDayButton.className = "pick-day-button";
-    PickDayButton.id = "Day-" + Counter;
-    PickDayButton.setAttribute("data-Day", Counter);
-    PickDayButton.innerText = Counter;
-    PickDay.appendChild(PickDayButton);
+    let PickDaysButton = document.createElement("button");
+    PickDaysButton.className = "pick-day-button";
+    PickDaysButton.id = "Day-" + Counter;
+    PickDaysButton.setAttribute("data-Day", Counter);
+    PickDaysButton.innerText = Counter;
+    PickDays.appendChild(PickDaysButton);
   }
-  DatePickerElement.appendChild(PickDay);
+  DatePickerElement.append(DatePickerHeader, container, PickYearMonthContainer, PickDays);
   TargetInput.parentNode.insertBefore(DatePickerElement, TargetInput.nextSibling);
   AddDatePickerEventListeners();
   AssignWidthToDatePicker();
@@ -423,7 +400,7 @@ function AddDatePickerEventListeners() {
   PreviousMonthButton.addEventListener("click", LoadPreviousMonth);
   DayButtons.forEach((Button) => {
     Button.addEventListener("click", () => {
-      PickDay(Button.innerText);
+      PickDays(Button.innerText);
     });
   });
 }
@@ -537,6 +514,6 @@ function HighLightSelectedDay(ID) {
   });
   const SelectedDay = document.getElementById(ID);
   SelectedDay.classList.add("selected-day");
-  SelectedDay.style.backgroundColor = "#40C057";
+  SelectedDay.style.backgroundColor = HoverColor[UserSettings.Theme];
   SelectedDay.style.transform = "scale(1.1)";
 }
