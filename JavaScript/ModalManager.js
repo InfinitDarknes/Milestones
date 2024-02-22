@@ -279,8 +279,8 @@ function NewCategoryModal() {
   const ColorSlideRight = document.createElement("button");
   const ColorSlideLeftIcon = document.createElement("img");
   const ColorSlideRightIcon = document.createElement("img");
-  ColorSlideLeftIcon.src = "Icons/leftArrowIcon.png";
-  ColorSlideRightIcon.src = "Icons/RightArrowIcon.png";
+  ColorSlideLeftIcon.src = IconsSrc.LeftArrowIcon[UserSettings.Theme];
+  ColorSlideRightIcon.src = IconsSrc.RightArrowIcon[UserSettings.Theme];
   ColorSlideLeft.className = "slide-left-button";
   ColorSlideRight.className = "slide-right-button";
   ColorSlideLeft.id = "color-slide-left-button";
@@ -325,8 +325,8 @@ function NewCategoryModal() {
   const IconSlideRight = document.createElement("button");
   const IconSlideLeftIcon = document.createElement("img");
   const IconSlideRightIcon = document.createElement("img");
-  IconSlideLeftIcon.src = "Icons/leftArrowIcon.png";
-  IconSlideRightIcon.src = "Icons/RightArrowIcon.png";
+  IconSlideLeftIcon.src = IconsSrc.LeftArrowIcon[UserSettings.Theme];
+  IconSlideRightIcon.src = IconsSrc.RightArrowIcon[UserSettings.Theme];
   IconSlideLeft.className = "slide-left-button";
   IconSlideRight.className = "slide-right-button";
   IconSlideLeft.id = "color-slide-left-button";
@@ -443,8 +443,8 @@ function EditCategoryModal(ID) {
   const ColorSlideRight = document.createElement("button");
   const ColorSlideLeftIcon = document.createElement("img");
   const ColorSlideRightIcon = document.createElement("img");
-  ColorSlideLeftIcon.src = "Icons/leftArrowIcon.png";
-  ColorSlideRightIcon.src = "Icons/RightArrowIcon.png";
+  ColorSlideLeftIcon.src = IconsSrc.LeftArrowIcon[UserSettings.Theme];
+  ColorSlideRightIcon.src = IconsSrc.RightArrowIcon[UserSettings.Theme];
   ColorSlideLeft.className = "slide-left-button";
   ColorSlideRight.className = "slide-right-button";
   ColorSlideLeft.id = "color-slide-left-button";
@@ -488,8 +488,8 @@ function EditCategoryModal(ID) {
   const IconSlideRight = document.createElement("button");
   const IconSlideLeftIcon = document.createElement("img");
   const IconSlideRightIcon = document.createElement("img");
-  IconSlideLeftIcon.src = "Icons/leftArrowIcon.png";
-  IconSlideRightIcon.src = "Icons/RightArrowIcon.png";
+  IconSlideLeftIcon.src = IconsSrc.LeftArrowIcon[UserSettings.Theme];
+  IconSlideRightIcon.src = IconsSrc.RightArrowIcon[UserSettings.Theme];
   IconSlideLeft.className = "slide-left-button";
   IconSlideRight.className = "slide-right-button";
   IconSlideLeft.id = "color-slide-left-button";
