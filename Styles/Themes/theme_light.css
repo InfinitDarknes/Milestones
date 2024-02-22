@@ -156,13 +156,13 @@ body.Light {
   background: #dad6d6;
 }
 .Light #date-picker {
-  background-color: #36363b;
+  background-color: #f3ead3;
 }
 .Light #pick-year-month-container {
-  background-color: #36363b66;
+  background-color: #f3ead3;
 }
 .Light #pick-year-month-container button {
-  background-color: #40c057;
+  background-color: #dad6d6;
 }
 .Light #year,
 .Light #month {
@@ -171,16 +171,25 @@ body.Light {
 .Light .pick-day-button {
   color: #1b1a1d;
 }
+.Light .pick-day-button:hover {
+  background-color: #ffc069;
+}
 .Light #pick-today-button,
 .Light #pick-tomorrow-button,
 .Light #pick-in-2-days-button {
-  background-color: #40c057;
+  background-color: #dad6d6;
+  color: #1b1a1d;
+}
+.Light #pick-today-button:hover,
+.Light #pick-tomorrow-button:hover,
+.Light #pick-in-2-days-button:hover {
+  background-color: #ffc069;
 }
 .Light .time-picker-input {
-  background-color: #1b1a1d;
+  background-color: #dad6d6;
 }
 .Light .tweak-time-buttons button {
-  background-color: #40c057;
+  background-color: #dad6d6;
 }
 .Light #context-menu {
   background-color: #fff9e3;
