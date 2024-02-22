@@ -216,6 +216,7 @@ function DeleteCategory(ID) {
   });
   localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
   localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
+  UpdateInbox();
   AppendUGC();
 }
 function ResetTempUserCategoryInfo() {
