@@ -139,4 +139,29 @@ let IconsSrc = {
     Light: "Icons/LightIcons/EmptyIcon.png",
     Neon: "Icons/NeonIcons/EmptyIcon.png",
   },
+  UpArrowIcon: {
+    Dark: "Icons/DarkIcons/UpArrowIcon.png",
+    Light: "Icons/LightIcons/UpArrowIcon.png",
+    Neon: "Icons/NeonIcons/UpArrowIcon.png",
+  },
+  DownArrowIcon: {
+    Dark: "Icons/DarkIcons/DownArrowIcon.png",
+    Light: "Icons/LightIcons/DownArrowIcon.png",
+    Neon: "Icons/NeonIcons/DownArrowIcon.png",
+  },
+  LeftArrowIcon: {
+    Dark: "Icons/DarkIcons/LeftArrowIcon.png",
+    Light: "Icons/LightIcons/LeftArrowIcon.png",
+    Neon: "Icons/NeonIcons/LeftArrowIcon.png",
+  },
+  RightArrowIcon: {
+    Dark: "Icons/DarkIcons/RightArrowIcon.png",
+    Light: "Icons/LightIcons/RightArrowIcon.png",
+    Neon: "Icons/NeonIcons/RightArrowIcon.png",
+  },
+  SeperatorIcon: {
+    Dark: "Icons/DarkIcons/SeperatorIcon.png",
+    Light: "Icons/LightIcons/SeperatorIcon.png",
+    Neon: "Icons/NeonIcons/SeperatorIcon.png",
+  },
 };
