@@ -585,128 +585,8 @@ function AppendSearchBar() {
   });
   TaskBar.append(SearchBar);
 }
-function AppendCompletedTaskContainer(CompletedTasks) {
-  CompletedTasks.forEach((Task) => {
-    const ListSection = document.getElementById("list-section");
-    const TaskContainer = document.createElement("section");
-    TaskContainer.className = "task-container";
-    TaskContainer.id = Task.ID.toString();
-    TaskContainer.draggable = "true";
-    const CheckBoxContainer = document.createElement("label");
-    CheckBoxContainer.className = "checkbox-container";
-    CheckBoxContainer.style.display = "none";
-    const Checkbox = document.createElement("input");
-    Checkbox.type = "checkbox";
-    Checkbox.className = "checkbox task-checkbox";
-    Checkbox.addEventListener("change", () => {
-      if (Checkbox.checked) SelectTask(TaskContainer.id);
-      else DeSelectTask(TaskContainer.id);
-    });
-    const CheckMark = document.createElement("div");
-    CheckMark.className = "checkmark";
-    const TaskTitle = document.createElement("section");
-    TaskTitle.className = "task-title";
-    TaskTitle.setAttribute("inert", "");
-    const DateContainer = document.createElement("section");
-    DateContainer.className = "date-container";
-    DateContainer.inert = "true";
-    const TaskDate = document.createElement("section");
-    TaskDate.className = "task-date";
-    const TaskTime = document.createElement("section");
-    TaskTime.className = "task-time";
-    TaskContainer.append(CheckBoxContainer, TaskTitle, DateContainer);
-    CheckBoxContainer.append(Checkbox, CheckMark);
-    DateContainer.append(TaskDate, TaskTime);
-    const CompletedTaskBadge = document.createElement("span");
-    CompletedTaskBadge.className = "completed-task-badge";
-    CompletedTaskBadge.innerHTML = Strings.CompletedTaskBadge[UserSettings.CurrentLang];
-    CompletedTaskBadge.setAttribute("inert", "");
-    TaskContainer.append(CompletedTaskBadge);
-    TaskContainer.addEventListener("contextmenu", (Event) => {
-      Event.preventDefault();
-      DisplayTaskContextMenu(Event, "Completed");
-    });
-    TaskContainer.addEventListener("click", (Event) => {
-      if (!SelectMode) return;
-      let Task = AllTasksArray[FindIndexOfTask(Event.target.id)];
-      let TaskID = Event.target.id;
-      if (Task.Selected) {
-        DeSelectTask(TaskID);
-      } else {
-        SelectTask(TaskID);
-      }
-    });
-    TaskContainer.addEventListener("dragstart", (event) => {
-      event.dataTransfer.setData("DragableElementID", event.target.id);
-      console.log(event.target.id);
-    });
-    TaskTitle.textContent = Task.Title;
-    TaskDate.textContent = Task.DisplayDate;
-    TaskTime.textContent = Task.DisplayTime;
-    ListSection.append(TaskContainer);
-  });
-}
-function AppendFailedTaskContainer(FailedTasks) {
-  FailedTasks.forEach((Task) => {
-    const ListSection = document.getElementById("list-section");
-    const TaskContainer = document.createElement("section");
-    TaskContainer.className = "task-container";
-    TaskContainer.id = Task.ID.toString();
-    TaskContainer.draggable = "true";
-    const CheckBoxContainer = document.createElement("label");
-    CheckBoxContainer.className = "checkbox-container";
-    CheckBoxContainer.style.display = "none";
-    const Checkbox = document.createElement("input");
-    Checkbox.type = "checkbox";
-    Checkbox.className = "checkbox task-checkbox";
-    Checkbox.addEventListener("change", () => {
-      if (Checkbox.checked) SelectTask(TaskContainer.id);
-      else DeSelectTask(TaskContainer.id);
-    });
-    const CheckMark = document.createElement("div");
-    CheckMark.className = "checkmark";
-    const TaskTitle = document.createElement("section");
-    TaskTitle.className = "task-title";
-    TaskTitle.setAttribute("inert", "");
-    const DateContainer = document.createElement("section");
-    DateContainer.className = "date-container";
-    DateContainer.inert = "true";
-    const TaskDate = document.createElement("section");
-    TaskDate.className = "task-date";
-    const TaskTime = document.createElement("section");
-    TaskTime.className = "task-time";
-    TaskContainer.append(CheckBoxContainer, TaskTitle, DateContainer);
-    CheckBoxContainer.append(Checkbox, CheckMark);
-    DateContainer.append(TaskDate, TaskTime);
-    const FailedTaskBadge = document.createElement("span");
-    FailedTaskBadge.className = "failed-task-badge";
-    FailedTaskBadge.innerHTML = Strings.FailedTaskBadge[UserSettings.CurrentLang];
-    FailedTaskBadge.setAttribute("inert", "");
-    TaskContainer.append(FailedTaskBadge);
-    TaskContainer.addEventListener("contextmenu", (Event) => {
-      Event.preventDefault();
-      DisplayTaskContextMenu(Event, "Failed");
-    });
-    TaskContainer.addEventListener("click", (Event) => {
-      if (!SelectMode) return;
-      let Task = AllTasksArray[FindIndexOfTask(Event.target.id)];
-      let TaskID = Event.target.id;
-      if (Task.Selected) {
-        DeSelectTask(TaskID);
-      } else {
-        SelectTask(TaskID);
-      }
-    });
-    TaskContainer.addEventListener("dragstart", (event) => {
-      event.dataTransfer.setData("DragableElementID", event.target.id);
-    });
-    TaskTitle.textContent = Task.Title;
-    TaskDate.textContent = Task.DisplayDate;
-    TaskTime.textContent = Task.DisplayTime;
-    ListSection.append(TaskContainer);
-  });
-}
-function AppendNormalTaskContainer(Tasks) {
+// Appens all the task containers including normal/failed/completed/trashed
+function AppendTaskContainer(Tasks) {
   Tasks.forEach((Task) => {
     const ListSection = document.getElementById("list-section");
     const TaskContainer = document.createElement("section");
@@ -738,7 +618,48 @@ function AppendNormalTaskContainer(Tasks) {
     TaskContainer.append(CheckBoxContainer, TaskTitle, DateContainer);
     CheckBoxContainer.append(Checkbox, CheckMark);
     DateContainer.append(TaskDate, TaskTime);
-    if (Task.UserCategory !== "None" && !Task.IsTaskCompleted && !Task.IsTaskFailed && !Task.IsTaskTrashed) {
+    if (ReturnTaskState(Task.ID) === "Unfinished") {
+      TaskContainer.addEventListener("contextmenu", (Event) => {
+        Event.preventDefault();
+        DisplayTaskContextMenu(Event, "Normal");
+      });
+    }
+    if (ReturnTaskState(Task.ID) === "Failed") {
+      const FailedTaskBadge = document.createElement("span");
+      FailedTaskBadge.className = "failed-task-badge";
+      FailedTaskBadge.innerHTML = Strings.FailedTaskBadge[UserSettings.CurrentLang];
+      FailedTaskBadge.setAttribute("inert", "");
+      TaskContainer.append(FailedTaskBadge);
+      //
+      TaskContainer.addEventListener("contextmenu", (Event) => {
+        Event.preventDefault();
+        DisplayTaskContextMenu(Event, "Failed");
+      });
+    }
+    if (ReturnTaskState(Task.ID) === "Completed") {
+      const CompletedTaskBadge = document.createElement("span");
+      CompletedTaskBadge.className = "completed-task-badge";
+      CompletedTaskBadge.innerHTML = Strings.CompletedTaskBadge[UserSettings.CurrentLang];
+      CompletedTaskBadge.setAttribute("inert", "");
+      TaskContainer.append(CompletedTaskBadge);
+      //
+      TaskContainer.addEventListener("contextmenu", (Event) => {
+        Event.preventDefault();
+        DisplayTaskContextMenu(Event, "Completed");
+      });
+    }
+    if (ReturnTaskState(Task.ID) === "Trashed") {
+      const TrashedTaskBadge = document.createElement("span");
+      TrashedTaskBadge.className = "trashed-task-badge";
+      TrashedTaskBadge.innerHTML = Strings.TrashedTaskBadge[UserSettings.CurrentLang];
+      TrashedTaskBadge.setAttribute("inert", "");
+      TaskContainer.append(TrashedTaskBadge);
+      TaskContainer.addEventListener("contextmenu", (Event) => {
+        Event.preventDefault();
+        DisplayTaskContextMenu(Event, "Trashed");
+      });
+    }
+    if (Task.UserCategory !== "None" && ReturnTaskState(Task.ID) === "Unfinished") {
       let Color, Name, Icon;
       UserCategoriesArray.forEach((Category) => {
         if (Category.ID !== Task.UserCategory) return;
@@ -759,10 +680,6 @@ function AppendNormalTaskContainer(Tasks) {
       CategoryBadge.append(CategoryBadgeIcon, CategoryBadgeName);
       TaskContainer.append(CategoryBadge);
     }
-    TaskContainer.addEventListener("contextmenu", (Event) => {
-      Event.preventDefault();
-      DisplayTaskContextMenu(Event, "Normal");
-    });
     TaskContainer.addEventListener("click", (Event) => {
       if (!SelectMode || !Event.target.id.includes("Task")) return;
       let Task = AllTasksArray[FindIndexOfTask(Event.target.id)];

@@ -29,7 +29,6 @@ button {
   align-items: center;
   width: 300px;
   height: fit-content;
-  background-color: rgba(54, 54, 59, 1);
   border-radius: 5px;
   overflow: hidden;
   z-index: 99;
@@ -42,7 +41,6 @@ button {
   align-items: center;
   width: 90%;
   height: 50px;
-  background-color: rgba(54, 54, 59, 0.4);
   padding: 5px;
 }
 #next-month {
@@ -64,7 +62,6 @@ button {
   font-size: 1.5em;
   padding: 5px;
   border: 0;
-  background-color: #1b1a1d;
   transition: 0.3s;
 }
 #pick-year-month-container button:hover {
@@ -79,7 +76,6 @@ button {
   font-size: 2.1em;
   font-family: dastnevis;
   font-weight: 400;
-  color: #dad6d6;
   margin: 0 5px;
 }
 #pick-days {
@@ -98,14 +94,12 @@ button {
   border: 0;
   font-size: 1.5em;
   font-family: dastnevis;
-  color: #dad6d6;
   background: none;
   border-radius: 50%;
   transition: 0.1s;
 }
 .pick-day-button:hover {
   transform: scale(1.1);
-  background-color: #40c057;
 }
 #date-picker-header {
   order: 1;
@@ -129,14 +123,11 @@ button {
   font-family: dastnevis;
   font-size: 1.5em;
   transition: 0.3s;
-  background-color: #1b1a1d;
-  color: #dad6d6;
 }
 #pick-today-button:hover,
 #pick-tomorrow-button:hover,
 #pick-in-2-days-button:hover {
   transform: scale(1.1);
-  background-color: #40c057;
 }
 
 #time-picker {
@@ -176,7 +167,6 @@ button {
   font-size: 2em;
   font-family: dastnevis;
   text-align: center;
-  background-color: #dad6d6;
 }
 .tweak-time-buttons {
   display: flex;
@@ -187,7 +177,6 @@ button {
 .tweak-time-buttons button {
   width: 30px;
   height: 30px;
-  background-color: #1b1a1d;
   border: 0;
   border-radius: 5px;
   margin: 3px 0 !important;

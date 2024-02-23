@@ -67,8 +67,10 @@ function GetTime() {
   let Seconds = new Date().getSeconds().toString().padStart(2, "0");
   if (Hour === 0) Hour = 12;
   Time.innerText = `${Hour} : ${Minutes} : ${Seconds}`;
-  if ((Hour > 0 && Hour < 5) || Hour >= 18 || Hour === 0) TimeIcon.src = IconsSrc.MoonIcon[UserSettings.Theme];
-  if (Hour > 5 && Hour < 18) TimeIcon.src = IconsSrc.SunIcon[UserSettings.Theme];
+  if ((Hour > 0 && Hour < 5) || Hour >= 18 || Hour === 0)
+    TimeIcon.src = IconsSrc.MoonIcon[UserSettings.Theme];
+  if (Hour > 5 && Hour < 18)
+    TimeIcon.src = IconsSrc.SunIcon[UserSettings.Theme];
 }
 function DoesElementExist(ID) {
   if (document.getElementById(ID)) return true;
@@ -79,4 +81,12 @@ function GenerateUniqeID(Length) {
   const Max = Math.pow(10, Length) - 1;
   let ID = Math.abs(Math.round(Math.random() * (Max - Min - 1)) + Min);
   return ID;
+}
+function FetchLocalStorge() {
+  let Keys = Object.keys(localStorage);
+  let LocalStorgeObject = {};
+  Keys.forEach((Key) => {
+    LocalStorgeObject[Key] = localStorage.getItem(Key);
+  });
+  return JSON.stringify(LocalStorgeObject);
 }

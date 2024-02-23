@@ -7,6 +7,7 @@
 @import url("../TrashSection/trash_rtl.css");
 @import url("../UserCategoryPage/user_category_page_rtl.css");
 @import url("../ContextMenu/context_menu_rtl.css");
+@import url("../Animation/animation_rtl.css");
 
 @font-face {
   font-family: vazir;

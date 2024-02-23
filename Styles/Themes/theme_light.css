@@ -116,11 +116,28 @@
 }
 .Light .green-btn {
   background-color: #40c057;
+  color: #1b1a1d;
 }
 .Light .red-btn {
   background-color: #ff4545;
+  color: #1b1a1d;
 }
-
+.Light .modal-button {
+  background-color: #1b1a1d;
+}
+.Light .modal-button-text {
+  color: #dad6d6;
+}
+.Light .modal-title {
+  color: #dad6d6;
+}
+.Light .modal-description {
+  color: #dad6d6;
+}
+.Light .modal-text-area {
+  background-color: #1b1a1d;
+  color: #dad6d6;
+}
 .Light #select-category-select-box {
   background-color: #dad6d6;
   color: #1b1a1d;

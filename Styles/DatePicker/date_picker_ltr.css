@@ -98,7 +98,6 @@ button {
 }
 .pick-day-button:hover {
   transform: scale(1.1);
-  background-color: #40c057;
 }
 #date-picker-header {
   order: 1;
@@ -122,13 +121,11 @@ button {
   font-family: SpaceGrotesk;
   font-size: 1.2em;
   transition: 0.3s;
-  color: #dad6d6;
 }
 #pick-today-button:hover,
 #pick-tomorrow-button:hover,
 #pick-in-2-days-button:hover {
   transform: scale(1.1);
-  background-color: #40c057;
 }
 
 #time-picker {

@@ -274,13 +274,57 @@ const Strings = {
     en: "Settings",
     fa: "تنظیمات",
   },
-  GenerateBackUpButton: {
-    en: "Backup File",
+  BackUp: {
+    en: "Backup Options",
     fa: "پشتیبان گیری",
+  },
+  GenerateBackUpFile: {
+    en: "Generate backup file",
+    fa: "ساخت فایل پشتیبان",
+  },
+  GenerateBackUpText: {
+    en: "Generate backup text",
+    fa: "ساخت متن پشتیبان",
+  },
+  InsertBackUpFile: {
+    en: "Restore from file",
+    fa: "بازیابی از طریق فایل",
+  },
+  InsertBackUpText: {
+    en: "Restore from text",
+    fa: "بازیابی از طریق متن",
+  },
+  BackUpText: {
+    en: "Backup text",
+    fa: "متن بازیابی",
+  },
+  BackUpTextDescription: {
+    en: "You can restore your data by coping the text below and saving it somewhere safe and whenever you liked to restore your data simply click on 'Insert backup text' in previous tab and paste it there.",
+    fa: "شما میتونی با کپی کردن و ذخیره متن زیر در یه جای امن هر زمان که بخوای با پیست کردنش در مسیر تنظیمات < بازیابی از طریق متن اطلاعات خودتو بازیابی کنی",
+  },
+  RestoreFromTextDescription: {
+    en: "You can restore your data including your tasks,notes and alarms by pasting your backup text in the box below and clicking on restore button, to get this text you need to go to settings > backup options > Generate backup text.",
+    fa: "شما میتونی از طریق متن پشتیبان اطلاعات خودتو از جمله رویداد ها ، یاداشت ها و آلارم بازیابی کنی برای بدست آوردن این متن پشتیبانی باید به مسیر تنظیمات > پشتیبان گیری > ساخت متن پشتیبان بری.",
+  },
+  RestoreFromText: {
+    en: "Restore from backup text",
+    fa: "بازیابی از طریق متن",
+  },
+  InsertBackUpTextPlaceHolder: {
+    en: "Paste your backup text here",
+    fa: "متن پشتیبان رو اینجا پیست کن",
+  },
+  CopyButton: {
+    en: "Copy to clipboard",
+    fa: "کپی در کلیپبورد",
   },
   CouldStorgeButton: {
     en: "Cloud Storage",
     fa: "حافظه ابری",
+  },
+  Return: {
+    en: "Return",
+    fa: "برگشت",
   },
   SettingTitle: {
     en: "Settings",

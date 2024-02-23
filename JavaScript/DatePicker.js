@@ -177,7 +177,6 @@ function LoadNextMonth() {
     } else {
       let NumMonth = DateObject.GregorianMonth;
       DateObject.GregorianMonth = NumMonth + 1;
-      Month.innerText = GregorianMonthArray[DateObject.GregorianMonth];
     }
   }
   TargetInput.dataset.DateObject = JSON.stringify(DateObject);

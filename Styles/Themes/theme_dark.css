@@ -103,10 +103,28 @@
   color: #dad6d6;
 }
 .Dark .green-btn {
-  background-color: rgb(64, 192, 87);
+  background-color: #40c057;
+  color: #dad6d6;
 }
 .Dark .red-btn {
-  background-color: rgb(255, 69, 69);
+  background-color: #ff4545;
+  color: #dad6d6;
+}
+.Dark .modal-button {
+  background-color: #2e3843;
+}
+.Dark .modal-button-text {
+  color: #dad6d6;
+}
+.Dark .modal-title {
+  color: #dad6d6;
+}
+.Dark .modal-description {
+  color: #dad6d6;
+}
+.Dark .modal-text-area {
+  background-color: #2e3843;
+  color: #dad6d6;
 }
 .Dark #select-category-select-box {
   background-color: #dad6d6;
@@ -116,8 +134,8 @@
   background-color: #dad6d6;
 }
 .Dark .badge {
-  background: #1b1a1d;
-  border-bottom: 1px solid #dad6d6;
+  background: transparent;
+  border-bottom: 3px solid #2e3843;
   color: #dad6d6;
 }
 .Dark .badge-modified {
@@ -162,6 +180,7 @@ body.Dark {
 .Dark #pick-tomorrow-button,
 .Dark #pick-in-2-days-button {
   background-color: #1b1a1d;
+  color: #dad6d6;
 }
 .Dark .time-picker-input {
   background-color: #dad6d6;

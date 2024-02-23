@@ -59,7 +59,8 @@ function EditModal(ID) {
   const CategoriesTasksSelectBox = document.createElement("select");
   const CategoryNoneOption = document.createElement("option");
   CategoryNoneOption.value = "None";
-  CategoryNoneOption.innerText = Strings.CategoryNoneOption[UserSettings.CurrentLang];
+  CategoryNoneOption.innerText =
+    Strings.CategoryNoneOption[UserSettings.CurrentLang];
   CategoriesTasksSelectBox.append(CategoryNoneOption);
   UserCategoriesArray.forEach((Category) => {
     const CategoryOption = document.createElement("option");
@@ -70,19 +71,25 @@ function EditModal(ID) {
   CategoriesTasksSection.id = "select-category-section";
   CategoriesTasksSelectBox.id = "select-category-select-box";
   CategoriesTasksSectionBadge.className = "badge-modified";
-  CategoriesTasksSectionBadge.innerText = Strings.SelectCategoryBadge[UserSettings.CurrentLang];
-  CategoriesTasksSection.append(CategoriesTasksSelectBox, CategoriesTasksSectionBadge);
+  CategoriesTasksSectionBadge.innerText =
+    Strings.SelectCategoryBadge[UserSettings.CurrentLang];
+  CategoriesTasksSection.append(
+    CategoriesTasksSelectBox,
+    CategoriesTasksSectionBadge
+  );
   // Button Container and Confirm/Cancel Button
   const ModalButtonContainer = document.createElement("section");
   ModalButtonContainer.id = "modal-button-container";
   const ConfirmBtn = document.createElement("button");
   ConfirmBtn.id = "confirm-btn";
   ConfirmBtn.className = "green-btn";
-  ConfirmBtn.innerText = Strings.EditModalConfirmButton[UserSettings.CurrentLang];
+  ConfirmBtn.innerText =
+    Strings.EditModalConfirmButton[UserSettings.CurrentLang];
   ConfirmBtn.addEventListener("click", function () {
     AllTasksArray[TaskIndex].Title = EditTitleInput.value;
     AllTasksArray[TaskIndex].DisplayDate = EditDateInput.value;
-    AllTasksArray[TaskIndex].DisplayTime = `${DateObject.Hour.toString().padStart(2, "0")} : ${DateObject.Minute.toString().padStart(2, "0")}`;
+    AllTasksArray[TaskIndex].DisplayTime =
+      `${DateObject.Hour.toString().padStart(2, "0")} : ${DateObject.Minute.toString().padStart(2, "0")}`;
     AllTasksArray[TaskIndex].NumericDate = ExtractDate("Numeric");
     const SelectBox = document.getElementById("select-category-select-box");
     let SelectedOptionIndex = SelectBox.selectedIndex;
@@ -105,20 +112,24 @@ function EditModal(ID) {
   HideModalBtn.addEventListener("click", HideModal);
   ModalButtonContainer.append(ConfirmBtn, CancelBtn);
   //
-  ModalContainer.append(HideModalBtn, ModalInputsContainer, CategoriesTasksSection, ModalButtonContainer);
-  ModalContainer.style.top = "-50%";
-  ModalContainer.style.transition = "transform 1s";
+  ModalContainer.append(
+    HideModalBtn,
+    ModalInputsContainer,
+    CategoriesTasksSection,
+    ModalButtonContainer
+  );
   document.body.append(ModalContainer);
+  AlignModalAtCenter();
   CharacterLimit("edit-title-input");
   // Select Appropiate option based on selected task category
-  const CategoryOptions = Array.from(document.querySelectorAll("#select-category-select-box option"));
+  const CategoryOptions = Array.from(
+    document.querySelectorAll("#select-category-select-box option")
+  );
   CategoryOptions.forEach((Option) => {
     if (Option.value !== UserCategory) return;
     Option.selected = true;
     return;
   });
-  void ModalContainer.offsetWidth;
-  ModalContainer.style.transform = "translateY(150%)";
 }
 function NewTaskModal() {
   if (DoesElementExist("modal-container")) return;
@@ -136,7 +147,8 @@ function NewTaskModal() {
   TaskTitleInput.id = "task-title-input";
   TaskTitleInput.className = "task-input";
   TitleInputBadge.innerText = Strings.TitleInputBadge[UserSettings.CurrentLang];
-  TaskTitleInput.placeholder = Strings.TaskTitleInputPlaceHolder[UserSettings.CurrentLang];
+  TaskTitleInput.placeholder =
+    Strings.TaskTitleInputPlaceHolder[UserSettings.CurrentLang];
   TaskTitleInput.maxLength = "70";
   TaskTitleInput.addEventListener("input", () => {
     CharacterLimit("task-title-input");
@@ -155,7 +167,8 @@ function NewTaskModal() {
   TaskDateInput.id = "task-date-input";
   TaskDateInput.className = "task-input";
   DateInputBadge.innerText = Strings.DateInputBadge[UserSettings.CurrentLang];
-  TaskDateInput.placeholder = Strings.TaskDateInputPlaceHolder[UserSettings.CurrentLang];
+  TaskDateInput.placeholder =
+    Strings.TaskDateInputPlaceHolder[UserSettings.CurrentLang];
   TaskDateInput.setAttribute("readonly", "");
   TaskDateInput.setAttribute("data-DateObject", "");
   TaskDateInput.addEventListener("click", () => {
@@ -169,7 +182,8 @@ function NewTaskModal() {
   const CategoriesTasksSelectBox = document.createElement("select");
   const CategoryNoneOption = document.createElement("option");
   CategoryNoneOption.value = "None";
-  CategoryNoneOption.innerText = Strings.CategoryNoneOption[UserSettings.CurrentLang];
+  CategoryNoneOption.innerText =
+    Strings.CategoryNoneOption[UserSettings.CurrentLang];
   CategoriesTasksSelectBox.append(CategoryNoneOption);
   UserCategoriesArray.forEach((Category) => {
     const CategoryOption = document.createElement("option");
@@ -180,15 +194,20 @@ function NewTaskModal() {
   CategoriesTasksSection.id = "select-category-section";
   CategoriesTasksSelectBox.id = "select-category-select-box";
   CategoriesTasksSectionBadge.className = "badge-modified";
-  CategoriesTasksSectionBadge.innerText = Strings.SelectCategoryBadge[UserSettings.CurrentLang];
-  CategoriesTasksSection.append(CategoriesTasksSelectBox, CategoriesTasksSectionBadge);
+  CategoriesTasksSectionBadge.innerText =
+    Strings.SelectCategoryBadge[UserSettings.CurrentLang];
+  CategoriesTasksSection.append(
+    CategoriesTasksSelectBox,
+    CategoriesTasksSectionBadge
+  );
   // Button Container and Confirm/Cancel Button
   const ModalButtonContainer = document.createElement("section");
   ModalButtonContainer.id = "modal-button-container";
   const ConfirmBtn = document.createElement("button");
   ConfirmBtn.id = "confirm-btn";
   ConfirmBtn.className = "green-btn";
-  ConfirmBtn.innerText = Strings.NewTaskModalConfirmButton[UserSettings.CurrentLang];
+  ConfirmBtn.innerText =
+    Strings.NewTaskModalConfirmButton[UserSettings.CurrentLang];
   ConfirmBtn.addEventListener("click", function () {
     if (!TaskTitleInput.value) {
       TaskTitleInput.style.border = "1px solid red";
@@ -200,7 +219,8 @@ function NewTaskModal() {
   const CancelBtn = document.createElement("button");
   CancelBtn.id = "cancel-btn";
   CancelBtn.className = "red-btn";
-  CancelBtn.innerText = Strings.NewTaskModalCancelButton[UserSettings.CurrentLang];
+  CancelBtn.innerText =
+    Strings.NewTaskModalCancelButton[UserSettings.CurrentLang];
   CancelBtn.addEventListener("click", HideModal);
   const HideModalBtn = document.createElement("button");
   HideModalBtn.id = "close-btn";
@@ -210,21 +230,28 @@ function NewTaskModal() {
   HideModalBtn.addEventListener("click", HideModal);
   ModalButtonContainer.append(ConfirmBtn, CancelBtn);
   //
-  ModalInputsContainer.append(TaskTitleSection, TaskDateSection, CategoriesTasksSection);
-  ModalContainer.append(HideModalBtn, ModalInputsContainer, ModalButtonContainer);
-  ModalContainer.style.top = "-50%";
-  ModalContainer.style.transition = "transform 1s";
+  ModalInputsContainer.append(
+    TaskTitleSection,
+    TaskDateSection,
+    CategoriesTasksSection
+  );
+  ModalContainer.append(
+    HideModalBtn,
+    ModalInputsContainer,
+    ModalButtonContainer
+  );
   document.body.append(ModalContainer);
+  AlignModalAtCenter();
   CharacterLimit("task-title-input");
   // Select Appropiate option based on selected task category
-  const CategoryOptions = Array.from(document.querySelectorAll("#select-category-select-box option"));
+  const CategoryOptions = Array.from(
+    document.querySelectorAll("#select-category-select-box option")
+  );
   CategoryOptions.forEach((Option) => {
     if (Option.value !== SelectedUserCategory) return;
     Option.selected = true;
     return;
   });
-  void ModalContainer.offsetWidth;
-  ModalContainer.style.transform = "translateY(150%)";
 }
 function NewCategoryModal() {
   if (DoesElementExist("modal-container")) return;
@@ -241,8 +268,10 @@ function NewCategoryModal() {
   CategoryNameInputBadge.className = "badge-modified";
   CategoryTitleInput.id = "category-title-input";
   CategoryTitleInput.className = "task-input";
-  CategoryNameInputBadge.innerText = Strings.NewCategoryInputBadge[UserSettings.CurrentLang];
-  CategoryTitleInput.placeholder = Strings.NewCategoryTitleInputPlaceHolder[UserSettings.CurrentLang];
+  CategoryNameInputBadge.innerText =
+    Strings.NewCategoryInputBadge[UserSettings.CurrentLang];
+  CategoryTitleInput.placeholder =
+    Strings.NewCategoryTitleInputPlaceHolder[UserSettings.CurrentLang];
   CategoryTitleInput.maxLength = "16";
   CategoryTitleInput.addEventListener("input", () => {
     TempUserCategoryInfo.Name = CategoryTitleInput.value;
@@ -348,14 +377,16 @@ function NewCategoryModal() {
   const ConfirmBtn = document.createElement("button");
   ConfirmBtn.id = "confirm-btn";
   ConfirmBtn.className = "green-btn";
-  ConfirmBtn.innerText = Strings.NewCategoryModalConfirmButton[UserSettings.CurrentLang];
+  ConfirmBtn.innerText =
+    Strings.NewCategoryModalConfirmButton[UserSettings.CurrentLang];
   ConfirmBtn.addEventListener("click", function () {
     if (AddCategory()) HideModal("modal-container");
   });
   const CancelBtn = document.createElement("button");
   CancelBtn.id = "cancel-btn";
   CancelBtn.className = "red-btn";
-  CancelBtn.innerText = Strings.NewCategoryModalCancelButton[UserSettings.CurrentLang];
+  CancelBtn.innerText =
+    Strings.NewCategoryModalCancelButton[UserSettings.CurrentLang];
   CancelBtn.addEventListener("click", function () {
     HideModal("modal-container");
   });
@@ -372,13 +403,16 @@ function NewCategoryModal() {
   PickColorSection.append(PickColorBadge, ColorsContainer);
   PickIconSection.append(IconsContainer, PickIconBadge);
   ModalButtonContainer.append(ConfirmBtn, CancelBtn);
-  ModalContainer.append(HideModalBtn, ModalInputsContainer, PickColorSection, PickIconSection, ModalButtonContainer);
-  ModalContainer.style.top = "-50%";
-  ModalContainer.style.transition = "transform 1s";
+  ModalContainer.append(
+    HideModalBtn,
+    ModalInputsContainer,
+    PickColorSection,
+    PickIconSection,
+    ModalButtonContainer
+  );
   document.body.append(ModalContainer);
+  AlignModalAtCenter();
   CharacterLimit("category-title-input");
-  void ModalContainer.offsetWidth;
-  ModalContainer.style.transform = "translateY(120%)";
 }
 function EditCategoryModal(ID) {
   if (DoesElementExist("modal-container")) return;
@@ -403,8 +437,10 @@ function EditCategoryModal(ID) {
   CategoryNameInputBadge.className = "badge-modified";
   CategoryTitleInput.id = "category-title-input";
   CategoryTitleInput.className = "task-input";
-  CategoryNameInputBadge.innerText = Strings.NewCategoryInputBadge[UserSettings.CurrentLang];
-  CategoryTitleInput.placeholder = Strings.NewCategoryTitleInputPlaceHolder[UserSettings.CurrentLang];
+  CategoryNameInputBadge.innerText =
+    Strings.NewCategoryInputBadge[UserSettings.CurrentLang];
+  CategoryTitleInput.placeholder =
+    Strings.NewCategoryTitleInputPlaceHolder[UserSettings.CurrentLang];
   CategoryTitleInput.maxLength = "16";
   CategoryTitleInput.addEventListener("input", () => {
     TempUserCategoryInfo.Name = CategoryTitleInput.value;
@@ -430,7 +466,8 @@ function EditCategoryModal(ID) {
     Button.className = "color-pallet";
     Button.id = Color.ID;
     Button.style.background = Color.Color;
-    if (Color.Color === UserCategoriesArray[Index].Color) Button.style.transform = "scale(1.2)";
+    if (Color.Color === UserCategoriesArray[Index].Color)
+      Button.style.transform = "scale(1.2)";
     Button.title = Color.Name;
     Button.addEventListener("click", () => {
       TempUserCategoryInfo.Color = Color.Color;
@@ -472,7 +509,8 @@ function EditCategoryModal(ID) {
     const CategoryButton = document.createElement("button");
     CategoryButton.className = "pick-category-icon-button";
     CategoryButton.id = Icon.ID;
-    if (Icon.Source === UserCategoriesArray[Index].Icon) CategoryButton.style.transform = "scale(1.2)";
+    if (Icon.Source === UserCategoriesArray[Index].Icon)
+      CategoryButton.style.transform = "scale(1.2)";
     CategoryButton.addEventListener("click", () => {
       TempUserCategoryInfo.Icon = Icon.Source;
       HighLightSelectedIcon(Icon.ID);
@@ -505,7 +543,12 @@ function EditCategoryModal(ID) {
   PickIconSection.append();
   IconSlideLeft.append(IconSlideLeftIcon);
   IconSlideRight.append(IconSlideRightIcon);
-  PickIconSection.append(IconsContainer, PickIconBadge, IconSlideLeft, IconSlideRight);
+  PickIconSection.append(
+    IconsContainer,
+    PickIconBadge,
+    IconSlideLeft,
+    IconSlideRight
+  );
   // Button Container and Confirm/Cancel Button
   const ModalButtonContainer = document.createElement("section");
   ModalButtonContainer.id = "modal-button-container";
@@ -514,7 +557,12 @@ function EditCategoryModal(ID) {
   ConfirmBtn.className = "green-btn";
   ConfirmBtn.innerText = Strings.Edit[UserSettings.CurrentLang];
   ConfirmBtn.addEventListener("click", function () {
-    if (!TempUserCategoryInfo.Name || !TempUserCategoryInfo.Color || !TempUserCategoryInfo.Icon) return;
+    if (
+      !TempUserCategoryInfo.Name ||
+      !TempUserCategoryInfo.Color ||
+      !TempUserCategoryInfo.Icon
+    )
+      return;
     UserCategoriesArray[Index].Color = TempUserCategoryInfo.Color;
     UserCategoriesArray[Index].Name = TempUserCategoryInfo.Name;
     UserCategoriesArray[Index].Icon = TempUserCategoryInfo.Icon;
@@ -537,16 +585,188 @@ function EditCategoryModal(ID) {
   ModalButtonContainer.append(ConfirmBtn, CancelBtn);
   // Final
   ModalInputsContainer.append(CategoryTitleSection);
-  ModalContainer.append(HideModalBtn, ModalInputsContainer, PickColorSection, ModalButtonContainer, PickIconSection);
-  ModalContainer.style.top = "-50%";
-  ModalContainer.style.transition = "transform 1s";
+  ModalContainer.append(
+    HideModalBtn,
+    ModalInputsContainer,
+    PickColorSection,
+    ModalButtonContainer,
+    PickIconSection
+  );
   document.body.append(ModalContainer);
+  AlignModalAtCenter();
   CharacterLimit("category-title-input");
-  void ModalContainer.offsetWidth;
-  ModalContainer.style.transform = "translateY(120%)";
+}
+function BackUpModal() {
+  if (DoesElementExist("modal-container")) return;
+  const ModalContainer = document.createElement("section");
+  ModalContainer.id = "modal-container";
+  ModalContainer.className = "modal";
+  //
+  const HideModalBtn = document.createElement("button");
+  HideModalBtn.id = "close-btn";
+  const HideModalIcon = document.createElement("img");
+  HideModalIcon.src = IconsSrc.CloseIcon[UserSettings.Theme];
+  HideModalBtn.appendChild(HideModalIcon);
+  HideModalBtn.addEventListener("click", HideModal);
+  //
+  const ModalButtonContainer = document.createElement("section");
+  ModalButtonContainer.id = "modal-buttons-container";
+  //
+  const InsertBackUpFile = document.createElement("button");
+  const InsertBackUpFileIcon = document.createElement("img");
+  const InsertBackUpFileText = document.createElement("span");
+  InsertBackUpFileIcon.className = "modal-button-icon";
+  InsertBackUpFileText.className = "modal-button-text";
+  InsertBackUpFile.className = "modal-button";
+  InsertBackUpFileText.innerText =
+    Strings.InsertBackUpFile[UserSettings.CurrentLang];
+  InsertBackUpFileIcon.src = "";
+  InsertBackUpFile.id = "insert-backup-file-button";
+  InsertBackUpFile.addEventListener("click", () => {});
+  InsertBackUpFile.append(InsertBackUpFileIcon, InsertBackUpFileText);
+  //
+  const InsertBackUpText = document.createElement("button");
+  const InsertBackUpTextIcon = document.createElement("img");
+  const InsertBackUpTextText = document.createElement("span");
+  InsertBackUpTextIcon.className = "modal-button-icon";
+  InsertBackUpTextText.className = "modal-button-text";
+  InsertBackUpText.className = "modal-button";
+  InsertBackUpText.id = "insert-backup-text-button";
+  InsertBackUpTextText.innerText =
+    Strings.InsertBackUpText[UserSettings.CurrentLang];
+  InsertBackUpTextIcon.src = "";
+  InsertBackUpText.addEventListener("click", () => {
+    const ReturnButton = document.createElement("button");
+    ReturnButton.id = "return-button";
+    ReturnButton.className = "red-btn";
+    const ReturnButtonIcon = document.createElement("img");
+    ReturnButtonIcon.id = "return-button-icon";
+    const ReturnButtonText = Strings.Return[UserSettings.CurrentLang];
+    ReturnButton.addEventListener("click", ReturnFromModalSubPage);
+    ReturnButton.append(ReturnButtonIcon, ReturnButtonText);
+    //
+    ModalButtonContainer.style.display = "none";
+    const ModalSubPage = document.createElement("section");
+    ModalSubPage.id = "modal-sub-page";
+    const ModalTitle = document.createElement("span");
+    ModalTitle.className = "modal-title";
+    ModalTitle.innerText = Strings.RestoreFromText[UserSettings.CurrentLang];
+    const ModalDescription = document.createElement("p");
+    ModalDescription.innerText =
+      Strings.RestoreFromTextDescription[UserSettings.CurrentLang];
+    ModalDescription.className = "modal-description";
+    //
+    const ModalTextArea = document.createElement("textarea");
+    ModalTextArea.className = "modal-text-area";
+    ModalTextArea.placeholder =
+      Strings.InsertBackUpTextPlaceHolder[UserSettings.CurrentLang];
+    //
+    const RestoreButton = document.createElement("button");
+    RestoreButton.id = "restore-button";
+    RestoreButton.className = "green-btn";
+    RestoreButton.innerText = Strings.RestoreTask[UserSettings.CurrentLang];
+    RestoreButton.addEventListener("click", () => {
+      RestoreFromText(ModalTextArea.value);
+    });
+    ModalSubPage.append(
+      ModalTitle,
+      ModalDescription,
+      ModalTextArea,
+      RestoreButton,
+      ReturnButton
+    );
+    ModalContainer.append(ModalSubPage);
+  });
+  InsertBackUpText.append(InsertBackUpTextIcon, InsertBackUpTextText);
+  //
+  const GenerateBackUpFile = document.createElement("button");
+  const GenerateBackUpFileIcon = document.createElement("img");
+  const GenerateBackUpFileText = document.createElement("span");
+  GenerateBackUpFileIcon.className = "modal-button-icon";
+  GenerateBackUpFileText.className = "modal-button-text";
+  GenerateBackUpFile.className = "modal-button";
+  GenerateBackUpFile.id = "generate-backup-file-button";
+  GenerateBackUpFileText.innerText =
+    Strings.GenerateBackUpFile[UserSettings.CurrentLang];
+  GenerateBackUpFileIcon.src = "";
+  GenerateBackUpFile.addEventListener("click", () => {});
+  GenerateBackUpFile.append(GenerateBackUpFileIcon, GenerateBackUpFileText);
+  //
+  const GenerateBackUpText = document.createElement("button");
+  const GenerateBackUpTextIcon = document.createElement("img");
+  const GenerateBackUpTextText = document.createElement("span");
+  GenerateBackUpTextIcon.className = "modal-button-icon";
+  GenerateBackUpTextText.className = "modal-button-text";
+  GenerateBackUpText.className = "modal-button";
+  GenerateBackUpText.id = "generate-backup-file-button";
+  GenerateBackUpTextText.innerText =
+    Strings.GenerateBackUpText[UserSettings.CurrentLang];
+  GenerateBackUpTextIcon.src = "";
+  GenerateBackUpText.addEventListener("click", () => {
+    const ReturnButton = document.createElement("button");
+    ReturnButton.id = "return-button";
+    ReturnButton.className = "red-btn";
+    const ReturnButtonIcon = document.createElement("img");
+    ReturnButtonIcon.id = "return-button-icon";
+    const ReturnButtonText = Strings.Return[UserSettings.CurrentLang];
+    ReturnButton.addEventListener("click", ReturnFromModalSubPage);
+    ReturnButton.append(ReturnButtonIcon, ReturnButtonText);
+    //
+    ModalButtonContainer.style.display = "none";
+    const ModalSubPage = document.createElement("section");
+    ModalSubPage.id = "modal-sub-page";
+    const ModalTitle = document.createElement("span");
+    ModalTitle.className = "modal-title";
+    ModalTitle.innerText = Strings.BackUpText[UserSettings.CurrentLang];
+    const ModalDescription = document.createElement("p");
+    ModalDescription.innerText =
+      Strings.BackUpTextDescription[UserSettings.CurrentLang];
+    ModalDescription.className = "modal-description";
+    //
+    const ModalTextArea = document.createElement("textarea");
+    ModalTextArea.className = "modal-text-area";
+    ModalTextArea.value = FetchLocalStorge();
+    //
+    const CopyButton = document.createElement("button");
+    CopyButton.id = "copy-to-clipboard-button";
+    CopyButton.className = "green-btn";
+    CopyButton.innerText = Strings.CopyButton[UserSettings.CurrentLang];
+    CopyButton.addEventListener("click", () => {
+      navigator.clipboard.writeText(FetchLocalStorge());
+    });
+    ModalSubPage.append(
+      ModalTitle,
+      ModalDescription,
+      ModalTextArea,
+      CopyButton,
+      ReturnButton
+    );
+    ModalContainer.append(ModalSubPage);
+  });
+  GenerateBackUpText.append(GenerateBackUpTextIcon, GenerateBackUpTextText);
+  //
+  ModalButtonContainer.append(
+    HideModalBtn,
+    GenerateBackUpFile,
+    GenerateBackUpText,
+    InsertBackUpFile,
+    InsertBackUpText
+  );
+  ModalContainer.append(HideModalBtn, ModalButtonContainer);
+  // Final
+  document.body.append(ModalContainer);
+  AlignModalAtCenter();
+}
+function ReturnFromModalSubPage() {
+  let SubPage = document.getElementById("modal-sub-page");
+  SubPage.remove();
+  let ModalButtonContainer = document.getElementById("modal-buttons-container");
+  ModalButtonContainer.style.display = "flex";
 }
 function HighLightSelectedIcon(ID) {
-  const Icons = Array.from(document.querySelectorAll(".pick-category-icon-button"));
+  const Icons = Array.from(
+    document.querySelectorAll(".pick-category-icon-button")
+  );
   Icons.forEach((Icon) => {
     if (Icon.id === ID) Icon.style.transform = "scale(1.2)";
     else Icon.style.transform = "";
@@ -595,7 +815,8 @@ function DeleteModal(Type, ID) {
   const ConfirmBtn = document.createElement("button");
   ConfirmBtn.id = "confirm-btn";
   ConfirmBtn.className = "red-btn";
-  ConfirmBtn.innerText = Strings.DeleteModalConfirmButton[UserSettings.CurrentLang];
+  ConfirmBtn.innerText =
+    Strings.DeleteModalConfirmButton[UserSettings.CurrentLang];
   ConfirmBtn.addEventListener("click", function () {
     switch (Type) {
       case "Normal":
@@ -617,46 +838,50 @@ function DeleteModal(Type, ID) {
   const CancelBtn = document.createElement("button");
   CancelBtn.id = "cancel-btn";
   CancelBtn.className = "green-btn";
-  CancelBtn.innerText = Strings.DeleteModalCancelButton[UserSettings.CurrentLang];
+  CancelBtn.innerText =
+    Strings.DeleteModalCancelButton[UserSettings.CurrentLang];
   CancelBtn.addEventListener("click", HideModal);
   // Final
   CheckBoxContainer.append(MoveToTrashCheckBox, CheckMark);
   MoveToTrashContainer.append(CheckBoxContainer, MoveToTrashText);
   ModalButtonContainer.append(CancelBtn, ConfirmBtn);
   ModalContainer.append(HideModalBtn, ModalText, ModalButtonContainer);
-  ModalContainer.style.top = "-50%";
-  ModalContainer.style.transition = "transform 1s";
   document.body.append(ModalContainer);
-  void ModalContainer.offsetWidth;
+  AlignModalAtCenter();
   switch (Type) {
     case "Normal":
     case "Completed":
     case "Failed":
       ModalText.innerText = Strings.DeleteText[UserSettings.CurrentLang];
       ModalContainer.append(MoveToTrashContainer);
-      ModalContainer.style.transform = "translateY(200%)";
       break;
     case "Trashed":
       ModalText.innerText = Strings.DeleteTrashText[UserSettings.CurrentLang];
-      ModalContainer.style.transform = "translateY(300%)";
       break;
     case "DeleteCategory":
-      ModalText.innerText = Strings.DeleteCategoryText[UserSettings.CurrentLang];
-      ModalContainer.style.transform = "translateY(250%)";
+      ModalText.innerText =
+        Strings.DeleteCategoryText[UserSettings.CurrentLang];
       break;
   }
 }
 function HideModal() {
   EditMode = false;
   let Modal = document.getElementById("modal-container");
-  Modal.style.transition = "transform 1s";
-  Modal.style.transform = "translateY(-400%)";
-  setTimeout(function () {
-    Modal.remove();
-  }, 1000);
+  Modal.remove();
 }
 function CharacterLimit(ID) {
   const CharacterLimitTag = document.querySelector(".character-limit");
   let Input = document.getElementById(ID);
   CharacterLimitTag.innerText = `${Input.value.length}/${Input.maxLength}`;
+}
+function AlignModalAtCenter() {
+  const Modal = document.getElementById("modal-container");
+  const ModalWidth = Modal.clientWidth;
+  const ModalHeight = Modal.clientHeight;
+  const WindowWidth = window.innerWidth;
+  const WindowHeight = window.innerHeight;
+  const CenterX = (WindowWidth - ModalWidth) / 2;
+  const CenterY = (WindowHeight - ModalHeight) / 2;
+  Modal.style.left = `${CenterX}px`;
+  Modal.style.top = `${CenterY}px`;
 }

@@ -39,7 +39,8 @@ function DisplaySettings() {
   LanguageSettingContainer.className = "setting-item";
   LanguageSettingTitle.className = "setting-title";
   LanguageSettingSelectBox.className = "setting-select-box";
-  LanguageSettingTitle.innerText = Strings.LanguageSetting[UserSettings.CurrentLang];
+  LanguageSettingTitle.innerText =
+    Strings.LanguageSetting[UserSettings.CurrentLang];
   LanguageSettingTitle.id = "language-setting-title";
   LanguageSettingSelectBox.id = "language-select-box";
   LanguageSettingContainer.appendChild(LanguageSettingTitle);
@@ -72,16 +73,19 @@ function DisplaySettings() {
   SideBarSettingTitle.className = "setting-title";
   SideBarSettingTitle.id = "sidebar-setting-title";
   SideBarSettingSelectBox.className = "setting-select-box";
-  SideBarSettingTitle.innerText = Strings.SideBarSetting[UserSettings.CurrentLang];
+  SideBarSettingTitle.innerText =
+    Strings.SideBarSetting[UserSettings.CurrentLang];
   SideBarSettingContainer.appendChild(SideBarSettingTitle);
   SideBarSettingContainer.appendChild(SideBarSettingSelectBox);
   SettingItemsContainer.appendChild(SideBarSettingContainer);
   // Sidebar Setting Options
   const HideSideBarOption = document.createElement("option");
-  HideSideBarOption.innerText = Strings.HideSideBarOption[UserSettings.CurrentLang];
+  HideSideBarOption.innerText =
+    Strings.HideSideBarOption[UserSettings.CurrentLang];
   HideSideBarOption.id = "hide-sidebar-option";
   const ShowSideBarOption = document.createElement("option");
-  ShowSideBarOption.innerText = Strings.ShowSideBarOption[UserSettings.CurrentLang];
+  ShowSideBarOption.innerText =
+    Strings.ShowSideBarOption[UserSettings.CurrentLang];
   ShowSideBarOption.id = "show-sidebar-option";
   SideBarSettingSelectBox.appendChild(ShowSideBarOption);
   SideBarSettingSelectBox.appendChild(HideSideBarOption);
@@ -93,13 +97,15 @@ function DisplaySettings() {
   TopBarSettingTitle.className = "setting-title";
   TopBarSettingTitle.id = "topbar-setting-title";
   TopBarSettingSelectBox.className = "setting-select-box";
-  TopBarSettingTitle.innerText = Strings.TopBarSetting[UserSettings.CurrentLang];
+  TopBarSettingTitle.innerText =
+    Strings.TopBarSetting[UserSettings.CurrentLang];
   TopBarSettingContainer.appendChild(TopBarSettingTitle);
   TopBarSettingContainer.appendChild(TopBarSettingSelectBox);
   SettingItemsContainer.appendChild(TopBarSettingContainer);
   // Topbar Setting Options
   const DisableTopBarOption = document.createElement("option");
-  DisableTopBarOption.innerText = Strings.DisableOption[UserSettings.CurrentLang];
+  DisableTopBarOption.innerText =
+    Strings.DisableOption[UserSettings.CurrentLang];
   DisableTopBarOption.id = "disable-topbar-option";
   const EnableTopBarOption = document.createElement("option");
   EnableTopBarOption.innerText = Strings.EnableOption[UserSettings.CurrentLang];
@@ -114,16 +120,19 @@ function DisplaySettings() {
   AutoWriterSettingTitle.className = "setting-title";
   AutoWriterSettingTitle.id = "auto-writer-setting-title";
   AutoWriterSettingSelectBox.className = "setting-select-box";
-  AutoWriterSettingTitle.innerText = Strings.AutoWriterSetting[UserSettings.CurrentLang];
+  AutoWriterSettingTitle.innerText =
+    Strings.AutoWriterSetting[UserSettings.CurrentLang];
   AutoWriterSettingContainer.appendChild(AutoWriterSettingTitle);
   AutoWriterSettingContainer.appendChild(AutoWriterSettingSelectBox);
   SettingItemsContainer.appendChild(AutoWriterSettingContainer);
   // Auto Writer Setting Options
   const DisableAutoWriterOption = document.createElement("option");
-  DisableAutoWriterOption.innerText = Strings.DisableOption[UserSettings.CurrentLang];
+  DisableAutoWriterOption.innerText =
+    Strings.DisableOption[UserSettings.CurrentLang];
   DisableAutoWriterOption.id = "disable-auto-writer-option";
   const EnableAutoWriterOption = document.createElement("option");
-  EnableAutoWriterOption.innerText = Strings.EnableOption[UserSettings.CurrentLang];
+  EnableAutoWriterOption.innerText =
+    Strings.EnableOption[UserSettings.CurrentLang];
   EnableAutoWriterOption.id = "enable-auto-writer-option";
   AutoWriterSettingSelectBox.appendChild(DisableAutoWriterOption);
   AutoWriterSettingSelectBox.appendChild(EnableAutoWriterOption);
@@ -135,16 +144,19 @@ function DisplaySettings() {
   AutoBackupSettingTitle.className = "setting-title";
   AutoBackupSettingTitle.id = "auto-backup-setting-title";
   AutoBackupSettingSelectBox.className = "setting-select-box";
-  AutoBackupSettingTitle.innerText = Strings.AutoBackupSetting[UserSettings.CurrentLang];
+  AutoBackupSettingTitle.innerText =
+    Strings.AutoBackupSetting[UserSettings.CurrentLang];
   AutoBackupSettingContainer.appendChild(AutoBackupSettingTitle);
   AutoBackupSettingContainer.appendChild(AutoBackupSettingSelectBox);
   SettingItemsContainer.appendChild(AutoBackupSettingContainer);
   // Auto Backup Setting Options
   const DisableAutoBackupOption = document.createElement("option");
-  DisableAutoBackupOption.innerText = Strings.DisableOption[UserSettings.CurrentLang];
+  DisableAutoBackupOption.innerText =
+    Strings.DisableOption[UserSettings.CurrentLang];
   DisableAutoBackupOption.id = "disable-auto-backup-option";
   const EnableAutoBackupOption = document.createElement("option");
-  EnableAutoBackupOption.innerText = Strings.EnableOption[UserSettings.CurrentLang];
+  EnableAutoBackupOption.innerText =
+    Strings.EnableOption[UserSettings.CurrentLang];
   EnableAutoBackupOption.id = "enable-auto-backup-option";
   AutoBackupSettingSelectBox.appendChild(DisableAutoBackupOption);
   AutoBackupSettingSelectBox.appendChild(EnableAutoBackupOption);
@@ -156,25 +168,29 @@ function DisplaySettings() {
   DatePickerSettingTitle.className = "setting-title";
   DatePickerSettingTitle.id = "date-picker-setting-title";
   DatePickerSettingSelectBox.className = "setting-select-box";
-  DatePickerSettingTitle.innerText = Strings.DatePickerSetting[UserSettings.CurrentLang];
+  DatePickerSettingTitle.innerText =
+    Strings.DatePickerSetting[UserSettings.CurrentLang];
   DatePickerSettingContainer.appendChild(DatePickerSettingTitle);
   DatePickerSettingContainer.appendChild(DatePickerSettingSelectBox);
   SettingItemsContainer.appendChild(DatePickerSettingContainer);
   // DatePicker Setting Options
   const LunarDatePickerOption = document.createElement("option");
-  LunarDatePickerOption.innerText = Strings.LunarOption[UserSettings.CurrentLang];
+  LunarDatePickerOption.innerText =
+    Strings.LunarOption[UserSettings.CurrentLang];
   LunarDatePickerOption.id = "lunar-option";
   LunarDatePickerOption.addEventListener("click", () => {
     DatePickerSwitcher("Lunar");
   });
   const SolarDatePickerOption = document.createElement("option");
-  SolarDatePickerOption.innerText = Strings.SolarOption[UserSettings.CurrentLang];
+  SolarDatePickerOption.innerText =
+    Strings.SolarOption[UserSettings.CurrentLang];
   SolarDatePickerOption.id = "solar-option";
   SolarDatePickerOption.addEventListener("click", () => {
     DatePickerSwitcher("Solar");
   });
   const GregorianDatePickerOption = document.createElement("option");
-  GregorianDatePickerOption.innerText = Strings.GregorianOption[UserSettings.CurrentLang];
+  GregorianDatePickerOption.innerText =
+    Strings.GregorianOption[UserSettings.CurrentLang];
   GregorianDatePickerOption.id = "gregorian-option";
   GregorianDatePickerOption.addEventListener("click", () => {
     DatePickerSwitcher("Gregorian");
@@ -224,7 +240,8 @@ function DisplaySettings() {
   DarkThemeOption.id = "dark-theme-option";
   DarkThemeOption.value = "Dark";
   const LightThemeOption = document.createElement("option");
-  LightThemeOption.innerText = Strings.LightThemeOption[UserSettings.CurrentLang];
+  LightThemeOption.innerText =
+    Strings.LightThemeOption[UserSettings.CurrentLang];
   LightThemeOption.id = "light-theme-option";
   LightThemeOption.value = "Light";
   const NeonThemeOption = document.createElement("option");
@@ -243,25 +260,28 @@ function DisplaySettings() {
   CloudStorgeButtonText.className = "side-bar-item-text";
   CloudStorgeButton.id = "cloud-storge-button";
   CloudStorgeButtonText.id = "cloud-storge-button-text";
-  CloudStorgeButtonText.innerText = Strings.CouldStorgeButton[UserSettings.CurrentLang];
+  CloudStorgeButtonText.innerText =
+    Strings.CouldStorgeButton[UserSettings.CurrentLang];
   CloudStorgeButton.addEventListener("click", () => {});
   CloudStorgeButton.appendChild(CloudStorgeButtonIcon);
   CloudStorgeButton.appendChild(CloudStorgeButtonText);
   SettingItemsContainer.appendChild(CloudStorgeButton);
   // Generate BackUp section
-  const GenerateBackUpFileButton = document.createElement("button");
-  const GenerateBackUpFileButtonIcon = document.createElement("img");
-  const GenerateBackUpFileButtonText = document.createElement("span");
-  GenerateBackUpFileButtonIcon.className = "side-bar-item-icon";
-  GenerateBackUpFileButtonIcon.src = IconsSrc.GenerateBackupIcon[UserSettings.Theme];
-  GenerateBackUpFileButtonText.className = "side-bar-item-text";
-  GenerateBackUpFileButton.id = "generate-backup-button";
-  GenerateBackUpFileButtonText.id = "generate-backup-button-text";
-  GenerateBackUpFileButtonText.innerText = Strings.GenerateBackUpButton[UserSettings.CurrentLang];
-  GenerateBackUpFileButton.addEventListener("click", () => {});
-  GenerateBackUpFileButton.appendChild(GenerateBackUpFileButtonIcon);
-  GenerateBackUpFileButton.appendChild(GenerateBackUpFileButtonText);
-  SettingItemsContainer.appendChild(GenerateBackUpFileButton);
+  const BackUpOptions = document.createElement("button");
+  const BackUpOptionsIcon = document.createElement("img");
+  const BackUpOptionsText = document.createElement("span");
+  BackUpOptionsIcon.className = "side-bar-item-icon";
+  BackUpOptionsIcon.src = IconsSrc.GenerateBackupIcon[UserSettings.Theme];
+  BackUpOptionsText.className = "side-bar-item-text";
+  BackUpOptions.id = "generate-backup-button";
+  BackUpOptionsText.id = "generate-backup-button-text";
+  BackUpOptionsText.innerText = Strings.BackUp[UserSettings.CurrentLang];
+  BackUpOptions.addEventListener("click", () => {
+    console.log("d");
+    BackUpModal();
+  });
+  BackUpOptions.append(BackUpOptionsIcon, BackUpOptionsText);
+  SettingItemsContainer.appendChild(BackUpOptions);
   //
   void SettingsContainer.offsetWidth;
   SettingsContainer.classList.add("setting-in");
@@ -294,11 +314,19 @@ function DatePickerSwitcher(Type) {
   localStorage.setItem("DatePickerType", Type);
 }
 function LoadUserSettings() {
-  UserSettings.CurrentLang = localStorage.getItem("Lang") ? localStorage.getItem("Lang") : "en";
-  UserSettings.Theme = localStorage.getItem("Theme") ? localStorage.getItem("Theme") : "Dark";
+  UserSettings.CurrentLang = localStorage.getItem("Lang")
+    ? localStorage.getItem("Lang")
+    : "en";
+  UserSettings.Theme = localStorage.getItem("Theme")
+    ? localStorage.getItem("Theme")
+    : "Dark";
   document.body.className = UserSettings.Theme;
-  UserSettings.Calendar = localStorage.getItem("DatePickerType") ? localStorage.getItem("DatePickerType") : "Gregorian";
-  DatePickerSettings.type = localStorage.getItem("DatePickerType") ? localStorage.getItem("DatePickerType") : "Gregorian";
+  UserSettings.Calendar = localStorage.getItem("DatePickerType")
+    ? localStorage.getItem("DatePickerType")
+    : "Gregorian";
+  DatePickerSettings.type = localStorage.getItem("DatePickerType")
+    ? localStorage.getItem("DatePickerType")
+    : "Gregorian";
 }
 function DisplayUserSettingIntoDom() {
   // Lang

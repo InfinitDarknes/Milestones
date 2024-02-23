@@ -4,12 +4,87 @@
   align-items: center;
   justify-content: flex-start;
   position: absolute;
+  top: 100px;
   z-index: 100;
   width: 350px;
   height: fit-content;
   padding: 10px;
   background-color: #1b1a1d;
   border-radius: 5px;
+}
+#modal-buttons-container {
+  order: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#modal-sub-page {
+  order: 1;
+  width: calc(100% - 30px);
+  padding: 0 15px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#return-button {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  margin: 5px 0;
+  font-size: 1.2em;
+}
+.modal-title {
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  text-align: center;
+}
+.modal-text-area {
+  width: calc(100% - 16px);
+  height: 100px;
+  resize: none;
+  margin-bottom: 15px;
+  border: 0;
+  scrollbar-width: thin;
+  padding: 8px;
+}
+.modal-description {
+  margin-bottom: 15px;
+  font-family: Vazir;
+  text-align: justify;
+  font-size: 1em;
+}
+#copy-to-clipboard-button,
+#restore-button {
+  width: 100%;
+  height: 40px;
+  border: 0;
+  border-radius: 5px;
+  font-size: 1.2em;
+  margin: 5px 0;
+}
+#modal-buttons-container {
+  order: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.modal-button {
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  border: 0;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+.modal-button-text {
+  font-size: 1.3em;
+  font-family: Vazir;
 }
 #close-btn {
   order: 1;
