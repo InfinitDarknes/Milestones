@@ -8,6 +8,7 @@
 @import url("../UserCategoryPage/user_category_page_ltr.css");
 @import url("../ContextMenu/context_menu_ltr.css");
 @import url("../Animation/animation_ltr.css");
+@import url("../SelectBar/select_bar_ltr.css");
 
 @font-face {
   font-family: vazir;
@@ -28,6 +29,14 @@
 @font-face {
   font-family: dastnevis;
   src: url(../../Fonts/danstevis.otf);
+}
+#overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  background-color: #000;
+  opacity: 0;
 }
 #preloader {
   width: 100%;

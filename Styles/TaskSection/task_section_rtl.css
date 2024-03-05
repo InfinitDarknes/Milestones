@@ -113,6 +113,10 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+/*add padding-bottom class to list section when select bar apears so they do not colide with each other*/
+#list-section.padding-bottom {
+  padding: 20px 20px 60px 20px;
+}
 
 /* Custom Scrollbar Styling */
 #list-section::-webkit-scrollbar {

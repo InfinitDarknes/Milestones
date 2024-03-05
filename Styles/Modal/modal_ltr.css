@@ -105,7 +105,11 @@
   justify-content: flex-start;
   margin: 10px 0;
 }
+#move-to-trash-checkbox {
+  order: 1;
+}
 #move-to-trash-text {
+  order: 2;
   font-size: 1.1em;
 }
 #modal-button-container {

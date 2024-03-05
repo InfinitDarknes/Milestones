@@ -1,253 +1,280 @@
 /*Light*/
-/* Select All Section */
+:root {
+  /*bgc = background color*/
+  --dark-body-bgc: #3a4166;
+  --dark-main: #232d3f;
+  --light-main: #fff;
+  --dark-task-container-bgc: #3a4166;
+  --black: #1b1a1d;
+  --white: #dad6d6;
+  --green: #40c057;
+  --grey: #2e3843;
+  --yellow: #ffc069;
+  --bronze: #f3ead3;
+  --red: #fe4545;
+  --actual-white: #fff;
+}
+
 .Light .hovered {
-  background-color: #ffc069 !important;
+  background-color: var(--yellow) !important;
 }
 .Light #select-all-section {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light #tasks-section {
-  background-color: #fff;
+  background-color: var(--light-main);
 }
 .Light .sort-buttons {
-  background: #dad6d6;
-  color: #1b1a1d;
+  background: var(--white);
+  color: var(--black);
 }
 .Light .sort-buttons:hover {
   transform: scale(1.1);
-  background: #ffc069 !important;
+  background: var(--yellow) !important;
 }
 
 .Light #search-bar {
-  background: #dad6d6;
-  color: #1b1a1d;
+  background: var(--white);
+  color: var(--black);
 }
 .Light .hover-title {
-  background-color: #fff9e3;
+  background-color: var(--light-main) 9e3;
 }
 .Light .task-container {
-  background: #dad6d6;
+  background: var(--white);
 }
 .Light .task-title {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light .date-container {
-  background: #ffc069;
+  background: var(--yellow);
 }
 .Light .task-date {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light .failed-task-badge,
 .Light .completed-task-badge,
 .Light .category-badge {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light .task-time {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light #empty-box-text {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light #side-bar {
-  background: #fff;
+  background: var(--light-main);
 }
 .Light .side-bar-item {
   font-family: SpaceGrotesk;
-  background: #dad6d6;
-  color: #1b1a1d;
+  background: var(--white);
+  color: var(--black);
 }
 .Light .side-bar-item:hover {
-  background-color: #ffc069 !important;
+  background-color: var(--yellow) !important;
   transform: scale(1.1) !important;
 }
 
 .Light #full-date {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light #time {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light .user-category-name {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light #settings-container {
-  background: #dad6d6;
+  background: var(--white);
 }
 .Light #settings-header {
-  border-bottom: 3px solid #fff;
+  border-bottom: 3px solid var(--light-main);
 }
 .Light #settings-title {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light .setting-item {
-  background-color: #fff;
+  background-color: var(--light-main);
 }
 .Light .setting-select-box {
-  color: #1b1a1d;
-  background-color: #dad6d6;
+  color: var(--black);
+  background-color: var(--white);
 }
 .Light .setting-select-box option {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light .setting-title {
-  color: #1b1a1d;
+  color: var(--black);
+}
+.Light input[type="range"]::-webkit-slider-runnable-track {
+  background-color: var(--yellow);
+}
+.Light input[type="range"]::-moz-range-track {
+  background-color: var(--yellow);
+}
+.Light input[type="range"]::-webkit-slider-thumb {
+  background-color: var(--white);
+}
+.Light input[type="range"]::-moz-range-thumb {
+  background-color: var(--white);
 }
 .Light #generate-backup-button {
-  background: #fff;
-  color: #1b1a1d;
+  background: var(--light-main);
+  color: var(--black);
 }
 .Light #cloud-storge-button {
-  background: #fff;
-  color: #1b1a1d;
+  background: var(--light-main);
+  color: var(--black);
 }
 .Light #modal-container {
-  background-color: #fff;
-  box-shadow: 0px 0px 20px 10px #000;
+  background-color: var(--light-main);
+  box-shadow: 0px 0px 20px 10px var(--black);
 }
 .Light #modal-text {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light #move-to-trash-text {
-  color: #ffc069;
+  color: var(--black);
 }
 .Light #confirm-btn,
 .Light #cancel-btn {
-  color: #1b1a1d;
+  color: var(--actual-white);
 }
 .Light .green-btn {
-  background-color: #40c057;
-  color: #1b1a1d;
+  background-color: var(--green);
+  color: var(--actual-white);
 }
 .Light .red-btn {
-  background-color: #ff4545;
-  color: #1b1a1d;
+  background-color: var(--red);
+  color: var(--actual-white);
 }
 .Light .modal-button {
-  background-color: #1b1a1d;
+  background-color: var(--white);
 }
 .Light .modal-button-text {
-  color: #dad6d6;
+  color: var(--black);
 }
 .Light .modal-title {
-  color: #dad6d6;
+  color: var(--black);
 }
 .Light .modal-description {
-  color: #dad6d6;
+  color: var(--black);
 }
 .Light .modal-text-area {
-  background-color: #1b1a1d;
-  color: #dad6d6;
+  background-color: var(--white);
+  color: var(--black);
 }
 .Light #select-category-select-box {
-  background-color: #dad6d6;
-  color: #1b1a1d;
+  background-color: var(--white);
+  color: var(--black);
 }
 .Light .task-input {
-  background-color: #dad6d6;
+  background-color: var(--white);
 }
 .Light .badge {
-  background: #ffc069;
-  border-bottom: 1px solid #1b1a1d;
-  color: #1b1a1d;
+  background: transparent;
+  border-bottom: 3px solid var(--grey);
+  color: var(--black);
 }
 .Light .badge-modified {
-  background: #ffc069;
-  border: 1px solid #1b1a1d;
-  color: #1b1a1d;
+  background: var(--yellow);
+  border: 1px solid var(--black);
+  color: var(--black);
 }
 .Light .character-limit {
-  border: 1px solid #1b1a1d;
-  color: #1b1a1d;
-  background: #ffc069;
+  border: 1px solid var(--black);
+  color: var(--black);
+  background: var(--yellow);
 }
 .Light .pick-category-icon-button {
-  background-color: #264261;
+  background-color: var(--grey);
 }
 .Light #preloader {
-  background-color: #fff;
+  background-color: var(--light-main);
 }
 .Light #preloader-text {
-  color: #1b1a1d;
+  color: var(--black);
 }
 body.Light {
-  background: #dad6d6;
+  background: var(--white);
 }
 .Light #date-picker {
-  background-color: #f3ead3;
+  background-color: var(--bronze);
 }
 .Light #pick-year-month-container {
-  background-color: #f3ead3;
+  background-color: var(--bronze);
 }
 .Light #pick-year-month-container button {
-  background-color: #dad6d6;
+  background-color: var(--white);
 }
 .Light #year,
 .Light #month {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light .pick-day-button {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light .pick-day-button:hover {
-  background-color: #ffc069;
+  background-color: var(--yellow);
 }
 .Light #pick-today-button,
 .Light #pick-tomorrow-button,
 .Light #pick-in-2-days-button {
-  background-color: #dad6d6;
-  color: #1b1a1d;
+  background-color: var(--white);
+  color: var(--black);
 }
 .Light #pick-today-button:hover,
 .Light #pick-tomorrow-button:hover,
 .Light #pick-in-2-days-button:hover {
-  background-color: #ffc069;
+  background-color: var(--yellow);
 }
 .Light .time-picker-input {
-  background-color: #dad6d6;
+  background-color: var(--white);
 }
 .Light .tweak-time-buttons button {
-  background-color: #dad6d6;
+  background-color: var(--white);
 }
 .Light #context-menu {
-  background-color: #fff9e3;
+  background-color: var(--bronze);
 }
 .Light .context-menu-item {
-  background-color: #fff9e3;
+  background-color: var(--bronze);
 }
 .Light .context-menu-item:not(.disabled):hover {
-  background-color: #ffc069;
+  background-color: var(--yellow);
 }
 
 .Light .context-menu-text {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light #top-bar {
-  background: #fff;
+  background: var(--light-main);
 }
 .Light #display-text {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light #trash-bin-section {
-  background-color: #fff;
+  background-color: var(--light-main);
 }
 .Light #trash-bin-header {
-  background-color: #dad6d6;
+  background-color: var(--white);
 }
 .Light #trash-bin-title {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light .trashed-task-badge {
-  color: #fff;
-  background-color: #ff4545;
+  color: var(--light-main);
+  background-color: var(--red);
 }
 .Light #user-category-page {
-  background-color: #fff;
+  background-color: var(--light-main);
 }
 .Light #user-category-page-header {
-  background-color: #dad6d6;
+  background-color: var(--white);
 }
 .Light #user-category-page-title {
-  color: #1b1a1d;
+  color: var(--black);
 }
 .Light .checkmark {
   --clr: #008ffd;
@@ -256,7 +283,25 @@ body.Light {
   left: 0;
   height: 1.2em;
   width: 1.2em;
-  background-color: #f3ead3;
+  background-color: var(--bronze);
   border-radius: 50%;
   transition: 300ms;
+}
+/*Select bar*/
+.Light #select-bar {
+  background-color: var(--bronze);
+}
+.Light #selected-items {
+  color: var(--black);
+}
+.Light #exit-select-mode-btn {
+  background-color: var(--red);
+  color: var(--actual-white);
+}
+.Light .select-bar-task-btn {
+  background-color: var(--white);
+  color: var(--black);
+}
+.Light .select-bar-task-btn:hover {
+  background-color: var(--yellow);
 }

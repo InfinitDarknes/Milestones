@@ -116,9 +116,12 @@
   justify-content: flex-start;
   margin: 10px 0;
 }
+#move-to-trash-checkbox {
+  order: 1;
+}
 #move-to-trash-text {
+  order: 2;
   font-size: 1.1em;
-  color: #fed402;
 }
 #modal-button-container {
   order: 7;
@@ -205,6 +208,7 @@
 }
 .badge {
   position: absolute;
+  text-align: center;
   width: 95%;
   right: 14px;
   top: -17px;
@@ -272,7 +276,7 @@
   display: grid;
   grid-template-columns: repeat(24, 1fr);
   overflow-x: scroll;
-  scrollbar-width: thin;
+  scrollbar-width: none;
   padding: 35px 0 24px 0;
 }
 .color-pallet {
@@ -327,7 +331,7 @@
   display: grid;
   grid-template-columns: repeat(18, 1fr);
   overflow-x: scroll;
-  scrollbar-width: thin;
+  scrollbar-width: none;
   padding: 35px 0 24px 0;
 }
 .pick-category-icon-button {

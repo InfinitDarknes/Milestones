@@ -10,6 +10,7 @@
   justify-content: center;
   align-items: center;
   background: #2e3843;
+  z-index: 200;
 }
 .setting-in {
   transform: translateX(480%);
@@ -54,7 +55,7 @@
   overflow-y: scroll;
   scrollbar-width: thin;
 }
-#setting-items-container::-webkit-scrollbar{
+#setting-items-container::-webkit-scrollbar {
   display: none;
 }
 .setting-item {
@@ -67,6 +68,35 @@
   border-radius: 5px;
   padding: 10px;
   margin: 10px 0;
+}
+input[type="range"] {
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 10px;
+}
+input[type="range"]::-moz-range-track {
+  height: 7px;
+  border-radius: 20px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 0;
+  outline: 0;
+}
+input[type="range"]::-moz-range-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 0;
+  outline: 0;
 }
 .setting-select-box {
   position: absolute;
@@ -95,7 +125,7 @@
   margin: 0 0 0 15px;
 }
 /*Generate Backup and Cloudstorge section*/
-#generate-backup-button{
+#generate-backup-button {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -110,7 +140,7 @@
   color: #dad6d6;
   transition: all 0.5s;
 }
-#cloud-storge-button{
+#cloud-storge-button {
   position: relative;
   display: flex;
   flex-direction: row;
