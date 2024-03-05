@@ -6,7 +6,8 @@ const UserSettings = {
   AutoBackUp: null,
   Calendar: null,
   ClockFormat: null,
-  Theme: "Light",
+  Brightness: null,
+  Theme: null,
 };
 function DisplaySettings() {
   if (DoesElementExist("settings-container")) return;
@@ -32,6 +33,24 @@ function DisplaySettings() {
   SettingsContainer.appendChild(SettingHeader);
   SettingsContainer.appendChild(SettingItemsContainer);
   document.body.appendChild(SettingsContainer);
+  // Brightness settings
+  const BrightnessSettingContainer = document.createElement("section");
+  const BrightnessSettingTitle = document.createElement("span");
+  const BrightnessBar = document.createElement("input");
+  BrightnessSettingContainer.className = "setting-item";
+  BrightnessSettingTitle.className = "setting-title";
+  BrightnessBar.id = "brightness-bar";
+  BrightnessBar.type = "range";
+  BrightnessBar.min = "10";
+  BrightnessBar.max = "100";
+  BrightnessBar.value = "100";
+  BrightnessSettingTitle.innerText =
+    Strings.Brightness[UserSettings.CurrentLang];
+  BrightnessSettingTitle.id = "language-setting-title";
+  BrightnessBar.id = "brightness-bar";
+  BrightnessBar.addEventListener("input", ChangeBrightness);
+  BrightnessSettingContainer.append(BrightnessSettingTitle, BrightnessBar);
+  SettingItemsContainer.appendChild(BrightnessSettingContainer);
   // Lang
   const LanguageSettingContainer = document.createElement("section");
   const LanguageSettingTitle = document.createElement("span");
@@ -308,6 +327,13 @@ function ThemeSwitcher(Theme) {
   document.body.className = Theme;
   location.reload();
 }
+function ChangeBrightness() {
+  let BrightnessValue = document.getElementById("brightness-bar").value;
+  let Overlay = document.getElementById("overlay");
+  UserSettings.Brightness = BrightnessValue;
+  localStorage.setItem("Brightness", BrightnessValue.toString());
+  Overlay.style.opacity = 100 - UserSettings.Brightness + "%";
+}
 function DatePickerSwitcher(Type) {
   UserSettings.Calendar = Type;
   DatePickerSettings.type = Type;
@@ -321,12 +347,18 @@ function LoadUserSettings() {
     ? localStorage.getItem("Theme")
     : "Dark";
   document.body.className = UserSettings.Theme;
+  //
   UserSettings.Calendar = localStorage.getItem("DatePickerType")
     ? localStorage.getItem("DatePickerType")
     : "Gregorian";
   DatePickerSettings.type = localStorage.getItem("DatePickerType")
     ? localStorage.getItem("DatePickerType")
     : "Gregorian";
+  UserSettings.Brightness = localStorage.getItem("Brightness")
+    ? localStorage.getItem("Brightness")
+    : 100;
+  const Overlay = document.getElementById("overlay");
+  Overlay.style.opacity = 100 - UserSettings.Brightness + "%";
 }
 function DisplayUserSettingIntoDom() {
   // Lang
@@ -369,5 +401,9 @@ function DisplayUserSettingIntoDom() {
       const Neon = document.getElementById("neon-theme-option");
       Neon.selected = true;
       break;
+  }
+  if (UserSettings.Brightness) {
+    const BrightnessBar = document.getElementById("brightness-bar");
+    BrightnessBar.value = UserSettings.Brightness;
   }
 }

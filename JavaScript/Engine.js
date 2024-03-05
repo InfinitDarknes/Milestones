@@ -1,6 +1,7 @@
 window.onload = function () {
-  setTimeout(HidePreLoader, 1000);
   LoadUserSettings();
+  PreLoader();
+  setTimeout(HidePreLoader, 1000);
   LoadCurrentDate();
   FixDirection();
   LoadSave();
@@ -24,12 +25,28 @@ window.onload = function () {
   document.addEventListener("keydown", (Event) => {
     ShortCutManager(Event);
   });
+  window.addEventListener("resize", (Event) => {
+    AlignModalAtCenter();
+  });
 };
+function PreLoader() {
+  const PreLoader = document.createElement("section");
+  PreLoader.id = "preloader";
+  const PreLoaderIcon = document.createElement("img");
+  PreLoaderIcon.id = "preloader-icon";
+  PreLoaderIcon.src = IconsSrc.PreLoaderGif[UserSettings.Theme];
+  const PreLoaderText = document.createElement("span");
+  PreLoaderText.id = "preloader-text";
+  PreLoaderText.innerText = Strings.Loading[UserSettings.CurrentLang];
+  PreLoader.append(PreLoaderIcon, PreLoaderText);
+  document.body.append(PreLoader);
+}
 function HidePreLoader() {
-  const PreLoader = document.getElementById("preloader");
+  let PreLoader = document.querySelector("#preloader");
   PreLoader.style.opacity = "0";
   setTimeout(() => {
-    PreLoader.style.display = "none";
+    PreLoader.style.opacity = "0";
+    PreLoader.remove();
   }, 1000);
 }
 function CheckForSave(Item) {
@@ -44,7 +61,8 @@ function LoadSave() {
       Task.Selected = false;
     });
   }
-  if (CheckForSave("UserCategories")) UserCategoriesArray = JSON.parse(localStorage.getItem("UserCategories"));
+  if (CheckForSave("UserCategories"))
+    UserCategoriesArray = JSON.parse(localStorage.getItem("UserCategories"));
 }
 function ShortCutManager(Event) {
   const SearchBar = document.getElementById("search-bar");

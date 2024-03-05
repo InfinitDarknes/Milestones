@@ -265,87 +265,16 @@ function ExtractDate(Request, DateType) {
 }
 // Functions that change the input values of datepicker and manuplate what user sees
 function CreateDatePicker(ID) {
+  // Interval variables for fast increament/decreament on mouse down and up
+  let FastHourIncreament, FastHourDecreament, FastMinuteIncreament, FastMinuteDecreament;
   TargetInputID = ID;
   const TargetInput = document.getElementById(ID.toString());
+  // Declear elements
   const DatePickerElement = document.createElement("div");
-  DatePickerElement.id = "date-picker";
-  let DatePickerHeader;
-  DatePickerHeader = document.createElement("div");
-  DatePickerHeader.id = "date-picker-header";
-  //
-  const PickTodayBtn = document.createElement("button");
-  PickTodayBtn.id = "pick-today-button";
-  PickTodayBtn.innerText = DPStrings.PickTodayButton[UserSettings.CurrentLang];
-  //
-  const PickTomorrowBtn = document.createElement("button");
-  PickTomorrowBtn.id = "pick-tomorrow-button";
-  PickTomorrowBtn.innerText = DPStrings.PickTomorrowButton[UserSettings.CurrentLang];
-  //
+  const DatePickerHeader = document.createElement("section");
+  const PickTodayButton = document.createElement("button");
+  const PickTomorrowButton = document.createElement("button");
   const PickIn2DaysButton = document.createElement("button");
-  PickIn2DaysButton.id = "pick-in-2-days-button";
-  PickIn2DaysButton.innerText = DPStrings.PickIn2DaysButton[UserSettings.CurrentLang];
-  DatePickerHeader.append(PickTodayBtn, PickTomorrowBtn, PickIn2DaysButton);
-  // Create the main container div
-  const container = document.createElement("div");
-  container.id = "time-picker";
-  // Create the first time picker section
-  const timePickerInnerContainer1 = document.createElement("div");
-  timePickerInnerContainer1.className = "time-picker-inner-container";
-  //
-  const taskHourInput = document.createElement("input");
-  taskHourInput.type = "text";
-  taskHourInput.id = "task-hour-input";
-  taskHourInput.className = "time-picker-input";
-  //
-  const tweakTimeButtons1 = document.createElement("div");
-  tweakTimeButtons1.className = "tweak-time-buttons";
-  let FastIncreament, FastDecreament;
-  const IncreamentHourButton = document.createElement("button");
-  IncreamentHourButton.id = "increament-hour";
-  const increaseHourImage = document.createElement("img");
-  increaseHourImage.src = IconsSrc.UpArrowIcon[UserSettings.Theme];
-  IncreamentHourButton.addEventListener("click", IncreamentHour);
-  IncreamentHourButton.appendChild(increaseHourImage);
-  const DecreamentHourButton = document.createElement("button");
-  DecreamentHourButton.id = "decreament-hour";
-  const decreaseHourImage = document.createElement("img");
-  decreaseHourImage.src = IconsSrc.DownArrowIcon[UserSettings.Theme];
-  DecreamentHourButton.addEventListener("click", DecreamentHour);
-  DecreamentHourButton.appendChild(decreaseHourImage);
-  tweakTimeButtons1.append(IncreamentHourButton, DecreamentHourButton);
-  timePickerInnerContainer1.append(taskHourInput, tweakTimeButtons1);
-  // Create the separator span element
-  const timePickerSeparator = document.createElement("span");
-  timePickerSeparator.id = "time-picker-separator";
-  const separatorImage = document.createElement("img");
-  separatorImage.src = IconsSrc.SeperatorIcon[UserSettings.Theme];
-  timePickerSeparator.appendChild(separatorImage);
-  // Create the second time picker section
-  const timePickerInnerContainer2 = document.createElement("div");
-  timePickerInnerContainer2.className = "time-picker-inner-container";
-  const taskMinuteInput = document.createElement("input");
-  taskMinuteInput.type = "text";
-  taskMinuteInput.id = "task-minute-input";
-  taskMinuteInput.className = "time-picker-input";
-  const tweakTimeButtons2 = document.createElement("div");
-  tweakTimeButtons2.className = "tweak-time-buttons";
-  const IncreamentMinuteButton = document.createElement("button");
-  IncreamentMinuteButton.id = "increament-minute";
-  const increaseMinuteImage = document.createElement("img");
-  increaseMinuteImage.src = IconsSrc.UpArrowIcon[UserSettings.Theme];
-  IncreamentMinuteButton.addEventListener("click", IncreamentMinute);
-  IncreamentMinuteButton.appendChild(increaseMinuteImage);
-  const DecreamenMinuteButton = document.createElement("button");
-  DecreamenMinuteButton.id = "decreament-minute";
-  const decreaseMinuteImage = document.createElement("img");
-  decreaseMinuteImage.src = IconsSrc.DownArrowIcon[UserSettings.Theme];
-  DecreamenMinuteButton.addEventListener("click", DecreamentMinute);
-  DecreamenMinuteButton.appendChild(decreaseMinuteImage);
-  tweakTimeButtons2.append(IncreamentMinuteButton, DecreamenMinuteButton);
-  timePickerInnerContainer2.append(taskMinuteInput, tweakTimeButtons2);
-  // Append all elements to the main container div
-  container.append(timePickerInnerContainer1, timePickerSeparator, timePickerInnerContainer2);
-  //
   const PickYearMonthContainer = document.createElement("div");
   const NextMonthButton = document.createElement("button");
   const PreviousMonthButton = document.createElement("button");
@@ -354,54 +283,156 @@ function CreateDatePicker(ID) {
   const YearMonthContainer = document.createElement("div");
   const Month = document.createElement("span");
   const Year = document.createElement("span");
+  const DayButtonsContainer = document.createElement("div");
+  for (Counter = 1; Counter <= 31; Counter++) {
+    const PickDayButton = document.createElement("button");
+    PickDayButton.className = "pick-day-button";
+    PickDayButton.id = "Day-" + Counter;
+    PickDayButton.setAttribute("data-day", Counter);
+    PickDayButton.innerText = Counter;
+    DayButtonsContainer.append(PickDayButton);
+    PickDayButton.addEventListener("click", () => {
+      PickDays(PickDayButton.innerText);
+    });
+  }
+  const TimePickerElement = document.createElement("section");
+  const TimePickerHourSection = document.createElement("section");
+  const HourInput = document.createElement("input");
+  const TweakHourButtonsContainer = document.createElement("div");
+  const IncreamentHourButton = document.createElement("button");
+  const IncreamentHourButtonIcon = document.createElement("img");
+  const DecreamentHourButton = document.createElement("button");
+  const DecreamentHourButtonIcon = document.createElement("img");
+  const TimePickerSeperator = document.createElement("span");
+  const TimePickerSeperatorIcon = document.createElement("img");
+  const TimePickerMinuteSection = document.createElement("div");
+  const MinuteInput = document.createElement("input");
+  const TweakMinuteButtonsContainer = document.createElement("div");
+  const IncreamentMinuteButton = document.createElement("button");
+  const IncreamentMinuteButtonIcon = document.createElement("img");
+  const DecreamenMinuteButton = document.createElement("button");
+  const DecreamenMinuteButtonIcon = document.createElement("img");
+  // Assign class names
+  TimePickerHourSection.className = "time-picker-inner-container";
+  HourInput.className = "time-picker-input";
+  TweakHourButtonsContainer.className = "tweak-time-buttons";
+  TimePickerMinuteSection.className = "time-picker-inner-container";
+  MinuteInput.className = "time-picker-input";
+  TweakMinuteButtonsContainer.className = "tweak-time-buttons";
+  // Assign id
+  DatePickerElement.id = "date-picker";
+  DatePickerHeader.id = "date-picker-header";
+  PickTodayButton.id = "pick-today-button";
+  PickTomorrowButton.id = "pick-tomorrow-button";
+  PickIn2DaysButton.id = "pick-in-2-days-button";
   PickYearMonthContainer.id = "pick-year-month-container";
   NextMonthButton.id = "next-month";
   PreviousMonthButton.id = "previous-month";
   YearMonthContainer.id = "year-month-container";
   Month.id = "month";
   Year.id = "year";
+  DayButtonsContainer.id = "pick-days";
+  TimePickerElement.id = "time-picker";
+  HourInput.id = "task-hour-input";
+  IncreamentHourButton.id = "increament-hour";
+  DecreamentHourButton.id = "decreament-hour";
+  TimePickerSeperator.id = "time-picker-separator";
+  MinuteInput.id = "task-minute-input";
+  IncreamentMinuteButton.id = "increament-minute";
+  DecreamenMinuteButton.id = "decreament-minute";
+  // Assign innertText
+  PickTodayButton.innerText = DPStrings.PickTodayButton[UserSettings.CurrentLang];
+  PickTomorrowButton.innerText = DPStrings.PickTomorrowButton[UserSettings.CurrentLang];
+  PickIn2DaysButton.innerText = DPStrings.PickIn2DaysButton[UserSettings.CurrentLang];
+  // Assign src
   NextMonthButtonIcon.src = IconsSrc.RightArrowIcon[UserSettings.Theme];
   PreviousMonthButtonIcon.src = IconsSrc.LeftArrowIcon[UserSettings.Theme];
-  NextMonthButton.appendChild(NextMonthButtonIcon);
-  PreviousMonthButton.appendChild(PreviousMonthButtonIcon);
+  IncreamentHourButtonIcon.src = IconsSrc.UpArrowIcon[UserSettings.Theme];
+  DecreamentHourButtonIcon.src = IconsSrc.DownArrowIcon[UserSettings.Theme];
+  TimePickerSeperatorIcon.src = IconsSrc.SeperatorIcon[UserSettings.Theme];
+  IncreamentMinuteButtonIcon.src = IconsSrc.UpArrowIcon[UserSettings.Theme];
+  DecreamenMinuteButtonIcon.src = IconsSrc.DownArrowIcon[UserSettings.Theme];
+  // Assign type (inputs)
+  HourInput.type = "text";
+  MinuteInput.type = "text";
+  // Set event listeners
+  PickTodayButton.addEventListener("click", LoadToday);
+  PickTomorrowButton.addEventListener("click", LoadTomorrow);
+  PickIn2DaysButton.addEventListener("click", LoadIn2Days);
+  NextMonthButton.addEventListener("click", LoadNextMonth);
+  PreviousMonthButton.addEventListener("click", LoadPreviousMonth);
+  IncreamentHourButton.addEventListener("click", IncreamentHour);
+  DecreamentHourButton.addEventListener("click", DecreamentHour);
+  IncreamentMinuteButton.addEventListener("click", IncreamentMinute);
+  DecreamenMinuteButton.addEventListener("click", DecreamentMinute);
+  IncreamentHourButton.addEventListener("mousedown", () => {
+    FastHourIncreament = setInterval(() => {
+      IncreamentHour();
+    }, 100);
+  });
+  IncreamentHourButton.addEventListener("mouseup", () => {
+    clearInterval(FastHourIncreament);
+  });
+  IncreamentHourButton.addEventListener("mouseout", () => {
+    clearInterval(FastHourIncreament);
+  });
+  DecreamentHourButton.addEventListener("mousedown", () => {
+    FastHourDecreament = setInterval(() => {
+      DecreamentHour();
+    }, 100);
+  });
+  DecreamentHourButton.addEventListener("mouseup", () => {
+    clearInterval(FastHourDecreament);
+  });
+  DecreamentHourButton.addEventListener("mouseout", () => {
+    clearInterval(FastHourDecreament);
+  });
+  //
+  IncreamentMinuteButton.addEventListener("mousedown", () => {
+    FastMinuteIncreament = setInterval(() => {
+      IncreamentMinute();
+    }, 100);
+  });
+  IncreamentMinuteButton.addEventListener("mouseup", () => {
+    clearInterval(FastMinuteIncreament);
+  });
+  IncreamentMinuteButton.addEventListener("mouseout", () => {
+    clearInterval(FastMinuteIncreament);
+  });
+  DecreamenMinuteButton.addEventListener("mousedown", () => {
+    FastMinuteDecreament = setInterval(() => {
+      DecreamentMinute();
+    }, 100);
+  });
+  DecreamenMinuteButton.addEventListener("mouseup", () => {
+    clearInterval(FastMinuteDecreament);
+  });
+  DecreamenMinuteButton.addEventListener("mouseout", () => {
+    clearInterval(FastMinuteDecreament);
+  });
+  // Appending elements
+  DatePickerHeader.append(PickTodayButton, PickTomorrowButton, PickIn2DaysButton);
+  NextMonthButton.append(NextMonthButtonIcon);
+  PreviousMonthButton.append(PreviousMonthButtonIcon);
   PickYearMonthContainer.append(PreviousMonthButton, YearMonthContainer, NextMonthButton);
   YearMonthContainer.append(Month, Year);
-  //
-  const PickDays = document.createElement("div");
-  PickDays.id = "pick-days";
-  for (Counter = 1; Counter <= 31; Counter++) {
-    let PickDaysButton = document.createElement("button");
-    PickDaysButton.className = "pick-day-button";
-    PickDaysButton.id = "Day-" + Counter;
-    PickDaysButton.setAttribute("data-Day", Counter);
-    PickDaysButton.innerText = Counter;
-    PickDays.appendChild(PickDaysButton);
-  }
-  DatePickerElement.append(DatePickerHeader, container, PickYearMonthContainer, PickDays);
+  TimePickerHourSection.append(HourInput, TweakHourButtonsContainer);
+  TweakHourButtonsContainer.append(IncreamentHourButton, DecreamentHourButton);
+  IncreamentHourButton.append(IncreamentHourButtonIcon);
+  DecreamentHourButton.append(DecreamentHourButtonIcon);
+  TimePickerSeperator.append(TimePickerSeperatorIcon);
+  TimePickerMinuteSection.append(MinuteInput, TweakMinuteButtonsContainer);
+  TweakMinuteButtonsContainer.append(IncreamentMinuteButton, DecreamenMinuteButton);
+  IncreamentMinuteButton.append(IncreamentMinuteButtonIcon);
+  DecreamenMinuteButton.append(DecreamenMinuteButtonIcon);
+  TimePickerElement.append(TimePickerHourSection, TimePickerSeperator, TimePickerMinuteSection);
+  DatePickerElement.append(DatePickerHeader, PickYearMonthContainer, DayButtonsContainer, TimePickerElement);
+  // Append all elements to the main container div
   TargetInput.parentNode.insertBefore(DatePickerElement, TargetInput.nextSibling);
-  AddDatePickerEventListeners();
   AssignWidthToDatePicker();
 }
 function HideDatePicker() {
   if (DoesElementExist("date-picker")) document.getElementById("date-picker").remove();
-}
-function AddDatePickerEventListeners() {
-  const PickTodayButton = document.getElementById("pick-today-button");
-  PickTodayButton.addEventListener("click", LoadToday);
-  const PickTomorrowButton = document.getElementById("pick-tomorrow-button");
-  PickTomorrowButton.addEventListener("click", LoadTomorrow);
-  const PickIn2DaysButton = document.getElementById("pick-in-2-days-button");
-  PickIn2DaysButton.addEventListener("click", LoadIn2Days);
-  const NextMonthButton = document.getElementById("next-month");
-  const PreviousMonthButton = document.getElementById("previous-month");
-  const DayButtons = document.querySelectorAll(".pick-day-button");
-  NextMonthButton.addEventListener("click", LoadNextMonth);
-  PreviousMonthButton.addEventListener("click", LoadPreviousMonth);
-  DayButtons.forEach((Button) => {
-    Button.addEventListener("click", () => {
-      PickDays(Button.innerText);
-    });
-  });
 }
 function UpdateDatePicker() {
   const TargetInput = document.getElementById(TargetInputID.toString());

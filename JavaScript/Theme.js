@@ -4,6 +4,11 @@ let HoverColor = {
   Neon: "",
 };
 let IconsSrc = {
+  PreLoaderGif: {
+    Dark: "Icons/PreLoader/DarkPreLoader.gif",
+    Light: "Icons/PreLoader/LightPreLoader.gif",
+    Neon: "Icons/PreLoader/PreLoadGif.gif",
+  },
   HomeIcon: {
     Dark: "Icons/DarkIcons/HomeIcon.png",
     Light: "Icons/LightIcons/HomeIcon.png",

@@ -587,8 +587,9 @@ function AppendSearchBar() {
 }
 // Appens all the task containers including normal/failed/completed/trashed
 function AppendTaskContainer(Tasks) {
+  const ListSection = document.getElementById("list-section");
+  let FragmentOfTaskContainers = document.createDocumentFragment();
   Tasks.forEach((Task) => {
-    const ListSection = document.getElementById("list-section");
     const TaskContainer = document.createElement("section");
     TaskContainer.className = "task-container";
     TaskContainer.id = Task.ID.toString();
@@ -690,6 +691,10 @@ function AppendTaskContainer(Tasks) {
         SelectTask(TaskID);
       }
     });
+    TaskContainer.addEventListener("dblclick", (Event) => {
+      let TaskID = Event.target.id;
+      if (!SelectMode) SelectTask(TaskID);
+    });
     TaskContainer.addEventListener("dragstart", (Event) => {
       Event.dataTransfer.setData("DragableElementID", Event.target.id);
     });
@@ -703,8 +708,9 @@ function AppendTaskContainer(Tasks) {
     TaskTitle.textContent = Task.Title;
     TaskDate.textContent = Task.DisplayDate;
     TaskTime.textContent = Task.DisplayTime;
-    ListSection.append(TaskContainer);
+    FragmentOfTaskContainers.append(TaskContainer);
   });
+  ListSection.append(FragmentOfTaskContainers);
 }
 function ClearListSection() {
   let ListSection = document.getElementById("list-section");
@@ -765,4 +771,93 @@ function HighLightSelectedSortButton(ID) {
     if (Button.id === ID) Button.classList.add("hovered");
     else Button.classList.remove("hovered");
   });
+}
+function DisplaySelectModeBar() {
+  if (DoesElementExist("select-bar")) {
+    const SelectedItemsElem = document.getElementById("selected-items");
+    SelectedItemsElem.innerText = `${ReturnSelectedTasks().length} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
+    return;
+  }
+  const ListSection = document.getElementById("list-section");
+  ListSection.classList.add("padding-bottom");
+  const SelectBar = document.createElement("div");
+  const SelectedItemsElem = document.createElement("span");
+  const ExistSelectModeButton = document.createElement("button");
+  const DeleteButton = document.createElement("button");
+  const MoveToTrashButton = document.createElement("button");
+  const FailButton = document.createElement("button");
+  const CompleteButton = document.createElement("button");
+  const RestoreButton = document.createElement("button");
+  // ID
+  SelectBar.id = "select-bar";
+  SelectedItemsElem.id = "selected-items";
+  ExistSelectModeButton.id = "exit-select-mode-btn";
+  // Class
+  DeleteButton.className = "select-bar-task-btn";
+  MoveToTrashButton.className = "select-bar-task-btn";
+  FailButton.className = "select-bar-task-btn";
+  CompleteButton.className = "select-bar-task-btn";
+  RestoreButton.className = "select-bar-task-btn";
+  ListSection.classList.add("padding-bottom");
+  //InnerHTML
+  SelectedItemsElem.innerText = `${ReturnSelectedTasks().length} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
+  ExistSelectModeButton.innerText = Strings.DeSelect[UserSettings.CurrentLang];
+  DeleteButton.innerText = Strings.Delete[UserSettings.CurrentLang];
+  MoveToTrashButton.innerText = Strings.MoveToTrash[UserSettings.CurrentLang];
+  FailButton.innerText = Strings.FailTask[UserSettings.CurrentLang];
+  CompleteButton.innerText = Strings.CompleteTask[UserSettings.CurrentLang];
+  RestoreButton.innerText = Strings.RestoreTask[UserSettings.CurrentLang];
+  // Event listener
+  ExistSelectModeButton.addEventListener("click", DeselectAll);
+  MoveToTrashButton.addEventListener("click", MoveToTrash);
+  FailButton.addEventListener("click", FailTask);
+  CompleteButton.addEventListener("click", CompleteTask);
+  // Append
+  SelectBar.append(ExistSelectModeButton, SelectedItemsElem, DeleteButton);
+  switch (CurrentWindow) {
+    case "Trash-All":
+    case "Trash-Today":
+    case "Trash-Tomorrow":
+    case "Trash-In2Days":
+      SelectBar.append(RestoreButton);
+      RestoreButton.addEventListener("click", RestoreFromTrash);
+      DeleteButton.addEventListener("click", () => {
+        DeleteModal("Trashed");
+      });
+      break;
+    case "Home-Unfinished":
+    case "Home-Today":
+    case "Home-Tomorrow":
+    case "Home-In2Days":
+    case "UserCategory-Unfinished":
+    case "UserCategory-Today":
+    case "UserCategory-Tomorrow":
+    case "UserCategory-In2Days":
+      SelectBar.append(MoveToTrashButton, FailButton, CompleteButton);
+      DeleteButton.addEventListener("click", () => {
+        DeleteModal("Normal");
+      });
+      break;
+    case "Home-Failed":
+      SelectBar.append(MoveToTrashButton, RestoreButton);
+      RestoreButton.addEventListener("click", RestoreFromFailed);
+      DeleteButton.addEventListener("click", () => {
+        DeleteModal("Failed");
+      });
+      break;
+    case "Home-Completed":
+      SelectBar.append(MoveToTrashButton, FailButton, RestoreButton);
+      RestoreButton.addEventListener("click", RestoreFromCompleted);
+      DeleteButton.addEventListener("click", () => {
+        DeleteModal("Completed");
+      });
+      break;
+  } //Append
+  document.body.append(SelectBar);
+}
+function HideSelectModeBar() {
+  const SelectBar = document.getElementById("select-bar");
+  const ListSection = document.getElementById("list-section");
+  if (SelectBar) SelectBar.remove();
+  if (ListSection) ListSection.classList.remove("padding-bottom");
 }

@@ -11,6 +11,10 @@ const Strings = {
     en: "Select",
     fa: "انتخاب",
   },
+  ItemsSelected: {
+    en: "Tasks are selected",
+    fa: "رویداد انتخاب شده است",
+  },
   DeSelect: {
     en: "Clear Selection",
     fa: "لغو انتخاب",
@@ -313,6 +317,14 @@ const Strings = {
   InsertBackUpTextPlaceHolder: {
     en: "Paste your backup text here",
     fa: "متن پشتیبان رو اینجا پیست کن",
+  },
+  Brightness: {
+    en: "Brightness",
+    fa: "روشنایی",
+  },
+  Loading: {
+    en: "Loading...",
+    fa: "در حال بارگذاری...",
   },
   CopyButton: {
     en: "Copy to clipboard",

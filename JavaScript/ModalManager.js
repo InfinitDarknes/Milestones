@@ -875,13 +875,14 @@ function CharacterLimit(ID) {
   CharacterLimitTag.innerText = `${Input.value.length}/${Input.maxLength}`;
 }
 function AlignModalAtCenter() {
+  if (!DoesElementExist("modal-container")) return;
   const Modal = document.getElementById("modal-container");
   const ModalWidth = Modal.clientWidth;
   const ModalHeight = Modal.clientHeight;
   const WindowWidth = window.innerWidth;
   const WindowHeight = window.innerHeight;
   const CenterX = (WindowWidth - ModalWidth) / 2;
-  const CenterY = (WindowHeight - ModalHeight) / 2;
+  const CenterY = (WindowHeight - ModalHeight) / 2.5;
   Modal.style.left = `${CenterX}px`;
   Modal.style.top = `${CenterY}px`;
 }
