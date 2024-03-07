@@ -61,8 +61,7 @@ function LoadSave() {
       Task.Selected = false;
     });
   }
-  if (CheckForSave("UserCategories"))
-    UserCategoriesArray = JSON.parse(localStorage.getItem("UserCategories"));
+  if (CheckForSave("UserCategories")) UserCategoriesArray = JSON.parse(localStorage.getItem("UserCategories"));
 }
 function ShortCutManager(Event) {
   const SearchBar = document.getElementById("search-bar");
@@ -75,3 +74,6 @@ function ShortCutManager(Event) {
     SearchBar.focus();
   }
 }
+document.body.addEventListener("contextmenu", (event) => {
+  console.log(event.target);
+});

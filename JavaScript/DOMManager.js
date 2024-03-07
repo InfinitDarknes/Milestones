@@ -698,6 +698,11 @@ function AppendTaskContainer(Tasks) {
     TaskContainer.addEventListener("dragstart", (Event) => {
       Event.dataTransfer.setData("DragableElementID", Event.target.id);
     });
+    TaskContainer.addEventListener("mouseover", (Event) => {
+      if (SelectMode) Event.target.style.cursor = "pointer";
+      else Event.target.style.cursor = "";
+    });
+
     if (Task.IsTaskPinned) {
       const PinBadge = document.createElement("img");
       PinBadge.className = "pinned-task-badge";

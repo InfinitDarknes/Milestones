@@ -125,8 +125,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
     SelectTask(Event.target.id);
     HideContextMenu();
   });
-  SelectTaskButton.append(SelectTaskText);
-  SelectTaskButton.append(SelectTaskIcon);
+  SelectTaskButton.append(SelectTaskText, SelectTaskIcon);
   if (Target.Selected) TaskContextMenu.append(DeSelectTaskButton);
   else if (!Target.Selected) TaskContextMenu.append(SelectTaskButton);
   // Edit Button
@@ -313,6 +312,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   }
   // Append
   document.body.append(TaskContextMenu);
+  console.log(TaskContextMenu);
   // Width and heights
   let WindowWidth = window.innerWidth;
   let WindowHeight = window.innerHeight;
@@ -330,7 +330,7 @@ function AutoHideContextMenu(Event) {
   let ClassName = Event.target.className;
   let Type = Event.type;
   if (Type === "click" && ClassName !== "context-menu-item") HideContextMenu();
-  if (Type === "contextmenu" && ClassName !== "user-category-item" && ClassName !== "task-container") HideContextMenu();
+  if (Type === "contextmenu" && ClassName !== "user-category-item" && !ClassName.includes("task-container")) HideContextMenu();
   if (Type === "scroll") HideContextMenu();
 }
 function HideContextMenu() {

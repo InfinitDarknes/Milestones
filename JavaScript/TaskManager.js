@@ -38,8 +38,8 @@ function AddTask() {
     UserSettings.Calendar === "Solar"
       ? ExtractDate("Solar", "String")
       : UserSettings.Calendar === "Gregorian"
-        ? ExtractDate("Gregorian", "String")
-        : null;
+      ? ExtractDate("Gregorian", "String")
+      : null;
   let DisplayTime = `${DateObject.Hour.toString().padStart(2, "0")} : ${DateObject.Minute.toString().padStart(2, "0")}`;
   let NumericDate = ExtractDate("Numeric");
   let SelectBox = document.getElementById("select-category-select-box");
@@ -377,45 +377,41 @@ function SelectTask(ID) {
   AllTasksArray[FindIndexOfTask(ID)].Selected = true;
   document.querySelector(`#${ID} .checkbox-container`).style.display = "block";
   document.querySelector(`#${ID} .task-checkbox`).checked = true;
+  document.querySelector(`#${ID}`).classList.add("selected-task");
   ToggleSelectMode();
 }
 function DeSelectTask(ID) {
   AllTasksArray[FindIndexOfTask(ID)].Selected = false;
   document.querySelector(`#${ID} .checkbox-container`).style.display = "none";
   document.querySelector(`#${ID} .task-checkbox`).checked = false;
+  document.querySelector(`#${ID}`).classList.remove("selected-task");
   ToggleSelectMode();
 }
 function SelectAll() {
-  const CheckBoxContainers = document.querySelectorAll(`.task-container .checkbox-container`);
   const CheckBoxes = document.querySelectorAll(`.task-checkbox`);
   GetCurrentlyLoadedTasks().forEach((Task) => {
     Task.Selected = true;
   });
-  console.log(GetCurrentlyLoadedTasks());
-  CheckBoxContainers.forEach((CheckBoxContainer) => {
-    CheckBoxContainer.style.display = "block";
-  });
   CheckBoxes.forEach((CheckBox) => {
     CheckBox.checked = true;
+    CheckBox.parentElement.style.display = "block";
+    CheckBox.parentElement.parentElement.classList.add("selected-task");
   });
   ToggleSelectMode();
 }
 function DeselectAll() {
-  const CheckBoxContainers = document.querySelectorAll(`.task-container .checkbox-container`);
   const CheckBoxes = document.querySelectorAll(`.task-checkbox`);
-  AllTasksArray.forEach((Task) => {
+  GetCurrentlyLoadedTasks().forEach((Task) => {
     Task.Selected = false;
-  });
-  CheckBoxContainers.forEach((CheckBoxContainer) => {
-    CheckBoxContainer.style.display = "none";
   });
   CheckBoxes.forEach((CheckBox) => {
     CheckBox.checked = false;
+    CheckBox.parentElement.style.display = "none";
+    CheckBox.parentElement.parentElement.classList.remove("selected-task");
   });
   ToggleSelectMode();
 }
 function ToggleSelectMode() {
-  console.log("");
   const SelectAllSection = document.getElementById("select-all-section");
   const SelectAllCheckBox = document.getElementById("select-all-checkbox");
   const CheckBoxContainers = document.querySelectorAll(`.task-container .checkbox-container`);
