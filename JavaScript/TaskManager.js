@@ -43,8 +43,8 @@ function AddTask() {
   let DisplayTime = `${DateObject.Hour.toString().padStart(2, "0")} : ${DateObject.Minute.toString().padStart(2, "0")}`;
   let NumericDate = ExtractDate("Numeric");
   let SelectBox = document.getElementById("select-category-select-box");
-  let SelectedOptionIndex = SelectBox.selectedIndex;
-  let UserCategory = SelectBox.options[SelectedOptionIndex].value;
+  let UserCategory = SelectBox.dataset.value;
+  console.log(UserCategory);
   let NewTask = new NewTaskConstructor(ID, Title, DisplayDate, DisplayTime, NumericDate, false, UserCategory, false, false, false, false, false);
   AllTasksArray.push(NewTask);
   localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
