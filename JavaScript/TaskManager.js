@@ -511,7 +511,8 @@ function ReturnTaskState(ID) {
 // Restoring
 function RestoreFromText(Text) {
   let TextObject = JSON.parse(Text);
-  for (n in TextObject) {
+  console.log(Text, TextObject);
+  for (let n in TextObject) {
     localStorage.setItem(n.toString(), TextObject[n]);
   }
   location.reload();
