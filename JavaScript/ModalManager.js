@@ -22,9 +22,7 @@ function EditModal(ID) {
   EditTitleInput.maxLength = "70";
   TitleInputBadge.className = "badge-modified";
   EditTitleInput.className = "task-input";
-  EditTitleInput.addEventListener("input", () => {
-    CharacterLimit("edit-title-input");
-  });
+  EditTitleInput.addEventListener("input", () => CharacterLimit("edit-title-input"));
   TitleInputBadge.innerText = Strings.TitleInputBadge[UserSettings.CurrentLang];
   ModalInputsContainer.append(EditTitleSection);
   EditTitleSection.append(TitleInputBadge, EditTitleInput);
@@ -172,9 +170,7 @@ function NewTaskModal() {
   TitleInputBadge.innerText = Strings.TitleInputBadge[UserSettings.CurrentLang];
   TaskTitleInput.placeholder = Strings.TaskTitleInputPlaceHolder[UserSettings.CurrentLang];
   TaskTitleInput.maxLength = "70";
-  TaskTitleInput.addEventListener("input", () => {
-    CharacterLimit("task-title-input");
-  });
+  TaskTitleInput.addEventListener("input", () => CharacterLimit("task-title-input"));
   TaskTitleSection.append(TitleInputBadge, TaskTitleInput);
   // Character Limit section
   const CharacterLimitTag = document.createElement("section");
@@ -359,12 +355,8 @@ function NewCategoryModal() {
   ColorSlideRight.id = "color-slide-right-button";
   ColorSlideLeft.style.top = "35px";
   ColorSlideRight.style.top = "35px";
-  ColorSlideLeft.addEventListener("click", () => {
-    ScrollLeft("colors-container");
-  });
-  ColorSlideRight.addEventListener("click", () => {
-    ScrollRight("colors-container");
-  });
+  ColorSlideLeft.addEventListener("click", () => ScrollLeft("colors-container"));
+  ColorSlideRight.addEventListener("click", () => ScrollRight("colors-container"));
   ColorSlideLeft.append(ColorSlideLeftIcon);
   ColorSlideRight.append(ColorSlideRightIcon);
   PickColorSection.append(ColorSlideLeft, ColorSlideRight);
@@ -405,12 +397,8 @@ function NewCategoryModal() {
   IconSlideRight.id = "color-slide-right-button";
   IconSlideLeft.style.top = "42px";
   IconSlideRight.style.top = "42px";
-  IconSlideLeft.addEventListener("click", () => {
-    ScrollLeft("icons-container");
-  });
-  IconSlideRight.addEventListener("click", () => {
-    ScrollRight("icons-container");
-  });
+  IconSlideLeft.addEventListener("click", () => ScrollLeft("icons-container"));
+  IconSlideRight.addEventListener("click", () => ScrollRight("icons-container"));
   IconSlideLeft.append(IconSlideLeftIcon);
   IconSlideRight.append(IconSlideRightIcon);
   PickIconSection.append(IconSlideLeft, IconSlideRight);
@@ -520,12 +508,8 @@ function EditCategoryModal(ID) {
   ColorSlideRight.id = "color-slide-right-button";
   ColorSlideLeft.style.top = "35px";
   ColorSlideRight.style.top = "35px";
-  ColorSlideLeft.addEventListener("click", () => {
-    ScrollLeft("colors-container");
-  });
-  ColorSlideRight.addEventListener("click", () => {
-    ScrollRight("colors-container");
-  });
+  ColorSlideLeft.addEventListener("click", () => ScrollLeft("colors-container"));
+  ColorSlideRight.addEventListener("click", () => ScrollRight("colors-container"));
   PickColorSection.append(PickColorBadge, ColorsContainer);
   // Pick Icon Section
   const PickIconSection = document.createElement("section");
@@ -565,12 +549,8 @@ function EditCategoryModal(ID) {
   IconSlideRight.id = "color-slide-right-button";
   IconSlideLeft.style.top = "42px";
   IconSlideRight.style.top = "42px";
-  IconSlideLeft.addEventListener("click", () => {
-    ScrollLeft("icons-container");
-  });
-  IconSlideRight.addEventListener("click", () => {
-    ScrollRight("icons-container");
-  });
+  IconSlideLeft.addEventListener("click", () => ScrollLeft("icons-container"));
+  IconSlideRight.addEventListener("click", () => ScrollRight("icons-container"));
   PickIconSection.append();
   IconSlideLeft.append(IconSlideLeftIcon);
   IconSlideRight.append(IconSlideRightIcon);
@@ -676,9 +656,7 @@ function BackUpModal() {
     RestoreButton.id = "restore-button";
     RestoreButton.className = "green-btn";
     RestoreButton.innerText = Strings.RestoreTask[UserSettings.CurrentLang];
-    RestoreButton.addEventListener("click", () => {
-      RestoreFromText(ModalTextArea.value);
-    });
+    RestoreButton.addEventListener("click", () => RestoreFromText(ModalTextArea.value));
     ModalSubPage.append(ModalTitle, ModalDescription, ModalTextArea, RestoreButton, ReturnButton);
     ModalContainer.append(ModalSubPage);
   });
@@ -733,9 +711,7 @@ function BackUpModal() {
     CopyButton.id = "copy-to-clipboard-button";
     CopyButton.className = "green-btn";
     CopyButton.innerText = Strings.CopyButton[UserSettings.CurrentLang];
-    CopyButton.addEventListener("click", () => {
-      navigator.clipboard.writeText(FetchLocalStorge());
-    });
+    CopyButton.addEventListener("click", () => navigator.clipboard.writeText(FetchLocalStorge()));
     ModalSubPage.append(ModalTitle, ModalDescription, ModalTextArea, CopyButton, ReturnButton);
     ModalContainer.append(ModalSubPage);
   });

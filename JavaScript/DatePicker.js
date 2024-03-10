@@ -15,9 +15,6 @@ let DatePickerSettings = {
   lang: "",
   type: "",
 };
-window.onresize = () => {
-  if (DoesElementExist("date-picker")) AssignWidthToDatePicker();
-};
 function SetupTargetInput(ID) {
   TargetInput = document.getElementById(ID);
   console.log(TargetInput);
@@ -263,6 +260,26 @@ function ExtractDate(Request, DateType) {
     return new Date(DateString).getTime();
   }
 }
+function NumericToGregorian(NumericDate) {
+  let GregorianYear = new Date(NumericDate).getFullYear();
+  let GregorianMonth = new Date(NumericDate).getMonth() + 1;
+  let GregorianDay = new Date(NumericDate).getDate();
+  let GregorianDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
+  return GregorianDate;
+}
+function NumericToSolar(NumericDate) {
+  let GregorianYear = new Date(NumericDate).getFullYear();
+  let GregorianMonth = new Date(NumericDate).getMonth() + 1;
+  let GregorianDay = new Date(NumericDate).getDate();
+  let SolarDateArray = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
+  return `${SolarDateArray[0]} / ${SolarDateArray[1].toString().padStart(2, "0")} / ${SolarDateArray[2].toString().padStart(2, "0")}`;
+}
+function NumericToTime(NumericDate) {
+  let Hour = new Date(NumericDate).getHours().toString().padStart(2, "0");
+  let Minute = new Date(NumericDate).getMinutes().toString().padStart(2, "0");
+  let Time = `${Hour} : ${Minute}`;
+  return Time;
+}
 // Functions that change the input values of datepicker and manuplate what user sees
 function CreateDatePicker(ID) {
   // Interval variables for fast increament/decreament on mouse down and up
@@ -291,9 +308,7 @@ function CreateDatePicker(ID) {
     PickDayButton.setAttribute("data-day", Counter);
     PickDayButton.innerText = Counter;
     DayButtonsContainer.append(PickDayButton);
-    PickDayButton.addEventListener("click", () => {
-      PickDays(PickDayButton.innerText);
-    });
+    PickDayButton.addEventListener("click", () => PickDays(PickDayButton.innerText));
   }
   const TimePickerElement = document.createElement("section");
   const TimePickerHourSection = document.createElement("section");
@@ -365,51 +380,19 @@ function CreateDatePicker(ID) {
   DecreamentHourButton.addEventListener("click", DecreamentHour);
   IncreamentMinuteButton.addEventListener("click", IncreamentMinute);
   DecreamenMinuteButton.addEventListener("click", DecreamentMinute);
-  IncreamentHourButton.addEventListener("mousedown", () => {
-    FastHourIncreament = setInterval(() => {
-      IncreamentHour();
-    }, 100);
-  });
-  IncreamentHourButton.addEventListener("mouseup", () => {
-    clearInterval(FastHourIncreament);
-  });
-  IncreamentHourButton.addEventListener("mouseout", () => {
-    clearInterval(FastHourIncreament);
-  });
-  DecreamentHourButton.addEventListener("mousedown", () => {
-    FastHourDecreament = setInterval(() => {
-      DecreamentHour();
-    }, 100);
-  });
-  DecreamentHourButton.addEventListener("mouseup", () => {
-    clearInterval(FastHourDecreament);
-  });
-  DecreamentHourButton.addEventListener("mouseout", () => {
-    clearInterval(FastHourDecreament);
-  });
+  IncreamentHourButton.addEventListener("mousedown", () => (FastHourIncreament = setInterval(() => IncreamentHour(), 100)));
+  IncreamentHourButton.addEventListener("mouseup", () => clearInterval(FastHourIncreament));
+  IncreamentHourButton.addEventListener("mouseout", () => clearInterval(FastHourIncreament));
+  DecreamentHourButton.addEventListener("mousedown", () => (FastHourDecreament = setInterval(() => DecreamentHour(), 100)));
+  DecreamentHourButton.addEventListener("mouseup", () => clearInterval(FastHourDecreament));
+  DecreamentHourButton.addEventListener("mouseout", () => clearInterval(FastHourDecreament));
   //
-  IncreamentMinuteButton.addEventListener("mousedown", () => {
-    FastMinuteIncreament = setInterval(() => {
-      IncreamentMinute();
-    }, 100);
-  });
-  IncreamentMinuteButton.addEventListener("mouseup", () => {
-    clearInterval(FastMinuteIncreament);
-  });
-  IncreamentMinuteButton.addEventListener("mouseout", () => {
-    clearInterval(FastMinuteIncreament);
-  });
-  DecreamenMinuteButton.addEventListener("mousedown", () => {
-    FastMinuteDecreament = setInterval(() => {
-      DecreamentMinute();
-    }, 100);
-  });
-  DecreamenMinuteButton.addEventListener("mouseup", () => {
-    clearInterval(FastMinuteDecreament);
-  });
-  DecreamenMinuteButton.addEventListener("mouseout", () => {
-    clearInterval(FastMinuteDecreament);
-  });
+  IncreamentMinuteButton.addEventListener("mousedown", () => (FastMinuteIncreament = setInterval(() => IncreamentMinute(), 100)));
+  IncreamentMinuteButton.addEventListener("mouseup", () => clearInterval(FastMinuteIncreament));
+  IncreamentMinuteButton.addEventListener("mouseout", () => clearInterval(FastMinuteIncreament));
+  DecreamenMinuteButton.addEventListener("mousedown", () => (FastMinuteDecreament = setInterval(() => DecreamentMinute(), 100)));
+  DecreamenMinuteButton.addEventListener("mouseup", () => clearInterval(FastMinuteDecreament));
+  DecreamenMinuteButton.addEventListener("mouseout", () => clearInterval(FastMinuteDecreament));
   // Appending elements
   DatePickerHeader.append(PickTodayButton, PickTomorrowButton, PickIn2DaysButton);
   NextMonthButton.append(NextMonthButtonIcon);
@@ -547,3 +530,6 @@ function HighLightSelectedDay(ID) {
   SelectedDay.style.backgroundColor = HoverColor[UserSettings.Theme];
   SelectedDay.style.transform = "scale(1.1)";
 }
+window.addEventListener("resize", () => {
+  if (DoesElementExist("date-picker")) AssignWidthToDatePicker();
+});

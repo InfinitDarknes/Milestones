@@ -1,53 +1,32 @@
+"use strict";
 let AllTasksArray = [];
 let SelectMode = false;
 let EditMode = false;
 // CurrentPage => Home-SortOption | TrashBin-SortOption | UserCategory-SortOption | Notes | Calendar
 let CurrentWindow = "Home-Unfinished";
 // Add/Delete/Complete/Fail
-function NewTaskConstructor(
-  ID,
-  Title,
-  DisplayDate,
-  DisplayTime,
-  NumericDate,
-  Descryption,
-  UserCategory,
-  IsTaskPinned,
-  IsTaskCompleted,
-  IsTaskFailed,
-  IsTaskTrashed,
-  Selected
-) {
+function NewTaskConstructor(ID, Title, NumericDate, UserCategory) {
   this.ID = ID;
   this.Title = Title;
-  this.DisplayDate = DisplayDate;
-  this.DisplayTime = DisplayTime;
   this.NumericDate = NumericDate;
-  this.Descryption = Descryption;
+  this.Descryption = false;
   this.UserCategory = UserCategory;
-  this.IsTaskPinned = IsTaskPinned;
-  this.IsTaskCompleted = IsTaskCompleted;
-  this.IsTaskFailed = IsTaskFailed;
-  this.IsTaskTrashed = IsTaskTrashed;
-  this.Selected = Selected;
+  this.IsTaskPinned = false;
+  this.IsTaskCompleted = false;
+  this.IsTaskFailed = false;
+  this.IsTaskTrashed = false;
+  this.Selected = false;
 }
 function AddTask() {
   let ID = "Task-" + GenerateUniqeID(5);
   let Title = document.getElementById("task-title-input").value;
-  let DisplayDate =
-    UserSettings.Calendar === "Solar"
-      ? ExtractDate("Solar", "String")
-      : UserSettings.Calendar === "Gregorian"
-      ? ExtractDate("Gregorian", "String")
-      : null;
-  let DisplayTime = `${DateObject.Hour.toString().padStart(2, "0")} : ${DateObject.Minute.toString().padStart(2, "0")}`;
   let NumericDate = ExtractDate("Numeric");
   let SelectBox = document.getElementById("select-category-select-box");
   let UserCategory = SelectBox.dataset.value;
-  console.log(UserCategory);
-  let NewTask = new NewTaskConstructor(ID, Title, DisplayDate, DisplayTime, NumericDate, false, UserCategory, false, false, false, false, false);
+  let NewTask = new NewTaskConstructor(ID, Title, NumericDate, UserCategory);
   AllTasksArray.push(NewTask);
   localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
+  DeselectAll();
   UpdateInbox();
 }
 function DeleteTask(ID) {

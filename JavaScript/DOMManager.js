@@ -437,9 +437,7 @@ function AppendSideBar() {
   const Calendar = document.createElement("button");
   Calendar.id = "calendar-button";
   Calendar.className = "side-bar-item";
-  Calendar.addEventListener("click", () => {
-    HighLightSelectedSideBarItem(Calendar.id);
-  });
+  Calendar.addEventListener("click", () => HighLightSelectedSideBarItem(Calendar.id));
   const CalendarIcon = document.createElement("img");
   CalendarIcon.className = "side-bar-item-icon";
   CalendarIcon.src = IconsSrc.CalendarIcon[UserSettings.Theme];
@@ -452,9 +450,7 @@ function AppendSideBar() {
   const Notes = document.createElement("button");
   Notes.id = "notes-button";
   Notes.className = "side-bar-item";
-  Notes.addEventListener("click", () => {
-    HighLightSelectedSideBarItem(Notes.id);
-  });
+  Notes.addEventListener("click", () => HighLightSelectedSideBarItem(Notes.id));
   const NotesIcon = document.createElement("img");
   NotesIcon.className = "side-bar-item-icon";
   NotesIcon.src = IconsSrc.MyNotesIcon[UserSettings.Theme];
@@ -467,9 +463,7 @@ function AppendSideBar() {
   const Alarms = document.createElement("button");
   Alarms.id = "alarms-button";
   Alarms.className = "side-bar-item";
-  Alarms.addEventListener("click", () => {
-    HighLightSelectedSideBarItem(Alarms.id);
-  });
+  Alarms.addEventListener("click", () => HighLightSelectedSideBarItem(Alarms.id));
   const AlarmsIcon = document.createElement("img");
   AlarmsIcon.className = "side-bar-item-icon";
   AlarmsIcon.src = IconsSrc.MyAlarmsIcon[UserSettings.Theme];
@@ -527,9 +521,7 @@ function AppendSideBar() {
   const SettingsButton = document.createElement("button");
   SettingsButton.id = "settings-button";
   SettingsButton.className = "side-bar-item";
-  SettingsButton.addEventListener("click", () => {
-    DisplaySettings();
-  });
+  SettingsButton.addEventListener("click", DisplaySettings);
   const SettingsButtonIcon = document.createElement("img");
   SettingsButtonIcon.className = "side-bar-item-icon";
   SettingsButtonIcon.src = IconsSrc.SettingsIcon[UserSettings.Theme];
@@ -580,9 +572,7 @@ function AppendSearchBar() {
   const SearchBar = document.createElement("input");
   SearchBar.id = "search-bar";
   SearchBar.placeholder = Strings.Search[UserSettings.CurrentLang];
-  SearchBar.addEventListener("input", () => {
-    Search(SearchBar.value);
-  });
+  SearchBar.addEventListener("input", () => Search(SearchBar.value));
   TaskBar.append(SearchBar);
 }
 // Appens all the task containers including normal/failed/completed/trashed
@@ -702,7 +692,6 @@ function AppendTaskContainer(Tasks) {
       if (SelectMode) Event.target.style.cursor = "pointer";
       else Event.target.style.cursor = "";
     });
-
     if (Task.IsTaskPinned) {
       const PinBadge = document.createElement("img");
       PinBadge.className = "pinned-task-badge";
@@ -711,8 +700,13 @@ function AppendTaskContainer(Tasks) {
       TaskContainer.append(PinBadge);
     }
     TaskTitle.textContent = Task.Title;
-    TaskDate.textContent = Task.DisplayDate;
-    TaskTime.textContent = Task.DisplayTime;
+    if (UserSettings.Calendar === "Solar") {
+      TaskDate.textContent = NumericToSolar(Task.NumericDate);
+    }
+    if (UserSettings.Calendar === "Gregorian") {
+      TaskDate.textContent = NumericToGregorian(Task.NumericDate);
+    }
+    TaskTime.textContent = NumericToTime(Task.NumericDate);
     FragmentOfTaskContainers.append(TaskContainer);
   });
   ListSection.append(FragmentOfTaskContainers);
@@ -826,9 +820,7 @@ function DisplaySelectModeBar() {
     case "Trash-In2Days":
       SelectBar.append(RestoreButton);
       RestoreButton.addEventListener("click", RestoreFromTrash);
-      DeleteButton.addEventListener("click", () => {
-        DeleteModal("Trashed");
-      });
+      DeleteButton.addEventListener("click", () => DeleteModal("Trashed"));
       break;
     case "Home-Unfinished":
     case "Home-Today":
@@ -839,23 +831,17 @@ function DisplaySelectModeBar() {
     case "UserCategory-Tomorrow":
     case "UserCategory-In2Days":
       SelectBar.append(MoveToTrashButton, FailButton, CompleteButton);
-      DeleteButton.addEventListener("click", () => {
-        DeleteModal("Normal");
-      });
+      DeleteButton.addEventListener("click", () => DeleteModal("Normal"));
       break;
     case "Home-Failed":
       SelectBar.append(MoveToTrashButton, RestoreButton);
       RestoreButton.addEventListener("click", RestoreFromFailed);
-      DeleteButton.addEventListener("click", () => {
-        DeleteModal("Failed");
-      });
+      DeleteButton.addEventListener("click", () => DeleteModal("Failed"));
       break;
     case "Home-Completed":
       SelectBar.append(MoveToTrashButton, FailButton, RestoreButton);
       RestoreButton.addEventListener("click", RestoreFromCompleted);
-      DeleteButton.addEventListener("click", () => {
-        DeleteModal("Completed");
-      });
+      DeleteButton.addEventListener("click", () => DeleteModal("Completed"));
       break;
   } //Append
   document.body.append(SelectBar);

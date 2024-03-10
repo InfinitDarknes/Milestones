@@ -28,6 +28,11 @@ window.onload = function () {
   window.addEventListener("resize", (Event) => {
     AlignModalAtCenter();
   });
+  AllTasksArray.forEach((Task) => {
+    delete Task.DisplayDate;
+    delete Task.DisplayTime;
+    localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
+  });
 };
 function PreLoader() {
   const PreLoader = document.createElement("section");
