@@ -136,6 +136,9 @@
   margin: 15px 0;
   border-radius: 10px;
 }
+.selected-task {
+  cursor: pointer !important;
+}
 /* Task Title */
 .task-title {
   order: 3;
@@ -168,6 +171,7 @@
   order: 1;
   padding: 3px 5px;
   font-size: 1em;
+  direction: ltr;
 }
 /* Select Task Checkbox */
 .select-task-checkbox {
