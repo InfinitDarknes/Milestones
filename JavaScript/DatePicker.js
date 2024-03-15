@@ -156,7 +156,6 @@ function LoadIn2Days() {
 }
 function LoadNextMonth() {
   if (DatePickerSettings.type === "Solar") {
-    if (DateObject.SolarDay === 31) if (DateObject.SolarMonth + 1 > 6) DateObject.SolarDay = 30;
     if (DateObject.SolarMonth >= 12) {
       let NumYear = DateObject.SolarYear;
       DateObject.SolarYear = NumYear + 1;
@@ -165,39 +164,40 @@ function LoadNextMonth() {
       let NumMonth = DateObject.SolarMonth;
       DateObject.SolarMonth = NumMonth + 1;
     }
+    if (DateObject.SolarDay === 31) if (DateObject.SolarMonth > 6) DateObject.SolarDay = 30;
     LoadGregorianDateFromSolar();
   }
   if (DatePickerSettings.type === "Gregorian") {
-    if (DateObject.GregorianDay === 31) if (DateObject.GregorianMonth + 1 > 6) DateObject.GregorianDay = 30;
     if (DateObject.GregorianMonth >= 12) {
       DateObject.GregorianYear += 1;
       DateObject.GregorianMonth = 1;
     } else {
       DateObject.GregorianMonth += 1;
     }
+    if (DateObject.GregorianDay === 31) if (DateObject.GregorianMonth > 6) DateObject.GregorianDay = 30;
   }
   TargetInput.dataset.DateObject = JSON.stringify(DateObject);
   UpdateDatePicker();
 }
 function LoadPreviousMonth() {
   if (DatePickerSettings.type === "Solar") {
-    if (DateObject.SolarDay === 31) if (DateObject.SolarMonth - 1 > 6) DateObject.SolarDay = 30;
     if (DateObject.SolarMonth <= 1) {
       DateObject.SolarYear -= 1;
       DateObject.SolarMonth = 12;
     } else {
       DateObject.SolarMonth -= 1;
     }
+    if (DateObject.SolarDay === 31) if (DateObject.SolarMonth > 6) DateObject.SolarDay = 30;
     LoadGregorianDateFromSolar();
   }
   if (DatePickerSettings.type === "Gregorian") {
-    if (DateObject.GregorianDay === 31) if (DateObject.GregorianMonth - 1 > 6) DateObject.GregorianDay = 30;
     if (DateObject.GregorianMonth <= 1) {
       DateObject.GregorianYear -= 1;
       DateObject.GregorianMonth = 12;
     } else {
       DateObject.GregorianMonth -= 1;
     }
+    if (DateObject.GregorianDay === 31) if (DateObject.GregorianMonth > 6) DateObject.GregorianDay = 30;
   }
   TargetInput.dataset.DateObject = JSON.stringify(DateObject);
   UpdateDatePicker();
