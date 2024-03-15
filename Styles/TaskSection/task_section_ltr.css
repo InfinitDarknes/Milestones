@@ -133,8 +133,9 @@
   margin: 15px 0;
   border-radius: 10px;
 }
-/* .selected-task{
-} */
+.selected-task {
+  cursor: pointer;
+}
 /* Task Title */
 .task-title {
   order: 3;

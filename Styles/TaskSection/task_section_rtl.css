@@ -137,7 +137,7 @@
   border-radius: 10px;
 }
 .selected-task {
-  cursor: pointer !important;
+  cursor: pointer;
 }
 /* Task Title */
 .task-title {
