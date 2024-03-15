@@ -103,7 +103,7 @@ function LoadTrashedTasks(TargetArray) {
   }
   ClearListSection();
   AppendTaskContainer(TargetArray);
-  DeselectAll();
+  DeSelectAll();
 }
 function MoveToTrash(ID) {
   const SelectAllButton = document.getElementById("select-all-checkbox");

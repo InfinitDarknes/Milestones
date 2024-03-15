@@ -277,10 +277,9 @@ function DisplaySettings() {
   DisplayUserSettingIntoDom();
 }
 function HideSettings() {
-  if (DoesElementExist("settings-container")) {
-    document.getElementById("settings-container").classList.add("setting-out");
-  }
-  setTimeout(() => document.getElementById("settings-container").remove(), 800);
+  const SettingsContainer = document.getElementById("settings-container");
+  SettingsContainer.classList.add("setting-out");
+  setTimeout(() => SettingsContainer.remove(), 500);
 }
 function LanguageSwitcher(Lang) {
   UserSettings.CurrentLang = Lang;

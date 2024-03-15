@@ -26,11 +26,10 @@ function AddTask() {
   let NewTask = new NewTaskConstructor(ID, Title, NumericDate, UserCategory);
   AllTasksArray.push(NewTask);
   localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-  DeselectAll();
+  DeSelectAll();
   UpdateInbox();
 }
 function DeleteTask(ID) {
-  const SelectAllButton = document.getElementById("select-all-checkbox");
   if (SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       const Element = document.getElementById(Task.ID);
@@ -378,9 +377,10 @@ function SelectAll() {
   });
   ToggleSelectMode();
 }
-function DeselectAll() {
+function DeSelectAll() {
+  console.log("deselcting all");
   const CheckBoxes = document.querySelectorAll(`.task-checkbox`);
-  GetCurrentlyLoadedTasks().forEach((Task) => {
+  AllTasksArray.forEach((Task) => {
     Task.Selected = false;
   });
   CheckBoxes.forEach((CheckBox) => {
@@ -426,13 +426,13 @@ function PinTask(ID) {
   if (NumberOfPinnedTasks > 5) return;
   AllTasksArray[FindIndexOfTask(ID)].IsTaskPinned = true;
   localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-  DeselectAll();
+  DeSelectAll();
   UpdateInbox();
 }
 function UnPinTask(ID) {
   AllTasksArray[FindIndexOfTask(ID)].IsTaskPinned = false;
   localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-  DeselectAll();
+  DeSelectAll();
   UpdateInbox();
 }
 // other
@@ -511,7 +511,6 @@ function ReturnTaskState(ID) {
 // Restoring
 function RestoreFromText(Text) {
   let TextObject = JSON.parse(Text);
-  console.log(Text, TextObject);
   for (let n in TextObject) {
     localStorage.setItem(n.toString(), TextObject[n]);
   }

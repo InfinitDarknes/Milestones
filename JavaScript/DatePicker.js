@@ -156,6 +156,7 @@ function LoadIn2Days() {
 }
 function LoadNextMonth() {
   if (DatePickerSettings.type === "Solar") {
+    if (DateObject.SolarDay === 31) if (DateObject.SolarMonth + 1 > 6) DateObject.SolarDay = 30;
     if (DateObject.SolarMonth >= 12) {
       let NumYear = DateObject.SolarYear;
       DateObject.SolarYear = NumYear + 1;
@@ -167,13 +168,12 @@ function LoadNextMonth() {
     LoadGregorianDateFromSolar();
   }
   if (DatePickerSettings.type === "Gregorian") {
+    if (DateObject.GregorianDay === 31) if (DateObject.GregorianMonth + 1 > 6) DateObject.GregorianDay = 30;
     if (DateObject.GregorianMonth >= 12) {
-      let NumYear = DateObject.GregorianYear;
-      DateObject.GregorianYear = NumYear + 1;
+      DateObject.GregorianYear += 1;
       DateObject.GregorianMonth = 1;
     } else {
-      let NumMonth = DateObject.GregorianMonth;
-      DateObject.GregorianMonth = NumMonth + 1;
+      DateObject.GregorianMonth += 1;
     }
   }
   TargetInput.dataset.DateObject = JSON.stringify(DateObject);
@@ -181,24 +181,22 @@ function LoadNextMonth() {
 }
 function LoadPreviousMonth() {
   if (DatePickerSettings.type === "Solar") {
+    if (DateObject.SolarDay === 31) if (DateObject.SolarMonth - 1 > 6) DateObject.SolarDay = 30;
     if (DateObject.SolarMonth <= 1) {
-      let NumYear = DateObject.SolarYear;
-      DateObject.SolarYear = NumYear - 1;
+      DateObject.SolarYear -= 1;
       DateObject.SolarMonth = 12;
     } else {
-      let NumMonth = DateObject.SolarMonth;
-      DateObject.SolarMonth = NumMonth - 1;
+      DateObject.SolarMonth -= 1;
     }
     LoadGregorianDateFromSolar();
   }
   if (DatePickerSettings.type === "Gregorian") {
+    if (DateObject.GregorianDay === 31) if (DateObject.GregorianMonth - 1 > 6) DateObject.GregorianDay = 30;
     if (DateObject.GregorianMonth <= 1) {
-      let NumYear = DateObject.GregorianYear;
-      DateObject.GregorianYear = NumYear - 1;
+      DateObject.GregorianYear -= 1;
       DateObject.GregorianMonth = 12;
     } else {
-      let NumMonth = DateObject.GregorianMonth;
-      DateObject.GregorianMonth = NumMonth - 1;
+      DateObject.GregorianMonth -= 1;
     }
   }
   TargetInput.dataset.DateObject = JSON.stringify(DateObject);

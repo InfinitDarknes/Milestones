@@ -29,7 +29,7 @@ function AppendHTMLElements(Action) {
       LoadUnfinishedTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-unfinished");
-      DeselectAll();
+      DeSelectAll();
     });
     SortUnfinished.addEventListener("dragover", (event) => {
       event.preventDefault();
@@ -68,7 +68,7 @@ function AppendHTMLElements(Action) {
       LoadUnfinishedTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-unfinished");
-      DeselectAll();
+      DeSelectAll();
     });
     SortBar.append(SortUnfinished);
   }
@@ -84,7 +84,7 @@ function AppendHTMLElements(Action) {
       LoadTodayTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-today");
-      DeselectAll();
+      DeSelectAll();
     });
     SortToday.addEventListener("dragover", (event) => {
       event.preventDefault();
@@ -118,7 +118,7 @@ function AppendHTMLElements(Action) {
       LoadTodayTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-today");
-      DeselectAll();
+      DeSelectAll();
     });
     SortBar.append(SortToday);
   }
@@ -134,7 +134,7 @@ function AppendHTMLElements(Action) {
       LoadTomorrowTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-tomorrow");
-      DeselectAll();
+      DeSelectAll();
     });
     SortTomorrow.addEventListener("dragover", (event) => {
       event.preventDefault();
@@ -168,7 +168,7 @@ function AppendHTMLElements(Action) {
       LoadTomorrowTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-tomorrow");
-      DeselectAll();
+      DeSelectAll();
     });
     SortBar.append(SortTomorrow);
   }
@@ -184,7 +184,7 @@ function AppendHTMLElements(Action) {
       LoadIn2DaysTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-in-2-days");
-      DeselectAll();
+      DeSelectAll();
     });
     SortIn2Days.addEventListener("dragover", (event) => {
       event.preventDefault();
@@ -218,7 +218,7 @@ function AppendHTMLElements(Action) {
       LoadIn2DaysTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-in-2-days");
-      DeselectAll();
+      DeSelectAll();
     });
     SortBar.append(SortIn2Days);
   }
@@ -234,7 +234,7 @@ function AppendHTMLElements(Action) {
       LoadFailedTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-failed");
-      DeselectAll();
+      DeSelectAll();
     });
     CategoryFailed.addEventListener("dragover", (event) => {
       event.preventDefault();
@@ -268,7 +268,7 @@ function AppendHTMLElements(Action) {
       LoadFailedTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-failed");
-      DeselectAll();
+      DeSelectAll();
     });
     SortBar.append(CategoryFailed);
   }
@@ -284,7 +284,7 @@ function AppendHTMLElements(Action) {
       LoadCompletedTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-completed");
-      DeselectAll();
+      DeSelectAll();
     });
     CategoryCompleted.addEventListener("dragover", (event) => {
       event.preventDefault();
@@ -318,7 +318,7 @@ function AppendHTMLElements(Action) {
       LoadCompletedTasks();
       ToggleSelectMode();
       HighLightSelectedSortButton("sort-completed");
-      DeselectAll();
+      DeSelectAll();
     });
     SortBar.append(CategoryCompleted);
   }
@@ -382,7 +382,7 @@ function AppendSelectAllSection() {
   SelectAllSection.append(SpanElement, CheckBoxLable);
   CheckBox.addEventListener("change", (Event) => {
     if (Event.target.checked) SelectAll();
-    else DeselectAll();
+    else DeSelectAll();
   });
   TaskBar.append(SelectAllSection);
 }
@@ -580,9 +580,10 @@ function AppendTaskContainer(Tasks) {
   const ListSection = document.getElementById("list-section");
   let FragmentOfTaskContainers = document.createDocumentFragment();
   Tasks.forEach((Task) => {
+    let { ID, Title, NumericDate } = Task;
     const TaskContainer = document.createElement("section");
     TaskContainer.className = "task-container";
-    TaskContainer.id = Task.ID.toString();
+    TaskContainer.id = ID;
     TaskContainer.draggable = "true";
     const CheckBoxContainer = document.createElement("label");
     CheckBoxContainer.className = "checkbox-container";
@@ -591,8 +592,8 @@ function AppendTaskContainer(Tasks) {
     Checkbox.type = "checkbox";
     Checkbox.className = "checkbox task-checkbox";
     Checkbox.addEventListener("change", () => {
-      if (Checkbox.checked) SelectTask(TaskContainer.id);
-      else DeSelectTask(TaskContainer.id);
+      if (Checkbox.checked) SelectTask(ID);
+      else DeSelectTask(ID);
     });
     const CheckMark = document.createElement("div");
     CheckMark.className = "checkmark";
@@ -609,13 +610,13 @@ function AppendTaskContainer(Tasks) {
     TaskContainer.append(CheckBoxContainer, TaskTitle, DateContainer);
     CheckBoxContainer.append(Checkbox, CheckMark);
     DateContainer.append(TaskDate, TaskTime);
-    if (ReturnTaskState(Task.ID) === "Unfinished") {
+    if (ReturnTaskState(ID) === "Unfinished") {
       TaskContainer.addEventListener("contextmenu", (Event) => {
         Event.preventDefault();
         DisplayTaskContextMenu(Event, "Normal");
       });
     }
-    if (ReturnTaskState(Task.ID) === "Failed") {
+    if (ReturnTaskState(ID) === "Failed") {
       const FailedTaskBadge = document.createElement("span");
       FailedTaskBadge.className = "failed-task-badge";
       FailedTaskBadge.innerHTML = Strings.FailedTaskBadge[UserSettings.CurrentLang];
@@ -627,7 +628,7 @@ function AppendTaskContainer(Tasks) {
         DisplayTaskContextMenu(Event, "Failed");
       });
     }
-    if (ReturnTaskState(Task.ID) === "Completed") {
+    if (ReturnTaskState(ID) === "Completed") {
       const CompletedTaskBadge = document.createElement("span");
       CompletedTaskBadge.className = "completed-task-badge";
       CompletedTaskBadge.innerHTML = Strings.CompletedTaskBadge[UserSettings.CurrentLang];
@@ -639,7 +640,7 @@ function AppendTaskContainer(Tasks) {
         DisplayTaskContextMenu(Event, "Completed");
       });
     }
-    if (ReturnTaskState(Task.ID) === "Trashed") {
+    if (ReturnTaskState(ID) === "Trashed") {
       const TrashedTaskBadge = document.createElement("span");
       TrashedTaskBadge.className = "trashed-task-badge";
       TrashedTaskBadge.innerHTML = Strings.TrashedTaskBadge[UserSettings.CurrentLang];
@@ -650,13 +651,9 @@ function AppendTaskContainer(Tasks) {
         DisplayTaskContextMenu(Event, "Trashed");
       });
     }
-    if (Task.UserCategory !== "None" && ReturnTaskState(Task.ID) === "Unfinished") {
-      let Color, Name, Icon;
-      UserCategoriesArray.forEach((Category) => {
-        if (Category.ID !== Task.UserCategory) return;
-        Color = Category.Color;
-        Name = Category.Name;
-        Icon = Category.Icon;
+    if (Task.UserCategory !== "None" && ReturnTaskState(ID) === "Unfinished") {
+      let { Color, ID, Icon, Name } = UserCategoriesArray.find((Category) => {
+        return Category.ID === Task.UserCategory;
       });
       const CategoryBadge = document.createElement("section");
       const CategoryBadgeName = document.createElement("span");
@@ -699,14 +696,14 @@ function AppendTaskContainer(Tasks) {
       PinBadge.src = IconsSrc.PaperClipIcon[UserSettings.Theme];
       TaskContainer.append(PinBadge);
     }
-    TaskTitle.textContent = Task.Title;
+    TaskTitle.textContent = Title;
     if (UserSettings.Calendar === "Solar") {
-      TaskDate.textContent = NumericToSolar(Task.NumericDate);
+      TaskDate.textContent = NumericToSolar(NumericDate);
     }
     if (UserSettings.Calendar === "Gregorian") {
-      TaskDate.textContent = NumericToGregorian(Task.NumericDate);
+      TaskDate.textContent = NumericToGregorian(NumericDate);
     }
-    TaskTime.textContent = NumericToTime(Task.NumericDate);
+    TaskTime.textContent = NumericToTime(NumericDate);
     FragmentOfTaskContainers.append(TaskContainer);
   });
   ListSection.append(FragmentOfTaskContainers);
@@ -807,7 +804,7 @@ function DisplaySelectModeBar() {
   CompleteButton.innerText = Strings.CompleteTask[UserSettings.CurrentLang];
   RestoreButton.innerText = Strings.RestoreTask[UserSettings.CurrentLang];
   // Event listener
-  ExistSelectModeButton.addEventListener("click", DeselectAll);
+  ExistSelectModeButton.addEventListener("click", DeSelectAll);
   MoveToTrashButton.addEventListener("click", MoveToTrash);
   FailButton.addEventListener("click", FailTask);
   CompleteButton.addEventListener("click", CompleteTask);

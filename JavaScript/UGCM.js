@@ -184,7 +184,7 @@ function DisplayUGCP(ID) {
   SidebarItems.forEach((Item) => {
     if (Item.className.includes("hovered")) Item.classList.remove("hovered");
   });
-  ToggleSelectMode();
+  DeSelectAll();
 }
 function NewCategoryConstructor(ID, Name, Color, Icon) {
   this.ID = ID;

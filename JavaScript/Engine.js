@@ -71,12 +71,20 @@ function LoadSave() {
 function ShortCutManager(Event) {
   const SearchBar = document.getElementById("search-bar");
   if (Event.keyCode === 27) {
-    Event.preventDefault();
-    HideModal();
+    if (DoesElementExist("modal-container")) {
+      Event.preventDefault();
+      HideModal();
+    }
   }
   if (Event.ctrlKey && Event.keyCode === 70) {
     Event.preventDefault();
     SearchBar.focus();
+  }
+  if (SelectMode && Event.keyCode === 46) {
+    DeleteModal("Normal");
+  }
+  if (SelectMode && Event.keyCode === 27) {
+    DeSelectAll();
   }
 }
 document.body.addEventListener("contextmenu", (event) => {
