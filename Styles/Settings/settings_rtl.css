@@ -13,10 +13,10 @@
   z-index: 200;
 }
 .setting-in {
-  transform: translateX(480%);
+  left: 0 !important;
 }
 .setting-out {
-  transform: translateX(-480%);
+  left: -100% !important;
 }
 #settings-header {
   position: relative;
