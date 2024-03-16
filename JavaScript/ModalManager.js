@@ -1,6 +1,6 @@
+let DragModalMode = false;
 function EditModal(ID) {
   if (DoesElementExist("modal-container")) return;
-  EditMode = true;
   let TaskIndex = AllTasksArray.findIndex((Task) => {
     return Task.ID === ID;
   });
@@ -35,7 +35,10 @@ function EditModal(ID) {
   const DateInputBadge = document.createElement("span");
   const EditDateInput = document.createElement("input");
   EditDateSection.id = "edit-date-section";
-  EditDateInput.value = AllTasksArray[TaskIndex].DisplayDate;
+  EditDateInput.value =
+    UserSettings.Calendar === "Gregorian"
+      ? NumericToGregorian(AllTasksArray[TaskIndex].NumericDate)
+      : NumericToSolar(AllTasksArray[TaskIndex].NumericDate);
   DateInputBadge.className = "badge-modified";
   EditDateInput.id = "edit-date-input";
   EditDateInput.className = "task-input";
@@ -142,6 +145,7 @@ function EditModal(ID) {
   ModalContainer.append(HideModalBtn, ModalInputsContainer, CategoriesTasksSection, ModalButtonContainer);
   document.body.append(ModalContainer);
   AlignModalAtCenter();
+  AddDragEventListenersToModal();
   CharacterLimit("edit-title-input");
   // Select Appropiate option based on selected task category
   const CategoryOptions = Array.from(document.querySelectorAll("#select-category-select-box .option"));
@@ -282,6 +286,7 @@ function NewTaskModal() {
   ModalContainer.append(HideModalBtn, ModalInputsContainer, ModalButtonContainer);
   document.body.append(ModalContainer);
   AlignModalAtCenter();
+  AddDragEventListenersToModal();
   CharacterLimit("task-title-input");
   // Select Appropiate option based on selected task category
   const CategoryOptions = Array.from(document.querySelectorAll("#select-category-select-box .option"));
@@ -434,6 +439,7 @@ function NewCategoryModal() {
   ModalButtonContainer.append(ConfirmBtn, CancelBtn);
   ModalContainer.append(HideModalBtn, ModalInputsContainer, PickColorSection, PickIconSection, ModalButtonContainer);
   document.body.append(ModalContainer);
+  AddDragEventListenersToModal();
   AlignModalAtCenter();
   CharacterLimit("category-title-input");
 }
@@ -589,6 +595,7 @@ function EditCategoryModal(ID) {
   ModalContainer.append(HideModalBtn, ModalInputsContainer, PickColorSection, ModalButtonContainer, PickIconSection);
   document.body.append(ModalContainer);
   AlignModalAtCenter();
+  AddDragEventListenersToModal();
   CharacterLimit("category-title-input");
 }
 function BackUpModal() {
@@ -722,6 +729,7 @@ function BackUpModal() {
   // Final
   document.body.append(ModalContainer);
   AlignModalAtCenter();
+  AddDragEventListenersToModal();
 }
 function ReturnFromModalSubPage() {
   let SubPage = document.getElementById("modal-sub-page");
@@ -747,6 +755,7 @@ function DeleteModal(Type, ID) {
   // Types Include a DeleteModal for trashed task section without any move to trash checkbox a normal one and one for deleting user categories
   const ModalContainer = document.createElement("section");
   ModalContainer.id = "modal-container";
+  ModalContainer.className = "modal";
   // Hide Button
   const HideModalBtn = document.createElement("button");
   HideModalBtn.id = "close-btn";
@@ -810,6 +819,7 @@ function DeleteModal(Type, ID) {
   ModalContainer.append(HideModalBtn, ModalText, ModalButtonContainer);
   document.body.append(ModalContainer);
   AlignModalAtCenter();
+  AddDragEventListenersToModal();
   switch (Type) {
     case "Normal":
     case "Completed":
@@ -826,7 +836,6 @@ function DeleteModal(Type, ID) {
   }
 }
 function HideModal() {
-  EditMode = false;
   let Modal = document.getElementById("modal-container");
   Modal.remove();
 }
@@ -847,3 +856,18 @@ function AlignModalAtCenter() {
   Modal.style.left = `${CenterX}px`;
   Modal.style.top = `${CenterY}px`;
 }
+function AddDragEventListenersToModal() {
+  const Modal = document.querySelector(".modal");
+  Modal.addEventListener("mousedown", () => {
+    DragModalMode = true;
+  });
+}
+document.addEventListener("mousemove", (Event) => {
+  if (!DragModalMode) return;
+  const Modal = document.querySelector(".modal");
+  Modal.style.top = `${Event.clientY}px`;
+  Modal.style.left = `${Event.clientX}px`;
+});
+document.addEventListener("mouseup", () => {
+  DragModalMode = false;
+});
