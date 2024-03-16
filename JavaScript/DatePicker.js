@@ -304,9 +304,9 @@ function CreateDatePicker(ID) {
     PickDayButton.className = "pick-day-button";
     PickDayButton.id = "Day-" + Counter;
     PickDayButton.setAttribute("data-day", Counter);
-    PickDayButton.innerText = Counter;
+    PickDayButton.innerText = PlacePersianNumbers(Counter);
     DayButtonsContainer.append(PickDayButton);
-    PickDayButton.addEventListener("click", () => PickDays(PickDayButton.innerText));
+    PickDayButton.addEventListener("click", () => PickDays(PickDayButton.dataset.day));
   }
   const TimePickerElement = document.createElement("section");
   const TimePickerHourSection = document.createElement("section");
@@ -440,13 +440,13 @@ function UpdateDatePicker() {
   ];
   if (DatePickerSettings.type === "Solar") {
     if (!DatePicker) return;
-    Year.innerText = DateObject.SolarYear;
+    Year.innerText = PlacePersianNumbers(DateObject.SolarYear);
     Month.innerText = SolarMonthArray[DateObject.SolarMonth];
     HighLightSelectedDay(`Day-${DateObject.SolarDay}`);
   }
   if (DatePickerSettings.type === "Gregorian") {
     if (!DatePicker) return;
-    Year.innerText = DateObject.GregorianYear;
+    Year.innerText = PlacePersianNumbers(DateObject.GregorianYear);
     Month.innerText = GregorianMonthArray[DateObject.GregorianMonth];
     HighLightSelectedDay(`Day-${DateObject.GregorianDay}`);
   }
@@ -479,10 +479,10 @@ function CheckDaysOfTheMonth(DayButtons) {
 }
 function DisplayDateStringIntoInput(TargetInput) {
   if (DatePickerSettings.type === "Solar") {
-    if (TargetInput) TargetInput.value = ExtractDate("Solar", "String");
+    if (TargetInput) TargetInput.value = PlacePersianNumbers(ExtractDate("Solar", "String"));
   }
   if (DatePickerSettings.type === "Gregorian") {
-    if (TargetInput) TargetInput.value = ExtractDate("Gregorian", "String");
+    if (TargetInput) TargetInput.value = PlacePersianNumbers(ExtractDate("Gregorian", "String"));
   }
 }
 function IncreamentHour() {
@@ -512,8 +512,8 @@ function DecreamentMinute() {
 function UpdateTimePicker() {
   const TaskHourInput = document.getElementById("task-hour-input");
   const TaskMinuteInput = document.getElementById("task-minute-input");
-  TaskHourInput.value = DateObject.Hour.toString().padStart(2, "0");
-  TaskMinuteInput.value = DateObject.Minute.toString().padStart(2, "0");
+  TaskHourInput.value = PlacePersianNumbers(DateObject.Hour.toString().padStart(2, "0"));
+  TaskMinuteInput.value = PlacePersianNumbers(DateObject.Minute.toString().padStart(2, "0"));
   TargetInput.dataset.DateObject = JSON.stringify(DateObject);
 }
 function HighLightSelectedDay(ID) {

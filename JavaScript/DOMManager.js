@@ -698,12 +698,12 @@ function AppendTaskContainer(Tasks) {
     }
     TaskTitle.textContent = Title;
     if (UserSettings.Calendar === "Solar") {
-      TaskDate.textContent = NumericToSolar(NumericDate);
+      TaskDate.textContent = PlacePersianNumbers(NumericToSolar(NumericDate));
     }
     if (UserSettings.Calendar === "Gregorian") {
-      TaskDate.textContent = NumericToGregorian(NumericDate);
+      TaskDate.textContent = PlacePersianNumbers(NumericToGregorian(NumericDate));
     }
-    TaskTime.textContent = NumericToTime(NumericDate);
+    TaskTime.textContent = PlacePersianNumbers(NumericToTime(NumericDate));
     FragmentOfTaskContainers.append(TaskContainer);
   });
   ListSection.append(FragmentOfTaskContainers);
@@ -771,7 +771,7 @@ function HighLightSelectedSortButton(ID) {
 function DisplaySelectModeBar() {
   if (DoesElementExist("select-bar")) {
     const SelectedItemsElem = document.getElementById("selected-items");
-    SelectedItemsElem.innerText = `${ReturnSelectedTasks().length} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
+    SelectedItemsElem.innerText = `${PlacePersianNumbers(ReturnSelectedTasks().length)} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
     return;
   }
   const ListSection = document.getElementById("list-section");
@@ -796,7 +796,7 @@ function DisplaySelectModeBar() {
   RestoreButton.className = "select-bar-task-btn";
   ListSection.classList.add("padding-bottom");
   //InnerHTML
-  SelectedItemsElem.innerText = `${ReturnSelectedTasks().length} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
+  SelectedItemsElem.innerText = `${PlacePersianNumbers(ReturnSelectedTasks().length)} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
   ExistSelectModeButton.innerText = Strings.DeSelect[UserSettings.CurrentLang];
   DeleteButton.innerText = Strings.Delete[UserSettings.CurrentLang];
   MoveToTrashButton.innerText = Strings.MoveToTrash[UserSettings.CurrentLang];

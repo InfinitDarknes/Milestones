@@ -52,10 +52,10 @@ function ShowDateAndClock() {
   const FullDate = document.getElementById("full-date");
   switch (UserSettings.Calendar) {
     case "Solar":
-      FullDate.innerText = ExtractDate("Solar", "String");
+      FullDate.innerText = PlacePersianNumbers(ExtractDate("Solar", "String"));
       break;
     default:
-      FullDate.innerText = ExtractDate("Gregorian", "String");
+      FullDate.innerText = PlacePersianNumbers(ExtractDate("Gregorian", "String"));
       break;
   }
 }
@@ -66,11 +66,9 @@ function GetTime() {
   let Minutes = new Date().getMinutes().toString().padStart(2, "0");
   let Seconds = new Date().getSeconds().toString().padStart(2, "0");
   if (Hour === 0) Hour = 12;
-  Time.innerText = `${Hour} : ${Minutes} : ${Seconds}`;
-  if ((Hour > 0 && Hour < 5) || Hour >= 18 || Hour === 0)
-    TimeIcon.src = IconsSrc.MoonIcon[UserSettings.Theme];
-  if (Hour > 5 && Hour < 18)
-    TimeIcon.src = IconsSrc.SunIcon[UserSettings.Theme];
+  Time.innerText = `${PlacePersianNumbers(Hour)} : ${PlacePersianNumbers(Minutes)} : ${PlacePersianNumbers(Seconds)}`;
+  if ((Hour > 0 && Hour < 5) || Hour >= 18 || Hour === 0) TimeIcon.src = IconsSrc.MoonIcon[UserSettings.Theme];
+  if (Hour > 5 && Hour < 18) TimeIcon.src = IconsSrc.SunIcon[UserSettings.Theme];
 }
 function DoesElementExist(ID) {
   if (document.getElementById(ID)) return true;
@@ -89,4 +87,26 @@ function FetchLocalStorge() {
     LocalStorgeObject[Key] = localStorage.getItem(Key);
   });
   return JSON.stringify(LocalStorgeObject);
+}
+function PlacePersianNumbers(String) {
+  String = String.toString();
+  if (UserSettings.CurrentLang !== "fa") return String;
+  const PersianNumbers = [
+    { English: "0", Persian: "۰" },
+    { English: "1", Persian: "۱" },
+    { English: "2", Persian: "۲" },
+    { English: "3", Persian: "۳" },
+    { English: "4", Persian: "۴" },
+    { English: "5", Persian: "۵" },
+    { English: "6", Persian: "۶" },
+    { English: "7", Persian: "۷" },
+    { English: "8", Persian: "۸" },
+    { English: "9", Persian: "۹" },
+  ];
+  for (n = 0; n < PersianNumbers.length; n++) {
+    if (String.includes(PersianNumbers[n].English)) {
+      String = String.replaceAll(new RegExp(PersianNumbers[n].English, "g"), PersianNumbers[n].Persian);
+    }
+  }
+  return String;
 }

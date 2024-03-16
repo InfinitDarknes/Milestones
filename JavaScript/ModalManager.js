@@ -35,10 +35,13 @@ function EditModal(ID) {
   const DateInputBadge = document.createElement("span");
   const EditDateInput = document.createElement("input");
   EditDateSection.id = "edit-date-section";
-  EditDateInput.value =
-    UserSettings.Calendar === "Gregorian"
-      ? NumericToGregorian(AllTasksArray[TaskIndex].NumericDate)
-      : NumericToSolar(AllTasksArray[TaskIndex].NumericDate);
+  if (UserSettings.Calendar === "Solar") {
+    EditDateInput.value = PlacePersianNumbers(NumericToSolar(AllTasksArray[TaskIndex].NumericDate));
+  }
+  if (UserSettings.Calendar === "Gregorian") {
+    EditDateInput.value = PlacePersianNumbers(NumericToGregorian(AllTasksArray[TaskIndex].NumericDate));
+  }
+
   DateInputBadge.className = "badge-modified";
   EditDateInput.id = "edit-date-input";
   EditDateInput.className = "task-input";
@@ -842,7 +845,7 @@ function HideModal() {
 function CharacterLimit(ID) {
   const CharacterLimitTag = document.querySelector(".character-limit");
   let Input = document.getElementById(ID);
-  CharacterLimitTag.innerText = `${Input.value.length}/${Input.maxLength}`;
+  CharacterLimitTag.innerText = `${PlacePersianNumbers(Input.value.length)}/${PlacePersianNumbers(Input.maxLength)}`;
 }
 function AlignModalAtCenter() {
   if (!DoesElementExist("modal-container")) return;
@@ -858,16 +861,17 @@ function AlignModalAtCenter() {
 }
 function AddDragEventListenersToModal() {
   const Modal = document.querySelector(".modal");
-  Modal.addEventListener("mousedown", () => {
+  Modal.draggable = true;
+  Modal.addEventListener("dragstart", () => {
     DragModalMode = true;
   });
+  Modal.addEventListener("dragend", () => {
+    DragModalMode = false;
+  });
 }
-document.addEventListener("mousemove", (Event) => {
+document.addEventListener("dragover", (Event) => {
   if (!DragModalMode) return;
   const Modal = document.querySelector(".modal");
   Modal.style.top = `${Event.clientY}px`;
   Modal.style.left = `${Event.clientX}px`;
-});
-document.addEventListener("mouseup", () => {
-  DragModalMode = false;
 });
