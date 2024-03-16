@@ -1,7 +1,7 @@
 #modal-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   position: absolute;
   top: 100px;
@@ -11,6 +11,12 @@
   padding: 10px;
   background-color: #1b1a1d;
   border-radius: 5px;
+}
+#modal-container::after {
+  content: "" !important;
+}
+#modal-container::before {
+  content: "" !important;
 }
 #modal-buttons-container {
   order: 2;
@@ -90,11 +96,9 @@
   order: 1;
   display: flex;
   justify-content: flex-end;
-  width: 100%;
   height: 35px;
   border-radius: 50%;
   background: none;
-  margin-bottom: 20px;
 }
 #close-btn img {
   width: 35px;
@@ -313,6 +317,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  margin-top: 20px;
 }
 #edit-date-input {
   cursor: pointer;

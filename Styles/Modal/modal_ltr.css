@@ -1,7 +1,7 @@
 #modal-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-start;
   position: absolute;
   top: 100px;
@@ -11,6 +11,13 @@
   padding: 10px;
   border-radius: 5px;
 }
+#modal-container:active::before {
+  content: "" !important;
+}
+#modal-container:active::after {
+  content: "" !important;
+}
+
 #modal-sub-page {
   order: 1;
   width: calc(100% - 30px);
@@ -80,11 +87,9 @@
   order: 1;
   display: flex;
   justify-content: flex-end;
-  width: 100%;
   height: 35px;
   border-radius: 50%;
   background: none;
-  margin-bottom: 20px;
 }
 #close-btn img {
   width: 35px;
@@ -278,6 +283,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  margin-top: 20px;
 }
 #edit-date-input {
   cursor: pointer;
