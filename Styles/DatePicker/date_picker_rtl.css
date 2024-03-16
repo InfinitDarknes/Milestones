@@ -1,6 +1,6 @@
 @font-face {
-  font-family: dastnevis;
-  src: url(../../Fonts/danstevis.otf);
+  font-family: Vazir;
+  src: url(../../Fonts/Vazir.woff);
 }
 #date-picker * {
   box-sizing: border-box;
@@ -18,8 +18,8 @@ button {
   position: relative;
   cursor: pointer;
   user-select: none;
-  font-family: dastnevis;
-  font-size: 2.1em;
+  font-family: Vazir;
+  font-size: 1.8em;
   direction: ltr !important;
 }
 #date-picker {
@@ -59,7 +59,6 @@ button {
   width: 30px;
   height: 30px;
   border-radius: 5px;
-  font-size: 1.5em;
   padding: 5px;
   border: 0;
   transition: 0.3s;
@@ -73,8 +72,8 @@ button {
 }
 #year,
 #month {
-  font-size: 2.1em;
-  font-family: dastnevis;
+  font-size: 1.5em;
+  font-family: Vazir;
   font-weight: 400;
   margin: 0 5px;
 }
@@ -92,8 +91,8 @@ button {
   width: 35px;
   height: 35px;
   border: 0;
-  font-size: 1.5em;
-  font-family: dastnevis;
+  font-size: 1.2em;
+  font-family: Vazir;
   background: none;
   border-radius: 50%;
   transition: 0.1s;
@@ -120,8 +119,8 @@ button {
   border: 0;
   border-radius: 5px;
   margin-left: 10px;
-  font-family: dastnevis;
-  font-size: 1.5em;
+  font-family: Vazir;
+  font-size: 1.2em;
   transition: 0.3s;
 }
 #pick-today-button:hover,
@@ -144,7 +143,6 @@ button {
   align-items: center;
   justify-content: center;
   margin: 0 15px;
-  font-size: 2em;
 }
 #time-picker-separator img {
   width: 25px;
@@ -164,8 +162,8 @@ button {
   border-radius: 5px;
   border: 0;
   margin-right: 4px !important;
-  font-size: 2em;
-  font-family: dastnevis;
+  font-size: 1.2em;
+  font-family: Vazir;
   text-align: center;
 }
 .tweak-time-buttons {
