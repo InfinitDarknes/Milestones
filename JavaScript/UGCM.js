@@ -87,13 +87,9 @@ function AppendUGC() {
   });
 }
 function DisplayUGCP(ID) {
+  const Window = document.querySelector(".window");
+  if (Window) Window.remove();
   if (DoesElementExist("settings-container")) HideSettings();
-
-  if (DoesElementExist("trash-bin-section")) document.getElementById("trash-bin-section").remove();
-
-  if (DoesElementExist("tasks-section")) document.getElementById("tasks-section").remove();
-
-  if (DoesElementExist("user-category-page")) document.getElementById("user-category-page").remove();
   // Find Usercategory info based on id
   let SelectedCategory = UserCategoriesArray.find((Category) => {
     return Category.ID === ID;
@@ -103,14 +99,15 @@ function DisplayUGCP(ID) {
   //
   const UserCategoryPage = document.createElement("section");
   UserCategoryPage.id = "user-category-page";
+  UserCategoryPage.className = "window";
   // Header
   const UserCategoryPageHeader = document.createElement("header");
   const UserCategoryPageTitle = document.createElement("span");
   const UserCategoryPageIcon = document.createElement("img");
-  UserCategoryPageHeader.id = "user-category-page-header";
-  UserCategoryPageTitle.id = "user-category-page-title";
+  UserCategoryPageHeader.className = "window-header";
+  UserCategoryPageTitle.className = "header-title";
   UserCategoryPageTitle.innerText = Name;
-  UserCategoryPageIcon.id = "user-category-page-icon";
+  UserCategoryPageIcon.className = "header-icon";
   UserCategoryPageIcon.src = Icon;
   const ListSection = document.createElement("section");
   ListSection.id = "list-section";
@@ -120,63 +117,56 @@ function DisplayUGCP(ID) {
   AppendTaskBar();
   AppendSelectAllSection();
   // Sort unfinished button
-  if (!DoesElementExist("sort-unfinished")) {
-    const SortBar = document.getElementById("sort-bar");
-    const SortUnfinished = document.createElement("button");
-    SortUnfinished.className = "sort-buttons";
-    SortUnfinished.id = "sort-unfinished";
-    SortUnfinished.textContent = Strings.SortUnfinished[UserSettings.CurrentLang];
-    SortUnfinished.addEventListener("click", () => {
-      CurrentWindow = `UserCategory-Unfinished`;
-      LoadUserCategorisedTasks(ReturnUnfinishedTasks());
-      HighLightSelectedSortButton("sort-unfinished");
-      ToggleSelectMode();
-      DeselectAll();
-    });
-    SortBar.append(SortUnfinished);
-  }
+  const SortBar = document.getElementById("sort-bar");
+  const SortUnfinished = document.createElement("button");
+  SortUnfinished.className = "sort-buttons";
+  SortUnfinished.id = "sort-unfinished";
+  SortUnfinished.textContent = Strings.SortUnfinished[UserSettings.CurrentLang];
+  SortUnfinished.addEventListener("click", () => {
+    CurrentWindow = `UserCategory-Unfinished`;
+    LoadUserCategorisedTasks(ReturnUnfinishedTasks());
+    HighLightSelectedSortButton("sort-unfinished");
+    ToggleSelectMode();
+    DeselectAll();
+  });
+  SortBar.append(SortUnfinished);
+
   // Sort today button
-  if (!DoesElementExist("sort-today")) {
-    const SortBar = document.getElementById("sort-bar");
-    const SortToday = document.createElement("button");
-    SortToday.className = "sort-buttons";
-    SortToday.id = "sort-today";
-    SortToday.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
-    SortToday.addEventListener("click", () => {
-      CurrentWindow = `UserCategory-Today`;
-      LoadUserCategorisedTasks(ReturnTodayTasks());
-      HighLightSelectedSortButton("sort-today");
-    });
-    SortBar.append(SortToday);
-  }
+  const SortToday = document.createElement("button");
+  SortToday.className = "sort-buttons";
+  SortToday.id = "sort-today";
+  SortToday.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
+  SortToday.addEventListener("click", () => {
+    CurrentWindow = `UserCategory-Today`;
+    LoadUserCategorisedTasks(ReturnTodayTasks());
+    HighLightSelectedSortButton("sort-today");
+  });
+  SortBar.append(SortToday);
+
   // Sort tomorrow button
-  if (!DoesElementExist("sort-tomorrow")) {
-    const SortBar = document.getElementById("sort-bar");
-    const SortTomorrow = document.createElement("button");
-    SortTomorrow.className = "sort-buttons";
-    SortTomorrow.id = "sort-tomorrow";
-    SortTomorrow.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
-    SortTomorrow.addEventListener("click", () => {
-      CurrentWindow = `UserCategory-Tomorrow`;
-      LoadUserCategorisedTasks(ReturnTomorrowTasks());
-      HighLightSelectedSortButton("sort-tomorrow");
-    });
-    SortBar.append(SortTomorrow);
-  }
+  const SortTomorrow = document.createElement("button");
+  SortTomorrow.className = "sort-buttons";
+  SortTomorrow.id = "sort-tomorrow";
+  SortTomorrow.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
+  SortTomorrow.addEventListener("click", () => {
+    CurrentWindow = `UserCategory-Tomorrow`;
+    LoadUserCategorisedTasks(ReturnTomorrowTasks());
+    HighLightSelectedSortButton("sort-tomorrow");
+  });
+  SortBar.append(SortTomorrow);
+
   // Sort in 2 days button
-  if (!DoesElementExist("sort-in-2-days")) {
-    const SortBar = document.getElementById("sort-bar");
-    const SortIn2Days = document.createElement("button");
-    SortIn2Days.className = "sort-buttons";
-    SortIn2Days.id = "sort-in-2-days";
-    SortIn2Days.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
-    SortIn2Days.addEventListener("click", () => {
-      CurrentWindow = `UserCategory-In2Days`;
-      LoadUserCategorisedTasks(ReturnIn2DaysTasks());
-      HighLightSelectedSortButton("sort-in-2-days");
-    });
-    SortBar.append(SortIn2Days);
-  }
+  const SortIn2Days = document.createElement("button");
+  SortIn2Days.className = "sort-buttons";
+  SortIn2Days.id = "sort-in-2-days";
+  SortIn2Days.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
+  SortIn2Days.addEventListener("click", () => {
+    CurrentWindow = `UserCategory-In2Days`;
+    LoadUserCategorisedTasks(ReturnIn2DaysTasks());
+    HighLightSelectedSortButton("sort-in-2-days");
+  });
+  SortBar.append(SortIn2Days);
+
   // Search bar
   AppendSearchBar();
   // Unhover the sidebar items because the UGC are also in sidebar
@@ -199,7 +189,7 @@ function AddCategory() {
   let Icon = TempUserCategoryInfo.Icon;
   let ID = "UserCategory-" + GenerateUniqeID(8);
   UserCategoriesArray.push(new NewCategoryConstructor(ID, Name, Color, Icon));
-  localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
+  SaveAll();
   AppendUGC();
   ResetTempUserCategoryInfo();
   return true;
@@ -214,8 +204,7 @@ function DeleteCategory(ID) {
     let Index = UserCategoriesArray.indexOf(Category);
     UserCategoriesArray.splice(Index, 1);
   });
-  localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-  localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
+  SaveAll();
   UpdateInbox();
   AppendUGC();
 }

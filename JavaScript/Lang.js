@@ -1,11 +1,44 @@
 const Strings = {
+  AddNote: {
+    en: "New note",
+    fa: "افزودن یادداشت",
+  },
+  NoteTextArea: {
+    en: "Write your note text here ....",
+    fa: "متن یادداشت رو اینجا بنویس ....",
+  },
+  NoteBadge: {
+    en: "Note",
+    fa: "یادداشت",
+  },
+  Read: {
+    en: "Read",
+    fa: "خواندن",
+  },
+  Close: {
+    en: "Close",
+    fa: "بستن",
+  },
+
+  NoteTitleInputBadge: {
+    en: "Title(optional)",
+    fa: "عنوان(اختیاری)",
+  },
+  NoteTitleInputPlaceHolder: {
+    en: "Title is optional",
+    fa: "عنوان یادداشت اختیاری است",
+  },
   Delete: {
     en: "Delete",
     fa: "حذف",
   },
   Cancel: {
     en: "Cancel",
-    fa: "برگشت",
+    fa: "لغو",
+  },
+  Apply: {
+    en: "Apply changes",
+    fa: "اعمال تغییرات",
   },
   Select: {
     en: "Select",
@@ -75,7 +108,7 @@ const Strings = {
     en: "Write....",
     fa: "نوشتن...",
   },
-  TitleInputBadge: {
+  Title: {
     en: "Title",
     fa: "عنوان",
   },
@@ -83,9 +116,17 @@ const Strings = {
     en: "Pick a date",
     fa: "انتخاب تاریخ",
   },
-  DateInputBadge: {
+  Date: {
     en: "Date",
     fa: "تاریخ",
+  },
+  DateOfCreation: {
+    en: "Date of creation",
+    fa: "تاریخ ساخت",
+  },
+  ID: {
+    en: "ID",
+    fa: "آیدی",
   },
   SelectCategoryBadge: {
     en: "Category",
@@ -206,7 +247,7 @@ const Strings = {
     en: "Move to trash bin",
     fa: "فرستادن به سطل زباله",
   },
-  EditModalConfirmButton: {
+  Edit: {
     en: "Edit",
     fa: "ویرایش",
   },

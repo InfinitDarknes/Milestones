@@ -63,7 +63,7 @@ function AppendHTMLElements(Action) {
         DragableElement.IsTaskCompleted = false;
         DragableElement.IsTaskTrashed = false;
       }
-      localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
+      SaveAll();
       CurrentWindow = "Home-Unfinished";
       LoadUnfinishedTasks();
       ToggleSelectMode();
@@ -359,6 +359,7 @@ function AppendTaskSection() {
   const TaskSection = document.createElement("section");
   const ListSection = document.createElement("section");
   TaskSection.id = "tasks-section";
+  TaskSection.className = "window";
   ListSection.id = "list-section";
   TaskSection.append(ListSection);
   document.body.append(TaskSection);
@@ -450,7 +451,10 @@ function AppendSideBar() {
   const Notes = document.createElement("button");
   Notes.id = "notes-button";
   Notes.className = "side-bar-item";
-  Notes.addEventListener("click", () => HighLightSelectedSideBarItem(Notes.id));
+  Notes.addEventListener("click", () => {
+    HighLightSelectedSideBarItem(Notes.id);
+    DisplayNotes();
+  });
   const NotesIcon = document.createElement("img");
   NotesIcon.className = "side-bar-item-icon";
   NotesIcon.src = IconsSrc.MyNotesIcon[UserSettings.Theme];
@@ -735,14 +739,9 @@ function EmptyBox(Text) {
   ListSection.append(EmptyBoxIconContainer);
 }
 function DisplayHome() {
-  const TrashBinSection = document.getElementById("trash-bin-section");
-  const UserCategoryPage = document.getElementById("user-category-page");
+  const Window = document.querySelector(".window");
   if (DoesElementExist("settings-container")) HideSettings();
-  if (CurrentWindow.includes("Trash")) TrashBinSection.remove();
-  if (CurrentWindow.includes("UserCategory")) {
-    UserCategoryPage.remove();
-    SelectedUserCategory = "";
-  }
+  if (Window) Window.remove();
   CurrentWindow = "Home-Unfinished";
   AppendTaskSection();
   AppendTaskBar();

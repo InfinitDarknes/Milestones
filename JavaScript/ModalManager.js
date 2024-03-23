@@ -1,4 +1,167 @@
 let DragModalMode = false;
+function AddNoteModal() {
+  if (DoesElementExist("modal-container")) return;
+  const ModalContainer = document.createElement("section");
+  ModalContainer.id = "modal-container";
+  ModalContainer.className = "modal add-note-modal";
+  const ModalInputsContainer = document.createElement("section");
+  ModalInputsContainer.id = "modal-inputs-container";
+  // Task Title Section
+  const TitleSection = document.createElement("section");
+  const TitleBadge = document.createElement("span");
+  const TitleInput = document.createElement("input");
+  TitleSection.id = "task-title-section";
+  TitleBadge.className = "badge-modified";
+  TitleInput.id = "task-title-input";
+  TitleInput.className = "task-input";
+  TitleBadge.innerText = Strings.NoteTitleInputBadge[UserSettings.CurrentLang];
+  TitleInput.placeholder = Strings.NoteTitleInputPlaceHolder[UserSettings.CurrentLang];
+  TitleInput.maxLength = "30";
+  TitleInput.addEventListener("input", () => CharacterLimit("task-title-input"));
+  TitleSection.append(TitleBadge, TitleInput);
+  // Note text area
+  const NoteSection = document.createElement("section");
+  const NoteTextArea = document.createElement("textarea");
+  NoteSection.id = "note-section";
+  NoteTextArea.id = "note-text-area";
+  NoteTextArea.placeholder = Strings.NoteTextArea[UserSettings.CurrentLang];
+  const NoteBadge = document.createElement("span");
+  NoteBadge.className = "badge-modified";
+  NoteBadge.innerText = Strings.NoteBadge[UserSettings.CurrentLang];
+  NoteSection.append(NoteTextArea, NoteBadge);
+  // Character Limit section
+  const CharacterLimitTag = document.createElement("section");
+  CharacterLimitTag.className = "character-limit";
+  TitleSection.append(CharacterLimitTag);
+  // Button Container and Confirm/Cancel Button
+  const ModalButtonContainer = document.createElement("section");
+  ModalButtonContainer.id = "modal-button-container";
+  const ConfirmBtn = document.createElement("button");
+  ConfirmBtn.id = "confirm-btn";
+  ConfirmBtn.className = "green-btn";
+  ConfirmBtn.innerText = Strings.NewTaskModalConfirmButton[UserSettings.CurrentLang];
+  ConfirmBtn.addEventListener("click", function () {
+    if (!NoteTextArea.value) {
+      NoteTextArea.style.border = "1px solid red";
+      return;
+    }
+    NewNote(TitleInput.value, NoteTextArea.value);
+    HideModal();
+  });
+  const CancelBtn = document.createElement("button");
+  CancelBtn.id = "cancel-btn";
+  CancelBtn.className = "red-btn";
+  CancelBtn.innerText = Strings.NewTaskModalCancelButton[UserSettings.CurrentLang];
+  CancelBtn.addEventListener("click", HideModal);
+  const HideModalBtn = document.createElement("button");
+  HideModalBtn.id = "close-btn";
+  const HideModalIcon = document.createElement("img");
+  HideModalIcon.src = IconsSrc.CloseIcon[UserSettings.Theme];
+  HideModalBtn.appendChild(HideModalIcon);
+  HideModalBtn.addEventListener("click", HideModal);
+  ModalButtonContainer.append(ConfirmBtn, CancelBtn);
+  //
+  ModalInputsContainer.append(TitleSection, NoteSection);
+  ModalContainer.append(HideModalBtn, ModalInputsContainer, ModalButtonContainer);
+  document.body.append(ModalContainer);
+  AlignModalAtCenter();
+  AddDragEventListenersToModal();
+  CharacterLimit("task-title-input");
+  // Select Appropiate option based on selected task category
+  const CategoryOptions = Array.from(document.querySelectorAll("#select-category-select-box .option"));
+  if (CurrentWindow.includes("UserCategory-")) {
+    CategoryOptions.forEach((Option) => {
+      if (Option.dataset.value === SelectedUserCategory) {
+        CategoriesTasksSelectBox.dataset.value = Option.dataset.value;
+        SelectBoxText.innerText = Option.innerText;
+      }
+    });
+  }
+}
+function ReadNoteModal(Title, ID, Date, Text) {
+  if (DoesElementExist("modal-container")) return;
+  const ModalContainer = document.createElement("section");
+  const NoteModalInfoContainer = document.createElement("section");
+  const NoteModalTitleRow = document.createElement("div");
+  const NoteModalTitle = document.createElement("span");
+  const TitleLabel = document.createElement("label");
+  const NoteModalIDRow = document.createElement("div");
+  const NoteModalID = document.createElement("span");
+  const IDLabel = document.createElement("label");
+  const NoteModalDateRow = document.createElement("div");
+  const NoteModalDate = document.createElement("span");
+  const DateLabel = document.createElement("label");
+  const NoteModalText = document.createElement("p");
+  const EditNoteBtn = document.createElement("button");
+  const DeleteNoteBtn = document.createElement("button");
+  const CancelNoteEditBtn = document.createElement("button");
+  const ApplyNoteEditBtn = document.createElement("button");
+  const HideModalBtn = document.createElement("button");
+  const HideModalIcon = document.createElement("img");
+  // Attributes
+  NoteModalDate.setAttribute("dir", "ltr");
+  NoteModalText.setAttribute("dir", "auto");
+  // Id and class
+  ModalContainer.id = "modal-container";
+  ModalContainer.className = "modal read-note-modal";
+  HideModalBtn.id = "close-btn";
+  NoteModalInfoContainer.className = "note-modal-info-container";
+  NoteModalTitleRow.className = "info-container-row";
+  NoteModalTitle.className = "note-modal-title";
+  TitleLabel.className = "note-title-label";
+  NoteModalIDRow.className = "info-container-row";
+  NoteModalID.className = "note-modal-id";
+  IDLabel.className = "note-id-label";
+  NoteModalDateRow.className = "info-container-row";
+  NoteModalDate.className = "note-modal-date";
+  DateLabel.className = "note-date-label";
+  NoteModalText.className = "note-modal-text";
+  EditNoteBtn.className = "edit-note-btn green-btn";
+  DeleteNoteBtn.className = "delete-note-btn red-btn";
+  CancelNoteEditBtn.className = "cancel-note-edit-btn red-btn";
+  ApplyNoteEditBtn.className = "apply-note-edit-btn green-btn";
+  //InnerText
+  NoteModalTitle.innerText = Title;
+  NoteModalID.innerText = ID;
+  if (UserSettings.Calendar === "Solar") {
+    NoteModalDate.innerText = `${PlacePersianNumbers(NumericToSolar(Date))} T ${PlacePersianNumbers(NumericToTime(Date))}`;
+  }
+  if (UserSettings.Calendar === "Gregorian") {
+    NoteModalDate.innerText = `${PlacePersianNumbers(NumericToGregorian(Date))} T ${PlacePersianNumbers(NumericToTime(Date))}`;
+  }
+  TitleLabel.innerText = `${Strings.Title[UserSettings.CurrentLang]} : `;
+  IDLabel.innerText = `${Strings.ID[UserSettings.CurrentLang]} : `;
+  DateLabel.innerText = `${Strings.DateOfCreation[UserSettings.CurrentLang]} : `;
+  NoteModalText.innerText = Text;
+  EditNoteBtn.innerText = Strings.Edit[UserSettings.CurrentLang];
+  DeleteNoteBtn.innerText = Strings.Delete[UserSettings.CurrentLang];
+  CancelNoteEditBtn.innerText = Strings.Cancel[UserSettings.CurrentLang];
+  ApplyNoteEditBtn.innerText = Strings.Apply[UserSettings.CurrentLang];
+  HideModalIcon.src = IconsSrc.CloseIcon[UserSettings.Theme];
+  // Append
+  NoteModalTitleRow.append(TitleLabel, NoteModalTitle);
+  NoteModalIDRow.append(IDLabel, NoteModalID);
+  NoteModalDateRow.append(DateLabel, NoteModalDate);
+  NoteModalInfoContainer.append(NoteModalTitleRow, NoteModalIDRow, NoteModalDateRow);
+  HideModalBtn.append(HideModalIcon);
+  ModalContainer.append(HideModalBtn, NoteModalInfoContainer, NoteModalText, EditNoteBtn, DeleteNoteBtn, ApplyNoteEditBtn, CancelNoteEditBtn);
+  HideModalBtn.addEventListener("click", HideModal);
+  DeleteNoteBtn.addEventListener("click", () => {
+    DeleteNote(ID);
+  });
+  EditNoteBtn.addEventListener("click", () => {
+    ActivateReadNoteModalEditMode(ID);
+  });
+  ApplyNoteEditBtn.addEventListener("click", () => {
+    ApplyEdit(ID);
+  });
+  CancelNoteEditBtn.addEventListener("click", () => {
+    CancelEdit(ID);
+  });
+  document.body.append(ModalContainer);
+  AlignModalAtCenter();
+  AddDragEventListenersToModal();
+}
 function EditModal(ID) {
   if (DoesElementExist("modal-container")) return;
   let TaskIndex = AllTasksArray.findIndex((Task) => {
@@ -23,7 +186,7 @@ function EditModal(ID) {
   TitleInputBadge.className = "badge-modified";
   EditTitleInput.className = "task-input";
   EditTitleInput.addEventListener("input", () => CharacterLimit("edit-title-input"));
-  TitleInputBadge.innerText = Strings.TitleInputBadge[UserSettings.CurrentLang];
+  TitleInputBadge.innerText = Strings.Title[UserSettings.CurrentLang];
   ModalInputsContainer.append(EditTitleSection);
   EditTitleSection.append(TitleInputBadge, EditTitleInput);
   // Character Limit section
@@ -47,7 +210,7 @@ function EditModal(ID) {
   EditDateInput.className = "task-input";
   EditDateInput.className = "task-input";
   EditDateInput.className = "task-input";
-  DateInputBadge.innerText = Strings.DateInputBadge[UserSettings.CurrentLang];
+  DateInputBadge.innerText = Strings.Date[UserSettings.CurrentLang];
   EditDateInput.setAttribute("readonly", "");
   EditDateInput.setAttribute("data-DateObject", "");
   EditDateInput.addEventListener("click", () => {
@@ -120,7 +283,7 @@ function EditModal(ID) {
   const ConfirmBtn = document.createElement("button");
   ConfirmBtn.id = "confirm-btn";
   ConfirmBtn.className = "green-btn";
-  ConfirmBtn.innerText = Strings.EditModalConfirmButton[UserSettings.CurrentLang];
+  ConfirmBtn.innerText = Strings.Edit[UserSettings.CurrentLang];
   ConfirmBtn.addEventListener("click", function () {
     AllTasksArray[TaskIndex].Title = EditTitleInput.value;
     AllTasksArray[TaskIndex].DisplayDate = EditDateInput.value;
@@ -135,7 +298,7 @@ function EditModal(ID) {
   const CancelBtn = document.createElement("button");
   CancelBtn.id = "cancel-btn";
   CancelBtn.className = "red-btn";
-  CancelBtn.innerText = Strings.EditModalCancelButton[UserSettings.CurrentLang];
+  CancelBtn.innerText = Strings.Cancel[UserSettings.CurrentLang];
   CancelBtn.addEventListener("click", HideModal);
   const HideModalBtn = document.createElement("button");
   HideModalBtn.id = "close-btn";
@@ -174,7 +337,7 @@ function NewTaskModal() {
   TitleInputBadge.className = "badge-modified";
   TaskTitleInput.id = "task-title-input";
   TaskTitleInput.className = "task-input";
-  TitleInputBadge.innerText = Strings.TitleInputBadge[UserSettings.CurrentLang];
+  TitleInputBadge.innerText = Strings.Title[UserSettings.CurrentLang];
   TaskTitleInput.placeholder = Strings.TaskTitleInputPlaceHolder[UserSettings.CurrentLang];
   TaskTitleInput.maxLength = "70";
   TaskTitleInput.addEventListener("input", () => CharacterLimit("task-title-input"));
@@ -191,7 +354,7 @@ function NewTaskModal() {
   DateInputBadge.className = "badge-modified";
   TaskDateInput.id = "task-date-input";
   TaskDateInput.className = "task-input";
-  DateInputBadge.innerText = Strings.DateInputBadge[UserSettings.CurrentLang];
+  DateInputBadge.innerText = Strings.Date[UserSettings.CurrentLang];
   TaskDateInput.placeholder = Strings.TaskDateInputPlaceHolder[UserSettings.CurrentLang];
   TaskDateInput.setAttribute("readonly", "");
   TaskDateInput.setAttribute("data-DateObject", "");
@@ -861,15 +1024,15 @@ function AlignModalAtCenter() {
 }
 function AddDragEventListenersToModal() {
   const Modal = document.querySelector(".modal");
-  Modal.draggable = true;
-  Modal.addEventListener("dragstart", () => {
+  Modal.addEventListener("mousedown", (Event) => {
+    if (Event.target.id !== "modal-container") return;
     DragModalMode = true;
   });
-  Modal.addEventListener("dragend", () => {
+  document.addEventListener("mouseup", (Event) => {
     DragModalMode = false;
   });
 }
-document.addEventListener("dragover", (Event) => {
+document.addEventListener("mousemove", (Event) => {
   if (!DragModalMode) return;
   const Modal = document.querySelector(".modal");
   Modal.style.top = `${Event.clientY}px`;

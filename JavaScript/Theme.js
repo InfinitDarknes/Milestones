@@ -34,6 +34,11 @@ let IconsSrc = {
     Light: "Icons/LightIcons/NotesIcon.png",
     Neon: "Icons/NeonIcons/NotesIcon.png",
   },
+  AddNotesIcon: {
+    Dark: "Icons/DarkIcons/AddNotesIcon.png",
+    Light: "Icons/LightIcons/AddNotesIcon.png",
+    Neon: "Icons/NeonIcons/AddNotesIcon.png",
+  },
   MyAlarmsIcon: {
     Dark: "Icons/DarkIcons/AlarmsIcon.png",
     Light: "Icons/LightIcons/AlarmsIcon.png",

@@ -1,29 +1,26 @@
 function DisplayTrashBin() {
+  const Window = document.querySelector(".window");
+  if (Window) Window.remove();
+  if (DoesElementExist("trash-bin-section")) return;
+  if (DoesElementExist("settings-container")) HideSettings();
   SelectedUserCategory = "";
   CurrentWindow = `Trash-All`;
-  if (DoesElementExist("trash-bin-section")) return;
-
-  if (DoesElementExist("settings-container")) HideSettings();
-
-  if (DoesElementExist("tasks-section")) document.getElementById("tasks-section").remove();
-
-  if (DoesElementExist("user-category-page")) document.getElementById("user-category-page").remove();
-
   // Trash Bin Section
   const TrashBinSection = document.createElement("section");
   TrashBinSection.id = "trash-bin-section";
+  TrashBinSection.className = "window";
   document.body.append(TrashBinSection);
   // List Section
   const ListSection = document.createElement("section");
   ListSection.id = "list-section";
   // Trashbin header
   const TrashBinHeader = document.createElement("section");
-  TrashBinHeader.id = "trash-bin-header";
+  TrashBinHeader.className = "window-header";
   const TrashBinIcon = document.createElement("img");
-  TrashBinIcon.id = "trash-bin-icon";
+  TrashBinIcon.className = "header-icon";
   TrashBinIcon.src = IconsSrc.TrashIcon[UserSettings.Theme];
   const TrashBinTitle = document.createElement("span");
-  TrashBinTitle.id = "trash-bin-title";
+  TrashBinTitle.className = "header-title";
   TrashBinTitle.innerText = Strings.TrashBinTitle[UserSettings.CurrentLang];
   TrashBinHeader.append(TrashBinIcon, TrashBinTitle);
   // Appending
@@ -119,7 +116,7 @@ function MoveToTrash(ID) {
     Task.IsTaskTrashed = true;
     Task.Selected = false;
   }
-  localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
+  SaveAll();
   if (SelectAllButton.checked) SelectAllButton.checked = false;
   UpdateInbox();
   ToggleSelectMode();

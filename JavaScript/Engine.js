@@ -5,6 +5,7 @@ window.onload = function () {
   LoadCurrentDate();
   FixDirection();
   LoadSave();
+  LoadSavedNotes();
   AppendTopBar();
   AppendSideBar();
   AppendUGC();
