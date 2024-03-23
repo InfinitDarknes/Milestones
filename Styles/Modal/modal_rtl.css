@@ -457,7 +457,7 @@
   padding: 10px;
   border-radius: 5px;
   font-size: 1.1rem;
-  white-space: wrap;
+  line-break: anywhere;
   overflow-y: scroll;
 }
 .edit-note-btn,
