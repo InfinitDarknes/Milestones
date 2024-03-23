@@ -20,20 +20,6 @@
   margin-top: 5px;
 }
 
-/* Task Section */
-#tasks-section {
-  order: 1;
-  position: absolute;
-  top: 62px;
-  right: 252px;
-  width: calc(100% - 252px);
-  height: calc(100% - 62px);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
 /* Task Bar */
 #task-bar {
   display: flex;

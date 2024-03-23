@@ -16,20 +16,6 @@
   margin-top: 5px;
 }
 
-/* Top Bar Section */
-#tasks-section {
-  order: 3;
-  position: absolute;
-  top: 62px;
-  left: 252px;
-  width: calc(100% - 252px);
-  height: calc(100% - 62px);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
 /* Task Bar */
 #task-bar {
   width: calc(100% - 40px);
