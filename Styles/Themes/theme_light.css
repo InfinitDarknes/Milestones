@@ -14,15 +14,14 @@
   --red: #fe4545;
   --actual-white: #fff;
 }
-
+.Light .window {
+  background-color: var(--light-main);
+}
 .Light .hovered {
   background-color: var(--yellow) !important;
 }
 .Light #select-all-section {
   color: var(--black);
-}
-.Light #tasks-section {
-  background-color: var(--light-main);
 }
 .Light .sort-buttons {
   background: var(--white);
@@ -75,7 +74,12 @@
   background-color: var(--yellow) !important;
   transform: scale(1.1) !important;
 }
-
+.Light #add-notes-btn {
+  background-color: var(--yellow) !important;
+}
+.Light #add-notes-btn-text {
+  color: var(--black) !important;
+}
 .Light #full-date {
   color: var(--black);
 }
@@ -134,6 +138,43 @@
 .Light #modal-text {
   color: var(--black);
 }
+.Light #note-text-area {
+  background-color: var(--white);
+  color: var(--black);
+}
+.Light .note-container {
+  background-color: var(--white);
+}
+.Light .note-title {
+  color: var(--black);
+  background-color: var(--yellow);
+}
+.Light .note-text {
+  color: var(--black);
+}
+.Light .view-note-btn {
+  background-color: var(--green);
+  color: var(--actual-white);
+}
+/* Read note modal */
+.Light .info-container-row {
+  border-bottom: 2px solid var(--black);
+  color: var(--black);
+}
+.Light .note-modal-text {
+  appearance: none;
+  color: var(--black);
+  background-color: var(--white);
+  scrollbar-color: var(--yellow) var(--actual-white);
+}
+.Light .note-modal-text::-webkit-scrollbar-track {
+  background-color: var(--actual-white);
+  border-radius: 20px;
+}
+.Light .note-modal-text::-webkit-scrollbar-thumb {
+  background-color: var(--yellow);
+  border-radius: 20px;
+}
 .Light #move-to-trash-text {
   color: var(--black);
 }
@@ -162,6 +203,10 @@
   color: var(--black);
 }
 .Light .modal-text-area {
+  background-color: var(--white);
+  color: var(--black);
+}
+.Light #note-text-area {
   background-color: var(--white);
   color: var(--black);
 }
@@ -218,6 +263,9 @@ body.Light {
 .Light .pick-day-button:hover {
   background-color: var(--yellow);
 }
+.Light .selected-day {
+  background-color: var(--yellow);
+}
 .Light #pick-today-button,
 .Light #pick-tomorrow-button,
 .Light #pick-in-2-days-button {
@@ -254,26 +302,14 @@ body.Light {
 .Light #display-text {
   color: var(--black);
 }
-.Light #trash-bin-section {
-  background-color: var(--light-main);
-}
-.Light #trash-bin-header {
-  background-color: var(--white);
-}
-.Light #trash-bin-title {
-  color: var(--black);
-}
 .Light .trashed-task-badge {
   color: var(--light-main);
   background-color: var(--red);
 }
-.Light #user-category-page {
-  background-color: var(--light-main);
-}
-.Light #user-category-page-header {
+.Light .window-header {
   background-color: var(--white);
 }
-.Light #user-category-page-title {
+.Light .header-title {
   color: var(--black);
 }
 .Light .checkmark {
