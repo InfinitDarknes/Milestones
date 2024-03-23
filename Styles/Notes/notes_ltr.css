@@ -59,7 +59,7 @@
   text-align: auto;
   margin-bottom: 50px;
   direction: auto;
-  white-space: wrap;
+  line-break: anywhere;
 }
 .view-note-btn {
   position: absolute;
