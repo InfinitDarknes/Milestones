@@ -191,8 +191,7 @@ function ReturnFailedTasks() {
 }
 // show sorted tasks in DOM
 function LoadUnfinishedTasks() {
-  if (ReturnUnfinishedTasks().length === 0)
-    EmptyBox(Strings.NoTaskToDoMessage[UserSettings.CurrentLang]);
+  if (ReturnUnfinishedTasks().length === 0) EmptyBox(Strings.NoTaskToDoMessage[UserSettings.CurrentLang]);
   else {
     ClearListSection();
     AppendTaskContainer(ReturnUnfinishedTasks());
@@ -215,24 +214,21 @@ function LoadTomorrowTasks() {
   AppendTaskContainer(ReturnTomorrowTasks());
 }
 function LoadIn2DaysTasks() {
-  if (ReturnIn2DaysTasks().length === 0)
-    EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.CurrentLang]);
+  if (ReturnIn2DaysTasks().length === 0) EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.CurrentLang]);
   else {
     ClearListSection();
     AppendTaskContainer(ReturnIn2DaysTasks());
   }
 }
 function LoadCompletedTasks() {
-  if (ReturnCompletedTasks().length === 0)
-    EmptyBox(Strings.NoCompletedTaskMessage[UserSettings.CurrentLang]);
+  if (ReturnCompletedTasks().length === 0) EmptyBox(Strings.NoCompletedTaskMessage[UserSettings.CurrentLang]);
   else {
     ClearListSection();
     AppendTaskContainer(ReturnCompletedTasks());
   }
 }
 function LoadFailedTasks() {
-  if (ReturnFailedTasks().length === 0)
-    EmptyBox(Strings.NoFailedTaskMessage[UserSettings.CurrentLang]);
+  if (ReturnFailedTasks().length === 0) EmptyBox(Strings.NoFailedTaskMessage[UserSettings.CurrentLang]);
   else {
     ClearListSection();
     AppendTaskContainer(ReturnFailedTasks());
@@ -247,23 +243,13 @@ function MoveToToday(ID) {
   let GregorianDay = new Date().getDate();
   //
   if (UserSettings.Calendar === "Solar") {
-    let SolarDate = farvardin.gregorianToSolar(
-      GregorianYear,
-      GregorianMonth,
-      GregorianDay,
-      "array"
-    );
-    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1]
-      .toString()
-      .padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
+    let SolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
+    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1].toString().padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
     Task.DisplayDate = DisplayDate;
     Task.NumericDate = NumericToday;
   }
   if (UserSettings.Calendar === "Gregorian") {
-    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(
-      2,
-      "0"
-    )} / ${GregorianDay.toString().padStart(2, "0")}`;
+    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
     Task.DisplayDate = DisplayDate;
     Task.NumericDate = NumericToday;
   }
@@ -279,23 +265,13 @@ function MoveToPreviousDay(ID) {
   let GregorianDay = new Date(NumericPreviousDay).getDate();
   //
   if (UserSettings.Calendar === "Solar") {
-    let SolarDate = farvardin.gregorianToSolar(
-      GregorianYear,
-      GregorianMonth,
-      GregorianDay,
-      "array"
-    );
-    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1]
-      .toString()
-      .padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
+    let SolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
+    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1].toString().padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
     Task.DisplayDate = DisplayDate;
     Task.NumericDate = NumericPreviousDay;
   }
   if (UserSettings.Calendar === "Gregorian") {
-    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(
-      2,
-      "0"
-    )} / ${GregorianDay.toString().padStart(2, "0")}`;
+    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
     Task.DisplayDate = DisplayDate;
     Task.NumericDate = NumericPreviousDay;
   }
@@ -311,23 +287,13 @@ function MoveToNextDay(ID) {
   let GregorianDay = new Date(NumericNextDay).getDate();
   //
   if (UserSettings.Calendar === "Solar") {
-    let SolarDate = farvardin.gregorianToSolar(
-      GregorianYear,
-      GregorianMonth,
-      GregorianDay,
-      "array"
-    );
-    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1]
-      .toString()
-      .padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
+    let SolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
+    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1].toString().padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
     Task.DisplayDate = DisplayDate;
     Task.NumericDate = NumericNextDay;
   }
   if (UserSettings.Calendar === "Gregorian") {
-    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(
-      2,
-      "0"
-    )} / ${GregorianDay.toString().padStart(2, "0")}`;
+    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
     Task.DisplayDate = DisplayDate;
     Task.NumericDate = NumericNextDay;
   }
@@ -344,23 +310,13 @@ function MoveToTomorrow(ID) {
   let GregorianDay = new Date(NumericTomorrow).getDate();
   //
   if (UserSettings.Calendar === "Solar") {
-    let SolarDate = farvardin.gregorianToSolar(
-      GregorianYear,
-      GregorianMonth,
-      GregorianDay,
-      "array"
-    );
-    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1]
-      .toString()
-      .padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
+    let SolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
+    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1].toString().padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
     Task.DisplayDate = DisplayDate;
     Task.NumericDate = NumericTomorrow;
   }
   if (UserSettings.Calendar === "Gregorian") {
-    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(
-      2,
-      "0"
-    )} / ${GregorianDay.toString().padStart(2, "0")}`;
+    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
     Task.DisplayDate = DisplayDate;
     Task.NumericDate = NumericTomorrow;
   }
@@ -376,23 +332,13 @@ function MoveIn2Days(ID) {
   let GregorianDay = new Date(NumericIn2Days).getDate();
   //
   if (UserSettings.Calendar === "Solar") {
-    let SolarDate = farvardin.gregorianToSolar(
-      GregorianYear,
-      GregorianMonth,
-      GregorianDay,
-      "array"
-    );
-    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1]
-      .toString()
-      .padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
+    let SolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
+    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1].toString().padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
     Task.DisplayDate = DisplayDate;
     Task.NumericDate = NumericIn2Days;
   }
   if (UserSettings.Calendar === "Gregorian") {
-    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(
-      2,
-      "0"
-    )} / ${GregorianDay.toString().padStart(2, "0")}`;
+    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
     Task.DisplayDate = DisplayDate;
     Task.NumericDate = NumericIn2Days;
   }
@@ -448,9 +394,7 @@ function ToggleSelectMode() {
   if (CurrentWindow === "Notes") return;
   const SelectAllSection = document.getElementById("select-all-section");
   const SelectAllCheckBox = document.getElementById("select-all-checkbox");
-  const CheckBoxContainers = document.querySelectorAll(
-    `.task-container .checkbox-container`
-  );
+  const CheckBoxContainers = document.querySelectorAll(`.task-container .checkbox-container`);
   if (ReturnSelectedTasks().length !== 0) {
     SelectMode = true;
     SelectAllSection.style.display = "flex";
@@ -506,28 +450,20 @@ function GetCurrentlyLoadedTasks() {
   if (CurrentWindow === "Home-In2Days") return ReturnIn2DaysTasks();
   if (CurrentWindow === "Home-Failed") return ReturnFailedTasks();
   if (CurrentWindow === "Home-Completed") return ReturnCompletedTasks();
-  if (CurrentWindow === "UserCategory-Unfinished")
-    return ReturnUserCategorisedTasks(ReturnUnfinishedTasks());
-  if (CurrentWindow === "UserCategory-Today")
-    return ReturnUserCategorisedTasks(ReturnTodayTasks());
-  if (CurrentWindow === "UserCategory-Tomorrow")
-    return ReturnUserCategorisedTasks(ReturnTomorrowTasks());
-  if (CurrentWindow === "UserCategory-In2Days")
-    return ReturnUserCategorisedTasks(ReturnIn2DaysTasks());
+  if (CurrentWindow === "UserCategory-Unfinished") return ReturnUserCategorisedTasks(ReturnUnfinishedTasks());
+  if (CurrentWindow === "UserCategory-Today") return ReturnUserCategorisedTasks(ReturnTodayTasks());
+  if (CurrentWindow === "UserCategory-Tomorrow") return ReturnUserCategorisedTasks(ReturnTomorrowTasks());
+  if (CurrentWindow === "UserCategory-In2Days") return ReturnUserCategorisedTasks(ReturnIn2DaysTasks());
   if (CurrentWindow === "Trash-All") return ReturnTrashedTasks();
-  if (CurrentWindow === "Trash-Today")
-    return ReturnTodayTasks(ReturnTrashedTasks());
-  if (CurrentWindow === "Trash-Tomorrow")
-    return ReturnTomorrowTasks(ReturnTrashedTasks());
-  if (CurrentWindow === "Trash-In2Days")
-    return ReturnIn2DaysTasks(ReturnTrashedTasks());
+  if (CurrentWindow === "Trash-Today") return ReturnTodayTasks(ReturnTrashedTasks());
+  if (CurrentWindow === "Trash-Tomorrow") return ReturnTomorrowTasks(ReturnTrashedTasks());
+  if (CurrentWindow === "Trash-In2Days") return ReturnIn2DaysTasks(ReturnTrashedTasks());
   if (CurrentWindow === "Notes") return []; // if  i return empty array that has length of zero instead of null or undefined everything will work without any further changes needed
 }
 function UpdateInbox() {
   if (CurrentWindow === "Trash-All") LoadTrashedTasks(ReturnTrashedTasks());
   if (CurrentWindow === "Trash-Today") LoadTrashedTasks(ReturnTodayTasks());
-  if (CurrentWindow === "Trash-Tomorrow")
-    LoadTrashedTasks(ReturnTomorrowTasks());
+  if (CurrentWindow === "Trash-Tomorrow") LoadTrashedTasks(ReturnTomorrowTasks());
   if (CurrentWindow === "Trash-In2Days") LoadTrashedTasks(ReturnIn2DaysTasks());
   if (CurrentWindow === "Home-Unfinished") LoadUnfinishedTasks();
   if (CurrentWindow === "Home-Today") LoadTodayTasks();
@@ -535,14 +471,10 @@ function UpdateInbox() {
   if (CurrentWindow === "Home-In2Days") LoadIn2DaysTasks();
   if (CurrentWindow === "Home-Failed") LoadFailedTasks();
   if (CurrentWindow === "Home-Completed") LoadCompletedTasks();
-  if (CurrentWindow === "UserCategory-Unfinished")
-    LoadUserCategorisedTasks(ReturnUnfinishedTasks());
-  if (CurrentWindow === "UserCategory-Today")
-    LoadUserCategorisedTasks(ReturnTodayTasks());
-  if (CurrentWindow === "UserCategory-Tomorrow")
-    LoadUserCategorisedTasks(ReturnTomorrowTasks());
-  if (CurrentWindow === "UserCategory-In2Days")
-    LoadUserCategorisedTasks(ReturnIn2DaysTasks());
+  if (CurrentWindow === "UserCategory-Unfinished") LoadUserCategorisedTasks(ReturnUnfinishedTasks());
+  if (CurrentWindow === "UserCategory-Today") LoadUserCategorisedTasks(ReturnTodayTasks());
+  if (CurrentWindow === "UserCategory-Tomorrow") LoadUserCategorisedTasks(ReturnTomorrowTasks());
+  if (CurrentWindow === "UserCategory-In2Days") LoadUserCategorisedTasks(ReturnIn2DaysTasks());
 }
 // Saving
 function SaveAll() {
@@ -576,8 +508,7 @@ function ExitFromSearchMode() {
 //
 function ReturnTaskState(ID) {
   let Task = AllTasksArray[FindIndexOfTask(ID)];
-  if (!Task.IsTaskCompleted && !Task.IsTaskFailed && !Task.IsTaskTrashed)
-    return "Unfinished";
+  if (!Task.IsTaskCompleted && !Task.IsTaskFailed && !Task.IsTaskTrashed) return "Unfinished";
   if (Task.IsTaskCompleted && !Task.IsTaskTrashed) return "Completed";
   if (Task.IsTaskFailed && !Task.IsTaskTrashed) return "Failed";
   if (Task.IsTaskTrashed) return "Trashed";
@@ -586,7 +517,7 @@ function ReturnTaskState(ID) {
 function RestoreFromText(Text) {
   let TextObject = JSON.parse(Text);
   for (let n in TextObject) {
-    SaveAll()(n.toString(), TextObject[n]);
+    localStorage.setItem(n.toString(), TextObject[n]);
   }
   location.reload();
 }
