@@ -163,7 +163,8 @@
 #edit-date-section,
 #edit-title-section,
 #category-title-section,
-#select-category-section {
+#select-category-section,
+#note-section {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -265,6 +266,22 @@
   border-top-right-radius: 0;
   direction: ltr;
 }
+#note-text-area {
+  width: calc(100% - 20px);
+  height: 200px;
+  padding: 10px;
+  font-family: Vazir;
+  font-size: 1.1em;
+  border-radius: 5px;
+  border-top-right-radius: 0 !important;
+  resize: none;
+  border: 0;
+  outline: 0;
+}
+#note-text-area:focus {
+  border: 0;
+  outline: 0;
+}
 .badge {
   position: absolute;
   text-align: center;
@@ -298,8 +315,8 @@
 }
 .character-limit {
   position: absolute;
-  right: 0;
-  bottom: 3px;
+  left: 0;
+  bottom: -10px;
   font-size: 0.9em;
   padding: 0 6px 1px 5px;
   border-radius: 2px;
@@ -408,5 +425,56 @@
   height: 60%;
 }
 .icons-container::-webkit-scrollbar {
+  display: none;
+}
+/* Add note modal */
+.add-note-modal {
+  width: 30% !important;
+}
+/* Read note modal */
+.read-note-modal {
+  width: 30% !important;
+}
+.note-modal-info-container {
+  order: 2;
+  width: calc(100% - 20px);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin: 10px 0;
+}
+.info-container-row {
+  width: 100%;
+  margin: 5px 0;
+  padding: 10px 0;
+  font-size: 1.2rem;
+}
+.note-modal-text {
+  order: 3;
+  width: calc(100% - 20px);
+  max-height: 250px;
+  scrollbar-width: thin;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  white-space: wrap;
+  overflow-y: scroll;
+}
+.edit-note-btn,
+.delete-note-btn,
+.apply-note-edit-btn,
+.cancel-note-edit-btn {
+  order: 4;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0;
+  border-radius: 5px;
+  font-size: 1.2em;
+}
+.apply-note-edit-btn,
+.cancel-note-edit-btn {
   display: none;
 }
