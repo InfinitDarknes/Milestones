@@ -5,10 +5,12 @@
 @import url("../Modal/modal_ltr.css");
 @import url("../Settings/settings_ltr.css");
 @import url("../TrashSection/trash-ltr.css");
-@import url("../UserCategoryPage/user_category_page_ltr.css");
 @import url("../ContextMenu/context_menu_ltr.css");
 @import url("../Animation/animation_ltr.css");
 @import url("../SelectBar/select_bar_ltr.css");
+@import url("../Window/window_ltr.css");
+@import url("../WindowHeaders/window_headers_ltr.css");
+@import url("../Notes/notes_ltr.css");
 
 @font-face {
   font-family: vazir;
