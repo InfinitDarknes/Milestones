@@ -378,7 +378,6 @@ function SelectAll() {
   ToggleSelectMode();
 }
 function DeSelectAll() {
-  console.log("deselcting all");
   const CheckBoxes = document.querySelectorAll(`.task-checkbox`);
   AllTasksArray.forEach((Task) => {
     Task.Selected = false;
@@ -388,6 +387,7 @@ function DeSelectAll() {
     CheckBox.parentElement.style.display = "none";
     CheckBox.parentElement.parentElement.classList.remove("selected-task");
   });
+  HideSelectModeBar();
   ToggleSelectMode();
 }
 function ToggleSelectMode() {
@@ -403,7 +403,6 @@ function ToggleSelectMode() {
     });
     DisplaySelectModeBar();
   }
-  console.log(GetCurrentlyLoadedTasks(), ReturnSelectedTasks());
   if (ReturnSelectedTasks().length === GetCurrentlyLoadedTasks().length) {
     SelectAllCheckBox.checked = true;
   }
