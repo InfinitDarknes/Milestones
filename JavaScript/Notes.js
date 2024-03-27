@@ -60,6 +60,7 @@ function DisplayNotes() {
   WindowHeader.append(AddNotesBtn, HeaderIcon, HeaderText);
   NotesWindow.append(WindowHeader, NotesContainer);
   document.body.append(NotesWindow);
+  DeSelectAll();
   DisplayNotesIntoDOM();
 }
 function SaveNotes() {
