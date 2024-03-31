@@ -6,35 +6,31 @@ window.onload = function () {
   FixDirection();
   LoadSave();
   LoadSavedNotes();
-  AppendTopBar();
-  AppendSideBar();
-  AppendUGC();
-  DisplayHome();
-  UpdateInbox();
+  LoadAppComponents();
   ShowDateAndClock();
   setInterval(GetTime, 1000);
   AutoWriter();
-  document.body.addEventListener("click", (Event) => {
+};
+function LoadAppComponents() {
+  const Body = document.body;
+  const TopBar = ReturnTopBar();
+  const Sidebar = ReturnSidebar();
+  Body.append(TopBar, Sidebar);
+  DisplayUserCategories();
+  DisplayHomeWindow(true);
+  Body.addEventListener("click", (Event) => {
     AutoHideContextMenu(Event);
   });
-  document.body.addEventListener("contextmenu", (Event) => {
+  Body.addEventListener("contextmenu", (Event) => {
     AutoHideContextMenu(Event);
   });
-  document.getElementById("list-section").addEventListener("wheel", (Event) => {
-    FreezScroll(Event);
-  });
-  document.addEventListener("keydown", (Event) => {
+  window.addEventListener("keydown", (Event) => {
     ShortCutManager(Event);
   });
-  window.addEventListener("resize", (Event) => {
+  window.addEventListener("resize", () => {
     AlignModalAtCenter();
   });
-  AllTasksArray.forEach((Task) => {
-    delete Task.DisplayDate;
-    delete Task.DisplayTime;
-    localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-  });
-};
+}
 function PreLoader() {
   const PreLoader = document.createElement("section");
   PreLoader.id = "preloader";
@@ -85,9 +81,6 @@ function ShortCutManager(Event) {
     DeleteModal("Normal");
   }
   if (SelectMode && Event.keyCode === 27) {
-    DeSelectAll();
+    ExitSelectMode();
   }
 }
-document.body.addEventListener("contextmenu", (event) => {
-  console.log(event.target);
-});

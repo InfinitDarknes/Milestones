@@ -26,7 +26,6 @@ function AddTask() {
   let NewTask = new NewTaskConstructor(ID, Title, NumericDate, UserCategory);
   AllTasksArray.push(NewTask);
   SaveAll();
-  DeSelectAll();
   UpdateInbox();
 }
 function DeleteTask(ID) {
@@ -46,11 +45,9 @@ function DeleteTask(ID) {
   SaveAll();
   setTimeout(() => {
     UpdateInbox();
-    ToggleSelectMode();
   }, 500);
 }
 function FailTask(ID) {
-  const SelectAllButton = document.getElementById("select-all-checkbox");
   if (SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskPinned = false;
@@ -67,10 +64,8 @@ function FailTask(ID) {
   }
   SaveAll();
   UpdateInbox();
-  ToggleSelectMode();
 }
 function CompleteTask(ID) {
-  const SelectAllButton = document.getElementById("select-all-checkbox");
   if (SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskPinned = false;
@@ -85,11 +80,25 @@ function CompleteTask(ID) {
   }
   SaveAll();
   UpdateInbox();
-  ToggleSelectMode();
+}
+function MoveToTrash(ID) {
+  if (SelectMode) {
+    ReturnSelectedTasks().forEach((Task) => {
+      Task.IsTaskPinned = false;
+      Task.IsTaskTrashed = true;
+      Task.Selected = false;
+    });
+  } else {
+    let Task = AllTasksArray[FindIndexOfTask(ID)];
+    Task.IsTaskPinned = false;
+    Task.IsTaskTrashed = true;
+    Task.Selected = false;
+  }
+  SaveAll();
+  UpdateInbox();
 }
 // Restore Tasks
 function RestoreFromCompleted(ID) {
-  const SelectAllButton = document.getElementById("select-all-checkbox");
   if (SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskCompleted = false;
@@ -102,10 +111,8 @@ function RestoreFromCompleted(ID) {
   }
   SaveAll();
   UpdateInbox();
-  ToggleSelectMode();
 }
 function RestoreFromFailed(ID) {
-  const SelectAllButton = document.getElementById("select-all-checkbox");
   if (SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskFailed = false;
@@ -118,10 +125,8 @@ function RestoreFromFailed(ID) {
   }
   SaveAll();
   UpdateInbox();
-  ToggleSelectMode();
 }
 function RestoreFromTrash(ID) {
-  const SelectAllButton = document.getElementById("select-all-checkbox");
   if (SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskTrashed = false;
@@ -134,7 +139,6 @@ function RestoreFromTrash(ID) {
   }
   SaveAll();
   UpdateInbox();
-  ToggleSelectMode();
 }
 // sort and show user-categorized tasks and category page
 function ReturnUserCategorisedTasks(TargetArray = ReturnUnfinishedTasks()) {
@@ -189,13 +193,19 @@ function ReturnFailedTasks() {
     return Task.IsTaskFailed && !Task.IsTaskTrashed && !Task.IsTaskCompleted;
   }).sort((taskA, taskB) => taskB.IsTaskPinned - taskA.IsTaskPinned);
 }
+function ReturnTrashedTasks() {
+  return AllTasksArray.filter((Task) => {
+    return Task.IsTaskTrashed;
+  });
+}
 // show sorted tasks in DOM
 function LoadUnfinishedTasks() {
-  if (ReturnUnfinishedTasks().length === 0) EmptyBox(Strings.NoTaskToDoMessage[UserSettings.CurrentLang]);
-  else {
-    ClearListSection();
-    AppendTaskContainer(ReturnUnfinishedTasks());
+  if (ReturnUnfinishedTasks().length === 0) {
+    EmptyBox(Strings.NoTaskToDoMessage[UserSettings.CurrentLang]);
+    return;
   }
+  ClearListSection();
+  AppendTaskContainer(ReturnUnfinishedTasks());
 }
 function LoadTodayTasks() {
   if (ReturnTodayTasks().length === 0) {
@@ -214,67 +224,44 @@ function LoadTomorrowTasks() {
   AppendTaskContainer(ReturnTomorrowTasks());
 }
 function LoadIn2DaysTasks() {
-  if (ReturnIn2DaysTasks().length === 0) EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.CurrentLang]);
-  else {
-    ClearListSection();
-    AppendTaskContainer(ReturnIn2DaysTasks());
+  if (ReturnIn2DaysTasks().length === 0) {
+    EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.CurrentLang]);
+    return;
   }
+  ClearListSection();
+  AppendTaskContainer(ReturnIn2DaysTasks());
 }
 function LoadCompletedTasks() {
-  if (ReturnCompletedTasks().length === 0) EmptyBox(Strings.NoCompletedTaskMessage[UserSettings.CurrentLang]);
-  else {
-    ClearListSection();
-    AppendTaskContainer(ReturnCompletedTasks());
+  if (ReturnCompletedTasks().length === 0) {
+    EmptyBox(Strings.NoCompletedTaskMessage[UserSettings.CurrentLang]);
+    return;
   }
+  ClearListSection();
+  AppendTaskContainer(ReturnCompletedTasks());
 }
 function LoadFailedTasks() {
-  if (ReturnFailedTasks().length === 0) EmptyBox(Strings.NoFailedTaskMessage[UserSettings.CurrentLang]);
-  else {
-    ClearListSection();
-    AppendTaskContainer(ReturnFailedTasks());
+  if (ReturnFailedTasks().length === 0) {
+    EmptyBox(Strings.NoFailedTaskMessage[UserSettings.CurrentLang]);
+    return;
   }
+  ClearListSection();
+  AppendTaskContainer(ReturnFailedTasks());
+}
+function LoadTrashedTasks(TargetArray) {
+  if (TargetArray.length === 0) {
+    EmptyBox("You have no task in trash bin");
+    return;
+  }
+  ClearListSection();
+  AppendTaskContainer(TargetArray);
 }
 //
-function MoveToToday(ID) {
-  let Task = AllTasksArray[FindIndexOfTask(ID)];
-  let NumericToday = new Date().getTime();
-  let GregorianYear = new Date().getFullYear();
-  let GregorianMonth = new Date().getMonth() + 1;
-  let GregorianDay = new Date().getDate();
-  //
-  if (UserSettings.Calendar === "Solar") {
-    let SolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
-    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1].toString().padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
-    Task.DisplayDate = DisplayDate;
-    Task.NumericDate = NumericToday;
-  }
-  if (UserSettings.Calendar === "Gregorian") {
-    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
-    Task.DisplayDate = DisplayDate;
-    Task.NumericDate = NumericToday;
-  }
-  UpdateInbox();
-  SaveAll();
-}
 function MoveToPreviousDay(ID) {
   let Task = AllTasksArray[FindIndexOfTask(ID)];
   let TaskNumericDate = Task.NumericDate;
   let NumericPreviousDay = TaskNumericDate - 24 * 60 * 60 * 1000;
-  let GregorianYear = new Date(NumericPreviousDay).getFullYear();
-  let GregorianMonth = new Date(NumericPreviousDay).getMonth() + 1;
-  let GregorianDay = new Date(NumericPreviousDay).getDate();
-  //
-  if (UserSettings.Calendar === "Solar") {
-    let SolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
-    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1].toString().padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
-    Task.DisplayDate = DisplayDate;
-    Task.NumericDate = NumericPreviousDay;
-  }
-  if (UserSettings.Calendar === "Gregorian") {
-    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
-    Task.DisplayDate = DisplayDate;
-    Task.NumericDate = NumericPreviousDay;
-  }
+  if (UserSettings.Calendar === "Solar") Task.NumericDate = NumericPreviousDay;
+  if (UserSettings.Calendar === "Gregorian") Task.NumericDate = NumericPreviousDay;
   SaveAll();
   UpdateInbox();
 }
@@ -282,44 +269,25 @@ function MoveToNextDay(ID) {
   let Task = AllTasksArray[FindIndexOfTask(ID)];
   let TaskNumericDate = Task.NumericDate;
   let NumericNextDay = TaskNumericDate + 24 * 60 * 60 * 1000;
-  let GregorianYear = new Date(NumericNextDay).getFullYear();
-  let GregorianMonth = new Date(NumericNextDay).getMonth() + 1;
-  let GregorianDay = new Date(NumericNextDay).getDate();
-  //
-  if (UserSettings.Calendar === "Solar") {
-    let SolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
-    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1].toString().padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
-    Task.DisplayDate = DisplayDate;
-    Task.NumericDate = NumericNextDay;
-  }
-  if (UserSettings.Calendar === "Gregorian") {
-    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
-    Task.DisplayDate = DisplayDate;
-    Task.NumericDate = NumericNextDay;
-  }
+  if (UserSettings.Calendar === "Solar") Task.NumericDate = NumericNextDay;
+  if (UserSettings.Calendar === "Gregorian") Task.NumericDate = NumericNextDay;
   SaveAll();
   UpdateInbox();
 }
-//
+function MoveToToday(ID) {
+  let Task = AllTasksArray[FindIndexOfTask(ID)];
+  let NumericToday = new Date().getTime();
+  if (UserSettings.Calendar === "Solar") Task.NumericDate = NumericToday;
+  if (UserSettings.Calendar === "Gregorian") Task.NumericDate = NumericToday;
+  UpdateInbox();
+  SaveAll();
+}
 function MoveToTomorrow(ID) {
   let Task = AllTasksArray[FindIndexOfTask(ID)];
   let NumericToday = new Date().getTime();
   let NumericTomorrow = NumericToday + 24 * 60 * 60 * 1000;
-  let GregorianYear = new Date(NumericTomorrow).getFullYear();
-  let GregorianMonth = new Date(NumericTomorrow).getMonth() + 1;
-  let GregorianDay = new Date(NumericTomorrow).getDate();
-  //
-  if (UserSettings.Calendar === "Solar") {
-    let SolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
-    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1].toString().padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
-    Task.DisplayDate = DisplayDate;
-    Task.NumericDate = NumericTomorrow;
-  }
-  if (UserSettings.Calendar === "Gregorian") {
-    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
-    Task.DisplayDate = DisplayDate;
-    Task.NumericDate = NumericTomorrow;
-  }
+  if (UserSettings.Calendar === "Solar") Task.NumericDate = NumericTomorrow;
+  if (UserSettings.Calendar === "Gregorian") Task.NumericDate = NumericTomorrow;
   SaveAll();
   UpdateInbox();
 }
@@ -327,21 +295,8 @@ function MoveIn2Days(ID) {
   let Task = AllTasksArray[FindIndexOfTask(ID)];
   let NumericToday = new Date().getTime();
   let NumericIn2Days = NumericToday + 48 * 60 * 60 * 1000;
-  let GregorianYear = new Date(NumericIn2Days).getFullYear();
-  let GregorianMonth = new Date(NumericIn2Days).getMonth() + 1;
-  let GregorianDay = new Date(NumericIn2Days).getDate();
-  //
-  if (UserSettings.Calendar === "Solar") {
-    let SolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
-    let DisplayDate = `${SolarDate[0]} / ${SolarDate[1].toString().padStart(2, "0")} / ${SolarDate[2].toString().padStart(2, "0")}`;
-    Task.DisplayDate = DisplayDate;
-    Task.NumericDate = NumericIn2Days;
-  }
-  if (UserSettings.Calendar === "Gregorian") {
-    let DisplayDate = `${GregorianYear} / ${GregorianMonth.toString().padStart(2, "0")} / ${GregorianDay.toString().padStart(2, "0")}`;
-    Task.DisplayDate = DisplayDate;
-    Task.NumericDate = NumericIn2Days;
-  }
+  if (UserSettings.Calendar === "Solar") Task.NumericDate = NumericIn2Days;
+  if (UserSettings.Calendar === "Gregorian") Task.NumericDate = NumericIn2Days;
   SaveAll();
   UpdateInbox();
 }
@@ -353,16 +308,22 @@ function ReturnSelectedTasks() {
 }
 function SelectTask(ID) {
   AllTasksArray[FindIndexOfTask(ID)].Selected = true;
-  document.querySelector(`#${ID} .checkbox-container`).style.display = "block";
-  document.querySelector(`#${ID} .task-checkbox`).checked = true;
-  document.querySelector(`#${ID}`).classList.add("selected-task");
+  const TaskContainer = document.getElementById(ID);
+  const CheckBoxContainer = document.querySelector(`#${ID} .checkbox-container`);
+  const CheckBox = document.querySelector(`#${ID} .task-checkbox`);
+  TaskContainer.classList.add("selected-task");
+  CheckBoxContainer.style.display = "block";
+  CheckBox.checked = true;
   ToggleSelectMode();
 }
 function DeSelectTask(ID) {
   AllTasksArray[FindIndexOfTask(ID)].Selected = false;
-  document.querySelector(`#${ID} .checkbox-container`).style.display = "none";
-  document.querySelector(`#${ID} .task-checkbox`).checked = false;
-  document.querySelector(`#${ID}`).classList.remove("selected-task");
+  const TaskContainer = document.getElementById(ID);
+  const CheckBoxContainer = document.querySelector(`#${ID} .checkbox-container`);
+  const CheckBox = document.querySelector(`#${ID} .task-checkbox`);
+  TaskContainer.classList.add("selected-task");
+  CheckBoxContainer.style.display = "none";
+  CheckBox.checked = false;
   ToggleSelectMode();
 }
 function SelectAll() {
@@ -387,11 +348,31 @@ function DeSelectAll() {
     CheckBox.parentElement.style.display = "none";
     CheckBox.parentElement.parentElement.classList.remove("selected-task");
   });
-  HideSelectModeBar();
   ToggleSelectMode();
 }
+function ExitSelectMode() {
+  if (!SelectMode) return;
+  console.log("Exiting select mode");
+  SelectMode = false;
+  const SelectAllSection = document.getElementById("select-all-section");
+  const SelectAllCheckBox = document.getElementById("select-all-checkbox");
+  const CheckBoxContainers = document.querySelectorAll(`.task-checkbox`);
+  SelectAllCheckBox.checked = false;
+  SelectAllSection.style.display = "none";
+  AllTasksArray.forEach((Task) => {
+    Task.Selected = false;
+  });
+  CheckBoxContainers.forEach((CheckBox) => {
+    CheckBox.checked = false;
+    CheckBox.parentElement.style.display = "none";
+    CheckBox.parentElement.parentElement.classList.remove("selected-task");
+  });
+  CheckBoxContainers.forEach((CheckBoxContainer) => {
+    CheckBoxContainer.style.display = "none";
+  });
+  HideSelectModeBar();
+}
 function ToggleSelectMode() {
-  if (CurrentWindow === "Notes") return;
   const SelectAllSection = document.getElementById("select-all-section");
   const SelectAllCheckBox = document.getElementById("select-all-checkbox");
   const CheckBoxContainers = document.querySelectorAll(`.task-container .checkbox-container`);
@@ -410,13 +391,7 @@ function ToggleSelectMode() {
     SelectAllCheckBox.checked = false;
   }
   if (ReturnSelectedTasks().length === 0) {
-    SelectMode = false;
-    SelectAllCheckBox.checked = false;
-    SelectAllSection.style.display = "none";
-    CheckBoxContainers.forEach((CheckBoxContainer) => {
-      CheckBoxContainer.style.display = "none";
-    });
-    HideSelectModeBar();
+    ExitSelectMode();
   }
 }
 // Pin/Unpin
@@ -427,13 +402,11 @@ function PinTask(ID) {
   if (NumberOfPinnedTasks > 5) return;
   AllTasksArray[FindIndexOfTask(ID)].IsTaskPinned = true;
   SaveAll();
-  DeSelectAll();
   UpdateInbox();
 }
 function UnPinTask(ID) {
   AllTasksArray[FindIndexOfTask(ID)].IsTaskPinned = false;
   SaveAll();
-  DeSelectAll();
   UpdateInbox();
 }
 // other
@@ -443,59 +416,112 @@ function FindIndexOfTask(ID) {
   });
 }
 function GetCurrentlyLoadedTasks() {
-  if (CurrentWindow === "Home-Unfinished") return ReturnUnfinishedTasks();
-  if (CurrentWindow === "Home-Today") return ReturnTodayTasks();
-  if (CurrentWindow === "Home-Tomorrow") return ReturnTomorrowTasks();
-  if (CurrentWindow === "Home-In2Days") return ReturnIn2DaysTasks();
-  if (CurrentWindow === "Home-Failed") return ReturnFailedTasks();
-  if (CurrentWindow === "Home-Completed") return ReturnCompletedTasks();
-  if (CurrentWindow === "UserCategory-Unfinished") return ReturnUserCategorisedTasks(ReturnUnfinishedTasks());
-  if (CurrentWindow === "UserCategory-Today") return ReturnUserCategorisedTasks(ReturnTodayTasks());
-  if (CurrentWindow === "UserCategory-Tomorrow") return ReturnUserCategorisedTasks(ReturnTomorrowTasks());
-  if (CurrentWindow === "UserCategory-In2Days") return ReturnUserCategorisedTasks(ReturnIn2DaysTasks());
-  if (CurrentWindow === "Trash-All") return ReturnTrashedTasks();
-  if (CurrentWindow === "Trash-Today") return ReturnTodayTasks(ReturnTrashedTasks());
-  if (CurrentWindow === "Trash-Tomorrow") return ReturnTomorrowTasks(ReturnTrashedTasks());
-  if (CurrentWindow === "Trash-In2Days") return ReturnIn2DaysTasks(ReturnTrashedTasks());
-  if (CurrentWindow === "Notes") return []; // if  i return empty array that has length of zero instead of null or undefined everything will work without any further changes needed
+  switch (CurrentWindow) {
+    case "Home-Unfinished":
+      return ReturnUnfinishedTasks();
+    case "Home-Today":
+      return ReturnTodayTasks();
+    case "Home-Tomorrow":
+      return ReturnTomorrowTasks();
+    case "Home-In2Days":
+      return ReturnIn2DaysTasks();
+    case "Home-Failed":
+      return ReturnFailedTasks();
+    case "Home-Completed":
+      return ReturnCompletedTasks();
+    case "UserCategory-Unfinished":
+      return ReturnUserCategorisedTasks(ReturnUnfinishedTasks());
+    case "UserCategory-Today":
+      return ReturnUserCategorisedTasks(ReturnTodayTasks());
+    case "UserCategory-Tomorrow":
+      return ReturnUserCategorisedTasks(ReturnTomorrowTasks());
+    case "UserCategory-In2Days":
+      return ReturnUserCategorisedTasks(ReturnIn2DaysTasks());
+    case "Trash-All":
+      return ReturnTrashedTasks();
+    case "Trash-Today":
+      return ReturnTodayTasks(ReturnTrashedTasks());
+    case "Trash-Tomorrow":
+      return ReturnTomorrowTasks(ReturnTrashedTasks());
+    case "Trash-In2Days":
+      return ReturnIn2DaysTasks(ReturnTrashedTasks());
+    case "Notes":
+      return [];
+    default:
+      return "GetCurrentLoadedTasks failed to return any task because CurrentWindow value is invalid";
+  }
 }
 function UpdateInbox() {
-  if (CurrentWindow === "Trash-All") LoadTrashedTasks(ReturnTrashedTasks());
-  if (CurrentWindow === "Trash-Today") LoadTrashedTasks(ReturnTodayTasks());
-  if (CurrentWindow === "Trash-Tomorrow") LoadTrashedTasks(ReturnTomorrowTasks());
-  if (CurrentWindow === "Trash-In2Days") LoadTrashedTasks(ReturnIn2DaysTasks());
-  if (CurrentWindow === "Home-Unfinished") LoadUnfinishedTasks();
-  if (CurrentWindow === "Home-Today") LoadTodayTasks();
-  if (CurrentWindow === "Home-Tomorrow") LoadTomorrowTasks();
-  if (CurrentWindow === "Home-In2Days") LoadIn2DaysTasks();
-  if (CurrentWindow === "Home-Failed") LoadFailedTasks();
-  if (CurrentWindow === "Home-Completed") LoadCompletedTasks();
-  if (CurrentWindow === "UserCategory-Unfinished") LoadUserCategorisedTasks(ReturnUnfinishedTasks());
-  if (CurrentWindow === "UserCategory-Today") LoadUserCategorisedTasks(ReturnTodayTasks());
-  if (CurrentWindow === "UserCategory-Tomorrow") LoadUserCategorisedTasks(ReturnTomorrowTasks());
-  if (CurrentWindow === "UserCategory-In2Days") LoadUserCategorisedTasks(ReturnIn2DaysTasks());
+  switch (CurrentWindow) {
+    case "Trash-All":
+      LoadTrashedTasks(ReturnTrashedTasks());
+      break;
+    case "Trash-Today":
+      LoadTrashedTasks(ReturnTodayTasks(ReturnTrashedTasks()));
+      break;
+    case "Trash-Tomorrow":
+      LoadTrashedTasks(ReturnTomorrowTasks(ReturnTrashedTasks()));
+      break;
+    case "Trash-In2Days":
+      LoadTrashedTasks(ReturnIn2DaysTasks(ReturnTrashedTasks()));
+      break;
+    case "Home-Unfinished":
+      LoadUnfinishedTasks();
+      break;
+    case "Home-Today":
+      LoadTodayTasks();
+      break;
+    case "Home-Tomorrow":
+      LoadTomorrowTasks();
+      break;
+    case "Home-In2Days":
+      LoadIn2DaysTasks();
+      break;
+    case "Home-Failed":
+      LoadFailedTasks();
+      break;
+    case "Home-Completed":
+      LoadCompletedTasks();
+      break;
+    case "UserCategory-Unfinished":
+      LoadUserCategorisedTasks(ReturnUnfinishedTasks());
+      break;
+    case "UserCategory-Today":
+      LoadUserCategorisedTasks(ReturnTodayTasks());
+      break;
+    case "UserCategory-Tomorrow":
+      LoadUserCategorisedTasks(ReturnTomorrowTasks());
+      break;
+    case "UserCategory-In2Days":
+      LoadUserCategorisedTasks(ReturnIn2DaysTasks());
+      break;
+    case "Notes":
+      DisplayNotesIntoDOM();
+      break;
+    default:
+      return "Inbox failed to update because CurrentWindow value is invalid";
+  }
+  ExitSelectMode();
 }
 // Saving
 function SaveAll() {
   localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
   localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
 }
-
+// Searching
 function Search(KeyWord) {
   if (!KeyWord) {
     ExitFromSearchMode();
     return;
   }
+  ExitSelectMode();
   KeyWord = KeyWord.toLowerCase();
   let TargetArray = GetCurrentlyLoadedTasks();
   TargetArray.forEach((Task) => {
-    let TaskElement = document.querySelector(`#${Task.ID}`);
+    const TaskElement = document.querySelector(`#${Task.ID}`);
     let TaskTitle = Task.Title.toLowerCase();
-    if (TaskTitle.includes(KeyWord)) {
-      TaskElement.style.display = "flex";
-    } else {
-      TaskElement.style.display = "none";
-    }
+    if (TaskTitle.includes(KeyWord)) TaskElement.style.display = "flex";
+    else TaskElement.style.display = "none";
   });
 }
 function ExitFromSearchMode() {
@@ -519,4 +545,33 @@ function RestoreFromText(Text) {
     localStorage.setItem(n.toString(), TextObject[n]);
   }
   location.reload();
+}
+// Window manager => we have different windows such as Home-Unfinished or Trash-All we use it to load tasks accordingly
+function ChangeWindow(Window) {
+  if (CurrentWindow === Window) return;
+  if (DoesElementExist("settings-container")) HideSettings();
+  ExitSelectMode();
+  let ValidInputs = [
+    "Trash-All",
+    "Trash-Today",
+    "Trash-Tomorrow",
+    "Trash-In2Days",
+    "Home-Unfinished",
+    "Home-Today",
+    "Home-Tomorrow",
+    "Home-In2Days",
+    "Home-Failed",
+    "Home-Completed",
+    "UserCategory-Unfinished",
+    "UserCategory-Today",
+    "UserCategory-Tomorrow",
+    "UserCategory-In2Days",
+    "Notes",
+  ];
+  if (!ValidInputs.includes(Window.toString())) {
+    console.error(`unvalid argument passed to ChangeWindow ${Window} is not part of existing windows in the app`);
+    return;
+  }
+  CurrentWindow = Window.toString();
+  console.log(`Current window : ${CurrentWindow}`);
 }

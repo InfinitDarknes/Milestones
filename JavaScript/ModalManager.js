@@ -741,7 +741,7 @@ function EditCategoryModal(ID) {
     UserCategoriesArray[Index].Icon = TempUserCategoryInfo.Icon;
     localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
     ResetTempUserCategoryInfo();
-    AppendUGC();
+    DisplayUserCategories();
     HideModal();
   });
   const CancelBtn = document.createElement("button");
