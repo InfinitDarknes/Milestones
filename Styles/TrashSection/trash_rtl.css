@@ -1,0 +1,19 @@
+#sort-all-trash {
+  order: 1;
+}
+.trashed-task-badge {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  padding: 0 8px;
+  height: 100%;
+  color: #dad6d6;
+  position: absolute;
+  left: 0;
+  font-size: 1.1em;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: #ff4545;
+}
