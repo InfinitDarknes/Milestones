@@ -1,0 +1,148 @@
+#settings-container {
+  order: 3;
+  width: 400px;
+  height: 100%;
+  position: absolute;
+  right: -100%;
+  transition: all 0.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+#settings-header {
+  position: relative;
+  width: 85%;
+  height: 100px;
+  padding: 15px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#settings-title {
+  font-size: 2.1em;
+  font-family: SpaceGroteskMed;
+}
+#hide-settings-button {
+  background: none;
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+#hide-settings-button-icon {
+  width: 100%;
+  height: 100%;
+}
+.setting-in {
+  right: 0 !important;
+}
+.setting-out {
+  right: -100% !important;
+}
+#setting-items-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  -ms-overflow-style: none;
+}
+#setting-items-container::-webkit-scrollbar {
+  display: none;
+}
+.setting-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 300px;
+  min-height: 60px;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+input[type="range"] {
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 10px;
+}
+input[type="range"]::-moz-range-track {
+  height: 7px;
+  border-radius: 20px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 0;
+  outline: 0;
+}
+input[type="range"]::-moz-range-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  border: 0;
+  outline: 0;
+}
+.setting-select-box {
+  position: absolute;
+  right: 10px;
+  width: 100px;
+  height: 30px;
+  margin: 10px 0;
+  font-size: 1.1em;
+  border: 0;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  font-family: SpaceGroteskReg;
+}
+.setting-select-box option {
+  font-size: 1.1em;
+  text-align: center;
+  cursor: pointer;
+  font-family: monospace;
+}
+.setting-title {
+  width: calc(98% - 100px);
+  font-size: 1.1em;
+}
+/*Generate Backup and Cloudstorge section*/
+#generate-backup-button {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+  min-height: 50px;
+  border-radius: 5px;
+  margin: 5px 0;
+  font-size: 1.1em;
+  transition: all 0.5s;
+}
+#cloud-storge-button {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+  min-height: 50px;
+  border-radius: 5px;
+  margin: 5px 0;
+  font-size: 1.1em;
+  transition: all 0.5s;
+}
