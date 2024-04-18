@@ -1,0 +1,344 @@
+/*Dark*/
+:root {
+  /*bgc = background color*/
+  --dark-body-bgc: #3a4166;
+  --dark-main: #232d3f;
+  --ligh-main: #fff;
+  --dark-task-container-bgc: #3a4166;
+  --black: #1b1a1d;
+  --white: #dad6d6;
+  --green: #40c057;
+  --grey: #2e3843;
+  --yellow: #ffc069;
+  --bronze: #f3ead3;
+  --red: #fe4545;
+  --actual-white: #fff;
+}
+.Dark .hovered {
+  background-color: var(--green) !important;
+}
+.Dark #select-all-section {
+  color: var(--white);
+}
+.Dark .window {
+  background-color: var(--dark-main);
+}
+.Dark .sort-buttons {
+  background-color: var(--black);
+  color: var(--white);
+}
+.Dark #search-bar {
+  background-color: var(--black);
+  color: var(--white);
+}
+.Dark .task-container {
+  background: var(--dark-body-bgc);
+}
+.Dark .task-title {
+  color: var(--black);
+}
+.Dark .date-container {
+  background: var(--black);
+}
+.Dark .task-date {
+  color: var(--white);
+}
+.Dark .failed-task-badge,
+.Dark .completed-task-badge,
+.Dark .category-badge {
+  color: var(--white);
+}
+.Dark .task-time {
+  color: var(--white);
+}
+.Dark #empty-box-text {
+  color: var(--white);
+}
+.Dark #side-bar {
+  background: var(--dark-main);
+}
+.Dark .side-bar-item {
+  background: var(--black);
+  color: var(--white);
+}
+.Dark #add-notes-btn {
+  background-color: var(--green) !important;
+}
+.Dark #add-notes-btn-text {
+  color: var(--white) !important;
+}
+.Dark #full-date {
+  color: var(--white);
+}
+.Dark #time {
+  color: var(--white);
+}
+.Dark .user-category-name {
+  color: var(--white);
+}
+.Dark #settings-container {
+  background: var(--grey);
+}
+.Dark #settings-header {
+  border-bottom: 3px solid var(--white);
+}
+.Dark #settings-title {
+  color: var(--black);
+}
+.Dark .setting-item {
+  background-color: var(--black);
+}
+.Dark .setting-select-box {
+  color: var(--black);
+  background-color: var(--white);
+}
+.Dark .setting-select-box option {
+  color: var(--black);
+}
+.Dark .setting-title {
+  color: var(--white);
+}
+.Dark input[type="range"]::-webkit-slider-runnable-track {
+  background-color: var(--green);
+}
+.Dark input[type="range"]::-moz-range-track {
+  background-color: var(--green);
+}
+.Dark input[type="range"]::-webkit-slider-thumb {
+  background-color: var(--white);
+}
+.Dark input[type="range"]::-moz-range-thumb {
+  background-color: var(--white);
+}
+.Dark #generate-backup-button {
+  background: var(--black);
+  color: var(--white);
+}
+.Dark #cloud-storge-button {
+  background: var(--black);
+  color: var(--white);
+}
+.Dark #modal-container {
+  background-color: var(--black);
+  box-shadow: 0 0 15px 5px rgba(218, 214, 214, 0.1);
+}
+.Dark #modal-text {
+  color: var(--white);
+}
+.Dark #move-to-trash-text {
+  color: var(--white);
+}
+.Dark #confirm-btn,
+.Dark #cancel-btn {
+  color: var(--actual-white);
+}
+.Dark .green-btn {
+  background-color: var(--green);
+  color: var(--actual-white);
+  transition: 500ms;
+}
+.Dark .green-btn:hover {
+  background-color: #339a46;
+  transform: scale(1.02);
+}
+.Dark .red-btn {
+  background-color: var(--red);
+  color: var(--actual-white);
+  transition: 500ms;
+}
+.Dark .red-btn:hover {
+  background-color: #e53e3e;
+  transform: scale(1.02);
+}
+.Dark .modal-button {
+  background-color: var(--grey);
+}
+.Dark .modal-button-text {
+  color: var(--white);
+}
+.Dark .modal-title {
+  color: var(--white);
+}
+.Dark .modal-description {
+  color: var(--white);
+}
+.Dark .modal-text-area {
+  background-color: var(--grey);
+  color: var(--white);
+}
+.Dark #note-text-area {
+  background-color: var(--white);
+  color: var(--black);
+}
+/* Note window */
+.Dark .note-container {
+  background-color: var(--dark-task-container-bgc);
+}
+.Dark .note-title {
+  color: var(--white);
+  background-color: var(--black);
+}
+.Dark .note-text {
+  color: var(--white);
+}
+.Dark .view-note-btn {
+  background-color: var(--green);
+  color: var(--white);
+  transition: 500ms;
+}
+.Dark .view-note-btn:hover {
+  background-color: #339a46;
+}
+/* Read note modal */
+.Dark .info-container-row {
+  border-bottom: 2px solid var(--white);
+  color: var(--white);
+}
+.Dark .note-modal-text {
+  appearance: none;
+  color: var(--black);
+  background-color: var(--white);
+  scrollbar-color: var(--green) var(--actual-white);
+}
+.Dark .note-modal-text::-webkit-scrollbar-track {
+  background-color: var(--actual-white);
+  border-radius: 20px;
+}
+.Dark .note-modal-text::-webkit-scrollbar-thumb {
+  background-color: var(--green);
+  border-radius: 20px;
+}
+.Dark #select-category-select-box {
+  background-color: var(--white);
+  color: var(--black);
+}
+.Dark .task-input {
+  background-color: var(--white);
+}
+.Dark .badge {
+  background: transparent;
+  border-bottom: 3px solid var(--grey);
+  color: var(--white);
+}
+.Dark .badge-modified {
+  background: var(--black);
+  border: 1px solid var(--white);
+  color: var(--white);
+}
+.Dark .character-limit {
+  border: 1px solid var(--white);
+  color: var(--white);
+  background: var(--black);
+}
+.Dark .pick-category-icon-button {
+  background-color: var(--grey);
+}
+.Dark #preloader {
+  background-color: var(--dark-body-bgc);
+}
+.Dark #preloader-text {
+  color: var(--white);
+}
+body.Dark {
+  background: var(--dark-body-bgc);
+}
+.Dark #date-picker {
+  background-color: var(--grey);
+}
+.Dark #pick-year-month-container {
+  background-color: var(--grey);
+}
+.Dark #pick-year-month-container button {
+  background-color: var(--black);
+}
+.Dark #year,
+.Dark #month {
+  color: var(--white);
+}
+.Dark .pick-day-button {
+  color: var(--white);
+}
+.Dark .selected-day {
+  background-color: var(--green);
+}
+.Dark #pick-today-button,
+.Dark #pick-tomorrow-button,
+.Dark #pick-in-2-days-button {
+  background-color: var(--black);
+  color: var(--white);
+}
+.Dark .time-picker-input {
+  background-color: var(--white);
+}
+.Dark .tweak-time-buttons button {
+  background-color: var(--black);
+}
+.Dark #context-menu {
+  background-color: var(--black);
+}
+.Dark .context-menu-item {
+  background-color: var(--black);
+}
+.Dark .context-menu-text {
+  color: var(--white);
+}
+.Dark #top-bar {
+  background: var(--dark-main);
+}
+.Dark #display-text {
+  color: var(--white);
+}
+.Dark .trashed-task-badge {
+  color: var(--white);
+  background-color: var(--red);
+}
+.Dark .window-header {
+  background-color: var(--black);
+}
+.Dark .header-title {
+  color: var(--white);
+}
+.Dark .checkmark {
+  --clr: #008ffd;
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 1.2em;
+  width: 1.2em;
+  background-color: #ccc;
+  border-radius: 50%;
+  transition: 300ms;
+}
+/*Select bar*/
+.Dark #select-bar {
+  background-color: var(--grey);
+}
+.Dark #selected-items {
+  color: var(--white);
+}
+.Dark #exit-select-mode-btn {
+  background-color: var(--red);
+  color: var(--white);
+}
+.Dark .select-bar-task-btn {
+  background-color: var(--black);
+  color: var(--white);
+}
+.Dark .select-bar-task-btn:hover {
+  background-color: var(--green);
+}
+/* Message box */
+.Dark .msg-box {
+  background-color: var(--black);
+  color: var(--white);
+  box-shadow: 0 0 15px 5px rgba(218, 214, 214, 0.2);
+}
+.Dark .msg-type-wrapper {
+  box-shadow: 0 0 15px 2px rgba(218, 214, 214, 0.1);
+}
+.Dark .error.msg-type-text {
+  color: var(--red);
+}
+.Dark .success.msg-type-text {
+  color: var(--green);
+}

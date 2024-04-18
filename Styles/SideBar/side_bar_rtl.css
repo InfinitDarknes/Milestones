@@ -1,0 +1,151 @@
+#side-bar {
+  order: 1;
+  width: 250px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.side-bar-item {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+  height: 50px;
+  border-radius: 5px;
+  margin: 3px 0;
+  transition: all 0.5s;
+}
+.side-bar-item:hover {
+  transform: scale(1.1);
+  background-color: #40c057 !important;
+}
+.side-bar-item-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+.side-bar-item-text {
+  font-size: 1.3em;
+  margin-right: 12px;
+}
+#full-date {
+  order: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  padding: 10px 0;
+  font-size: 1.3em;
+  direction: ltr;
+}
+#clock {
+  order: 1;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+}
+
+#time-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 15px;
+}
+#time-icon img {
+  width: 100%;
+  height: 100%;
+}
+#time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1.3em;
+  direction: ltr;
+}
+
+#home-button {
+  order: 3;
+}
+#new-task-button {
+  order: 4;
+}
+#new-category-button {
+  order: 5;
+}
+#calendar-button {
+  order: 6;
+}
+#notes-button {
+  order: 7;
+}
+#alarms-button {
+  order: 8;
+}
+#trash-bin-button {
+  order: 9;
+}
+#user-category-container {
+  order: 10;
+  width: 100%;
+  height: 300px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  margin-top: 15px;
+  direction: ltr;
+}
+.user-category-item {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+  height: 50px;
+  border-radius: 5px;
+  margin: 5px auto;
+  transition: all 0.5s;
+  direction: rtl;
+}
+.user-category-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+.user-category-name {
+  margin-right: 12px;
+  font-size: 1.3em;
+  font-family: SpaceGrotesk, vazir;
+}
+.user-category-drop-down-button {
+  position: absolute;
+  right: 8px;
+  width: 25px;
+  height: 25px;
+  background: none;
+}
+.user-category-drop-down-icon {
+  width: 25px;
+  height: 25px;
+}
+
+#side-bar-footer {
+  order: 11;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
