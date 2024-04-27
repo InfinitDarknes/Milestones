@@ -79,6 +79,22 @@ const Strings = {
     en: "Previous day",
     fa: "روز قبل",
   },
+  NoResultFor: {
+    en: "No result for",
+    fa: "هیچ نتیجه ای برای",
+  },
+  WasFound: {
+    en: "was found",
+    fa: "پیدا نشد",
+  },
+  OnlyShowInCategory: {
+    en: "Show in category only",
+    fa: "تنها در دسته بندی نمایشش بده",
+  },
+  ShowEveryWhere: {
+    en: "Show everywhere",
+    fa: "همجا نمایشش بده",
+  },
   MoveToToday: {
     en: "Today",
     fa: "امروز",

@@ -265,6 +265,24 @@ function DisplayTaskContextMenu(Event, TargetType) {
   });
   MoveToTrashButton.append(MoveToTrashText, MoveToTrashIcon);
   // Delete Button
+  const OnlyShowInCategoryButton = document.createElement("button");
+  const OnlyShowInCategoryText = document.createElement("span");
+  const OnlyShowInCategoryIcon = document.createElement("img");
+  OnlyShowInCategoryButton.className = "context-menu-item";
+  OnlyShowInCategoryText.className = "context-menu-text";
+  OnlyShowInCategoryIcon.className = "context-menu-icon";
+  OnlyShowInCategoryIcon.src = Target.OnlyShowInCategory ? IconsSrc.VisibleIcon[UserSettings.Theme] : IconsSrc.InvisibleIcon[UserSettings.Theme];
+  OnlyShowInCategoryText.innerText = Target.OnlyShowInCategory
+    ? Strings.ShowEveryWhere[UserSettings.CurrentLang]
+    : Strings.OnlyShowInCategory[UserSettings.CurrentLang];
+  OnlyShowInCategoryIcon.setAttribute("inert", "");
+  OnlyShowInCategoryText.setAttribute("inert", "");
+  OnlyShowInCategoryButton.addEventListener("click", () => {
+    LocalizeTask(Target.ID);
+    HideContextMenu();
+  });
+  OnlyShowInCategoryButton.append(OnlyShowInCategoryText, OnlyShowInCategoryIcon);
+  // Delete Button
   const DeleteTaskButton = document.createElement("button");
   const DeleteTaskText = document.createElement("span");
   const DeleteTaskIcon = document.createElement("img");
@@ -299,6 +317,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
         MoveToTrashButton,
         DeleteTaskButton
       );
+      if (Target.UserCategory !== "None") TaskContextMenu.append(OnlyShowInCategoryButton);
       break;
     case "Failed":
       TaskContextMenu.append(RestoreTaskButton, MoveToTrashButton, DeleteTaskButton);
@@ -312,7 +331,6 @@ function DisplayTaskContextMenu(Event, TargetType) {
   }
   // Append
   document.body.append(TaskContextMenu);
-  console.log(TaskContextMenu);
   // Width and heights
   let WindowWidth = window.innerWidth;
   let WindowHeight = window.innerHeight;
@@ -321,8 +339,9 @@ function DisplayTaskContextMenu(Event, TargetType) {
   // Client X and Y
   let X = Event.clientX;
   let Y = Event.clientY;
-  X = X > WindowWidth - MenuWidth ? WindowWidth - MenuWidth - 10 : X;
-  Y = Y > WindowHeight - MenuHeight ? WindowHeight - MenuHeight - 10 : Y;
+  // WindowWidth - MenuWidth - 70 >> 70 = 60px for selectbar that might apear and 10px extra
+  X = X > WindowWidth - MenuWidth ? WindowWidth - MenuWidth - 70 : X;
+  Y = Y > WindowHeight - MenuHeight ? WindowHeight - MenuHeight - 70 : Y;
   TaskContextMenu.style.top = `${Y}px`;
   TaskContextMenu.style.left = `${X}px`;
 }

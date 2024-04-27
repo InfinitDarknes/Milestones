@@ -196,13 +196,13 @@ function ReturnSortIn2DaysBtn(TargetWindow) {
   });
   return SortIn2Days;
 }
-function ReturnSortCompletedBtn() {
+function ReturnSortCompletedBtn(TargetWindow) {
   const SortCompleted = document.createElement("button");
   SortCompleted.className = "sort-buttons";
   SortCompleted.id = "sort-completed";
   SortCompleted.textContent = Strings.CategoryCompletedButton[UserSettings.CurrentLang];
   SortCompleted.addEventListener("click", () => {
-    ChangeWindow("Home-Completed");
+    ChangeWindow(`${TargetWindow}-Completed`);
     UpdateInbox();
     HighLightSelectedSortButton("sort-completed");
   });
@@ -234,7 +234,7 @@ function ReturnSortCompletedBtn() {
       if (DragableElement.IsTaskTrashed || DragableElement.IsTaskFailed || DragableElement.IsTaskCompleted) return false;
       CompleteTask(DraggedElementID);
     }
-    ChangeWindow("Home-Completed");
+    ChangeWindow(`${TargetWindow}-Completed`);
     UpdateInbox();
     HighLightSelectedSortButton("sort-completed");
   });
@@ -590,10 +590,12 @@ function ReturnUserCategorySortBar() {
   const SortToday = ReturnSortTodayBtn("UserCategory");
   const SortTomorrow = ReturnSortTomorrowBtn("UserCategory");
   const SortIn2Days = ReturnSortIn2DaysBtn("UserCategory");
+  const SortCompleted = ReturnSortCompletedBtn("UserCategory");
+  const SortFailed = ReturnSortFailedBtn("UserCategory");
   // Id and Class
   SortBar.id = "sort-bar";
   // Final
-  SortBar.append(SortUnfinished, SortToday, SortTomorrow, SortIn2Days);
+  SortBar.append(SortUnfinished, SortToday, SortTomorrow, SortIn2Days, SortCompleted, SortFailed);
   return SortBar;
 }
 // Return the fragment of each window
@@ -748,7 +750,8 @@ function AppendTaskContainer(Tasks) {
   const ListSection = document.getElementById("list-section");
   let FragmentOfTaskContainers = document.createDocumentFragment();
   Tasks.forEach((Task) => {
-    let { ID, Title, NumericDate } = Task;
+    let { ID, Title, NumericDate, UserCategory, OnlyShowInCategory } = Task;
+    if (OnlyShowInCategory && (SelectedUserCategory !== UserCategory || !CurrentWindow.includes("UserCategory"))) return;
     const TaskContainer = document.createElement("section");
     TaskContainer.className = "task-container";
     TaskContainer.id = ID;
@@ -890,6 +893,26 @@ function EmptyBox(Text) {
   // Empty box icon
   const EmptyBoxIcon = document.createElement("img");
   EmptyBoxIcon.src = IconsSrc.EmptyBoxIcon[UserSettings.Theme];
+  // Empty box text
+  const EmptyBoxText = document.createElement("p");
+  EmptyBoxText.id = "empty-box-text";
+  EmptyBoxText.innerText = Text;
+  // Modifing List Section
+  ClearListSection();
+  ListSection.style.display = "flex";
+  ListSection.style.alignItems = "center";
+  ListSection.style.justifyContent = "center";
+  // Appending to DOM
+  EmptyBoxIconContainer.append(EmptyBoxIcon, EmptyBoxText);
+  ListSection.append(EmptyBoxIconContainer);
+}
+function DisplayNoResultBox(Text) {
+  const ListSection = document.getElementById("list-section");
+  const EmptyBoxIconContainer = document.createElement("section");
+  EmptyBoxIconContainer.id = "empty-box-container";
+  // Empty box icon
+  const EmptyBoxIcon = document.createElement("img");
+  EmptyBoxIcon.src = IconsSrc.NoResultFoundIcon[UserSettings.Theme];
   // Empty box text
   const EmptyBoxText = document.createElement("p");
   EmptyBoxText.id = "empty-box-text";

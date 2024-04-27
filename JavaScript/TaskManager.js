@@ -5,7 +5,7 @@ let EditMode = false;
 // CurrentPage => Home-SortOption | TrashBin-SortOption | UserCategory-SortOption | Notes | Calendar
 let CurrentWindow = "Home-Unfinished";
 // Add/Delete/Complete/Fail
-function NewTaskConstructor(ID, Title, NumericDate, UserCategory) {
+function NewTaskConstructor(ID, Title, NumericDate, UserCategory, OnlyShowInCategory) {
   this.ID = ID;
   this.Title = Title;
   this.NumericDate = NumericDate;
@@ -16,6 +16,7 @@ function NewTaskConstructor(ID, Title, NumericDate, UserCategory) {
   this.IsTaskFailed = false;
   this.IsTaskTrashed = false;
   this.Selected = false;
+  this.OnlyShowInCategory = false;
 }
 function AddTask() {
   let ID = "Task-" + GenerateUniqeID(5);
@@ -23,7 +24,8 @@ function AddTask() {
   let NumericDate = ExtractDate("Numeric");
   let SelectBox = document.getElementById("select-category-select-box");
   let UserCategory = SelectBox.dataset.value;
-  let NewTask = new NewTaskConstructor(ID, Title, NumericDate, UserCategory);
+  let OnlyShowInCategory = false; // only for now
+  let NewTask = new NewTaskConstructor(ID, Title, NumericDate, UserCategory, OnlyShowInCategory);
   AllTasksArray.push(NewTask);
   SaveAll();
   UpdateInbox();
@@ -92,6 +94,28 @@ function MoveToTrash(ID) {
     let Task = AllTasksArray[FindIndexOfTask(ID)];
     Task.IsTaskPinned = false;
     Task.IsTaskTrashed = true;
+    Task.Selected = false;
+  }
+  SaveAll();
+  UpdateInbox();
+}
+function LocalizeTask(ID) {
+  if (SelectMode) {
+    if (
+      ReturnSelectedTasks().some((Task) => {
+        return Task.UserCategory === "None";
+      })
+    ) {
+      DisplayMessage("Error", MessageBoxStrings.UncategorizedTask[UserSettings.CurrentLang]);
+      return;
+    }
+    ReturnSelectedTasks().forEach((Task) => {
+      Task.OnlyShowInCategory = !Task.OnlyShowInCategory;
+      Task.Selected = false;
+    });
+  } else {
+    let Task = AllTasksArray[FindIndexOfTask(ID)];
+    Task.OnlyShowInCategory = !Task.OnlyShowInCategory;
     Task.Selected = false;
   }
   SaveAll();
@@ -197,6 +221,19 @@ function ReturnTrashedTasks() {
   return AllTasksArray.filter((Task) => {
     return Task.IsTaskTrashed;
   });
+}
+// Permanent sorting
+function SortNewestTasks() {
+  let SortedArray = AllTasksArray.sort((A, B) => B.NumericDate - A.NumericDate);
+  AllTasksArray = SortedArray;
+  SaveAll();
+  UpdateInbox();
+}
+function SortOldestTasks() {
+  let SortedArray = AllTasksArray.sort((A, B) => A.NumericDate - B.NumericDate);
+  AllTasksArray = SortedArray;
+  SaveAll();
+  UpdateInbox();
 }
 // show sorted tasks in DOM
 function LoadUnfinishedTasks() {
@@ -495,6 +532,12 @@ function UpdateInbox() {
     case "UserCategory-In2Days":
       LoadUserCategorisedTasks(ReturnIn2DaysTasks());
       break;
+    case "UserCategory-Completed":
+      LoadUserCategorisedTasks(ReturnCompletedTasks());
+      break;
+    case "UserCategory-Failed":
+      LoadUserCategorisedTasks(ReturnFailedTasks());
+      break;
     case "Notes":
       DisplayNotesIntoDOM();
       break;
@@ -517,18 +560,20 @@ function Search(KeyWord) {
   ExitSelectMode();
   KeyWord = KeyWord.toLowerCase();
   let TargetArray = GetCurrentlyLoadedTasks();
-  TargetArray.forEach((Task) => {
-    const TaskElement = document.querySelector(`#${Task.ID}`);
+  let Matches = TargetArray.filter((Task) => {
     let TaskTitle = Task.Title.toLowerCase();
-    if (TaskTitle.includes(KeyWord)) TaskElement.style.display = "flex";
-    else TaskElement.style.display = "none";
+    return TaskTitle.includes(KeyWord);
   });
+  if (Matches.length > 0) {
+    ClearListSection();
+    AppendTaskContainer(Matches);
+  } else {
+    // DOMManager.js
+    DisplayNoResultBox(`${Strings.NoResultFor[UserSettings.CurrentLang]} "${KeyWord}" ${Strings.WasFound[UserSettings.CurrentLang]} :(`);
+  }
 }
 function ExitFromSearchMode() {
-  let TaskElements = document.querySelectorAll(`.task-container`);
-  TaskElements.forEach((TaskElement) => {
-    TaskElement.style.display = "flex";
-  });
+  UpdateInbox();
 }
 //
 function ReturnTaskState(ID) {
@@ -566,6 +611,8 @@ function ChangeWindow(Window) {
     "UserCategory-Today",
     "UserCategory-Tomorrow",
     "UserCategory-In2Days",
+    "UserCategory-Completed",
+    "UserCategory-Failed",
     "Notes",
   ];
   if (!ValidInputs.includes(Window.toString())) {

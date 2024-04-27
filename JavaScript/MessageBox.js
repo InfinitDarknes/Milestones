@@ -47,6 +47,10 @@ const MessageBoxStrings = {
     en: "Your note was successfully added.",
     fa: "یادداشت شما با موفقیت افزوده شد.",
   },
+  UncategorizedTask: {
+    en: "You have an uncategorized task in your selection it is not possible to hide that.",
+    fa: "شما یک رویداد دسته بندی نشده انتخاب کرده اید امکان مخفی سازی وجود ندارد.",
+  },
   SelectADate: {
     en: "",
     fa: "",

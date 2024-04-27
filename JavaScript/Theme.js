@@ -14,6 +14,16 @@ let IconsSrc = {
     Light: "Icons/LightIcons/HomeIcon.png",
     Neon: "Icons/NeonIcons/HomeIcon.png",
   },
+  VisibleIcon: {
+    Dark: "Icons/DarkIcons/VisibleIcon.png",
+    Light: "Icons/LightIcons/VisibleIcon.png",
+    Neon: "Icons/NeonIcons/VisibleIcon.png",
+  },
+  InvisibleIcon: {
+    Dark: "Icons/DarkIcons/InVisibleIcon.png",
+    Light: "Icons/LightIcons/InVisibleIcon.png",
+    Neon: "Icons/NeonIcons/InVisibleIcon.png",
+  },
   NewTaskIcon: {
     Dark: "Icons/DarkIcons/NewTaskIcon.png",
     Light: "Icons/LightIcons/NewTaskIcon.png",
@@ -148,6 +158,11 @@ let IconsSrc = {
     Dark: "Icons/DarkIcons/EmptyIcon.png",
     Light: "Icons/LightIcons/EmptyIcon.png",
     Neon: "Icons/NeonIcons/EmptyIcon.png",
+  },
+  NoResultFoundIcon: {
+    Dark: "Icons/DarkIcons/NoResultFoundIcon.png",
+    Light: "Icons/LightIcons/NoResultFoundIcon.png",
+    Neon: "Icons/NeonIcons/NoResultFoundIcon.png",
   },
   UpArrowIcon: {
     Dark: "Icons/DarkIcons/UpArrowIcon.png",
