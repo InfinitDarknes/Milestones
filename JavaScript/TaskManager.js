@@ -1,9 +1,5 @@
 "use strict";
 let AllTasksArray = [];
-let SelectMode = false;
-let EditMode = false;
-// CurrentPage => Home-SortOption | TrashBin-SortOption | UserCategory-SortOption | Notes | Calendar
-let CurrentWindow = null;
 // Add/Delete/Complete/Fail
 function NewTaskConstructor(ID, Title, NumericDate, UserCategory, OnlyShowInCategory) {
   this.ID = ID;
@@ -31,7 +27,7 @@ function AddTask() {
   UpdateInbox();
 }
 function DeleteTask(ID) {
-  if (SelectMode) {
+  if (AppObj.SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       const Element = document.getElementById(Task.ID);
       Element.style.animation = "DeleteAnimation 700ms";
@@ -50,7 +46,7 @@ function DeleteTask(ID) {
   }, 500);
 }
 function FailTask(ID) {
-  if (SelectMode) {
+  if (AppObj.SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskPinned = false;
       Task.IsTaskCompleted = false;
@@ -68,7 +64,7 @@ function FailTask(ID) {
   UpdateInbox();
 }
 function CompleteTask(ID) {
-  if (SelectMode) {
+  if (AppObj.SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskPinned = false;
       Task.IsTaskCompleted = true;
@@ -84,7 +80,7 @@ function CompleteTask(ID) {
   UpdateInbox();
 }
 function MoveToTrash(ID) {
-  if (SelectMode) {
+  if (AppObj.SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskPinned = false;
       Task.IsTaskTrashed = true;
@@ -100,7 +96,7 @@ function MoveToTrash(ID) {
   UpdateInbox();
 }
 function LocalizeTask(ID) {
-  if (SelectMode) {
+  if (AppObj.SelectMode) {
     if (
       ReturnSelectedTasks().some((Task) => {
         return Task.UserCategory === "None";
@@ -123,7 +119,7 @@ function LocalizeTask(ID) {
 }
 // Restore Tasks
 function RestoreFromCompleted(ID) {
-  if (SelectMode) {
+  if (AppObj.SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskCompleted = false;
       Task.Selected = false;
@@ -137,7 +133,7 @@ function RestoreFromCompleted(ID) {
   UpdateInbox();
 }
 function RestoreFromFailed(ID) {
-  if (SelectMode) {
+  if (AppObj.SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskFailed = false;
       Task.Selected = false;
@@ -151,7 +147,7 @@ function RestoreFromFailed(ID) {
   UpdateInbox();
 }
 function RestoreFromTrash(ID) {
-  if (SelectMode) {
+  if (AppObj.SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
       Task.IsTaskTrashed = false;
       Task.Selected = false;
@@ -167,7 +163,7 @@ function RestoreFromTrash(ID) {
 // sort and show user-categorized tasks and category page
 function ReturnUserCategorisedTasks(TargetArray = ReturnUnfinishedTasks()) {
   return TargetArray.filter((Task) => {
-    if (Task.UserCategory === SelectedUserCategory) return Task;
+    if (Task.UserCategory === AppObj.SelectedUserCategory) return Task;
   }).sort((taskA, taskB) => taskB.IsTaskPinned - taskA.IsTaskPinned);
 }
 function LoadUserCategorisedTasks(TargetArray = ReturnUnfinishedTasks()) {
@@ -265,6 +261,7 @@ function LoadIn2DaysTasks() {
     EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.CurrentLang]);
     return;
   }
+  console.log(ReturnIn2DaysTasks());
   ClearListSection();
   AppendTaskContainer(ReturnIn2DaysTasks());
 }
@@ -366,7 +363,7 @@ function DeSelectTask(ID) {
 function SelectAll() {
   const CheckBoxes = document.querySelectorAll(`.task-checkbox`);
   GetCurrentlyLoadedTasks().forEach((Task) => {
-    if (CurrentWindow.includes("Home") && Task.OnlyShowInCategory === true) return;
+    if (AppObj.CurrentWindow.includes("Home") && Task.OnlyShowInCategory === true) return;
     else Task.Selected = true;
   });
   CheckBoxes.forEach((CheckBox) => {
@@ -379,7 +376,7 @@ function SelectAll() {
 function DeSelectAll() {
   const CheckBoxes = document.querySelectorAll(`.task-checkbox`);
   AllTasksArray.forEach((Task) => {
-    if (CurrentWindow.includes("Home") && Task.OnlyShowInCategory === true) return;
+    if (AppObj.CurrentWindow.includes("Home") && Task.OnlyShowInCategory === true) return;
     else Task.Selected = false;
   });
   CheckBoxes.forEach((CheckBox) => {
@@ -390,9 +387,9 @@ function DeSelectAll() {
   ToggleSelectMode();
 }
 function ExitSelectMode() {
-  if (!SelectMode) return;
+  if (!AppObj.SelectMode) return;
   console.log("Exiting select mode");
-  SelectMode = false;
+  AppObj.SelectMode = false;
   const SelectAllSection = document.getElementById("select-all-section");
   const SelectAllCheckBox = document.getElementById("select-all-checkbox");
   const CheckBoxContainers = document.querySelectorAll(`.task-checkbox`);
@@ -416,7 +413,7 @@ function ToggleSelectMode() {
   const SelectAllCheckBox = document.getElementById("select-all-checkbox");
   const CheckBoxContainers = document.querySelectorAll(`.task-container .checkbox-container`);
   if (ReturnSelectedTasks().length !== 0) {
-    SelectMode = true;
+    AppObj.SelectMode = true;
     SelectAllSection.style.display = "flex";
     CheckBoxContainers.forEach((CheckBoxContainer) => {
       CheckBoxContainer.style.display = "block";
@@ -455,78 +452,49 @@ function FindIndexOfTask(ID) {
   });
 }
 function GetCurrentlyLoadedTasks() {
-  switch (CurrentWindow) {
-    case "Home-Unfinished":
-      return ReturnUnfinishedTasks();
-    case "Home-Today":
-      return ReturnTodayTasks();
-    case "Home-Tomorrow":
-      return ReturnTomorrowTasks();
-    case "Home-In2Days":
-      return ReturnIn2DaysTasks();
-    case "Home-Failed":
-      return ReturnFailedTasks();
-    case "Home-Completed":
-      return ReturnCompletedTasks();
-    case "UserCategory-Unfinished":
-      return ReturnUserCategorisedTasks(ReturnUnfinishedTasks());
-    case "UserCategory-Today":
-      return ReturnUserCategorisedTasks(ReturnTodayTasks());
-    case "UserCategory-Tomorrow":
-      return ReturnUserCategorisedTasks(ReturnTomorrowTasks());
-    case "UserCategory-In2Days":
-      return ReturnUserCategorisedTasks(ReturnIn2DaysTasks());
-    case "Trash-All":
-      return ReturnTrashedTasks();
-    case "Trash-Today":
-      return ReturnTodayTasks(ReturnTrashedTasks());
-    case "Trash-Tomorrow":
-      return ReturnTomorrowTasks(ReturnTrashedTasks());
-    case "Trash-In2Days":
-      return ReturnIn2DaysTasks(ReturnTrashedTasks());
-    case "Notes":
-      return [];
-    default:
-      return "GetCurrentLoadedTasks failed to return any task because CurrentWindow value is invalid";
-  }
+  let LoadedTasksElems = Array.from(document.querySelectorAll(".task-container"));
+  let LoadedTasksArray = LoadedTasksElems.map((Elem) => {
+    return AllTasksArray[FindIndexOfTask(Elem.id)];
+  });
+  return LoadedTasksArray;
 }
 function UpdateInbox() {
-  if (CurrentWindow === "Trash-All") {
+  if (AppObj.CurrentWindow === "Trash-All") {
     LoadTrashedTasks(ReturnTrashedTasks());
-  } else if (CurrentWindow === "Trash-Today") {
+  } else if (AppObj.CurrentWindow === "Trash-Today") {
     LoadTrashedTasks(ReturnTodayTasks(ReturnTrashedTasks()));
-  } else if (CurrentWindow === "Trash-Tomorrow") {
+  } else if (AppObj.CurrentWindow === "Trash-Tomorrow") {
     LoadTrashedTasks(ReturnTomorrowTasks(ReturnTrashedTasks()));
-  } else if (CurrentWindow === "Trash-In2Days") {
+  } else if (AppObj.CurrentWindow === "Trash-In2Days") {
     LoadTrashedTasks(ReturnIn2DaysTasks(ReturnTrashedTasks()));
-  } else if (CurrentWindow === "Home-Unfinished") {
+  } else if (AppObj.CurrentWindow === "Home-Unfinished") {
     LoadUnfinishedTasks();
-  } else if (CurrentWindow === "Home-Today") {
+  } else if (AppObj.CurrentWindow === "Home-Today") {
     LoadTodayTasks();
-  } else if (CurrentWindow === "Home-Tomorrow") {
+  } else if (AppObj.CurrentWindow === "Home-Tomorrow") {
     LoadTomorrowTasks();
-  } else if (CurrentWindow === "Home-In2Days") {
+  } else if (AppObj.CurrentWindow === "Home-In2Days") {
     LoadIn2DaysTasks();
-  } else if (CurrentWindow === "Home-Failed") {
+  } else if (AppObj.CurrentWindow === "Home-Failed") {
     LoadFailedTasks();
-  } else if (CurrentWindow === "Home-Completed") {
+  } else if (AppObj.CurrentWindow === "Home-Completed") {
     LoadCompletedTasks();
-  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-Unfinished")) {
+  } else if (AppObj.CurrentWindow.includes("UserCategory") && AppObj.CurrentWindow.includes("-Unfinished")) {
     LoadUserCategorisedTasks(ReturnUnfinishedTasks());
-  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-Today")) {
+  } else if (AppObj.CurrentWindow.includes("UserCategory") && AppObj.CurrentWindow.includes("-Today")) {
     LoadUserCategorisedTasks(ReturnTodayTasks());
-  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-Tomorrow")) {
+  } else if (AppObj.CurrentWindow.includes("UserCategory") && AppObj.CurrentWindow.includes("-Tomorrow")) {
     LoadUserCategorisedTasks(ReturnTomorrowTasks());
-  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-In2Days")) {
+  } else if (AppObj.CurrentWindow.includes("UserCategory") && AppObj.CurrentWindow.includes("-In2Days")) {
     LoadUserCategorisedTasks(ReturnIn2DaysTasks());
-  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-Completed")) {
+  } else if (AppObj.CurrentWindow.includes("UserCategory") && AppObj.CurrentWindow.includes("-Completed")) {
     LoadUserCategorisedTasks(ReturnCompletedTasks());
-  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-Failed")) {
+  } else if (AppObj.CurrentWindow.includes("UserCategory") && AppObj.CurrentWindow.includes("-Failed")) {
     LoadUserCategorisedTasks(ReturnFailedTasks());
-  } else if (CurrentWindow === "Notes") {
+  } else if (AppObj.CurrentWindow === "Notes") {
     DisplayNotesIntoDOM();
   } else {
-    return "Inbox failed to update because CurrentWindow value is invalid";
+    throw new Error("Inbox failed to update because CurrentWindow value is invalid");
   }
   ExitSelectMode();
 }
@@ -577,28 +545,9 @@ function RestoreFromText(Text) {
 }
 // Window manager => we have different windows such as Home-Unfinished or Trash-All we use it to load tasks accordingly
 function ChangeWindow(Window) {
-  if (CurrentWindow === Window) return;
   if (DoesElementExist("settings-container")) HideSettings();
   ExitSelectMode();
-  let UserCategoryPattern = /^UserCategory-[0-9]{8}-(Unfinished|Today|Tomorrow|In2Days|Completed|Failed)$/;
-  let ValidInputs = [
-    "Trash-All",
-    "Trash-Today",
-    "Trash-Tomorrow",
-    "Trash-In2Days",
-    "Home-Unfinished",
-    "Home-Today",
-    "Home-Tomorrow",
-    "Home-In2Days",
-    "Home-Failed",
-    "Home-Completed",
-    "Notes",
-  ];
-  if (!ValidInputs.includes(Window.toString()) && !UserCategoryPattern.test(Window.toString())) {
-    console.error(`unvalid argument passed to ChangeWindow() ${Window} is not part of existing windows in the app`);
-    return;
-  }
-  CurrentWindow = Window.toString();
-  console.log(`Current window : ${CurrentWindow}`);
+  AppObj.CurrentWindow = Window.toString();
+  console.log(`Current window : ${AppObj.CurrentWindow}`);
   UpdateInbox();
 }

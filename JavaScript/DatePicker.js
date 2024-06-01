@@ -23,7 +23,7 @@ function ToggleDatePicker(ID, NumericDate) {
   if (DoesElementExist("date-picker")) HideDatePicker();
   else {
     CreateDatePicker(ID);
-    if (EditMode) LoadCustomDate(NumericDate);
+    if (AppObj.EditMode) LoadCustomDate(NumericDate);
     else LoadToday();
     UpdateDatePicker();
   }

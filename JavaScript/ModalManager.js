@@ -74,9 +74,9 @@ function AddNoteModal() {
   CharacterLimit("task-title-input");
   // Select Appropiate option based on selected task category
   const CategoryOptions = Array.from(document.querySelectorAll("#select-category-select-box .option"));
-  if (CurrentWindow.includes("UserCategory-")) {
+  if (AppObj.CurrentWindow.includes("UserCategory-")) {
     CategoryOptions.forEach((Option) => {
-      if (Option.dataset.value === SelectedUserCategory) {
+      if (Option.dataset.value === AppObj.SelectedUserCategory) {
         CategoriesTasksSelectBox.dataset.value = Option.dataset.value;
         SelectBoxText.innerText = Option.innerText;
       }
@@ -460,9 +460,9 @@ function NewTaskModal() {
   CharacterLimit("task-title-input");
   // Select Appropiate option based on selected task category
   const CategoryOptions = Array.from(document.querySelectorAll("#select-category-select-box .option"));
-  if (CurrentWindow.includes("UserCategory-")) {
+  if (AppObj.CurrentWindow.includes("UserCategory-")) {
     CategoryOptions.forEach((Option) => {
-      if (Option.dataset.value === SelectedUserCategory) {
+      if (Option.dataset.value === AppObj.SelectedUserCategory) {
         CategoriesTasksSelectBox.dataset.value = Option.dataset.value;
         SelectBoxText.innerText = Option.innerText;
       }

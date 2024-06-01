@@ -35,7 +35,7 @@ function ReturnSortUnfinishedBtn(TargetWindow) {
   SortUnfinished.addEventListener("drop", (Event) => {
     SortUnfinished.style.backgroundColor = "";
     SortUnfinished.style.transform = "";
-    if (SelectMode) {
+    if (AppObj.SelectMode) {
       let DragableElements = ReturnSelectedTasks();
       let ValidDragableElements = DragableElements.filter((Task) => {
         return Task.IsTaskTrashed || Task.IsTaskCompleted || Task.IsTaskFailed;
@@ -82,7 +82,7 @@ function ReturnSortTodayBtn(TargetWindow) {
   SortToday.addEventListener("drop", (event) => {
     SortToday.style.backgroundColor = "";
     SortToday.style.transform = "";
-    if (SelectMode) {
+    if (AppObj.SelectMode) {
       let DragableElements = ReturnSelectedTasks();
       let ValidDragableElements = DragableElements.filter((Task) => {
         return !Task.IsTaskTrashed && !Task.IsTaskCompleted && !Task.IsTaskFailed;
@@ -124,7 +124,7 @@ function ReturnSortTomorrowBtn(TargetWindow) {
   SortTomorrow.addEventListener("drop", (event) => {
     SortTomorrow.style.backgroundColor = "";
     SortTomorrow.style.transform = "";
-    if (SelectMode) {
+    if (AppObj.SelectMode) {
       let DragableElements = ReturnSelectedTasks();
       let ValidDragableElements = DragableElements.filter((Task) => {
         return !Task.IsTaskTrashed && !Task.IsTaskCompleted && !Task.IsTaskFailed;
@@ -166,7 +166,7 @@ function ReturnSortIn2DaysBtn(TargetWindow) {
   SortIn2Days.addEventListener("drop", (Event) => {
     SortIn2Days.style.backgroundColor = "";
     SortIn2Days.style.transform = "";
-    if (SelectMode) {
+    if (AppObj.SelectMode) {
       let DragableElements = ReturnSelectedTasks();
       let ValidDragableElements = DragableElements.filter((Task) => {
         return !Task.IsTaskTrashed && !Task.IsTaskCompleted && !Task.IsTaskFailed;
@@ -208,7 +208,7 @@ function ReturnSortCompletedBtn(TargetWindow) {
   SortCompleted.addEventListener("drop", (event) => {
     SortCompleted.style.backgroundColor = "";
     SortCompleted.style.transform = "";
-    if (SelectMode) {
+    if (AppObj.SelectMode) {
       let DragableElements = ReturnSelectedTasks();
       let ValidDragableElements = DragableElements.filter((Task) => {
         return !Task.IsTaskTrashed && !Task.IsTaskFailed && !Task.IsTaskCompleted;
@@ -250,7 +250,7 @@ function ReturnSortFailedBtn(TargetWindow) {
   SortFailed.addEventListener("drop", (event) => {
     SortFailed.style.backgroundColor = "";
     SortFailed.style.transform = "";
-    if (SelectMode) {
+    if (AppObj.SelectMode) {
       let DragableElements = ReturnSelectedTasks();
       let ValidDragableElements = DragableElements.filter((Task) => {
         return !Task.IsTaskTrashed && !Task.IsTaskFailed;
@@ -347,7 +347,7 @@ function ReturnUserCategorise() {
     UserCategoryButton.style.backgroundColor = Category.Color;
     // Events
     UserCategoryButton.addEventListener("click", () => {
-      SelectedUserCategory = Category.ID;
+      AppObj.SelectedUserCategory = Category.ID;
       DisplayUserCategoryWindow(Category.ID);
     });
     UserCategoryButton.addEventListener("contextmenu", (Event) => {
@@ -459,7 +459,7 @@ function ReturnSidebar() {
   TrashBin.addEventListener("drop", (Event) => {
     TrashBin.style.backgroundColor = "";
     TrashBin.style.transform = "";
-    if (SelectMode) {
+    if (AppObj.SelectMode) {
       let DragableElements = ReturnSelectedTasks();
       let ValidDragableElements = DragableElements.filter((Task) => {
         return !Task.IsTaskTrashed;
@@ -573,12 +573,12 @@ function ReturnTrashBinSortBar() {
 function ReturnUserCategorySortBar() {
   const SortBar = document.createElement("section");
   // Sort buttons
-  const SortUnfinished = ReturnSortUnfinishedBtn(SelectedUserCategory);
-  const SortToday = ReturnSortTodayBtn(SelectedUserCategory);
-  const SortTomorrow = ReturnSortTomorrowBtn(SelectedUserCategory);
-  const SortIn2Days = ReturnSortIn2DaysBtn(SelectedUserCategory);
-  const SortCompleted = ReturnSortCompletedBtn(SelectedUserCategory);
-  const SortFailed = ReturnSortFailedBtn(SelectedUserCategory);
+  const SortUnfinished = ReturnSortUnfinishedBtn(AppObj.SelectedUserCategory);
+  const SortToday = ReturnSortTodayBtn(AppObj.SelectedUserCategory);
+  const SortTomorrow = ReturnSortTomorrowBtn(AppObj.SelectedUserCategory);
+  const SortIn2Days = ReturnSortIn2DaysBtn(AppObj.SelectedUserCategory);
+  const SortCompleted = ReturnSortCompletedBtn(AppObj.SelectedUserCategory);
+  const SortFailed = ReturnSortFailedBtn(AppObj.SelectedUserCategory);
   // Id and Class
   SortBar.id = "sort-bar";
   // Final
@@ -652,7 +652,7 @@ function ReturnTrashBinWindow() {
   return TrashBinWindow;
 }
 function ReturnUserCategoryWindow(ID) {
-  // Find Usercategory info based on SelectedUserCategory variable
+  // Find Usercategory info based on AppObj.SelectedUserCategory property
   let SelectedCategory = UserCategoriesArray.find((Category) => {
     return Category.ID === ID;
   });
@@ -683,7 +683,7 @@ function ReturnUserCategoryWindow(ID) {
 // Display each window
 function DisplayHomeWindow(FirstTime) {
   if (!FirstTime) {
-    if (CurrentWindow.includes("Home")) return;
+    if (AppObj.CurrentWindow.includes("Home")) return;
   }
   const WindowElem = document.querySelector(".window");
   if (WindowElem) WindowElem.remove();
@@ -693,7 +693,7 @@ function DisplayHomeWindow(FirstTime) {
   ChangeWindow("Home-Unfinished");
 }
 function DisplayNotesWindow() {
-  if (CurrentWindow.includes("Notes")) return;
+  if (AppObj.CurrentWindow.includes("Notes")) return;
   const WindowElem = document.querySelector(".window");
   if (WindowElem) WindowElem.remove();
   document.body.append(ReturnNotesWindow());
@@ -701,7 +701,7 @@ function DisplayNotesWindow() {
   ChangeWindow("Notes");
 }
 function DisplayTrashBinWindow() {
-  if (CurrentWindow.includes("Trash")) return;
+  if (AppObj.CurrentWindow.includes("Trash")) return;
   const WindowElem = document.querySelector(".window");
   if (WindowElem) WindowElem.remove();
   document.body.append(ReturnTrashBinWindow());
@@ -716,7 +716,7 @@ function DisplayUserCategoryWindow(ID) {
   const UGCP = ReturnUserCategoryWindow(ID);
   document.body.append(UGCP);
   HighLightSelectedSortButton("sort-unfinished");
-  ChangeWindow(`${SelectedUserCategory}-Unfinished`);
+  ChangeWindow(`${AppObj.SelectedUserCategory}-Unfinished`);
   // Unhover the sidebar items because the UGC are also in sidebar
   const SidebarItems = document.querySelectorAll(".side-bar-item");
   SidebarItems.forEach((Item) => {
@@ -734,7 +734,7 @@ function AppendTaskContainer(Tasks) {
   let FragmentOfTaskContainers = document.createDocumentFragment();
   Tasks.forEach((Task) => {
     let { ID, Title, NumericDate, UserCategory, OnlyShowInCategory } = Task;
-    if (OnlyShowInCategory && (SelectedUserCategory !== UserCategory || !CurrentWindow.includes("UserCategory"))) return;
+    if (OnlyShowInCategory && (AppObj.SelectedUserCategory !== UserCategory || !AppObj.CurrentWindow.includes("UserCategory"))) return;
     const TaskContainer = document.createElement("section");
     TaskContainer.className = "task-container";
     TaskContainer.id = ID;
@@ -806,24 +806,29 @@ function AppendTaskContainer(Tasks) {
       });
     }
     if (Task.UserCategory !== "None" && ReturnTaskState(ID) === "Unfinished") {
-      let { Color, ID, Icon, Name } = UserCategoriesArray.find((Category) => {
+      let Category = UserCategoriesArray.find((Category) => {
         return Category.ID === Task.UserCategory;
       });
-      const CategoryBadge = document.createElement("section");
-      const CategoryBadgeName = document.createElement("span");
-      const CategoryBadgeIcon = document.createElement("img");
-      CategoryBadge.className = "category-badge";
-      CategoryBadgeName.className = "category-badge-name";
-      CategoryBadgeIcon.className = "category-badge-icon";
-      CategoryBadge.style.backgroundColor = Color;
-      CategoryBadge.setAttribute("inert", "");
-      CategoryBadgeName.innerText = Name;
-      CategoryBadgeIcon.src = Icon;
-      CategoryBadge.append(CategoryBadgeIcon, CategoryBadgeName);
-      TaskContainer.append(CategoryBadge);
+      if (!Category) {
+        Task.UserCategory = "None";
+      } else {
+        let { Color, ID, Name, Icon } = Category;
+        const CategoryBadge = document.createElement("section");
+        const CategoryBadgeName = document.createElement("span");
+        const CategoryBadgeIcon = document.createElement("img");
+        CategoryBadge.className = "category-badge";
+        CategoryBadgeName.className = "category-badge-name";
+        CategoryBadgeIcon.className = "category-badge-icon";
+        CategoryBadge.style.backgroundColor = Color;
+        CategoryBadge.setAttribute("inert", "");
+        CategoryBadgeName.innerText = Name;
+        CategoryBadgeIcon.src = Icon;
+        CategoryBadge.append(CategoryBadgeIcon, CategoryBadgeName);
+        TaskContainer.append(CategoryBadge);
+      }
     }
     TaskContainer.addEventListener("click", (Event) => {
-      if (!SelectMode || !Event.target.id.includes("Task")) return;
+      if (!AppObj.SelectMode || !Event.target.id.includes("Task")) return;
       let Task = AllTasksArray[FindIndexOfTask(Event.target.id)];
       let TaskID = Event.target.id;
       if (Task.Selected) {
@@ -834,13 +839,13 @@ function AppendTaskContainer(Tasks) {
     });
     TaskContainer.addEventListener("dblclick", (Event) => {
       let TaskID = Event.target.id;
-      if (!SelectMode) SelectTask(TaskID);
+      if (!AppObj.SelectMode) SelectTask(TaskID);
     });
     TaskContainer.addEventListener("dragstart", (Event) => {
       Event.dataTransfer.setData("DragableElementID", Event.target.id);
     });
     TaskContainer.addEventListener("mouseover", (Event) => {
-      if (SelectMode) Event.target.style.cursor = "pointer";
+      if (AppObj.SelectMode) Event.target.style.cursor = "pointer";
       else Event.target.style.cursor = "";
     });
     if (Task.IsTaskPinned) {
@@ -973,7 +978,7 @@ function DisplaySelectModeBar() {
   CompleteButton.addEventListener("click", CompleteTask);
   // Append
   SelectBar.append(ExistSelectModeButton, SelectedItemsElem, DeleteButton);
-  switch (CurrentWindow) {
+  switch (AppObj.CurrentWindow) {
     case "Trash-All":
     case "Trash-Today":
     case "Trash-Tomorrow":

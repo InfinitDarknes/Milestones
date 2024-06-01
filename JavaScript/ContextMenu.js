@@ -204,7 +204,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   CompleteTaskIcon.setAttribute("inert", "");
   CompleteTaskText.setAttribute("inert", "");
   CompleteTaskButton.addEventListener("click", () => {
-    SelectMode ? CompleteTask() : CompleteTask(Event.target.id);
+    AppObj.SelectMode ? CompleteTask() : CompleteTask(Event.target.id);
     HideContextMenu();
   });
   CompleteTaskButton.append(CompleteTaskText, CompleteTaskIcon);
@@ -220,7 +220,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   FailTaskIcon.setAttribute("inert", "");
   FailTaskText.setAttribute("inert", "");
   FailTaskButton.addEventListener("click", () => {
-    SelectMode ? FailTask() : FailTask(Event.target.id);
+    AppObj.SelectMode ? FailTask() : FailTask(Event.target.id);
     HideContextMenu();
   });
   FailTaskButton.append(FailTaskText, FailTaskIcon);
@@ -237,13 +237,13 @@ function DisplayTaskContextMenu(Event, TargetType) {
   RestoreTaskText.setAttribute("inert", "");
   RestoreTaskButton.addEventListener("click", () => {
     if (Target.IsTaskTrashed) {
-      SelectMode ? RestoreFromTrash() : RestoreFromTrash(Event.target.id);
+      AppObj.SelectMode ? RestoreFromTrash() : RestoreFromTrash(Event.target.id);
       HideContextMenu();
     } else if (!Target.IsTaskTrashed && Target.IsTaskCompleted) {
-      SelectMode ? RestoreFromCompleted() : RestoreFromCompleted(Event.target.id);
+      AppObj.SelectMode ? RestoreFromCompleted() : RestoreFromCompleted(Event.target.id);
       HideContextMenu();
     } else if (!Target.IsTaskTrashed && Target.IsTaskFailed) {
-      SelectMode ? RestoreFromFailed() : RestoreFromFailed(Event.target.id);
+      AppObj.SelectMode ? RestoreFromFailed() : RestoreFromFailed(Event.target.id);
       HideContextMenu();
     }
   });
@@ -260,7 +260,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   MoveToTrashIcon.setAttribute("inert", "");
   MoveToTrashText.setAttribute("inert", "");
   MoveToTrashButton.addEventListener("click", () => {
-    SelectMode ? MoveToTrash() : MoveToTrash(Event.target.id);
+    AppObj.SelectMode ? MoveToTrash() : MoveToTrash(Event.target.id);
     HideContextMenu();
   });
   MoveToTrashButton.append(MoveToTrashText, MoveToTrashIcon);
@@ -294,7 +294,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   DeleteTaskIcon.setAttribute("inert", "");
   DeleteTaskText.setAttribute("inert", "");
   DeleteTaskButton.addEventListener("click", () => {
-    SelectMode ? DeleteModal(TargetType, Event.target.id) : DeleteTask(Event.target.id);
+    AppObj.SelectMode ? DeleteModal(TargetType, Event.target.id) : DeleteTask(Event.target.id);
     HideContextMenu();
   });
   DeleteTaskButton.append(DeleteTaskText, DeleteTaskIcon);

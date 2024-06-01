@@ -74,10 +74,10 @@ function ShortCutManager(Event) {
     Event.preventDefault();
     SearchBar.focus();
   }
-  if (SelectMode && Event.keyCode === 46) {
+  if (AppObj.SelectMode && Event.keyCode === 46) {
     DeleteModal("Normal");
   }
-  if (SelectMode && Event.keyCode === 27) {
+  if (AppObj.SelectMode && Event.keyCode === 27) {
     ExitSelectMode();
   }
 }

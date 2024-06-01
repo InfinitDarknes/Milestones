@@ -1,4 +1,3 @@
-let SelectedUserCategory = "";
 let UserCategoriesArray = [];
 let TempUserCategoryInfo = {
   Name: null,
