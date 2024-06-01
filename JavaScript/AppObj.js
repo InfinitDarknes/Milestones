@@ -55,3 +55,4 @@ let ProxyHandler = {
     throw new Error("You can not delete AppObj object properties this will cause the application to crash.");
   },
 };
+AppObj = new Proxy(AppObj, ProxyHandler);
