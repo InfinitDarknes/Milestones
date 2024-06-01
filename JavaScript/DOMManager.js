@@ -9,7 +9,6 @@ function ReturnSortAllBtn() {
   // Events
   SortAllTrash.addEventListener("click", () => {
     ChangeWindow("Trash-All");
-    UpdateInbox();
     HighLightSelectedSortButton("sort-all-trash");
   });
   // Final
@@ -22,7 +21,6 @@ function ReturnSortUnfinishedBtn(TargetWindow) {
   SortUnfinished.textContent = Strings.SortUnfinished[UserSettings.CurrentLang];
   SortUnfinished.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Unfinished`);
-    UpdateInbox();
     HighLightSelectedSortButton("sort-unfinished");
   });
   SortUnfinished.addEventListener("dragover", (Event) => {
@@ -59,7 +57,6 @@ function ReturnSortUnfinishedBtn(TargetWindow) {
     }
     SaveAll();
     ChangeWindow(`${TargetWindow}-Unfinished`);
-    UpdateInbox();
     HighLightSelectedSortButton("sort-unfinished");
   });
   return SortUnfinished;
@@ -71,7 +68,6 @@ function ReturnSortTodayBtn(TargetWindow) {
   SortToday.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
   SortToday.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Today`);
-    UpdateInbox();
     HighLightSelectedSortButton("sort-today");
   });
   SortToday.addEventListener("dragover", (event) => {
@@ -103,7 +99,6 @@ function ReturnSortTodayBtn(TargetWindow) {
       MoveToToday(DraggedElementID);
     }
     ChangeWindow(`${TargetWindow}-Today`);
-    UpdateInbox();
     HighLightSelectedSortButton("sort-today");
   });
   return SortToday;
@@ -115,7 +110,6 @@ function ReturnSortTomorrowBtn(TargetWindow) {
   SortTomorrow.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
   SortTomorrow.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Tomorrow`);
-    UpdateInbox();
     HighLightSelectedSortButton("sort-tomorrow");
   });
   SortTomorrow.addEventListener("dragover", (event) => {
@@ -147,7 +141,6 @@ function ReturnSortTomorrowBtn(TargetWindow) {
       MoveToTomorrow(DraggedElementID);
     }
     ChangeWindow(`${TargetWindow}-Tomorrow`);
-    UpdateInbox();
     HighLightSelectedSortButton("sort-tomorrow");
   });
   return SortTomorrow;
@@ -159,7 +152,6 @@ function ReturnSortIn2DaysBtn(TargetWindow) {
   SortIn2Days.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
   SortIn2Days.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-In2Days`);
-    UpdateInbox();
     HighLightSelectedSortButton("sort-in-2-days");
   });
   SortIn2Days.addEventListener("dragover", (Event) => {
@@ -191,7 +183,6 @@ function ReturnSortIn2DaysBtn(TargetWindow) {
       MoveIn2Days(DraggedElementID);
     }
     ChangeWindow(`${TargetWindow}-In2Days`);
-    UpdateInbox();
     HighLightSelectedSortButton("sort-in-2-days");
   });
   return SortIn2Days;
@@ -203,7 +194,6 @@ function ReturnSortCompletedBtn(TargetWindow) {
   SortCompleted.textContent = Strings.CategoryCompletedButton[UserSettings.CurrentLang];
   SortCompleted.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Completed`);
-    UpdateInbox();
     HighLightSelectedSortButton("sort-completed");
   });
   SortCompleted.addEventListener("dragover", (event) => {
@@ -235,19 +225,17 @@ function ReturnSortCompletedBtn(TargetWindow) {
       CompleteTask(DraggedElementID);
     }
     ChangeWindow(`${TargetWindow}-Completed`);
-    UpdateInbox();
     HighLightSelectedSortButton("sort-completed");
   });
   return SortCompleted;
 }
-function ReturnSortFailedBtn() {
+function ReturnSortFailedBtn(TargetWindow) {
   const SortFailed = document.createElement("button");
   SortFailed.className = "sort-buttons";
   SortFailed.id = "sort-failed";
   SortFailed.textContent = Strings.CategoryFailedButton[UserSettings.CurrentLang];
   SortFailed.addEventListener("click", () => {
-    ChangeWindow("Home-Failed");
-    UpdateInbox();
+    ChangeWindow(`${TargetWindow}-Failed`);
     HighLightSelectedSortButton("sort-failed");
   });
   SortFailed.addEventListener("dragover", (event) => {
@@ -278,8 +266,7 @@ function ReturnSortFailedBtn() {
       if (DragableElement.IsTaskTrashed || DragableElement.IsTaskFailed) return false;
       FailTask(DraggedElementID);
     }
-    ChangeWindow("Home-Failed");
-    UpdateInbox();
+    ChangeWindow(`${TargetWindow}-Failed`);
     HighLightSelectedSortButton("sort-failed");
   });
   return SortFailed;
@@ -586,12 +573,12 @@ function ReturnTrashBinSortBar() {
 function ReturnUserCategorySortBar() {
   const SortBar = document.createElement("section");
   // Sort buttons
-  const SortUnfinished = ReturnSortUnfinishedBtn("UserCategory");
-  const SortToday = ReturnSortTodayBtn("UserCategory");
-  const SortTomorrow = ReturnSortTomorrowBtn("UserCategory");
-  const SortIn2Days = ReturnSortIn2DaysBtn("UserCategory");
-  const SortCompleted = ReturnSortCompletedBtn("UserCategory");
-  const SortFailed = ReturnSortFailedBtn("UserCategory");
+  const SortUnfinished = ReturnSortUnfinishedBtn(SelectedUserCategory);
+  const SortToday = ReturnSortTodayBtn(SelectedUserCategory);
+  const SortTomorrow = ReturnSortTomorrowBtn(SelectedUserCategory);
+  const SortIn2Days = ReturnSortIn2DaysBtn(SelectedUserCategory);
+  const SortCompleted = ReturnSortCompletedBtn(SelectedUserCategory);
+  const SortFailed = ReturnSortFailedBtn(SelectedUserCategory);
   // Id and Class
   SortBar.id = "sort-bar";
   // Final
@@ -698,42 +685,38 @@ function DisplayHomeWindow(FirstTime) {
   if (!FirstTime) {
     if (CurrentWindow.includes("Home")) return;
   }
-  ChangeWindow("Home-Unfinished");
   const WindowElem = document.querySelector(".window");
   if (WindowElem) WindowElem.remove();
   document.body.append(ReturnHomeWindow());
   HighLightSelectedSideBarItem("home-button");
   HighLightSelectedSortButton("sort-unfinished");
-  UpdateInbox();
+  ChangeWindow("Home-Unfinished");
 }
 function DisplayNotesWindow() {
   if (CurrentWindow.includes("Notes")) return;
-  ChangeWindow("Notes");
   const WindowElem = document.querySelector(".window");
   if (WindowElem) WindowElem.remove();
   document.body.append(ReturnNotesWindow());
   HighLightSelectedSideBarItem("notes-button");
-  UpdateInbox();
+  ChangeWindow("Notes");
 }
 function DisplayTrashBinWindow() {
   if (CurrentWindow.includes("Trash")) return;
-  ChangeWindow("Trash-All");
   const WindowElem = document.querySelector(".window");
   if (WindowElem) WindowElem.remove();
   document.body.append(ReturnTrashBinWindow());
   HighLightSelectedSortButton("sort-all-trash");
   HighLightSelectedSideBarItem("trash-bin-button");
-  UpdateInbox();
+  ChangeWindow("Trash-All");
 }
 function DisplayUserCategoryWindow(ID) {
   // Go to UGCM file to find out what the fuck is going on
-  ChangeWindow("UserCategory-Unfinished");
   const Window = document.querySelector(".window");
   if (Window) Window.remove();
   const UGCP = ReturnUserCategoryWindow(ID);
   document.body.append(UGCP);
   HighLightSelectedSortButton("sort-unfinished");
-  UpdateInbox();
+  ChangeWindow(`${SelectedUserCategory}-Unfinished`);
   // Unhover the sidebar items because the UGC are also in sidebar
   const SidebarItems = document.querySelectorAll(".side-bar-item");
   SidebarItems.forEach((Item) => {

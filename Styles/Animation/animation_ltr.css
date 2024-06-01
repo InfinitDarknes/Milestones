@@ -1,7 +1,3 @@
-.delete-animation {
-  animation: DeleteAnimation 700ms;
-}
-
 @keyframes DeleteAnimation {
   100% {
     transform: translateX(-100%);

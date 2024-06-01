@@ -3,7 +3,7 @@ let AllTasksArray = [];
 let SelectMode = false;
 let EditMode = false;
 // CurrentPage => Home-SortOption | TrashBin-SortOption | UserCategory-SortOption | Notes | Calendar
-let CurrentWindow = "Home-Unfinished";
+let CurrentWindow = null;
 // Add/Delete/Complete/Fail
 function NewTaskConstructor(ID, Title, NumericDate, UserCategory, OnlyShowInCategory) {
   this.ID = ID;
@@ -366,7 +366,8 @@ function DeSelectTask(ID) {
 function SelectAll() {
   const CheckBoxes = document.querySelectorAll(`.task-checkbox`);
   GetCurrentlyLoadedTasks().forEach((Task) => {
-    Task.Selected = true;
+    if (CurrentWindow.includes("Home") && Task.OnlyShowInCategory === true) return;
+    else Task.Selected = true;
   });
   CheckBoxes.forEach((CheckBox) => {
     CheckBox.checked = true;
@@ -378,7 +379,8 @@ function SelectAll() {
 function DeSelectAll() {
   const CheckBoxes = document.querySelectorAll(`.task-checkbox`);
   AllTasksArray.forEach((Task) => {
-    Task.Selected = false;
+    if (CurrentWindow.includes("Home") && Task.OnlyShowInCategory === true) return;
+    else Task.Selected = false;
   });
   CheckBoxes.forEach((CheckBox) => {
     CheckBox.checked = false;
@@ -489,60 +491,42 @@ function GetCurrentlyLoadedTasks() {
   }
 }
 function UpdateInbox() {
-  switch (CurrentWindow) {
-    case "Trash-All":
-      LoadTrashedTasks(ReturnTrashedTasks());
-      break;
-    case "Trash-Today":
-      LoadTrashedTasks(ReturnTodayTasks(ReturnTrashedTasks()));
-      break;
-    case "Trash-Tomorrow":
-      LoadTrashedTasks(ReturnTomorrowTasks(ReturnTrashedTasks()));
-      break;
-    case "Trash-In2Days":
-      LoadTrashedTasks(ReturnIn2DaysTasks(ReturnTrashedTasks()));
-      break;
-    case "Home-Unfinished":
-      LoadUnfinishedTasks();
-      break;
-    case "Home-Today":
-      LoadTodayTasks();
-      break;
-    case "Home-Tomorrow":
-      LoadTomorrowTasks();
-      break;
-    case "Home-In2Days":
-      LoadIn2DaysTasks();
-      break;
-    case "Home-Failed":
-      LoadFailedTasks();
-      break;
-    case "Home-Completed":
-      LoadCompletedTasks();
-      break;
-    case "UserCategory-Unfinished":
-      LoadUserCategorisedTasks(ReturnUnfinishedTasks());
-      break;
-    case "UserCategory-Today":
-      LoadUserCategorisedTasks(ReturnTodayTasks());
-      break;
-    case "UserCategory-Tomorrow":
-      LoadUserCategorisedTasks(ReturnTomorrowTasks());
-      break;
-    case "UserCategory-In2Days":
-      LoadUserCategorisedTasks(ReturnIn2DaysTasks());
-      break;
-    case "UserCategory-Completed":
-      LoadUserCategorisedTasks(ReturnCompletedTasks());
-      break;
-    case "UserCategory-Failed":
-      LoadUserCategorisedTasks(ReturnFailedTasks());
-      break;
-    case "Notes":
-      DisplayNotesIntoDOM();
-      break;
-    default:
-      return "Inbox failed to update because CurrentWindow value is invalid";
+  if (CurrentWindow === "Trash-All") {
+    LoadTrashedTasks(ReturnTrashedTasks());
+  } else if (CurrentWindow === "Trash-Today") {
+    LoadTrashedTasks(ReturnTodayTasks(ReturnTrashedTasks()));
+  } else if (CurrentWindow === "Trash-Tomorrow") {
+    LoadTrashedTasks(ReturnTomorrowTasks(ReturnTrashedTasks()));
+  } else if (CurrentWindow === "Trash-In2Days") {
+    LoadTrashedTasks(ReturnIn2DaysTasks(ReturnTrashedTasks()));
+  } else if (CurrentWindow === "Home-Unfinished") {
+    LoadUnfinishedTasks();
+  } else if (CurrentWindow === "Home-Today") {
+    LoadTodayTasks();
+  } else if (CurrentWindow === "Home-Tomorrow") {
+    LoadTomorrowTasks();
+  } else if (CurrentWindow === "Home-In2Days") {
+    LoadIn2DaysTasks();
+  } else if (CurrentWindow === "Home-Failed") {
+    LoadFailedTasks();
+  } else if (CurrentWindow === "Home-Completed") {
+    LoadCompletedTasks();
+  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-Unfinished")) {
+    LoadUserCategorisedTasks(ReturnUnfinishedTasks());
+  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-Today")) {
+    LoadUserCategorisedTasks(ReturnTodayTasks());
+  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-Tomorrow")) {
+    LoadUserCategorisedTasks(ReturnTomorrowTasks());
+  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-In2Days")) {
+    LoadUserCategorisedTasks(ReturnIn2DaysTasks());
+  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-Completed")) {
+    LoadUserCategorisedTasks(ReturnCompletedTasks());
+  } else if (CurrentWindow.includes("UserCategory") && CurrentWindow.includes("-Failed")) {
+    LoadUserCategorisedTasks(ReturnFailedTasks());
+  } else if (CurrentWindow === "Notes") {
+    DisplayNotesIntoDOM();
+  } else {
+    return "Inbox failed to update because CurrentWindow value is invalid";
   }
   ExitSelectMode();
 }
@@ -596,6 +580,7 @@ function ChangeWindow(Window) {
   if (CurrentWindow === Window) return;
   if (DoesElementExist("settings-container")) HideSettings();
   ExitSelectMode();
+  let UserCategoryPattern = /^UserCategory-[0-9]{8}-(Unfinished|Today|Tomorrow|In2Days|Completed|Failed)$/;
   let ValidInputs = [
     "Trash-All",
     "Trash-Today",
@@ -607,18 +592,13 @@ function ChangeWindow(Window) {
     "Home-In2Days",
     "Home-Failed",
     "Home-Completed",
-    "UserCategory-Unfinished",
-    "UserCategory-Today",
-    "UserCategory-Tomorrow",
-    "UserCategory-In2Days",
-    "UserCategory-Completed",
-    "UserCategory-Failed",
     "Notes",
   ];
-  if (!ValidInputs.includes(Window.toString())) {
-    console.error(`unvalid argument passed to ChangeWindow ${Window} is not part of existing windows in the app`);
+  if (!ValidInputs.includes(Window.toString()) && !UserCategoryPattern.test(Window.toString())) {
+    console.error(`unvalid argument passed to ChangeWindow() ${Window} is not part of existing windows in the app`);
     return;
   }
   CurrentWindow = Window.toString();
   console.log(`Current window : ${CurrentWindow}`);
+  UpdateInbox();
 }

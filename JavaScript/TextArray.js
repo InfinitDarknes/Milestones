@@ -1,4 +1,11 @@
-const PersianTextArray = ["از همین امروز شروع کن فردا دیره", "با کسی بگرد که میخوای شبیه اون بشی", "آدمای بی ارزش رو قیچی کن", "هیچوقت نگو نمیتونم"];
+const PersianTextArray = [
+  "از همین امروز شروع کن فردا دیره",
+  "با کسی بگرد که میخوای شبیه اون بشی",
+  "آدمای بی ارزش رو قیچی کن",
+  "هیچوقت نگو نمیتونم",
+  "جق نزن بیشرف",
+  "به احترام پدرمادر و 300 هزار شهید جق نزن",
+];
 const EnglishTextArray = [
   "Start today, don't wait for tomorrow.",
   "Surround yourself with those you aspire to become.",
