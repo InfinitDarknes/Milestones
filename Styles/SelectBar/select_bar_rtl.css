@@ -1,4 +1,4 @@
-#select-bar {
+.select-bar {
   width: calc(100% - 270px);
   display: flex;
   justify-content: flex-start;
@@ -10,27 +10,26 @@
   bottom: 0;
   right: 252px;
   margin-top: 30px;
+  border-top-width: 3px;
+  border-top-style: solid;
 }
-#selected-items {
+.selected-items {
   padding: 8px;
   margin: 0 10px;
-  font-size: 1.1em;
-  font-family: Vazir;
+  font-size: 1em;
 }
-#exit-select-mode-btn {
+.exit-select-mode-btn {
   padding: 8px;
-  font-size: 1.1em;
-  font-family: Vazir;
-  border-radius: 5px;
+  font-size: 1em;
+  border-radius: 3px;
   margin-right: 10px;
 }
 
 .select-bar-task-btn {
   padding: 8px;
-  font-size: 1.1em;
-  font-family: Vazir;
+  font-size: 1em;
   margin: 0 5px;
-  border-radius: 5px;
+  border-radius: 3px;
   transition: all 0.5s;
 }
 .select-bar-task-btn:hover {

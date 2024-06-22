@@ -1,4 +1,4 @@
-#notes-container {
+.notes-container {
   display: flex;
   flex-wrap: wrap;
   position: relative;
@@ -9,26 +9,25 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-#notes-header {
+.notes-header {
   position: relative;
 }
-#add-notes-btn {
+.add-notes-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
   left: 0;
   height: 100%;
-  border-radius: 5px;
   padding: 10px;
 }
-#add-notes-btn-icon {
+.add-notes-btn-icon {
   order: 2;
   width: 30px;
   height: 30px;
   margin: 0 5px;
 }
-#add-notes-btn-text {
+.add-notes-btn-text {
   order: 1;
   font-size: 1.2em;
 }
@@ -55,7 +54,6 @@
   width: calc(100% - 20px);
   font-size: 1em;
   max-height: 180px;
-  overflow-y: hidden;
   padding: 10px;
   margin-bottom: 50px;
   direction: auto;

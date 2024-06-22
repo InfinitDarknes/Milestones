@@ -12,6 +12,7 @@
 @import url("../WindowHeaders/window_headers_rtl.css");
 @import url("../Notes/notes_rtl.css");
 @import url("../MessageBox/msg_box_rtl.css");
+@import url("../DevTools/DevTools.css");
 
 @font-face {
   font-family: vazir;
@@ -33,7 +34,7 @@
   background-color: #000;
   opacity: 0;
 }
-#preloader {
+.preloader {
   width: 100%;
   height: 100%;
   display: flex;
@@ -45,12 +46,12 @@
   background-color: #3a4166;
   transition: 1s;
 }
-#preloader-gif {
+.preloader-gif {
   width: 80px;
   height: 80px;
   margin-bottom: 20px;
 }
-#preloader-text {
+.preloader-text {
   color: #dad6d6;
   font-family: vazir;
   font-size: 1.8em;
@@ -87,7 +88,6 @@ body {
   box-sizing: border-box;
   width: 100%;
   height: 100vh;
-  background: #3a4166;
   font-family: vazir;
   direction: rtl;
   overflow: hidden;
@@ -103,7 +103,7 @@ body {
   order: 1;
   display: block;
   position: relative;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   user-select: none;
   margin: 0 10px;
   cursor: pointer;

@@ -15,6 +15,10 @@ const Strings = {
     en: "Read",
     fa: "خواندن",
   },
+  Analysis: {
+    en: "Analysis",
+    fa: "آنالیز",
+  },
   Close: {
     en: "Close",
     fa: "بستن",
@@ -160,8 +164,8 @@ const Strings = {
     fa: "همه",
   },
   SortUnfinished: {
-    en: "Unfinished",
-    fa: "فعلی",
+    en: "All",
+    fa: "همه",
   },
   SortTodayButton: {
     en: "Today",

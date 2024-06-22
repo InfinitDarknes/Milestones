@@ -12,7 +12,6 @@
   align-items: left;
   justify-content: center;
   z-index: 1000;
-  font-family: Vazir;
   overflow: hidden;
   max-width: 400px;
 }
@@ -21,7 +20,6 @@
   align-items: center;
   width: 100%;
   padding: 20px;
-  box-shadow: 0 5px 15px 5px;
 }
 .msg-type-text {
   font-size: 20px;

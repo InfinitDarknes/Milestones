@@ -1,7 +1,7 @@
 let TextIndex = 0;
 // Sub Components
 function AutoWriter() {
-  let DisplayText = document.getElementById("display-text");
+  let DisplayText = document.querySelector(".display-text");
   let TextArray, Text, LetterArray, LetterIndex, AutoWriterInterval;
   switch (UserSettings.CurrentLang) {
     case "en":
@@ -49,7 +49,7 @@ function AutoWriter() {
   }
 }
 function ShowDateAndClock() {
-  const FullDate = document.getElementById("full-date");
+  const FullDate = document.querySelector(".full-date");
   switch (UserSettings.Calendar) {
     case "Solar":
       FullDate.innerText = PlacePersianNumbers(ExtractDate("Solar", "String"));
@@ -60,15 +60,15 @@ function ShowDateAndClock() {
   }
 }
 function GetTime() {
-  let TimeIcon = document.getElementById("time-icon");
-  let Time = document.getElementById("time");
+  let TimeIcon = document.querySelector(".time-icon");
+  let Time = document.querySelector(".time");
   let Hour = new Date().getHours().toString().padStart(2, "0");
   let Minutes = new Date().getMinutes().toString().padStart(2, "0");
   let Seconds = new Date().getSeconds().toString().padStart(2, "0");
   if (Hour === 0) Hour = 12;
   Time.innerText = `${PlacePersianNumbers(Hour)} : ${PlacePersianNumbers(Minutes)} : ${PlacePersianNumbers(Seconds)}`;
-  if ((Hour > 0 && Hour < 5) || Hour >= 18 || Hour === 0) TimeIcon.src = IconsSrc.MoonIcon[UserSettings.Theme];
-  if (Hour > 5 && Hour < 18) TimeIcon.src = IconsSrc.SunIcon[UserSettings.Theme];
+  if ((Hour > 0 && Hour < 5) || Hour >= 18 || Hour === 0) TimeIcon.src = "../Icons/moon-line.svg";
+  if (Hour > 5 && Hour < 18) TimeIcon.src = "../Icons/sun-line.svg";
 }
 function DoesElementExist(ID) {
   if (document.getElementById(ID)) return true;
@@ -115,10 +115,10 @@ function InitTinyMce(Target, ReadOnly) {
     target: Target,
     readonly: ReadOnly,
     plugins: "lists codesample link autolink quickbars searchreplace",
-    toolbar:
-      "undo redo | styles | bold italic code | outdent indent | alignleft aligncenter alignright | numlist bullist | codesample link quicktable | searchreplace",
+    toolbar: "undo redo | styles | bold italic code | outdent indent | alignleft aligncenter alignright | numlist bullist | codesample link quicktable | searchreplace",
     quickbars_selection_toolbar: "bold italic | blocks | quicklink blockquote",
     license_key: "gpl",
+    skin: UserSettings.Theme === "Dark" ? "oxide-dark" : UserSettings.Theme === "Light" ? "oxide" : "oxide",
   });
 }
 function DisplayMessage(Type, Message) {
@@ -133,19 +133,19 @@ function DisplayMessage(Type, Message) {
   // ClassName
   MsgBox.className = "msg-box";
   MsgTypeWrapper.className = "msg-type-wrapper";
-  MsgTypeIcon.className = "msg-type-icon";
-  MsgTypeText.className = "msg-type-text";
-  ActuallMsg.className = "msg-text";
+  MsgTypeIcon.className = "msg-type-icon icon";
+  MsgTypeText.className = "msg-type-text text";
+  ActuallMsg.className = "msg-text text";
   // InnerText and src
   ActuallMsg.innerHTML = Message;
   switch (Type) {
     case "Error":
-      MsgTypeIcon.src = IconsSrc.FailIcon[UserSettings.Theme];
+      MsgTypeIcon.src = "../Icons/error-warning-line.svg";
       MsgTypeText.classList.add("error");
       MsgTypeText.innerHTML = MessageBoxStrings.Error[UserSettings.CurrentLang];
       break;
     case "Success":
-      MsgTypeIcon.src = IconsSrc.CompleteIcon[UserSettings.Theme];
+      MsgTypeIcon.src = "../Icons/checkbox-circle-line.svg";
       MsgTypeText.classList.add("success");
       MsgTypeText.innerHTML = MessageBoxStrings.Success[UserSettings.CurrentLang];
       break;

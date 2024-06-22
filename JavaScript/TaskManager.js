@@ -1,27 +1,30 @@
-"use strict";
+// "use strict";
 let AllTasksArray = [];
 // Add/Delete/Complete/Fail
-function NewTaskConstructor(ID, Title, NumericDate, UserCategory, OnlyShowInCategory) {
-  this.ID = ID;
-  this.Title = Title;
-  this.NumericDate = NumericDate;
-  this.Descryption = false;
-  this.UserCategory = UserCategory;
-  this.IsTaskPinned = false;
-  this.IsTaskCompleted = false;
-  this.IsTaskFailed = false;
-  this.IsTaskTrashed = false;
-  this.Selected = false;
-  this.OnlyShowInCategory = false;
+function NewTaskConstructor(...Args) {
+  let [ID, Title, NumericDate, UserCategory, OnlyShowInCategory] = Args;
+  return {
+    ID,
+    Title,
+    NumericDate,
+    UserCategory,
+    Descryption: false,
+    IsTaskPinned: false,
+    IsTaskCompleted: false,
+    IsTaskFailed: false,
+    IsTaskTrashed: false,
+    Selected: false,
+    OnlyShowInCategory: false,
+  };
 }
 function AddTask() {
   let ID = "Task-" + GenerateUniqeID(5);
-  let Title = document.getElementById("task-title-input").value;
+  let Title = document.querySelector(".task-title-input").value;
   let NumericDate = ExtractDate("Numeric");
-  let SelectBox = document.getElementById("select-category-select-box");
+  let SelectBox = document.querySelector(".select-box");
   let UserCategory = SelectBox.dataset.value;
   let OnlyShowInCategory = false; // only for now
-  let NewTask = new NewTaskConstructor(ID, Title, NumericDate, UserCategory, OnlyShowInCategory);
+  let NewTask = NewTaskConstructor(ID, Title, NumericDate, UserCategory, OnlyShowInCategory);
   AllTasksArray.push(NewTask);
   SaveAll();
   UpdateInbox();
@@ -29,14 +32,17 @@ function AddTask() {
 function DeleteTask(ID) {
   if (AppObj.SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
-      const Element = document.getElementById(Task.ID);
+      const Element = document.querySelector(Task.ID);
       Element.style.animation = "DeleteAnimation 700ms";
       AllTasksArray.splice(FindIndexOfTask(Task.ID), 1);
       Task.Selected = false;
     });
   } else {
     const Element = document.getElementById(ID);
-    Element.style.animation = "DeleteAnimation 700ms";
+    Element.setAttribute("data-dis-type", "self-contained");
+    Element.classList.add("clickable");
+    disintegrate.init();
+    // Element.style.animation = "DeleteAnimation 700ms";
     let Index = FindIndexOfTask(ID);
     AllTasksArray.splice(Index, 1);
   }
@@ -232,62 +238,61 @@ function SortOldestTasks() {
   UpdateInbox();
 }
 // show sorted tasks in DOM
+/* You will see the line that check for length of CurrentlyLoadedTasks to show an empty box is 
+located at end of the functions because that functions relies on DOM element to get its data 
+so we first Clear every task element then we attempt to create new ones and append them to DOM
+but if all these processes were done and there was still no task element in DOM means that certain 
+category that user is lurking in is empty please don't change the logic if you don't want the app to 
+get fucked.
+*/
 function LoadUnfinishedTasks() {
-  if (ReturnUnfinishedTasks().length === 0) {
-    EmptyBox(Strings.NoTaskToDoMessage[UserSettings.CurrentLang]);
-    return;
-  }
   ClearListSection();
   AppendTaskContainer(ReturnUnfinishedTasks());
+  if (GetCurrentlyLoadedTasks().length === 0) {
+    EmptyBox(Strings.NoTaskToDoMessage[UserSettings.CurrentLang]);
+  }
 }
 function LoadTodayTasks() {
-  if (ReturnTodayTasks().length === 0) {
-    EmptyBox(Strings.NoTaskForTodayMessage[UserSettings.CurrentLang]);
-    return;
-  }
   ClearListSection();
   AppendTaskContainer(ReturnTodayTasks());
+  if (GetCurrentlyLoadedTasks().length === 0) {
+    EmptyBox(Strings.NoTaskForTodayMessage[UserSettings.CurrentLang]);
+  }
 }
 function LoadTomorrowTasks() {
-  if (ReturnTomorrowTasks().length === 0) {
-    EmptyBox(Strings.NoTaskForTomorrowMessage[UserSettings.CurrentLang]);
-    return;
-  }
   ClearListSection();
   AppendTaskContainer(ReturnTomorrowTasks());
+  if (GetCurrentlyLoadedTasks().length === 0) {
+    EmptyBox(Strings.NoTaskForTomorrowMessage[UserSettings.CurrentLang]);
+  }
 }
 function LoadIn2DaysTasks() {
-  if (ReturnIn2DaysTasks().length === 0) {
-    EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.CurrentLang]);
-    return;
-  }
-  console.log(ReturnIn2DaysTasks());
   ClearListSection();
   AppendTaskContainer(ReturnIn2DaysTasks());
+  if (GetCurrentlyLoadedTasks().length === 0) {
+    EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.CurrentLang]);
+  }
 }
 function LoadCompletedTasks() {
-  if (ReturnCompletedTasks().length === 0) {
-    EmptyBox(Strings.NoCompletedTaskMessage[UserSettings.CurrentLang]);
-    return;
-  }
   ClearListSection();
   AppendTaskContainer(ReturnCompletedTasks());
+  if (GetCurrentlyLoadedTasks().length === 0) {
+    EmptyBox(Strings.NoCompletedTaskMessage[UserSettings.CurrentLang]);
+  }
 }
 function LoadFailedTasks() {
-  if (ReturnFailedTasks().length === 0) {
-    EmptyBox(Strings.NoFailedTaskMessage[UserSettings.CurrentLang]);
-    return;
-  }
   ClearListSection();
   AppendTaskContainer(ReturnFailedTasks());
-}
-function LoadTrashedTasks(TargetArray) {
-  if (TargetArray.length === 0) {
-    EmptyBox("You have no task in trash bin");
-    return;
+  if (GetCurrentlyLoadedTasks().length === 0) {
+    EmptyBox(Strings.NoFailedTaskMessage[UserSettings.CurrentLang]);
   }
+}
+function LoadTrashedTasks(TargetArray = ReturnTrashedTasks()) {
   ClearListSection();
   AppendTaskContainer(TargetArray);
+  if (GetCurrentlyLoadedTasks().length === 0) {
+    EmptyBox("You have no task in trash bin");
+  }
 }
 //
 function MoveToPreviousDay(ID) {
@@ -390,27 +395,29 @@ function ExitSelectMode() {
   if (!AppObj.SelectMode) return;
   console.log("Exiting select mode");
   AppObj.SelectMode = false;
-  const SelectAllSection = document.getElementById("select-all-section");
-  const SelectAllCheckBox = document.getElementById("select-all-checkbox");
+  const SelectAllSection = document.querySelector(".select-all-section");
+  const SelectAllCheckBox = document.querySelector(".select-all-checkbox");
   const CheckBoxContainers = document.querySelectorAll(`.task-checkbox`);
-  SelectAllCheckBox.checked = false;
-  SelectAllSection.style.display = "none";
   AllTasksArray.forEach((Task) => {
     Task.Selected = false;
   });
-  CheckBoxContainers.forEach((CheckBox) => {
-    CheckBox.checked = false;
-    CheckBox.parentElement.style.display = "none";
-    CheckBox.parentElement.parentElement.classList.remove("selected-task");
-  });
-  CheckBoxContainers.forEach((CheckBoxContainer) => {
-    CheckBoxContainer.style.display = "none";
-  });
+  if (SelectAllSection) {
+    SelectAllCheckBox.checked = false;
+    SelectAllSection.style.display = "none";
+    CheckBoxContainers.forEach((CheckBox) => {
+      CheckBox.checked = false;
+      CheckBox.parentElement.style.display = "none";
+      CheckBox.parentElement.parentElement.classList.remove("selected-task");
+    });
+    CheckBoxContainers.forEach((CheckBoxContainer) => {
+      CheckBoxContainer.style.display = "none";
+    });
+  }
   HideSelectModeBar();
 }
 function ToggleSelectMode() {
-  const SelectAllSection = document.getElementById("select-all-section");
-  const SelectAllCheckBox = document.getElementById("select-all-checkbox");
+  const SelectAllSection = document.querySelector(".select-all-section");
+  const SelectAllCheckBox = document.querySelector(".select-all-checkbox");
   const CheckBoxContainers = document.querySelectorAll(`.task-container .checkbox-container`);
   if (ReturnSelectedTasks().length !== 0) {
     AppObj.SelectMode = true;
@@ -545,9 +552,11 @@ function RestoreFromText(Text) {
 }
 // Window manager => we have different windows such as Home-Unfinished or Trash-All we use it to load tasks accordingly
 function ChangeWindow(Window) {
-  if (DoesElementExist("settings-container")) HideSettings();
+  if (document.querySelector(".settings-container")) HideSettings();
   ExitSelectMode();
   AppObj.CurrentWindow = Window.toString();
-  console.log(`Current window : ${AppObj.CurrentWindow}`);
+  if (AppObj.CurrentWindow.includes("UserCategory-") && DoesElementExist("new-task-modal")) {
+    SwitchValueOfCategorySelectBox(AppObj.SelectedUserCategory);
+  }
   UpdateInbox();
 }

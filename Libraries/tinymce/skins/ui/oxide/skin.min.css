@@ -56,9 +56,10 @@
 }
 .tox-tinymce {
   width: 100%;
+  min-height: 550px;
+  max-height: 550px;
   border: 0;
-  border-radius: 5px;
-  border-top-left-radius: 0;
+  border-radius: 2px;
   box-shadow: none;
   box-sizing: border-box;
   display: flex;
@@ -812,11 +813,7 @@ button::-moz-focus-inner {
 .tox .tox-collection--list .tox-collection__item:not(.tox-collection__item--enabled) .tox-collection__item-checkmark svg {
   display: none;
 }
-.tox
-  .tox-collection--list
-  .tox-collection__item:not(.tox-collection__item--enabled)
-  .tox-collection__item-accessory
-  + .tox-collection__item-checkmark {
+.tox .tox-collection--list .tox-collection__item:not(.tox-collection__item--enabled) .tox-collection__item-accessory + .tox-collection__item-checkmark {
   display: none;
 }
 .tox .tox-collection--horizontal {
@@ -1920,9 +1917,8 @@ body.tox-dialog__disable-scroll {
   cursor: pointer;
 }
 .tox .tox-color-input span::before {
-  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.25) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(0, 0, 0, 0.25) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.25) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.25) 75%);
+  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.25) 25%, transparent 25%), linear-gradient(-45deg, rgba(0, 0, 0, 0.25) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.25) 75%), linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.25) 75%);
   background-position: 0 0, 0 6px, 6px -6px, -6px 0;
   background-size: 12px 12px;
   border: 1px solid #fff;

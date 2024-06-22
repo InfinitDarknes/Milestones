@@ -2,7 +2,7 @@
 function ReturnSortAllBtn() {
   const SortAllTrash = document.createElement("button");
   // Id and Class
-  SortAllTrash.className = "sort-buttons";
+  SortAllTrash.className = "sort-buttons text";
   SortAllTrash.id = "sort-all-trash";
   // Innertext and other properties
   SortAllTrash.textContent = Strings.SortAllTrash[UserSettings.CurrentLang];
@@ -16,7 +16,7 @@ function ReturnSortAllBtn() {
 }
 function ReturnSortUnfinishedBtn(TargetWindow) {
   const SortUnfinished = document.createElement("button");
-  SortUnfinished.className = "sort-buttons";
+  SortUnfinished.className = "sort-buttons text";
   SortUnfinished.id = "sort-unfinished";
   SortUnfinished.textContent = Strings.SortUnfinished[UserSettings.CurrentLang];
   SortUnfinished.addEventListener("click", () => {
@@ -63,7 +63,7 @@ function ReturnSortUnfinishedBtn(TargetWindow) {
 }
 function ReturnSortTodayBtn(TargetWindow) {
   const SortToday = document.createElement("button");
-  SortToday.className = "sort-buttons";
+  SortToday.className = "sort-buttons text";
   SortToday.id = "sort-today";
   SortToday.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
   SortToday.addEventListener("click", () => {
@@ -105,7 +105,7 @@ function ReturnSortTodayBtn(TargetWindow) {
 }
 function ReturnSortTomorrowBtn(TargetWindow) {
   const SortTomorrow = document.createElement("button");
-  SortTomorrow.className = "sort-buttons";
+  SortTomorrow.className = "sort-buttons text";
   SortTomorrow.id = "sort-tomorrow";
   SortTomorrow.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
   SortTomorrow.addEventListener("click", () => {
@@ -147,7 +147,7 @@ function ReturnSortTomorrowBtn(TargetWindow) {
 }
 function ReturnSortIn2DaysBtn(TargetWindow) {
   const SortIn2Days = document.createElement("button");
-  SortIn2Days.className = "sort-buttons";
+  SortIn2Days.className = "sort-buttons text";
   SortIn2Days.id = "sort-in-2-days";
   SortIn2Days.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
   SortIn2Days.addEventListener("click", () => {
@@ -189,7 +189,7 @@ function ReturnSortIn2DaysBtn(TargetWindow) {
 }
 function ReturnSortCompletedBtn(TargetWindow) {
   const SortCompleted = document.createElement("button");
-  SortCompleted.className = "sort-buttons";
+  SortCompleted.className = "sort-buttons text";
   SortCompleted.id = "sort-completed";
   SortCompleted.textContent = Strings.CategoryCompletedButton[UserSettings.CurrentLang];
   SortCompleted.addEventListener("click", () => {
@@ -231,7 +231,7 @@ function ReturnSortCompletedBtn(TargetWindow) {
 }
 function ReturnSortFailedBtn(TargetWindow) {
   const SortFailed = document.createElement("button");
-  SortFailed.className = "sort-buttons";
+  SortFailed.className = "sort-buttons text";
   SortFailed.id = "sort-failed";
   SortFailed.textContent = Strings.CategoryFailedButton[UserSettings.CurrentLang];
   SortFailed.addEventListener("click", () => {
@@ -273,10 +273,13 @@ function ReturnSortFailedBtn(TargetWindow) {
 }
 // App components
 function ReturnTopBar() {
+  // Define
   const TopBar = document.createElement("section");
   const DisplayText = document.createElement("section");
-  TopBar.id = "top-bar";
-  DisplayText.id = "display-text";
+  // ID & Class
+  TopBar.className = "top-bar";
+  DisplayText.className = "display-text text";
+  // Final
   TopBar.append(DisplayText);
   return TopBar;
 }
@@ -290,13 +293,13 @@ function ReturnTaskBar(Type) {
   const SearchBar = document.createElement("input");
   let SortBar;
   // Id and Class
-  TaskBar.id = "task-bar";
-  SelectAllSection.id = "select-all-section";
+  TaskBar.className = "task-bar";
+  SelectAllSection.className = "select-all-section";
   CheckBoxLable.className = "checkbox-container";
-  CheckBox.id = "select-all-checkbox";
-  CheckBox.className = "checkbox";
+  CheckBox.className = "select-all-checkbox checkbox";
   Checkmark.className = "checkmark";
-  SearchBar.id = "search-bar";
+  SpanElement.className = "text";
+  SearchBar.className = "search-bar text";
   // InnerText and other properties
   SpanElement.textContent = Strings.SelectAllCheckBox[UserSettings.CurrentLang];
   CheckBox.type = "checkbox";
@@ -336,8 +339,8 @@ function ReturnUserCategorise() {
     const UserCategoryName = document.createElement("span");
     // Class and ID
     UserCategoryButton.className = "user-category-item";
-    UserCategoryIcon.className = "user-category-icon";
-    UserCategoryName.className = "user-category-name";
+    UserCategoryIcon.className = "user-category-icon icon";
+    UserCategoryName.className = "user-category-name text";
     UserCategoryButton.id = Category.ID;
     UserCategoryName.innerText = Category.Name;
     UserCategoryIcon.src = Category.Icon;
@@ -363,89 +366,95 @@ function ReturnUserCategorise() {
 function ReturnSidebar() {
   // Defining Items (buttons)
   const SideBar = document.createElement("aside");
-  SideBar.id = "side-bar";
+  SideBar.className = "side-bar";
   // Home button
   const HomeButton = document.createElement("button");
-  HomeButton.id = "home-button";
-  HomeButton.className = "side-bar-item";
   const HomeButtonIcon = document.createElement("img");
-  HomeButtonIcon.className = "side-bar-item-icon";
-  HomeButtonIcon.src = IconsSrc.HomeIcon[UserSettings.Theme];
   const HomeButtonText = document.createElement("span");
-  HomeButtonText.id = "home-button-text";
-  HomeButtonText.className = "side-bar-item-text";
+
+  HomeButton.className = "home-button side-bar-item";
+  HomeButtonIcon.className = "side-bar-item-icon icon";
+  HomeButtonText.className = "side-bar-item-text text";
+
+  HomeButtonIcon.src = "../Icons/home-line.svg";
   HomeButtonText.innerText = Strings.HomeButton[UserSettings.CurrentLang];
   HomeButton.addEventListener("click", DisplayHomeWindow);
   HomeButton.append(HomeButtonIcon, HomeButtonText);
   // New task button
   const NewTaskButton = document.createElement("button");
-  NewTaskButton.id = "new-task-button";
-  NewTaskButton.className = "side-bar-item";
   const NewTaskButtonIcon = document.createElement("img");
-  NewTaskButtonIcon.className = "side-bar-item-icon";
   const NewTaskButtonText = document.createElement("span");
-  NewTaskButtonIcon.src = IconsSrc.NewTaskIcon[UserSettings.Theme];
-  NewTaskButtonText.className = "side-bar-item-text";
-  NewTaskButtonText.id = "new-task-button-text";
+
+  NewTaskButton.className = "new-task-button side-bar-item";
+  NewTaskButtonIcon.className = "side-bar-item-icon icon";
+  NewTaskButtonText.className = "side-bar-item-text text";
+
+  NewTaskButtonIcon.src = "../Icons/task-line.svg";
   NewTaskButtonText.innerText = Strings.NewTaskButton[UserSettings.CurrentLang];
+
   NewTaskButton.addEventListener("click", NewTaskModal);
   NewTaskButton.append(NewTaskButtonIcon, NewTaskButtonText);
   // New Category Button
   const NewCategoryButton = document.createElement("button");
-  NewCategoryButton.id = "new-category-button";
-  NewCategoryButton.className = "side-bar-item";
-  NewCategoryButton.addEventListener("click", NewCategoryModal);
   const NewCategoryButtonIcon = document.createElement("img");
-  NewCategoryButtonIcon.className = "side-bar-item-icon";
-  NewCategoryButtonIcon.src = IconsSrc.NewCategoryIcon[UserSettings.Theme];
   const NewCategoryButtonText = document.createElement("span");
-  NewCategoryButtonText.id = "new-category-button-text";
-  NewCategoryButtonText.className = "side-bar-item-text";
+
+  NewCategoryButton.className = "new-category-button side-bar-item";
+  NewCategoryButtonIcon.className = "side-bar-item-icon icon";
+  NewCategoryButtonText.className = "side-bar-item-text text";
+
+  NewCategoryButton.addEventListener("click", NewCategoryModal);
+  NewCategoryButtonIcon.src = "../Icons/apps-2-add-line.svg";
   NewCategoryButtonText.innerText = Strings.NewCategoryButton[UserSettings.CurrentLang];
   NewCategoryButton.append(NewCategoryButtonIcon, NewCategoryButtonText);
   // Calendar Button
-  const Calendar = document.createElement("button");
-  Calendar.id = "calendar-button";
-  Calendar.className = "side-bar-item";
-  Calendar.addEventListener("click", () => HighLightSelectedSideBarItem(Calendar.id));
-  const CalendarIcon = document.createElement("img");
-  CalendarIcon.className = "side-bar-item-icon";
-  CalendarIcon.src = IconsSrc.CalendarIcon[UserSettings.Theme];
-  const CalendarText = document.createElement("span");
-  CalendarText.id = "calendar-button-text";
-  CalendarText.className = "side-bar-item-text";
-  CalendarText.innerText = Strings.CalendarButton[UserSettings.CurrentLang];
-  Calendar.append(CalendarIcon, CalendarText);
+  const Analysis = document.createElement("button");
+  const AnalysisIcon = document.createElement("img");
+  const AnalysisText = document.createElement("span");
+
+  Analysis.className = "analysis-button side-bar-item";
+  AnalysisIcon.className = "side-bar-item-icon icon";
+  AnalysisText.className = "side-bar-item-text text";
+
+  Analysis.addEventListener("click", () => HighLightSelectedSideBarItem(Analysis.className));
+  AnalysisIcon.src = "../Icons/bar-chart-line.svg";
+  AnalysisText.innerText = Strings.Analysis[UserSettings.CurrentLang];
+  Analysis.append(AnalysisIcon, AnalysisText);
   // Notes Button
   const Notes = document.createElement("button");
-  Notes.id = "notes-button";
-  Notes.className = "side-bar-item";
-  Notes.addEventListener("click", DisplayNotesWindow);
   const NotesIcon = document.createElement("img");
-  NotesIcon.className = "side-bar-item-icon";
-  NotesIcon.src = IconsSrc.MyNotesIcon[UserSettings.Theme];
   const NotesText = document.createElement("span");
-  NotesText.id = "notes-button-text";
-  NotesText.className = "side-bar-item-text";
+
+  Notes.className = "notes-button side-bar-item";
+  NotesIcon.className = "side-bar-item-icon icon";
+  NotesText.className = "side-bar-item-text text";
+
+  Notes.addEventListener("click", DisplayNotesWindow);
+  NotesIcon.src = "../Icons/sticky-note-line.svg";
   NotesText.innerText = Strings.NotesButton[UserSettings.CurrentLang];
   Notes.append(NotesIcon, NotesText);
   // Alarms Button
   const Alarms = document.createElement("button");
-  Alarms.id = "alarms-button";
-  Alarms.className = "side-bar-item";
-  Alarms.addEventListener("click", () => HighLightSelectedSideBarItem(Alarms.id));
   const AlarmsIcon = document.createElement("img");
-  AlarmsIcon.className = "side-bar-item-icon";
-  AlarmsIcon.src = IconsSrc.MyAlarmsIcon[UserSettings.Theme];
   const AlarmsText = document.createElement("span");
-  AlarmsText.id = "alarms-button-text";
-  AlarmsText.className = "side-bar-item-text";
+
+  Alarms.className = "alarms-button side-bar-item";
+  AlarmsIcon.className = "side-bar-item-icon icon";
+  AlarmsText.className = "side-bar-item-text text";
+
+  Alarms.addEventListener("click", () => HighLightSelectedSideBarItem(Alarms.className));
+  AlarmsIcon.src = "../Icons/time-line.svg";
   AlarmsText.innerText = Strings.AlarmsButton[UserSettings.CurrentLang];
   Alarms.append(AlarmsIcon, AlarmsText);
   // Trash Bin Button
   const TrashBin = document.createElement("button");
-  TrashBin.id = "trash-bin-button";
-  TrashBin.className = "side-bar-item";
+  const TrashBinIcon = document.createElement("img");
+  const TrashBinText = document.createElement("span");
+
+  TrashBin.className = "trash-bin-button side-bar-item";
+  TrashBinIcon.className = "side-bar-item-icon icon";
+  TrashBinText.className = "side-bar-item-text text";
+
   TrashBin.addEventListener("click", DisplayTrashBinWindow);
   TrashBin.addEventListener("dragover", (Event) => {
     Event.preventDefault();
@@ -476,66 +485,51 @@ function ReturnSidebar() {
       MoveToTrash(DraggedElementID);
     }
   });
-  const TrashBinIcon = document.createElement("img");
-  TrashBinIcon.className = "side-bar-item-icon";
-  TrashBinIcon.src = IconsSrc.TrashIcon[UserSettings.Theme];
-  const TrashBinText = document.createElement("span");
-  TrashBinText.id = "trash-bin-button-text";
-  TrashBinText.className = "side-bar-item-text";
+  TrashBinIcon.src = "../Icons/delete-bin-7-line.svg";
   TrashBinText.innerText = Strings.TrashBinButton[UserSettings.CurrentLang];
   TrashBin.append(TrashBinIcon, TrashBinText);
   // Settings Button
   const SettingsButton = document.createElement("button");
-  SettingsButton.id = "settings-button";
-  SettingsButton.className = "side-bar-item";
-  SettingsButton.addEventListener("click", DisplaySettings);
   const SettingsButtonIcon = document.createElement("img");
-  SettingsButtonIcon.className = "side-bar-item-icon";
-  SettingsButtonIcon.src = IconsSrc.SettingsIcon[UserSettings.Theme];
   const SettingsButtonText = document.createElement("span");
-  SettingsButtonText.id = "settings-button-text";
-  SettingsButtonText.className = "side-bar-item-text";
+
+  SettingsButton.className = "settings-button side-bar-item";
+  SettingsButtonIcon.className = "side-bar-item-icon icon";
+  SettingsButtonText.className = "side-bar-item-text text";
+
+  SettingsButton.addEventListener("click", DisplaySettings);
+  SettingsButtonIcon.src = "../Icons/settings-5-line.svg";
   SettingsButtonText.innerText = Strings.SettingsButton[UserSettings.CurrentLang];
   SettingsButton.append(SettingsButtonIcon, SettingsButtonText);
   // User Category Container
   const UserCategoryContainer = document.createElement("div");
-  UserCategoryContainer.id = "user-category-container";
+  UserCategoryContainer.className = "user-category-container";
   // Clock Section
   const Clock = document.createElement("div");
-  Clock.id = "clock";
   const TimeIcon = document.createElement("img");
-  TimeIcon.id = "time-icon";
-  const Time = document.createElement("span");
-  Time.id = "time";
-  Time.setAttribute("inert", "");
   const FullDate = document.createElement("span");
-  FullDate.id = "full-date";
+  const Time = document.createElement("span");
+
+  FullDate.className = "full-date text";
+  TimeIcon.className = "time-icon icon";
+  Clock.className = "clock";
+  Time.className = "time text";
+
+  Time.setAttribute("inert", "");
   FullDate.setAttribute("inert", "");
   Clock.append(TimeIcon, Time);
   // Footer Section
   const SideBarFooter = document.createElement("div");
-  SideBarFooter.id = "side-bar-footer";
+  SideBarFooter.className = "side-bar-footer";
   SideBarFooter.append(SettingsButton);
   // Appending elements to DOM
-  SideBar.append(
-    Clock,
-    FullDate,
-    HomeButton,
-    NewTaskButton,
-    NewCategoryButton,
-    Calendar,
-    Notes,
-    Alarms,
-    TrashBin,
-    UserCategoryContainer,
-    SideBarFooter
-  );
+  SideBar.append(Clock, FullDate, HomeButton, NewTaskButton, NewCategoryButton, Analysis, Notes, Alarms, TrashBin, UserCategoryContainer, SideBarFooter);
   // Final
   return SideBar;
 }
 function ReturnListSection() {
   const ListSection = document.createElement("section");
-  ListSection.id = "list-section";
+  ListSection.className = "list-section";
   ListSection.addEventListener("wheel", (Event) => {
     FreezScroll(Event);
   });
@@ -552,7 +546,7 @@ function ReturnHomeWindowSortBar() {
   const SortCompleted = ReturnSortCompletedBtn("Home");
   const SortFailed = ReturnSortFailedBtn("Home");
   // Id and Class
-  SortBar.id = "sort-bar";
+  SortBar.className = "sort-bar";
   // Final
   SortBar.append(SortUnfinished, SortToday, SortTomorrow, SortIn2Days, SortCompleted, SortFailed);
   return SortBar;
@@ -565,7 +559,7 @@ function ReturnTrashBinSortBar() {
   const SortTomorrow = ReturnSortTomorrowBtn("Trash");
   const SortIn2Days = ReturnSortIn2DaysBtn("Trash");
   // Id and Class
-  SortBar.id = "sort-bar";
+  SortBar.className = "sort-bar";
   // Final
   SortBar.append(SortAll, SortToday, SortTomorrow, SortIn2Days);
   return SortBar;
@@ -580,7 +574,7 @@ function ReturnUserCategorySortBar() {
   const SortCompleted = ReturnSortCompletedBtn(AppObj.SelectedUserCategory);
   const SortFailed = ReturnSortFailedBtn(AppObj.SelectedUserCategory);
   // Id and Class
-  SortBar.id = "sort-bar";
+  SortBar.className = "sort-bar";
   // Final
   SortBar.append(SortUnfinished, SortToday, SortTomorrow, SortIn2Days, SortCompleted, SortFailed);
   return SortBar;
@@ -609,19 +603,18 @@ function ReturnNotesWindow() {
   // Id and Class
   NotesWindow.id = "notes-window";
   NotesWindow.className = "window";
-  WindowHeader.className = "window-header";
-  WindowHeader.id = "notes-header";
-  HeaderText.className = "header-title";
-  HeaderIcon.className = "header-icon";
-  NotesContainer.id = "notes-container";
-  AddNotesBtn.id = "add-notes-btn";
-  AddNotesBtnText.id = "add-notes-btn-text";
-  AddNotesBtnIcon.id = "add-notes-btn-icon";
+  WindowHeader.className = "window-header notes-header";
+  HeaderText.className = "header-title text";
+  HeaderIcon.className = "header-icon icon";
+  NotesContainer.className = "notes-container";
+  AddNotesBtn.className = "add-notes-btn green-btn";
+  AddNotesBtnText.className = "add-notes-btn-text text";
+  AddNotesBtnIcon.className = "add-notes-btn-icon icon";
   // Innertext and Src
   HeaderText.innerText = Strings.NotesButton[UserSettings.CurrentLang];
   AddNotesBtnText.innerText = Strings.AddNote[UserSettings.CurrentLang];
-  HeaderIcon.src = IconsSrc.MyNotesIcon[UserSettings.Theme];
-  AddNotesBtnIcon.src = IconsSrc.AddNotesIcon[UserSettings.Theme];
+  HeaderIcon.src = "../Icons/sticky-note-line.svg";
+  AddNotesBtnIcon.src = "../Icons/sticky-note-add-line.svg";
   // Events
   AddNotesBtn.addEventListener("click", AddNoteModal);
   // Final
@@ -641,10 +634,10 @@ function ReturnTrashBinWindow() {
   TrashBinWindow.id = "trash-bin-window";
   TrashBinWindow.className = "window";
   TrashBinHeader.className = "window-header";
-  TrashBinIcon.className = "header-icon";
-  TrashBinTitle.className = "header-title";
+  TrashBinIcon.className = "header-icon icon";
+  TrashBinTitle.className = "header-title text";
   // InnerText and other properties
-  TrashBinIcon.src = IconsSrc.TrashIcon[UserSettings.Theme];
+  TrashBinIcon.src = "../Icons/delete-bin-7-line.svg";
   TrashBinTitle.innerText = Strings.TrashBinTitle[UserSettings.CurrentLang];
   // Final
   TrashBinHeader.append(TrashBinIcon, TrashBinTitle);
@@ -669,9 +662,9 @@ function ReturnUserCategoryWindow(ID) {
   UserCategoryPage.id = "user-category-page";
   UserCategoryPage.className = "window";
   UserCategoryPageHeader.className = "window-header";
-  UserCategoryPageTitle.className = "header-title";
-  UserCategoryPageIcon.className = "header-icon";
-  ListSection.id = "list-section";
+  UserCategoryPageTitle.className = "header-title text";
+  UserCategoryPageIcon.className = "header-icon icon";
+  ListSection.className = "list-section";
   // InnerText and other properties
   UserCategoryPageTitle.innerText = Name;
   UserCategoryPageIcon.src = Icon;
@@ -724,13 +717,13 @@ function DisplayUserCategoryWindow(ID) {
   });
 }
 function DisplayUserCategories() {
-  const UserCategoryContainer = document.getElementById("user-category-container");
+  const UserCategoryContainer = document.querySelector(".user-category-container");
   UserCategoryContainer.innerHTML = "";
   UserCategoryContainer.append(ReturnUserCategorise());
 }
 // Appens all the task containers including normal/failed/completed/trashed
 function AppendTaskContainer(Tasks) {
-  const ListSection = document.getElementById("list-section");
+  const ListSection = document.querySelector(".list-section");
   let FragmentOfTaskContainers = document.createDocumentFragment();
   Tasks.forEach((Task) => {
     let { ID, Title, NumericDate, UserCategory, OnlyShowInCategory } = Task;
@@ -752,15 +745,15 @@ function AppendTaskContainer(Tasks) {
     const CheckMark = document.createElement("div");
     CheckMark.className = "checkmark";
     const TaskTitle = document.createElement("section");
-    TaskTitle.className = "task-title";
+    TaskTitle.className = "task-title text";
     TaskTitle.setAttribute("inert", "");
     const DateContainer = document.createElement("section");
     DateContainer.className = "date-container";
     DateContainer.inert = "true";
     const TaskDate = document.createElement("section");
-    TaskDate.className = "task-date";
+    TaskDate.className = "task-date text";
     const TaskTime = document.createElement("section");
-    TaskTime.className = "task-time";
+    TaskTime.className = "task-time text";
     TaskContainer.append(CheckBoxContainer, TaskTitle, DateContainer);
     CheckBoxContainer.append(Checkbox, CheckMark);
     DateContainer.append(TaskDate, TaskTime);
@@ -772,7 +765,7 @@ function AppendTaskContainer(Tasks) {
     }
     if (ReturnTaskState(ID) === "Failed") {
       const FailedTaskBadge = document.createElement("span");
-      FailedTaskBadge.className = "failed-task-badge";
+      FailedTaskBadge.className = "failed-task-badge text";
       FailedTaskBadge.innerHTML = Strings.FailedTaskBadge[UserSettings.CurrentLang];
       FailedTaskBadge.setAttribute("inert", "");
       TaskContainer.append(FailedTaskBadge);
@@ -784,7 +777,7 @@ function AppendTaskContainer(Tasks) {
     }
     if (ReturnTaskState(ID) === "Completed") {
       const CompletedTaskBadge = document.createElement("span");
-      CompletedTaskBadge.className = "completed-task-badge";
+      CompletedTaskBadge.className = "completed-task-badge text";
       CompletedTaskBadge.innerHTML = Strings.CompletedTaskBadge[UserSettings.CurrentLang];
       CompletedTaskBadge.setAttribute("inert", "");
       TaskContainer.append(CompletedTaskBadge);
@@ -796,7 +789,7 @@ function AppendTaskContainer(Tasks) {
     }
     if (ReturnTaskState(ID) === "Trashed") {
       const TrashedTaskBadge = document.createElement("span");
-      TrashedTaskBadge.className = "trashed-task-badge";
+      TrashedTaskBadge.className = "trashed-task-badge text";
       TrashedTaskBadge.innerHTML = Strings.TrashedTaskBadge[UserSettings.CurrentLang];
       TrashedTaskBadge.setAttribute("inert", "");
       TaskContainer.append(TrashedTaskBadge);
@@ -817,8 +810,8 @@ function AppendTaskContainer(Tasks) {
         const CategoryBadgeName = document.createElement("span");
         const CategoryBadgeIcon = document.createElement("img");
         CategoryBadge.className = "category-badge";
-        CategoryBadgeName.className = "category-badge-name";
-        CategoryBadgeIcon.className = "category-badge-icon";
+        CategoryBadgeName.className = "category-badge-name text";
+        CategoryBadgeIcon.className = "category-badge-icon icon";
         CategoryBadge.style.backgroundColor = Color;
         CategoryBadge.setAttribute("inert", "");
         CategoryBadgeName.innerText = Name;
@@ -850,9 +843,9 @@ function AppendTaskContainer(Tasks) {
     });
     if (Task.IsTaskPinned) {
       const PinBadge = document.createElement("img");
-      PinBadge.className = "pinned-task-badge";
+      PinBadge.className = "pinned-task-badge icon";
       PinBadge.inert = "true";
-      PinBadge.src = IconsSrc.PaperClipIcon[UserSettings.Theme];
+      PinBadge.src = "../Icons/attachment-line.svg";
       TaskContainer.append(PinBadge);
     }
     TaskTitle.textContent = Title;
@@ -868,34 +861,31 @@ function AppendTaskContainer(Tasks) {
   ListSection.append(FragmentOfTaskContainers);
 }
 function ClearListSection() {
-  let ListSection = document.getElementById("list-section");
+  let ListSection = document.querySelector(".list-section");
   if (!ListSection) return;
   ListSection.innerHTML = "";
-  ListSection.style = "";
 }
 // Functionalities
 function EmptyBox(Text) {
-  const ListSection = document.getElementById("list-section");
+  // Look into functions that Start with Load and End with Tasks inside TaskManager.js to trace proces of this function.
+  const ListSection = document.querySelector(".list-section");
   const EmptyBoxIconContainer = document.createElement("section");
-  EmptyBoxIconContainer.id = "empty-box-container";
+  EmptyBoxIconContainer.className = "empty-box-container";
   // Empty box icon
   const EmptyBoxIcon = document.createElement("img");
   EmptyBoxIcon.src = IconsSrc.EmptyBoxIcon[UserSettings.Theme];
   // Empty box text
   const EmptyBoxText = document.createElement("p");
-  EmptyBoxText.id = "empty-box-text";
+  EmptyBoxText.className = "empty-box-text text";
   EmptyBoxText.innerText = Text;
   // Modifing List Section
   ClearListSection();
-  ListSection.style.display = "flex";
-  ListSection.style.alignItems = "center";
-  ListSection.style.justifyContent = "center";
   // Appending to DOM
   EmptyBoxIconContainer.append(EmptyBoxIcon, EmptyBoxText);
   ListSection.append(EmptyBoxIconContainer);
 }
 function DisplayNoResultBox(Text) {
-  const ListSection = document.getElementById("list-section");
+  const ListSection = document.querySelector(".list-section");
   const EmptyBoxIconContainer = document.createElement("section");
   EmptyBoxIconContainer.id = "empty-box-container";
   // Empty box icon
@@ -914,12 +904,12 @@ function DisplayNoResultBox(Text) {
   EmptyBoxIconContainer.append(EmptyBoxIcon, EmptyBoxText);
   ListSection.append(EmptyBoxIconContainer);
 }
-function ScrollRight(ID) {
-  const Target = document.getElementById(ID);
+function ScrollRight(Selector) {
+  const Target = document.querySelector(Selector);
   Target.scrollLeft += 100;
 }
-function ScrollLeft(ID) {
-  const Target = document.getElementById(ID);
+function ScrollLeft(Selector) {
+  const Target = document.querySelector(Selector);
   Target.scrollLeft -= 100;
 }
 function HighLightSelectedSortButton(ID) {
@@ -929,20 +919,20 @@ function HighLightSelectedSortButton(ID) {
     else Button.classList.remove("hovered");
   });
 }
-function HighLightSelectedSideBarItem(ID) {
+function HighLightSelectedSideBarItem(Class) {
   const SideBarItems = document.querySelectorAll(".side-bar-item");
   SideBarItems.forEach((Item) => {
-    if (Item.id === ID) Item.classList.add("hovered");
+    if (Item.className.includes(Class)) Item.classList.add("hovered");
     else Item.classList.remove("hovered");
   });
 }
 function DisplaySelectModeBar() {
-  if (DoesElementExist("select-bar")) {
-    const SelectedItemsElem = document.getElementById("selected-items");
+  if (document.querySelector(".select-bar")) {
+    const SelectedItemsElem = document.querySelector(".selected-items");
     SelectedItemsElem.innerText = `${PlacePersianNumbers(ReturnSelectedTasks().length)} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
     return;
   }
-  const ListSection = document.getElementById("list-section");
+  const ListSection = document.querySelector(".list-section");
   ListSection.classList.add("padding-bottom");
   const SelectBar = document.createElement("div");
   const SelectedItemsElem = document.createElement("span");
@@ -953,15 +943,15 @@ function DisplaySelectModeBar() {
   const CompleteButton = document.createElement("button");
   const RestoreButton = document.createElement("button");
   // ID
-  SelectBar.id = "select-bar";
-  SelectedItemsElem.id = "selected-items";
-  ExistSelectModeButton.id = "exit-select-mode-btn";
+  SelectBar.className = "select-bar";
+  SelectedItemsElem.className = "selected-items text";
+  ExistSelectModeButton.className = "exit-select-mode-btn text";
   // Class
-  DeleteButton.className = "select-bar-task-btn";
-  MoveToTrashButton.className = "select-bar-task-btn";
-  FailButton.className = "select-bar-task-btn";
-  CompleteButton.className = "select-bar-task-btn";
-  RestoreButton.className = "select-bar-task-btn";
+  DeleteButton.className = "select-bar-task-btn text";
+  MoveToTrashButton.className = "select-bar-task-btn text";
+  FailButton.className = "select-bar-task-btn text";
+  CompleteButton.className = "select-bar-task-btn text";
+  RestoreButton.className = "select-bar-task-btn text";
   ListSection.classList.add("padding-bottom");
   //InnerHTML
   SelectedItemsElem.innerText = `${PlacePersianNumbers(ReturnSelectedTasks().length)} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
@@ -1012,13 +1002,13 @@ function DisplaySelectModeBar() {
   document.body.append(SelectBar);
 }
 function HideSelectModeBar() {
-  const SelectBar = document.getElementById("select-bar");
-  const ListSection = document.getElementById("list-section");
+  const SelectBar = document.querySelector(".select-bar");
+  const ListSection = document.querySelector(".list-section");
   if (SelectBar) SelectBar.remove();
   if (ListSection) ListSection.classList.remove("padding-bottom");
 }
 function FixDirection() {
-  const MainStyleSheet = document.getElementById("main-style-sheet");
+  const MainStyleSheet = document.querySelector(".main-style-sheet");
   switch (UserSettings.CurrentLang) {
     case "en":
       MainStyleSheet.href = "Styles/Main/style_ltr.css";
@@ -1026,5 +1016,64 @@ function FixDirection() {
     case "fa":
       MainStyleSheet.href = "Styles/Main/style_rtl.css";
       break;
+  }
+}
+// Styling and Colors and UI
+/* Note for dummies : all the styling around colors and background colors etc... is inserted dynamically
+here through insertRule() and the values are stored inside DevTools.js > AppElementsObj object.
+*/
+function InsertRules() {
+  for (let i in AppElementsObj) {
+    if (i === "Hovered") {
+      const HoveredRule = `
+       .hovered {
+         background-color : ${AppElementsObj.Hovered.Themes[UserSettings.Theme].BgColor} !important;    
+        }    
+    `;
+      document.styleSheets[0].insertRule(HoveredRule);
+      continue;
+    }
+    if (i === "Icons") {
+      let SvgIconColorRule = `
+      .icon{
+       ${HexToFilter(AppElementsObj[i].Themes[UserSettings.Theme].Color)}
+      }
+      `;
+      if (SvgIconColorRule) document.styleSheets[0].insertRule(SvgIconColorRule);
+      continue;
+    }
+    const BgColorRule = AppElementsObj[i].Themes[UserSettings.Theme]?.BgColor
+      ? `
+    ${AppElementsObj[i].Selector} {
+    background-color : ${AppElementsObj[i].Themes[UserSettings.Theme].BgColor};    
+    }
+    `
+      : null;
+    const ColorRule = AppElementsObj[i].Themes[UserSettings.Theme]?.Color
+      ? `
+    ${AppElementsObj[i].Selector} {
+    color : ${AppElementsObj[i].Themes[UserSettings.Theme].Color};    
+    }    
+    `
+      : null;
+    const HoverBgColorRule = AppElementsObj[i].Themes[UserSettings.Theme]?.Hover?.BgColor
+      ? `
+        ${AppElementsObj[i].Selector}:hover {
+    background-color : ${AppElementsObj[i].Themes[UserSettings.Theme].Hover.BgColor}  !important;    
+    }    
+    `
+      : null;
+    const BorderColorRule = AppElementsObj[i].Themes[UserSettings.Theme]?.BorderColor
+      ? `
+    ${AppElementsObj[i].Selector} {
+    border-color : ${AppElementsObj[i].Themes[UserSettings.Theme].BorderColor};    
+    }    
+    `
+      : null;
+
+    if (BgColorRule) document.styleSheets[0].insertRule(BgColorRule);
+    if (ColorRule) document.styleSheets[0].insertRule(ColorRule);
+    if (HoverBgColorRule) document.styleSheets[0].insertRule(HoverBgColorRule);
+    if (BorderColorRule) document.styleSheets[0].insertRule(BorderColorRule);
   }
 }

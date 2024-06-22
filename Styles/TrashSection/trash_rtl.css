@@ -12,8 +12,8 @@
   color: #dad6d6;
   position: absolute;
   left: 0;
-  font-size: 1.1em;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  font-size: 1em;
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
   background-color: #ff4545;
 }

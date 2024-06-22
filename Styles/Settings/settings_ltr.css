@@ -1,4 +1,4 @@
-#settings-container {
+.settings-container {
   order: 3;
   width: 400px;
   height: 100%;
@@ -10,8 +10,10 @@
   justify-content: center;
   align-items: center;
   z-index: 200;
+  border-left-width: 3px;
+  border-left-style: solid;
 }
-#settings-header {
+.settings-header {
   position: relative;
   width: 85%;
   height: 100px;
@@ -20,12 +22,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
 }
-#settings-title {
+.settings-title {
   font-size: 2.1em;
-  font-family: SpaceGroteskMed;
 }
-#hide-settings-button {
+.hide-settings-button {
   background: none;
   width: 35px;
   height: 35px;
@@ -33,7 +36,7 @@
   top: 10px;
   left: 10px;
 }
-#hide-settings-button-icon {
+.hide-settings-button-icon {
   width: 100%;
   height: 100%;
 }
@@ -43,7 +46,7 @@
 .setting-out {
   right: -100% !important;
 }
-#setting-items-container {
+.setting-items-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -54,7 +57,7 @@
   scrollbar-width: thin;
   -ms-overflow-style: none;
 }
-#setting-items-container::-webkit-scrollbar {
+.setting-items-container::-webkit-scrollbar {
   display: none;
 }
 .setting-item {
@@ -107,13 +110,11 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
-  font-family: SpaceGroteskReg;
 }
 .setting-select-box option {
   font-size: 1.1em;
   text-align: center;
   cursor: pointer;
-  font-family: monospace;
 }
 .setting-title {
   width: calc(98% - 100px);

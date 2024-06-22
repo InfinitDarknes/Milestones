@@ -1,19 +1,17 @@
 function DisplayUserCategoryContextMenu(Event) {
-  if (DoesElementExist("context-menu")) document.getElementById("context-menu").remove();
+  if (document.querySelector(".context-menu")) document.querySelector(".context-menu").remove();
   // Context Menu
   const UserCategoryContextMenu = document.createElement("section");
-  UserCategoryContextMenu.id = "context-menu";
+  UserCategoryContextMenu.className = "context-menu";
   // Edit Button
   const EditUserCategoryButton = document.createElement("button");
   const EditUserCategoryText = document.createElement("span");
   const EditUserCategoryIcon = document.createElement("img");
   EditUserCategoryButton.className = "context-menu-item";
-  EditUserCategoryText.className = "context-menu-text";
-  EditUserCategoryIcon.className = "context-menu-icon";
-  EditUserCategoryIcon.src = IconsSrc.EditIcon[UserSettings.Theme];
+  EditUserCategoryText.className = "context-menu-text text";
+  EditUserCategoryIcon.className = "context-menu-icon icon";
+  EditUserCategoryIcon.src = "../Icons/edit-circle-line.svg";
   EditUserCategoryText.innerText = Strings.Edit[UserSettings.CurrentLang];
-  EditUserCategoryText.setAttribute("inert", "");
-  EditUserCategoryIcon.setAttribute("inert", "");
   EditUserCategoryButton.addEventListener("click", () => {
     EditCategoryModal(Event.target.id);
     HideContextMenu();
@@ -25,12 +23,10 @@ function DisplayUserCategoryContextMenu(Event) {
   const DeleteUserCategoryText = document.createElement("span");
   const DeleteUserCategoryIcon = document.createElement("img");
   DeleteUserCategoryButton.className = "context-menu-item";
-  DeleteUserCategoryText.className = "context-menu-text";
-  DeleteUserCategoryIcon.className = "context-menu-icon";
-  DeleteUserCategoryIcon.src = IconsSrc.DeleteIcon[UserSettings.Theme];
+  DeleteUserCategoryText.className = "context-menu-text text";
+  DeleteUserCategoryIcon.className = "context-menu-icon icon";
+  DeleteUserCategoryIcon.src = "../Icons/delete-back-2-line.svg";
   DeleteUserCategoryText.innerText = Strings.Delete[UserSettings.CurrentLang];
-  DeleteUserCategoryIcon.setAttribute("inert", "");
-  DeleteUserCategoryText.setAttribute("inert", "");
   DeleteUserCategoryButton.addEventListener("click", () => {
     DeleteModal("DeleteCategory", Event.target.id);
     HideContextMenu();
@@ -58,21 +54,19 @@ function DisplayUserCategoryContextMenu(Event) {
 function DisplayTaskContextMenu(Event, TargetType) {
   let TargetIndex = FindIndexOfTask(Event.target.id);
   let Target = AllTasksArray[TargetIndex];
-  if (DoesElementExist("context-menu")) document.getElementById("context-menu").remove();
+  if (document.querySelector(".context-menu")) document.querySelector(".context-menu").remove();
   // Context Menu
   const TaskContextMenu = document.createElement("section");
-  TaskContextMenu.id = "context-menu";
+  TaskContextMenu.className = "context-menu";
   // Pin Button
   const PinTaskButton = document.createElement("button");
   const PinTaskText = document.createElement("span");
   const PinTaskIcon = document.createElement("img");
   PinTaskButton.className = "context-menu-item";
-  PinTaskText.className = "context-menu-text";
-  PinTaskIcon.className = "context-menu-icon";
-  PinTaskIcon.src = IconsSrc.PinIcon[UserSettings.Theme];
+  PinTaskText.className = "context-menu-text text";
+  PinTaskIcon.className = "context-menu-icon icon";
+  PinTaskIcon.src = "../Icons/pushpin-line.svg";
   PinTaskText.innerText = Strings.Pin[UserSettings.CurrentLang];
-  PinTaskIcon.setAttribute("inert", "");
-  PinTaskText.setAttribute("inert", "");
   PinTaskButton.addEventListener("click", () => {
     PinTask(Event.target.id);
     HideContextMenu();
@@ -83,12 +77,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const UnPinTaskText = document.createElement("span");
   const UnPinTaskIcon = document.createElement("img");
   UnPinTaskButton.className = "context-menu-item";
-  UnPinTaskText.className = "context-menu-text";
-  UnPinTaskIcon.className = "context-menu-icon";
-  UnPinTaskIcon.src = IconsSrc.PinIcon[UserSettings.Theme];
+  UnPinTaskText.className = "context-menu-text text";
+  UnPinTaskIcon.className = "context-menu-icon icon";
+  UnPinTaskIcon.src = "../Icons/unpin-line.svg";
   UnPinTaskText.innerText = Strings.UnPin[UserSettings.CurrentLang];
-  UnPinTaskIcon.setAttribute("inert", "");
-  UnPinTaskText.setAttribute("inert", "");
   UnPinTaskButton.addEventListener("click", () => {
     UnPinTask(Event.target.id);
     HideContextMenu();
@@ -99,12 +91,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const DeSelectTaskText = document.createElement("span");
   const DeSelectTaskIcon = document.createElement("img");
   DeSelectTaskButton.className = "context-menu-item";
-  DeSelectTaskText.className = "context-menu-text";
-  DeSelectTaskIcon.className = "context-menu-icon";
-  DeSelectTaskIcon.src = IconsSrc.DeselctIcon[UserSettings.Theme];
+  DeSelectTaskText.className = "context-menu-text text";
+  DeSelectTaskIcon.className = "context-menu-icon icon";
+  DeSelectTaskIcon.src = "../Icons/navigation-line.svg";
   DeSelectTaskText.innerText = Strings.DeSelect[UserSettings.CurrentLang];
-  DeSelectTaskIcon.setAttribute("inert", "");
-  DeSelectTaskText.setAttribute("inert", "");
   DeSelectTaskButton.addEventListener("click", () => {
     DeSelectTask(Event.target.id);
     HideContextMenu();
@@ -115,12 +105,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const SelectTaskText = document.createElement("span");
   const SelectTaskIcon = document.createElement("img");
   SelectTaskButton.className = "context-menu-item";
-  SelectTaskText.className = "context-menu-text";
-  SelectTaskIcon.className = "context-menu-icon";
-  SelectTaskIcon.src = IconsSrc.SelectIcon[UserSettings.Theme];
+  SelectTaskText.className = "context-menu-text text";
+  SelectTaskIcon.className = "context-menu-icon icon";
+  SelectTaskIcon.src = "../Icons/navigation-line.svg";
   SelectTaskText.innerText = Strings.Select[UserSettings.CurrentLang];
-  SelectTaskIcon.setAttribute("inert", "");
-  SelectTaskText.setAttribute("inert", "");
   SelectTaskButton.addEventListener("click", () => {
     SelectTask(Event.target.id);
     HideContextMenu();
@@ -133,12 +121,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const EditTaskText = document.createElement("span");
   const EditTaskIcon = document.createElement("img");
   EditTaskButton.className = "context-menu-item";
-  EditTaskText.className = "context-menu-text";
-  EditTaskIcon.className = "context-menu-icon";
-  EditTaskIcon.src = IconsSrc.EditIcon[UserSettings.Theme];
+  EditTaskText.className = "context-menu-text text";
+  EditTaskIcon.className = "context-menu-icon icon";
+  EditTaskIcon.src = "../Icons/edit-circle-line.svg";
   EditTaskText.innerText = Strings.Edit[UserSettings.CurrentLang];
-  EditTaskIcon.setAttribute("inert", "");
-  EditTaskText.setAttribute("inert", "");
   EditTaskButton.addEventListener("click", () => {
     EditModal(Event.target.id);
     HideContextMenu();
@@ -149,12 +135,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const MoveToNextDayText = document.createElement("span");
   const MoveToNextDayIcon = document.createElement("img");
   MoveToNextDayButton.className = "context-menu-item";
-  MoveToNextDayText.className = "context-menu-text";
-  MoveToNextDayIcon.className = "context-menu-icon";
-  MoveToNextDayIcon.src = IconsSrc.NextDayIcon[UserSettings.Theme];
+  MoveToNextDayText.className = "context-menu-text text";
+  MoveToNextDayIcon.className = "context-menu-icon icon";
+  MoveToNextDayIcon.src = "../Icons/arrow-right-line.svg";
   MoveToNextDayText.innerText = Strings.MoveToNextDay[UserSettings.CurrentLang];
-  MoveToNextDayIcon.setAttribute("inert", "");
-  MoveToNextDayText.setAttribute("inert", "");
   MoveToNextDayButton.addEventListener("click", () => {
     MoveToNextDay(Event.target.id);
     HideContextMenu();
@@ -165,12 +149,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const MoveToPreviousDayText = document.createElement("span");
   const MoveToPreviousDayIcon = document.createElement("img");
   MoveToPreviousDayButton.className = "context-menu-item";
-  MoveToPreviousDayText.className = "context-menu-text";
-  MoveToPreviousDayIcon.className = "context-menu-icon";
-  MoveToPreviousDayIcon.src = IconsSrc.PreviousDayIcon[UserSettings.Theme];
+  MoveToPreviousDayText.className = "context-menu-text text";
+  MoveToPreviousDayIcon.className = "context-menu-icon icon";
+  MoveToPreviousDayIcon.src = "../Icons/arrow-left-line.svg";
   MoveToPreviousDayText.innerText = Strings.MoveToPreviousDay[UserSettings.CurrentLang];
-  MoveToPreviousDayIcon.setAttribute("inert", "");
-  MoveToPreviousDayText.setAttribute("inert", "");
   MoveToPreviousDayButton.addEventListener("click", () => {
     MoveToPreviousDay(Event.target.id);
     HideContextMenu();
@@ -181,12 +163,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const MoveToTodayText = document.createElement("span");
   const MoveToTodayIcon = document.createElement("img");
   MoveToTodayButton.className = "context-menu-item";
-  MoveToTodayText.className = "context-menu-text";
-  MoveToTodayIcon.className = "context-menu-icon";
-  MoveToTodayIcon.src = IconsSrc.TodayIcon[UserSettings.Theme];
+  MoveToTodayText.className = "context-menu-text text";
+  MoveToTodayIcon.className = "context-menu-icon icon";
+  MoveToTodayIcon.src = "../Icons/calendar-check-line.svg";
   MoveToTodayText.innerText = Strings.MoveToToday[UserSettings.CurrentLang];
-  MoveToTodayIcon.setAttribute("inert", "");
-  MoveToTodayText.setAttribute("inert", "");
   MoveToTodayButton.addEventListener("click", () => {
     MoveToToday(Event.target.id);
     HideContextMenu();
@@ -197,12 +177,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const CompleteTaskText = document.createElement("span");
   const CompleteTaskIcon = document.createElement("img");
   CompleteTaskButton.className = "context-menu-item";
-  CompleteTaskText.className = "context-menu-text";
-  CompleteTaskIcon.className = "context-menu-icon";
-  CompleteTaskIcon.src = IconsSrc.CompleteIcon[UserSettings.Theme];
+  CompleteTaskText.className = "context-menu-text text";
+  CompleteTaskIcon.className = "context-menu-icon icon";
+  CompleteTaskIcon.src = "../Icons/checkbox-circle-line.svg";
   CompleteTaskText.innerText = Strings.CompleteTask[UserSettings.CurrentLang];
-  CompleteTaskIcon.setAttribute("inert", "");
-  CompleteTaskText.setAttribute("inert", "");
   CompleteTaskButton.addEventListener("click", () => {
     AppObj.SelectMode ? CompleteTask() : CompleteTask(Event.target.id);
     HideContextMenu();
@@ -213,12 +191,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const FailTaskText = document.createElement("span");
   const FailTaskIcon = document.createElement("img");
   FailTaskButton.className = "context-menu-item";
-  FailTaskText.className = "context-menu-text";
-  FailTaskIcon.className = "context-menu-icon";
-  FailTaskIcon.src = IconsSrc.FailIcon[UserSettings.Theme];
+  FailTaskText.className = "context-menu-text text";
+  FailTaskIcon.className = "context-menu-icon icon";
+  FailTaskIcon.src = "../Icons/close-circle-line.svg";
   FailTaskText.innerText = Strings.FailTask[UserSettings.CurrentLang];
-  FailTaskIcon.setAttribute("inert", "");
-  FailTaskText.setAttribute("inert", "");
   FailTaskButton.addEventListener("click", () => {
     AppObj.SelectMode ? FailTask() : FailTask(Event.target.id);
     HideContextMenu();
@@ -229,12 +205,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const RestoreTaskText = document.createElement("span");
   const RestoreTaskIcon = document.createElement("img");
   RestoreTaskButton.className = "context-menu-item";
-  RestoreTaskText.className = "context-menu-text";
-  RestoreTaskIcon.className = "context-menu-icon";
-  RestoreTaskIcon.src = IconsSrc.RestoreIcon[UserSettings.Theme];
+  RestoreTaskText.className = "context-menu-text text";
+  RestoreTaskIcon.className = "context-menu-icon icon";
+  RestoreTaskIcon.src = "../Icons/loop-left-line.svg";
   RestoreTaskText.innerText = Strings.RestoreTask[UserSettings.CurrentLang];
-  RestoreTaskIcon.setAttribute("inert", "");
-  RestoreTaskText.setAttribute("inert", "");
   RestoreTaskButton.addEventListener("click", () => {
     if (Target.IsTaskTrashed) {
       AppObj.SelectMode ? RestoreFromTrash() : RestoreFromTrash(Event.target.id);
@@ -253,12 +227,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const MoveToTrashText = document.createElement("span");
   const MoveToTrashIcon = document.createElement("img");
   MoveToTrashButton.className = "context-menu-item";
-  MoveToTrashText.className = "context-menu-text";
-  MoveToTrashIcon.className = "context-menu-icon";
-  MoveToTrashIcon.src = IconsSrc.TrashIcon[UserSettings.Theme];
+  MoveToTrashText.className = "context-menu-text text";
+  MoveToTrashIcon.className = "context-menu-icon icon";
+  MoveToTrashIcon.src = "../Icons/delete-bin-7-line.svg";
   MoveToTrashText.innerText = Strings.MoveToTrash[UserSettings.CurrentLang];
-  MoveToTrashIcon.setAttribute("inert", "");
-  MoveToTrashText.setAttribute("inert", "");
   MoveToTrashButton.addEventListener("click", () => {
     AppObj.SelectMode ? MoveToTrash() : MoveToTrash(Event.target.id);
     HideContextMenu();
@@ -269,14 +241,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const OnlyShowInCategoryText = document.createElement("span");
   const OnlyShowInCategoryIcon = document.createElement("img");
   OnlyShowInCategoryButton.className = "context-menu-item";
-  OnlyShowInCategoryText.className = "context-menu-text";
-  OnlyShowInCategoryIcon.className = "context-menu-icon";
-  OnlyShowInCategoryIcon.src = Target.OnlyShowInCategory ? IconsSrc.VisibleIcon[UserSettings.Theme] : IconsSrc.InvisibleIcon[UserSettings.Theme];
-  OnlyShowInCategoryText.innerText = Target.OnlyShowInCategory
-    ? Strings.ShowEveryWhere[UserSettings.CurrentLang]
-    : Strings.OnlyShowInCategory[UserSettings.CurrentLang];
-  OnlyShowInCategoryIcon.setAttribute("inert", "");
-  OnlyShowInCategoryText.setAttribute("inert", "");
+  OnlyShowInCategoryText.className = "context-menu-text text";
+  OnlyShowInCategoryIcon.className = "context-menu-icon icon";
+  OnlyShowInCategoryIcon.src = Target.OnlyShowInCategory ? "../Icons/eye-line.svg" : "../Icons/eye-off-line.svg";
+  OnlyShowInCategoryText.innerText = Target.OnlyShowInCategory ? Strings.ShowEveryWhere[UserSettings.CurrentLang] : Strings.OnlyShowInCategory[UserSettings.CurrentLang];
   OnlyShowInCategoryButton.addEventListener("click", () => {
     LocalizeTask(Target.ID);
     HideContextMenu();
@@ -287,13 +255,12 @@ function DisplayTaskContextMenu(Event, TargetType) {
   const DeleteTaskText = document.createElement("span");
   const DeleteTaskIcon = document.createElement("img");
   DeleteTaskButton.className = "context-menu-item";
-  DeleteTaskText.className = "context-menu-text";
-  DeleteTaskIcon.className = "context-menu-icon";
-  DeleteTaskIcon.src = IconsSrc.DeleteIcon[UserSettings.Theme];
+  DeleteTaskText.className = "context-menu-text text";
+  DeleteTaskIcon.className = "context-menu-icon icon";
+  DeleteTaskIcon.src = "../Icons/delete-back-2-line.svg";
   DeleteTaskText.innerText = Strings.Delete[UserSettings.CurrentLang];
-  DeleteTaskIcon.setAttribute("inert", "");
-  DeleteTaskText.setAttribute("inert", "");
   DeleteTaskButton.addEventListener("click", () => {
+    DeleteTaskButton.setAttribute("data-dis-trigger-for", Event.target.id);
     AppObj.SelectMode ? DeleteModal(TargetType, Event.target.id) : DeleteTask(Event.target.id);
     HideContextMenu();
   });
@@ -308,15 +275,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
       let Today = new Date().getDate();
       if (TaskDate !== Today) TaskContextMenu.append(MoveToTodayButton);
       //
-      TaskContextMenu.append(
-        EditTaskButton,
-        MoveToNextDayButton,
-        MoveToPreviousDayButton,
-        CompleteTaskButton,
-        FailTaskButton,
-        MoveToTrashButton,
-        DeleteTaskButton
-      );
+      TaskContextMenu.append(EditTaskButton, MoveToNextDayButton, MoveToPreviousDayButton, CompleteTaskButton, FailTaskButton, MoveToTrashButton, DeleteTaskButton);
       if (Target.UserCategory !== "None") TaskContextMenu.append(OnlyShowInCategoryButton);
       break;
     case "Failed":
@@ -353,8 +312,8 @@ function AutoHideContextMenu(Event) {
   if (Type === "scroll") HideContextMenu();
 }
 function HideContextMenu() {
-  if (DoesElementExist("context-menu")) document.getElementById("context-menu").remove();
+  if (document.querySelector(".context-menu")) document.querySelector(".context-menu").remove();
 }
 function FreezScroll(Event) {
-  if (DoesElementExist("context-menu")) Event.preventDefault();
+  if (document.querySelector(".context-menu")) Event.preventDefault();
 }

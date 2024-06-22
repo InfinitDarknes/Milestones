@@ -1,4 +1,4 @@
-#top-bar {
+.top-bar {
   order: 1;
   display: flex;
   flex-direction: row-reverse;
@@ -11,7 +11,7 @@
   height: 60px;
   background: #232d3f;
 }
-#display-text {
+.display-text {
   width: 60%;
   display: flex;
   justify-content: center;

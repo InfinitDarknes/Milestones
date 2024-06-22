@@ -1,24 +1,18 @@
-#modal-container {
+.modal {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   justify-content: flex-start;
+  align-items: center;
   position: absolute;
   top: 100px;
   z-index: 100;
   width: 350px;
   height: fit-content;
   padding: 10px;
-  border-radius: 5px;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
-#modal-container:active::before {
-  content: "" !important;
-}
-#modal-container:active::after {
-  content: "" !important;
-}
-
-#modal-sub-page {
+.modal-sub-page {
   order: 1;
   width: calc(100% - 30px);
   padding: 0 15px 15px 15px;
@@ -26,17 +20,17 @@
   flex-direction: column;
   align-items: center;
 }
-#return-button {
+.return-button {
   width: 100%;
   height: 40px;
   border-radius: 5px;
   margin: 5px 0;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 .modal-title {
   width: 100%;
   margin-bottom: 15px;
-  font-size: 1.5em;
+  font-size: 1.2em;
   text-align: center;
 }
 .modal-text-area {
@@ -50,20 +44,20 @@
 }
 .modal-description {
   margin-bottom: 15px;
-  font-family: SpaceGrotesk;
   text-align: justify;
   font-size: 1em;
 }
-#copy-to-clipboard-button,
-#restore-button {
+.copy-to-clipboard-button,
+.restore-button {
   width: 100%;
   height: 40px;
-  border: 0;
-  border-radius: 5px;
-  font-size: 1.2em;
+  font-size: 1em;
   margin: 5px 0;
+  border: 0;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
-#modal-buttons-container {
+.modal-buttons-container {
   order: 2;
   width: 100%;
   display: flex;
@@ -77,30 +71,33 @@
   padding: 10px;
   border: 0;
   margin: 10px 0;
-  border-radius: 5px;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 .modal-button-text {
-  font-size: 1.3em;
-  font-family: SpaceGrotesk;
+  font-size: 1em;
 }
-#close-btn {
+.close-btn {
   display: flex;
   justify-content: flex-end;
   height: 35px;
   border-radius: 50%;
   background: none;
-}
-#close-btn img {
   width: 35px;
   height: 35px;
+  margin-left: calc(100% - 35px);
 }
-#modal-text {
+.close-btn img {
+  width: 100%;
+  height: 100%;
+}
+.modal-text {
   order: 2;
-  font-size: 1.1em;
+  font-size: 1em;
   padding: 10px;
   text-align: center;
 }
-#move-to-trash-container {
+.move-to-trash-container {
   order: 5;
   width: calc(100% - 20px);
   padding: 0 10px;
@@ -109,14 +106,14 @@
   justify-content: flex-start;
   margin: 10px 0;
 }
-#move-to-trash-checkbox {
+.move-to-trash-checkbox {
   order: 1;
 }
-#move-to-trash-text {
+.move-to-trash-text {
   order: 2;
-  font-size: 1.1em;
+  font-size: 1em;
 }
-#modal-button-container {
+.modal-button-container {
   order: 7;
   bottom: 0;
   width: 100%;
@@ -125,28 +122,29 @@
   justify-content: center;
   padding-bottom: 15px;
 }
-#confirm-btn,
-#cancel-btn {
+.confirm-btn,
+.cancel-btn {
   width: 150px;
   height: 40px;
-  font-size: 1.1em;
-  border-radius: 5px;
+  font-size: 1em;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
   transition: font-size 0.5s;
   margin: 8px;
 }
-#cancel-btn {
+.cancel-btn {
   order: 2;
 }
-#confirm-btn {
+.confirm-btn {
   order: 1;
 }
-#task-title-section,
-#task-date-section,
-#edit-date-section,
-#edit-title-section,
-#category-title-section,
-#select-category-section,
-#note-section {
+.task-title-section,
+.note-title-section .task-date-section,
+.edit-date-section,
+.edit-title-section,
+.category-title-section,
+.select-category-section,
+.note-section {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -155,7 +153,7 @@
   margin: 20px 0;
   width: 95%;
 }
-#select-category-section {
+.select-category-section {
   position: relative;
   order: 6;
   padding-top: 3px 0 0 1px;
@@ -170,11 +168,11 @@
   height: 50px;
   width: 100%;
   border: 0;
-  border-radius: 5px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 .select-box-text {
-  font-family: SpaceGrotesk;
-  font-size: 1.1em;
+  font-size: 1em;
   text-align: center;
 }
 .options-container {
@@ -185,7 +183,8 @@
   top: 50px;
   background-color: #dad6d6;
   overflow: hidden;
-  border-radius: 5px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
   margin-top: 1px;
 }
 .show-select-box {
@@ -197,14 +196,12 @@
   margin: 2px 0;
   cursor: pointer !important;
   font-size: 1em;
-  font-family: SpaceGrotesk;
   text-align: left;
-  /* border: 1px solid #1b1a1d; */
 }
 .option:hover {
   background-color: #cac7c7;
 }
-#select-box-icon-container {
+.select-box-icon-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -213,55 +210,58 @@
   height: 50px;
   width: 50px;
   cursor: pointer;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  background-color: #3a4166;
+  border-top-right-radius: 4px;
+  background-color: #f05454;
 }
-#select-box-icon {
-  width: 20px;
-  height: 20px;
+.select-box-icon {
+  width: 25px;
+  height: 25px;
   cursor: pointer;
   transition: transform 0.3s;
 }
 .rotate-icon {
   transform: rotate(180deg);
 }
-.task-input {
+.modal-input {
   height: 50px;
   width: 100%;
-  font-size: 1.2em;
-  font-family: SpaceGrotesk;
+  font-size: 1em;
   text-align: center;
   border: 0;
-  border-radius: 5px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
   border-top-left-radius: 0;
   margin-bottom: 10px;
 }
-.task-input:focus {
+.modal-input:focus {
   outline: 0;
   border: 0;
 }
-.badge {
+.modal-title {
+  background: transparent;
   position: absolute;
   text-align: center;
   width: 95%;
   left: -14px;
   top: -10px;
-  font-size: 1.1em;
+  font-size: 1em;
   transform: translateX(14px) translateY(-7.5px);
   padding: 8px 3px;
-  border-radius: 2px;
   letter-spacing: 1px;
+  border-bottom-width: 3px;
+  border-bottom-style: solid;
   z-index: 50;
 }
-.badge-modified {
+.sticky-badge {
   position: absolute;
   left: -14px;
-  top: -17px;
-  font-size: 1em;
+  top: -16px;
+  font-size: 0.9em;
   transform: translateX(14px) translateY(-7.5px);
   padding: 0 6px 1px 5px;
   letter-spacing: 1px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
   border-bottom: none;
   z-index: 50;
 }
@@ -271,12 +271,12 @@
   bottom: -5px;
   font-size: 0.9em;
   padding: 0 6px 1px 5px;
-  border-radius: 2px;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
   letter-spacing: 1px;
-  border-top: none;
   z-index: 50;
 }
-#modal-inputs-container {
+.modal-inputs-container {
   order: 2;
   width: 100%;
   display: flex;
@@ -285,28 +285,29 @@
   justify-content: flex-start;
   margin-top: 20px;
 }
-#edit-date-input {
+.edit-date-input,
+.task-date-input {
   cursor: pointer;
 }
-#note-text-area {
+.note-text-area {
   width: calc(100% - 20px);
   height: 200px;
   padding: 10px;
-  font-family: SpaceGrotesk;
-  font-size: 1.2em;
-  border-radius: 5px;
+  font-size: 1em;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
   border-top-left-radius: 0 !important;
   resize: none;
   border: 0;
   outline: 0;
 }
-#note-text-area:focus {
+.note-text-area:focus {
   border: 0;
   outline: 0;
 }
-#pick-color-section {
+.pick-color-section {
   order: 3;
-  width: 95%;
+  width: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -340,7 +341,7 @@
   object-fit: contain;
 }
 
-#colors-container {
+.colors-container {
   width: calc(100% - 70px);
   display: grid;
   grid-template-columns: repeat(24, 1fr);
@@ -357,9 +358,9 @@
   border-radius: 50%;
   box-sizing: border-box;
 }
-#pick-icon-section {
+.pick-icon-section {
   order: 4;
-  width: 95%;
+  width: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -367,7 +368,7 @@
   align-items: center;
   margin: 20px 0 10px 0;
 }
-#icons-container {
+.icons-container {
   width: calc(100% - 70px);
   display: grid;
   grid-template-columns: repeat(18, 1fr);
@@ -395,34 +396,24 @@
 }
 /* Add note modal */
 .add-note-modal {
-  width: 30% !important;
+  width: 45% !important;
 }
 /* Read note modal */
 .read-note-modal {
-  width: 30% !important;
+  width: 45% !important;
 }
 .note-modal-info-container {
-  width: calc(100% - 20px);
+  width: calc(100% - 10px);
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  margin: 10px 0;
+  padding: 5px;
+  margin: 5px 0;
 }
 .note-modal-info-container > * {
   width: 100%;
   margin: 5px 0;
-  padding: 10px 0;
-  font-size: 1.2rem;
-}
-.note-modal-text {
-  width: calc(100% - 20px);
-  max-height: 250px;
-  scrollbar-width: thin;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  line-break: anywhere;
-  overflow-y: scroll;
+  padding: 2px 0;
+  font-size: 1rem;
 }
 .edit-note-btn,
 .delete-note-btn,
@@ -434,8 +425,9 @@
   justify-content: center;
   align-items: center;
   margin: 5px 0;
-  border-radius: 5px;
-  font-size: 1.2em;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  font-size: 1em;
 }
 .apply-note-edit-btn,
 .cancel-note-edit-btn {

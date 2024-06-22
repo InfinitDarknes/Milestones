@@ -8,6 +8,10 @@
   padding: 0;
   direction: rtl;
 }
+#date-picker .icon {
+  width: 30px;
+  height: 30px;
+}
 .active {
   display: flex !important;
 }
@@ -18,8 +22,7 @@ button {
   position: relative;
   cursor: pointer;
   user-select: none;
-  font-family: Vazir;
-  font-size: 1.8em;
+  font-size: 1em;
   direction: ltr !important;
 }
 #date-picker {

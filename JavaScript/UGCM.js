@@ -4,11 +4,14 @@ let TempUserCategoryInfo = {
   Color: null,
   Icon: null,
 };
-function NewCategoryConstructor(ID, Name, Color, Icon) {
-  this.ID = ID;
-  this.Name = Name;
-  this.Color = Color;
-  this.Icon = Icon;
+function NewCategoryConstructor(...Args) {
+  let [ID, Name, Color, Icon] = Args;
+  return {
+    ID,
+    Name,
+    Color,
+    Icon,
+  };
 }
 function AddCategory() {
   try {
@@ -23,7 +26,7 @@ function AddCategory() {
   let Color = TempUserCategoryInfo.Color;
   let Icon = TempUserCategoryInfo.Icon;
   let ID = "UserCategory-" + GenerateUniqeID(8);
-  UserCategoriesArray.push(new NewCategoryConstructor(ID, Name, Color, Icon));
+  UserCategoriesArray.push(NewCategoryConstructor(ID, Name, Color, Icon));
   SaveAll();
   DisplayUserCategories();
   ResetTempUserCategoryInfo();

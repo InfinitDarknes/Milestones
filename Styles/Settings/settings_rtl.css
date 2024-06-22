@@ -1,4 +1,4 @@
-#settings-container {
+.settings-container {
   order: 3;
   width: 400px;
   height: 100%;
@@ -9,8 +9,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #2e3843;
   z-index: 200;
+  border-right-width: 3px;
+  border-right-style: solid;
 }
 .setting-in {
   left: 0 !important;
@@ -18,7 +19,7 @@
 .setting-out {
   left: -100% !important;
 }
-#settings-header {
+.settings-header {
   position: relative;
   width: 85%;
   height: 100px;
@@ -29,11 +30,11 @@
   align-items: center;
   border-bottom: 3px solid #dad6d6;
 }
-#settings-title {
+.settings-title {
   font-size: 2.1em;
   color: #1b1a1d;
 }
-#hide-settings-button {
+.hide-settings-button {
   background: none;
   width: 35px;
   height: 35px;
@@ -41,11 +42,11 @@
   top: 10px;
   right: 10px;
 }
-#hide-settings-button-icon {
+.hide-settings-button-icon {
   width: 100%;
   height: 100%;
 }
-#setting-items-container {
+.setting-items-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -55,7 +56,7 @@
   overflow-y: scroll;
   scrollbar-width: thin;
 }
-#setting-items-container::-webkit-scrollbar {
+.setting-items-container::-webkit-scrollbar {
   display: none;
 }
 .setting-item {
@@ -110,13 +111,11 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
-  font-family: vazir;
 }
 .setting-select-box option {
   font-size: 1.1em;
   color: #1b1a1d;
   text-align: center;
-  font-family: sans-serif !important;
 }
 .setting-title {
   width: calc(98% - 100px);

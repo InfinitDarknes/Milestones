@@ -1,33 +1,29 @@
-#context-menu {
+.context-menu {
   position: absolute;
   width: 200px;
-  /* height: 190px; */
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 99;
-  border-radius: 5px;
-  font-family: SpaceGrotesk, vazir;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  overflow: hidden;
 }
 .context-menu-item {
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 8px;
+  padding: 8px 10px;
   transition: 0.5s;
-  margin: 4px 0;
-}
-.context-menu-item:not(.disabled):hover {
-  background-color: #40c057;
 }
 .context-menu-icon {
   order: 1;
   margin-right: 10px;
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 .context-menu-text {
   order: 2;
-  font-size: 1.1em;
+  font-size: 1em;
 }

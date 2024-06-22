@@ -32,7 +32,7 @@ function LoadSavedNotes() {
   }
 }
 function DisplayNotesIntoDOM() {
-  const NotesContainer = document.getElementById("notes-container");
+  const NotesContainer = document.querySelector(".notes-container");
   NotesContainer.innerHTML = "";
   NotesArray.forEach((Note) => {
     const NoteContainer = document.createElement("div");

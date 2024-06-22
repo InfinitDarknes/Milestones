@@ -15,14 +15,13 @@ let DatePickerSettings = {
   lang: "",
   type: "",
 };
-function SetupTargetInput(ID) {
-  TargetInput = document.getElementById(ID);
-  console.log(TargetInput);
+function SetupTargetInput(Selector) {
+  TargetInput = document.querySelector(Selector);
 }
-function ToggleDatePicker(ID, NumericDate) {
-  if (DoesElementExist("date-picker")) HideDatePicker();
+function ToggleDatePicker(Selector, NumericDate) {
+  if (document.querySelector("#date-picker")) HideDatePicker();
   else {
-    CreateDatePicker(ID);
+    CreateDatePicker(Selector);
     if (AppObj.EditMode) LoadCustomDate(NumericDate);
     else LoadToday();
     UpdateDatePicker();
@@ -30,7 +29,7 @@ function ToggleDatePicker(ID, NumericDate) {
 }
 function AssignWidthToDatePicker() {
   let DatePicker = document.getElementById("date-picker");
-  let TargetInput = document.getElementById(TargetInputID);
+  let TargetInput = document.querySelector(TargetInputID);
   let TargetInputWidth = Number(getComputedStyle(TargetInput).width.replace("px", ""));
   let TargetInputPaddingRight = Number(getComputedStyle(TargetInput).paddingRight.replace("px", ""));
   let TargetInputPaddingLeft = Number(getComputedStyle(TargetInput).paddingLeft.replace("px", ""));
@@ -235,10 +234,7 @@ function ExtractDate(Request, DateType) {
     if (DateType === "Object") {
       return { Year: DateObject.GregorianYear, Month: DateObject.GregorianMonth, Day: DateObject.GregorianDay };
     } else if (DateType === "String") {
-      return `${DateObject.GregorianYear} / ${DateObject.GregorianMonth.toString().padStart(2, "0")} / ${DateObject.GregorianDay.toString().padStart(
-        2,
-        "0"
-      )}`;
+      return `${DateObject.GregorianYear} / ${DateObject.GregorianMonth.toString().padStart(2, "0")} / ${DateObject.GregorianDay.toString().padStart(2, "0")}`;
     }
   }
   if (Request === "Solar") {
@@ -279,11 +275,11 @@ function NumericToTime(NumericDate) {
   return Time;
 }
 // Functions that change the input values of datepicker and manuplate what user sees
-function CreateDatePicker(ID) {
+function CreateDatePicker(Selector) {
   // Interval variables for fast increament/decreament on mouse down and up
   let FastHourIncreament, FastHourDecreament, FastMinuteIncreament, FastMinuteDecreament;
-  TargetInputID = ID;
-  const TargetInput = document.getElementById(ID.toString());
+  TargetInputID = Selector;
+  const TargetInput = document.querySelector(Selector);
   // Declear elements
   const DatePickerElement = document.createElement("div");
   const DatePickerHeader = document.createElement("section");
@@ -332,6 +328,12 @@ function CreateDatePicker(ID) {
   TimePickerMinuteSection.className = "time-picker-inner-container";
   MinuteInput.className = "time-picker-input";
   TweakMinuteButtonsContainer.className = "tweak-time-buttons";
+  NextMonthButtonIcon.className = "icon";
+  PreviousMonthButtonIcon.className = "icon";
+  IncreamentHourButtonIcon.className = "icon";
+  DecreamentHourButtonIcon.className = "icon";
+  IncreamentMinuteButtonIcon.className = "icon";
+  DecreamenMinuteButtonIcon.className = "icon";
   // Assign id
   DatePickerElement.id = "date-picker";
   DatePickerHeader.id = "date-picker-header";
@@ -358,13 +360,13 @@ function CreateDatePicker(ID) {
   PickTomorrowButton.innerText = DPStrings.PickTomorrowButton[UserSettings.CurrentLang];
   PickIn2DaysButton.innerText = DPStrings.PickIn2DaysButton[UserSettings.CurrentLang];
   // Assign src
-  NextMonthButtonIcon.src = IconsSrc.RightArrowIcon[UserSettings.Theme];
-  PreviousMonthButtonIcon.src = IconsSrc.LeftArrowIcon[UserSettings.Theme];
-  IncreamentHourButtonIcon.src = IconsSrc.UpArrowIcon[UserSettings.Theme];
-  DecreamentHourButtonIcon.src = IconsSrc.DownArrowIcon[UserSettings.Theme];
-  TimePickerSeperatorIcon.src = IconsSrc.SeperatorIcon[UserSettings.Theme];
-  IncreamentMinuteButtonIcon.src = IconsSrc.UpArrowIcon[UserSettings.Theme];
-  DecreamenMinuteButtonIcon.src = IconsSrc.DownArrowIcon[UserSettings.Theme];
+  NextMonthButtonIcon.src = "../Icons/arrow-right-s-fill.svg";
+  PreviousMonthButtonIcon.src = "../Icons/arrow-left-s-fill.svg";
+  IncreamentHourButtonIcon.src = "../Icons/arrow-up-s-fill.svg";
+  DecreamentHourButtonIcon.src = "../Icons/arrow-down-s-fill.svg";
+  TimePickerSeperatorIcon.src = "../Icons/arrow-right-s-fill.svg";
+  IncreamentMinuteButtonIcon.src = "../Icons/arrow-up-s-fill.svg";
+  DecreamenMinuteButtonIcon.src = "../Icons/arrow-down-s-fill.svg";
   // Assign type (inputs)
   HourInput.type = "text";
   MinuteInput.type = "text";
@@ -416,7 +418,7 @@ function HideDatePicker() {
   if (DoesElementExist("date-picker")) document.getElementById("date-picker").remove();
 }
 function UpdateDatePicker() {
-  const TargetInput = document.getElementById(TargetInputID.toString());
+  const TargetInput = document.querySelector(TargetInputID.toString());
   const DatePicker = document.getElementById("date-picker");
   const TimePicker = document.getElementById("time-picker");
   const Month = document.getElementById("month");

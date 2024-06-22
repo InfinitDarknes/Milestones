@@ -1,23 +1,22 @@
-#select-all-section {
+.select-all-section {
   order: 1;
   width: fit-content;
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 1.2em;
+  font-size: 1.1em;
   padding-top: 20px;
 }
-#select-all-checkbox {
+.select-all-checkbox {
   order: 1;
 }
-#select-all-section span {
+.select-all-section span {
   order: 2;
   margin-top: 5px;
 }
-
 /* Task Bar */
-#task-bar {
+.task-bar {
   width: calc(100% - 40px);
   height: 70px;
   display: flex;
@@ -25,64 +24,60 @@
   align-items: center;
   padding: 0 20px;
 }
-
 /* sort Bar */
-#sort-bar {
+.sort-bar {
   order: 3;
   display: flex;
   flex-direction: row;
 }
-
 /* sort Buttons */
 .sort-buttons {
   order: 7;
-  font-size: 1.1em;
+  font-size: 1em;
   border: 0;
   margin: 0 5px;
   padding: 8px 15px;
-  border-radius: 5px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   transition: all 0.5s;
 }
-
 .sort-buttons:hover {
   transform: scale(1.1);
-  background-color: #40c057 !important;
 }
-
 /* Individual sort Styles */
-#sort-unfinished {
+.sort-unfinished {
   order: 1;
 }
-#sort-today {
+.sort-today {
   order: 2;
 }
-#sort-tomorrow {
+.sort-tomorrow {
   order: 3;
 }
-#sort-in-2-days {
+.sort-in-2-days {
   order: 4;
 }
-#sort-failed {
+.sort-failed {
   order: 5;
 }
-#sort-completed {
+.sort-completed {
   order: 6;
 }
-#search-bar {
+.search-bar {
   order: 3;
   height: fit-content;
-  border-radius: 5px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   border: 0;
-  font-size: 1.1em;
-  padding: 9px 20px;
+  font-size: 1em;
+  padding: 8px 20px;
 }
-#search-bar:focus {
+.search-bar:focus {
   border: 0;
   outline: 0;
 }
-
 /* List Section */
-#list-section {
+.list-section {
   order: 2;
   position: relative;
   width: calc(65% - 40px);
@@ -98,14 +93,13 @@
   -ms-overflow-style: none;
 }
 /*add padding-bottom class to list section when select bar apears so they do not colide with each other*/
-#list-section.padding-bottom {
+.list-section.padding-bottom {
   padding: 20px 20px 60px 20px;
 }
 /* Custom Scrollbar Styling */
-#list-section::-webkit-scrollbar {
+.list-section::-webkit-scrollbar {
   display: none !important;
 }
-
 /* Task Container */
 .task-container {
   width: calc(100% - 30px);
@@ -117,7 +111,9 @@
   justify-content: flex-start;
   align-items: center;
   margin: 15px 0;
-  border-radius: 10px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 .selected-task {
   cursor: pointer;
@@ -126,14 +122,12 @@
 .task-title {
   order: 3;
   width: 70%;
-  font-size: 1.1em;
+  font-size: 1em;
   direction: ltr;
   padding: 10px 10px 10px 5px;
-  margin-left: 5px;
   text-align: left;
   border-radius: 5px;
 }
-
 /* Date Container */
 .date-container {
   width: fit-content;
@@ -142,33 +136,24 @@
   position: absolute;
   top: -20px;
   left: 0px;
-  border-radius: 0;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
   margin: 0;
 }
-
 /* Task Date */
 .task-date {
   order: 2;
   padding: 3px 5px;
-  font-size: 1em;
+  font-size: 0.9em;
   direction: ltr;
 }
-
 /* Task Time */
 .task-time {
   order: 1;
   padding: 3px 5px;
-  font-size: 1em;
+  font-size: 0.9em;
   direction: ltr;
 }
-
-/* Select Task Checkbox */
-.select-task-checkbox {
-  width: 25px;
-  height: 25px;
-  margin-left: 15px;
-}
-
 /* Badges for Failed and Completed Tasks */
 .failed-task-badge,
 .completed-task-badge,
@@ -184,72 +169,34 @@
   position: absolute;
   right: 0;
   font-size: 1em;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
 }
 .pinned-task-badge {
   order: 2;
-  /* position: absolute;
-  left: 10px; */
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   margin: 0 5px;
 }
 .category-badge-icon {
   order: 1;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   margin-right: 5px;
 }
 .category-badge-name {
   order: 2;
   font-size: 0.9em;
 }
-
-.failed-task-badge {
-  background-color: #ff4545;
-}
-.completed-task-badge {
-  background-color: #40c057;
-}
 .task-container .checkbox-container {
   order: 1;
 }
-/* Edit Task Button */
-.edit-task-button {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  right: 10px;
-  background: none;
-  transition: 0.5s;
-}
-
-/* Edit Task Button Icon */
-.edit-task-button img {
-  width: 100%;
-  height: 100%;
-}
-
-/* Folding Task Button */
-.fold-btn {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  position: absolute;
-  left: 0;
-  background-color: transparent;
-  border: 0;
-}
-
-/* Folding Task Button Icon */
-.fold-btn img {
-  width: 40px;
-  height: 40px;
-}
-
 /* Empty Box Container */
-#empty-box-container {
+.empty-box-container {
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
   width: fit-content;
   height: fit-content;
   display: flex;
@@ -257,15 +204,13 @@
   justify-content: center;
   align-items: center;
 }
-
 /* Empty Box Image */
-#empty-box-container img {
-  width: 150px;
-  height: 150px;
+.empty-box-container img {
+  width: 200px;
+  height: 200px;
 }
-
 /* Empty Box Text */
-#empty-box-text {
+.empty-box-text {
   padding: 10px;
   font-size: 1.3em;
   direction: ltr;
