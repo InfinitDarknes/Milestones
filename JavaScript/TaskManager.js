@@ -52,52 +52,38 @@ function DeleteTask(ID) {
   }, 500);
 }
 function FailTask(ID) {
-  if (AppObj.SelectMode) {
-    ReturnSelectedTasks().forEach((Task) => {
-      Task.IsTaskPinned = false;
-      Task.IsTaskCompleted = false;
-      Task.IsTaskFailed = true;
-      Task.Selected = false;
-    });
-  } else {
-    let Task = AllTasksArray[FindIndexOfTask(ID)];
+  let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
+  SelectedTasks.forEach((Task) => {
     Task.IsTaskPinned = false;
     Task.IsTaskCompleted = false;
     Task.IsTaskFailed = true;
+    Task.IsTaskTrashed = false;
     Task.Selected = false;
-  }
+  });
   SaveAll();
   UpdateInbox();
 }
 function CompleteTask(ID) {
-  if (AppObj.SelectMode) {
-    ReturnSelectedTasks().forEach((Task) => {
-      Task.IsTaskPinned = false;
-      Task.IsTaskCompleted = true;
-      Task.Selected = false;
-    });
-  } else {
-    let Task = AllTasksArray[FindIndexOfTask(ID)];
+  let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
+  SelectedTasks.forEach((Task) => {
     Task.IsTaskPinned = false;
     Task.IsTaskCompleted = true;
+    Task.IsTaskFailed = false;
+    Task.IsTaskTrashed = false;
     Task.Selected = false;
-  }
+  });
   SaveAll();
   UpdateInbox();
 }
 function MoveToTrash(ID) {
-  if (AppObj.SelectMode) {
-    ReturnSelectedTasks().forEach((Task) => {
-      Task.IsTaskPinned = false;
-      Task.IsTaskTrashed = true;
-      Task.Selected = false;
-    });
-  } else {
-    let Task = AllTasksArray[FindIndexOfTask(ID)];
+  let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
+  SelectedTasks.forEach((Task) => {
     Task.IsTaskPinned = false;
+    Task.IsTaskCompleted = false;
+    Task.IsTaskFailed = false;
     Task.IsTaskTrashed = true;
     Task.Selected = false;
-  }
+  });
   SaveAll();
   UpdateInbox();
 }

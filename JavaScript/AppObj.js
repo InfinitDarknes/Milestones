@@ -39,7 +39,7 @@ let ProxyHandler = {
         target[property] = value;
         return true;
       } else {
-        throw new Error("Invalid 'CurrentWindow' value detected.");
+        throw new Error(`Invalid 'CurrentWindow' value detected , value : ${value}`);
       }
     }
     if (property === "DragModalMode") {

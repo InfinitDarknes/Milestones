@@ -1,8 +1,3 @@
-let HoverColor = {
-  Dark: "#40C057",
-  Light: "#ffc069",
-  Neon: "",
-};
 let IconsSrc = {
   PreLoaderGif: {
     Dark: "Icons/PreLoader/DarkPreLoader.gif",

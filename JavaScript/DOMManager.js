@@ -1,275 +1,162 @@
 // Sort buttons
 function ReturnSortAllBtn() {
-  const SortAllTrash = document.createElement("button");
-  // Id and Class
-  SortAllTrash.className = "sort-buttons text";
-  SortAllTrash.id = "sort-all-trash";
-  // Innertext and other properties
-  SortAllTrash.textContent = Strings.SortAllTrash[UserSettings.CurrentLang];
-  // Events
-  SortAllTrash.addEventListener("click", () => {
+  const Btn = document.createElement("button");
+  Btn.className = "sort-buttons text";
+  Btn.id = "sort-all-trash";
+  Btn.textContent = Strings.SortAllTrash[UserSettings.CurrentLang];
+  Btn.addEventListener("click", () => {
     ChangeWindow("Trash-All");
     HighLightSelectedSortButton("sort-all-trash");
   });
-  // Final
-  return SortAllTrash;
+  return Btn;
 }
 function ReturnSortUnfinishedBtn(TargetWindow) {
-  const SortUnfinished = document.createElement("button");
-  SortUnfinished.className = "sort-buttons text";
-  SortUnfinished.id = "sort-unfinished";
-  SortUnfinished.textContent = Strings.SortUnfinished[UserSettings.CurrentLang];
-  SortUnfinished.addEventListener("click", () => {
+  const Btn = document.createElement("button");
+  Btn.className = "sort-buttons text";
+  Btn.id = "sort-unfinished";
+  Btn.textContent = Strings.SortUnfinished[UserSettings.CurrentLang];
+  Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Unfinished`);
     HighLightSelectedSortButton("sort-unfinished");
   });
-  SortUnfinished.addEventListener("dragover", (Event) => {
-    Event.preventDefault();
-    SortUnfinished.style.backgroundColor = HoverColor[UserSettings.Theme];
-    SortUnfinished.style.transform = "scale(1.1)";
-  });
-  SortUnfinished.addEventListener("dragleave", () => {
-    SortUnfinished.style.backgroundColor = "";
-    SortUnfinished.style.transform = "";
-  });
-  SortUnfinished.addEventListener("drop", (Event) => {
-    SortUnfinished.style.backgroundColor = "";
-    SortUnfinished.style.transform = "";
-    if (AppObj.SelectMode) {
-      let DragableElements = ReturnSelectedTasks();
-      let ValidDragableElements = DragableElements.filter((Task) => {
-        return Task.IsTaskTrashed || Task.IsTaskCompleted || Task.IsTaskFailed;
-      });
-      ValidDragableElements.forEach((Task) => {
-        Task.IsTaskFailed = false;
-        Task.IsTaskCompleted = false;
-        Task.IsTaskTrashed = false;
-      });
-    } else {
-      let DraggedElementID = Event.dataTransfer.getData("DragableElementID");
-      let DragableElement = AllTasksArray.find((Task) => {
-        return Task.ID === DraggedElementID;
-      });
-      if (!DragableElement.IsTaskTrashed && !DragableElement.IsTaskCompleted && !DragableElement.IsTaskFailed) return false;
-      DragableElement.IsTaskFailed = false;
-      DragableElement.IsTaskCompleted = false;
-      DragableElement.IsTaskTrashed = false;
-    }
-    SaveAll();
-    ChangeWindow(`${TargetWindow}-Unfinished`);
-    HighLightSelectedSortButton("sort-unfinished");
-  });
-  return SortUnfinished;
+  AddDragAndDropEvents(Btn, `${TargetWindow}-Unfinished`, "Unfinished");
+  return Btn;
 }
 function ReturnSortTodayBtn(TargetWindow) {
-  const SortToday = document.createElement("button");
-  SortToday.className = "sort-buttons text";
-  SortToday.id = "sort-today";
-  SortToday.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
-  SortToday.addEventListener("click", () => {
+  const Btn = document.createElement("button");
+  Btn.className = "sort-buttons text";
+  Btn.id = "sort-today";
+  Btn.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
+  Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Today`);
     HighLightSelectedSortButton("sort-today");
   });
-  SortToday.addEventListener("dragover", (event) => {
-    event.preventDefault();
-    SortToday.style.backgroundColor = HoverColor[UserSettings.Theme];
-    SortToday.style.transform = "scale(1.1)";
-  });
-  SortToday.addEventListener("dragleave", () => {
-    SortToday.style.backgroundColor = "";
-    SortToday.style.transform = "";
-  });
-  SortToday.addEventListener("drop", (event) => {
-    SortToday.style.backgroundColor = "";
-    SortToday.style.transform = "";
-    if (AppObj.SelectMode) {
-      let DragableElements = ReturnSelectedTasks();
-      let ValidDragableElements = DragableElements.filter((Task) => {
-        return !Task.IsTaskTrashed && !Task.IsTaskCompleted && !Task.IsTaskFailed;
-      });
-      ValidDragableElements.forEach((Task) => {
-        MoveToToday(Task.ID);
-      });
-    } else {
-      let DraggedElementID = event.dataTransfer.getData("DragableElementID");
-      let DragableElement = AllTasksArray.find((Task) => {
-        return Task.ID === DraggedElementID;
-      });
-      if (DragableElement.IsTaskTrashed || DragableElement.IsTaskCompleted || DragableElement.IsTaskFailed) return false;
-      MoveToToday(DraggedElementID);
-    }
-    ChangeWindow(`${TargetWindow}-Today`);
-    HighLightSelectedSortButton("sort-today");
-  });
-  return SortToday;
+  AddDragAndDropEvents(Btn, `${TargetWindow}-Today`, "Today");
+  return Btn;
 }
 function ReturnSortTomorrowBtn(TargetWindow) {
-  const SortTomorrow = document.createElement("button");
-  SortTomorrow.className = "sort-buttons text";
-  SortTomorrow.id = "sort-tomorrow";
-  SortTomorrow.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
-  SortTomorrow.addEventListener("click", () => {
+  const Btn = document.createElement("button");
+  Btn.className = "sort-buttons text";
+  Btn.id = "sort-tomorrow";
+  Btn.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
+  Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Tomorrow`);
     HighLightSelectedSortButton("sort-tomorrow");
   });
-  SortTomorrow.addEventListener("dragover", (event) => {
-    event.preventDefault();
-    SortTomorrow.style.backgroundColor = HoverColor[UserSettings.Theme];
-    SortTomorrow.style.transform = "scale(1.1)";
-  });
-  SortTomorrow.addEventListener("dragleave", () => {
-    SortTomorrow.style.backgroundColor = "";
-    SortTomorrow.style.transform = "";
-  });
-  SortTomorrow.addEventListener("drop", (event) => {
-    SortTomorrow.style.backgroundColor = "";
-    SortTomorrow.style.transform = "";
-    if (AppObj.SelectMode) {
-      let DragableElements = ReturnSelectedTasks();
-      let ValidDragableElements = DragableElements.filter((Task) => {
-        return !Task.IsTaskTrashed && !Task.IsTaskCompleted && !Task.IsTaskFailed;
-      });
-      ValidDragableElements.forEach((Task) => {
-        MoveToTomorrow(Task.ID);
-      });
-    } else {
-      let DraggedElementID = event.dataTransfer.getData("DragableElementID");
-      let DragableElement = AllTasksArray.find((Task) => {
-        return Task.ID === DraggedElementID;
-      });
-      if (DragableElement.IsTaskTrashed || DragableElement.IsTaskCompleted || DragableElement.IsTaskFailed) return false;
-      MoveToTomorrow(DraggedElementID);
-    }
-    ChangeWindow(`${TargetWindow}-Tomorrow`);
-    HighLightSelectedSortButton("sort-tomorrow");
-  });
-  return SortTomorrow;
+  AddDragAndDropEvents(Btn, `${TargetWindow}-Tomorrow`, "Tomorrow");
+  return Btn;
 }
 function ReturnSortIn2DaysBtn(TargetWindow) {
-  const SortIn2Days = document.createElement("button");
-  SortIn2Days.className = "sort-buttons text";
-  SortIn2Days.id = "sort-in-2-days";
-  SortIn2Days.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
-  SortIn2Days.addEventListener("click", () => {
+  const Btn = document.createElement("button");
+  Btn.className = "sort-buttons text";
+  Btn.id = "sort-in-2-days";
+  Btn.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
+  Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-In2Days`);
     HighLightSelectedSortButton("sort-in-2-days");
   });
-  SortIn2Days.addEventListener("dragover", (Event) => {
-    Event.preventDefault();
-    SortIn2Days.style.backgroundColor = HoverColor[UserSettings.Theme];
-    SortIn2Days.style.transform = "scale(1.1)";
-  });
-  SortIn2Days.addEventListener("dragleave", () => {
-    SortIn2Days.style.backgroundColor = "";
-    SortIn2Days.style.transform = "";
-  });
-  SortIn2Days.addEventListener("drop", (Event) => {
-    SortIn2Days.style.backgroundColor = "";
-    SortIn2Days.style.transform = "";
-    if (AppObj.SelectMode) {
-      let DragableElements = ReturnSelectedTasks();
-      let ValidDragableElements = DragableElements.filter((Task) => {
-        return !Task.IsTaskTrashed && !Task.IsTaskCompleted && !Task.IsTaskFailed;
-      });
-      ValidDragableElements.forEach((Task) => {
-        MoveIn2Days(Task.ID);
-      });
-    } else {
-      let DraggedElementID = Event.dataTransfer.getData("DragableElementID");
-      let DragableElement = AllTasksArray.find((Task) => {
-        return Task.ID === DraggedElementID;
-      });
-      if (DragableElement.IsTaskTrashed || DragableElement.IsTaskCompleted || DragableElement.IsTaskFailed) return false;
-      MoveIn2Days(DraggedElementID);
-    }
-    ChangeWindow(`${TargetWindow}-In2Days`);
-    HighLightSelectedSortButton("sort-in-2-days");
-  });
-  return SortIn2Days;
+  AddDragAndDropEvents(Btn, `${TargetWindow}-In2Days`, "In2Days");
+  return Btn;
 }
 function ReturnSortCompletedBtn(TargetWindow) {
-  const SortCompleted = document.createElement("button");
-  SortCompleted.className = "sort-buttons text";
-  SortCompleted.id = "sort-completed";
-  SortCompleted.textContent = Strings.CategoryCompletedButton[UserSettings.CurrentLang];
-  SortCompleted.addEventListener("click", () => {
+  const Btn = document.createElement("button");
+  Btn.className = "sort-buttons text";
+  Btn.id = "sort-completed";
+  Btn.textContent = Strings.CategoryCompletedButton[UserSettings.CurrentLang];
+  Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Completed`);
     HighLightSelectedSortButton("sort-completed");
   });
-  SortCompleted.addEventListener("dragover", (event) => {
-    event.preventDefault();
-    SortCompleted.style.backgroundColor = HoverColor[UserSettings.Theme];
-    SortCompleted.style.transform = "scale(1.1)";
-  });
-  SortCompleted.addEventListener("dragleave", () => {
-    SortCompleted.style.backgroundColor = "";
-    SortCompleted.style.transform = "";
-  });
-  SortCompleted.addEventListener("drop", (event) => {
-    SortCompleted.style.backgroundColor = "";
-    SortCompleted.style.transform = "";
-    if (AppObj.SelectMode) {
-      let DragableElements = ReturnSelectedTasks();
-      let ValidDragableElements = DragableElements.filter((Task) => {
-        return !Task.IsTaskTrashed && !Task.IsTaskFailed && !Task.IsTaskCompleted;
-      });
-      ValidDragableElements.forEach((Task) => {
-        CompleteTask(Task.ID);
-      });
-    } else {
-      let DraggedElementID = event.dataTransfer.getData("DragableElementID");
-      let DragableElement = AllTasksArray.find((Task) => {
-        return Task.ID === DraggedElementID;
-      });
-      if (DragableElement.IsTaskTrashed || DragableElement.IsTaskFailed || DragableElement.IsTaskCompleted) return false;
-      CompleteTask(DraggedElementID);
-    }
-    ChangeWindow(`${TargetWindow}-Completed`);
-    HighLightSelectedSortButton("sort-completed");
-  });
-  return SortCompleted;
+  AddDragAndDropEvents(Btn, `${TargetWindow}-Completed`, "Completed");
+  return Btn;
 }
 function ReturnSortFailedBtn(TargetWindow) {
-  const SortFailed = document.createElement("button");
-  SortFailed.className = "sort-buttons text";
-  SortFailed.id = "sort-failed";
-  SortFailed.textContent = Strings.CategoryFailedButton[UserSettings.CurrentLang];
-  SortFailed.addEventListener("click", () => {
+  const Btn = document.createElement("button");
+  Btn.className = "sort-buttons text";
+  Btn.id = "sort-failed";
+  Btn.textContent = Strings.CategoryFailedButton[UserSettings.CurrentLang];
+  Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Failed`);
     HighLightSelectedSortButton("sort-failed");
   });
-  SortFailed.addEventListener("dragover", (event) => {
-    event.preventDefault();
-    SortFailed.style.backgroundColor = HoverColor[UserSettings.Theme];
-    SortFailed.style.transform = "scale(1.1)";
+  AddDragAndDropEvents(Btn, `${TargetWindow}-Failed`, "Failed");
+  return Btn;
+}
+function AddDragAndDropEvents(Element, TargetWindow, Type, UserCategoryID) {
+  Element.addEventListener("dragover", (Event) => {
+    Event.preventDefault();
+    if (Type !== "UserCategory") Element.style.backgroundColor = AppElementsObj.Hovered.Themes[UserSettings.Theme].BgColor;
+    Element.style.transform = "scale(1.1)";
   });
-  SortFailed.addEventListener("dragleave", () => {
-    SortFailed.style.backgroundColor = "";
-    SortFailed.style.transform = "";
+  Element.addEventListener("dragleave", () => {
+    if (Type !== "UserCategory") Element.style.backgroundColor = "";
+    Element.style.transform = "";
   });
-  SortFailed.addEventListener("drop", (event) => {
-    SortFailed.style.backgroundColor = "";
-    SortFailed.style.transform = "";
-    if (AppObj.SelectMode) {
-      let DragableElements = ReturnSelectedTasks();
-      let ValidDragableElements = DragableElements.filter((Task) => {
-        return !Task.IsTaskTrashed && !Task.IsTaskFailed;
-      });
-      ValidDragableElements.forEach((Task) => {
-        FailTask(Task.ID);
-      });
-    } else {
-      let DraggedElementID = event.dataTransfer.getData("DragableElementID");
-      let DragableElement = AllTasksArray.find((Task) => {
-        return Task.ID === DraggedElementID;
-      });
-      if (DragableElement.IsTaskTrashed || DragableElement.IsTaskFailed) return false;
-      FailTask(DraggedElementID);
+  Element.addEventListener("drop", (Event) => {
+    if (Type !== "UserCategory") Element.style.backgroundColor = "";
+    Element.style.transform = "";
+    // This part is for single task getting drag and dropped
+    let DraggedElementID = Event.dataTransfer.getData("DragableElementID");
+    let DragableElement = AllTasksArray.find((Task) => {
+      return Task.ID === DraggedElementID;
+    });
+    // but if there are multiple tasks selected we use ReturnSelectedTasks() func
+    let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [DragableElement];
+    if (!SelectedTasks) {
+      DisplayMessage("Error", "Invalid element detected. Only your tasks can be dragged and dropped");
+      return;
     }
-    ChangeWindow(`${TargetWindow}-Failed`);
-    HighLightSelectedSortButton("sort-failed");
+    SelectedTasks.forEach((Task) => {
+      switch (Type) {
+        case "Unfinished":
+          Task.IsTaskFailed = false;
+          Task.IsTaskCompleted = false;
+          Task.IsTaskTrashed = false;
+          break;
+        case "Today":
+          Task.IsTaskFailed = false;
+          Task.IsTaskCompleted = false;
+          Task.IsTaskTrashed = false;
+          MoveToToday(Task.ID);
+          break;
+        case "Tomorrow":
+          Task.IsTaskFailed = false;
+          Task.IsTaskCompleted = false;
+          Task.IsTaskTrashed = false;
+          MoveToTomorrow(Task.ID);
+          break;
+        case "In2Days":
+          Task.IsTaskFailed = false;
+          Task.IsTaskCompleted = false;
+          Task.IsTaskTrashed = false;
+          MoveIn2Days(Task.ID);
+          break;
+        case "Completed":
+          CompleteTask(Task.ID);
+          break;
+        case "Failed":
+          FailTask(Task.ID);
+          break;
+        case "Trash":
+          MoveToTrash(Task.ID);
+          break;
+        case "UserCategory":
+          Task.UserCategory = UserCategoryID;
+          Task.IsTaskTrashed = false;
+          break;
+      }
+    });
+    if (Type === "Trash") {
+      DisplayTrashBinWindow();
+    } else if (Type === "UserCategory") {
+      AppObj.SelectedUserCategory = UserCategoryID;
+      DisplayUserCategoryWindow(UserCategoryID);
+    } else {
+      ChangeWindow(TargetWindow);
+      HighLightSelectedSortButton(Element.id);
+    }
+    SaveAll();
   });
-  return SortFailed;
 }
 // App components
 function ReturnTopBar() {
@@ -357,6 +244,7 @@ function ReturnUserCategorise() {
       Event.preventDefault();
       DisplayUserCategoryContextMenu(Event);
     });
+    AddDragAndDropEvents(UserCategoryButton, `${Category.ID}-Unfinished`, "UserCategory", Category.ID);
     // Final
     UserCategoryButton.append(UserCategoryIcon, UserCategoryName);
     UGCFragment.append(UserCategoryButton);
@@ -456,35 +344,7 @@ function ReturnSidebar() {
   TrashBinText.className = "side-bar-item-text text";
 
   TrashBin.addEventListener("click", DisplayTrashBinWindow);
-  TrashBin.addEventListener("dragover", (Event) => {
-    Event.preventDefault();
-    TrashBin.style.backgroundColor = HoverColor[UserSettings.Theme];
-    TrashBin.style.transform = "scale(1.1)";
-  });
-  TrashBin.addEventListener("dragleave", () => {
-    TrashBin.style.backgroundColor = "";
-    TrashBin.style.transform = "";
-  });
-  TrashBin.addEventListener("drop", (Event) => {
-    TrashBin.style.backgroundColor = "";
-    TrashBin.style.transform = "";
-    if (AppObj.SelectMode) {
-      let DragableElements = ReturnSelectedTasks();
-      let ValidDragableElements = DragableElements.filter((Task) => {
-        return !Task.IsTaskTrashed;
-      });
-      ValidDragableElements.forEach((Task) => {
-        MoveToTrash(Task.ID);
-      });
-    } else {
-      let DraggedElementID = Event.dataTransfer.getData("DragableElementID");
-      let DragableElement = AllTasksArray.find((Task) => {
-        return Task.ID === DraggedElementID;
-      });
-      if (DragableElement.IsTaskTrashed) return false;
-      MoveToTrash(DraggedElementID);
-    }
-  });
+  AddDragAndDropEvents(TrashBin, "Trash-All", "Trash");
   TrashBinIcon.src = "../Icons/delete-bin-7-line.svg";
   TrashBinText.innerText = Strings.TrashBinButton[UserSettings.CurrentLang];
   TrashBin.append(TrashBinIcon, TrashBinText);
@@ -709,7 +569,7 @@ function DisplayUserCategoryWindow(ID) {
   const UGCP = ReturnUserCategoryWindow(ID);
   document.body.append(UGCP);
   HighLightSelectedSortButton("sort-unfinished");
-  ChangeWindow(`${AppObj.SelectedUserCategory}-Unfinished`);
+  ChangeWindow(`${ID}-Unfinished`);
   // Unhover the sidebar items because the UGC are also in sidebar
   const SidebarItems = document.querySelectorAll(".side-bar-item");
   SidebarItems.forEach((Item) => {
