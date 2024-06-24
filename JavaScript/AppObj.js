@@ -1,14 +1,14 @@
 let AppObj = {
   SelectMode: false,
   EditMode: false,
+  DragModalMode: false,
   CurrentWindow: null,
   SelectedUserCategory: null,
-  DragModalMode: false,
+  Themes: ["Dark", "Light"],
   ValidWindowInput:
     /^(Trash-(All|Today|Tomorrow|In2Days)|Home-(Unfinished|Today|Tomorrow|In2Days|Failed|Completed)|Notes|UserCategory-[0-9]{8}-(Unfinished|Today|Tomorrow|In2Days|Completed|Failed))$/,
   UserCategoryPattern: /^UserCategory-[0-9]{8}$/,
   ThemePattern: /^[a-zA-Z0-9]+$/,
-  Themes: ["Dark", "Light"],
 };
 let ProxyHandler = {
   get: function (target, property) {

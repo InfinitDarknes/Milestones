@@ -1,0 +1,601 @@
+{
+  "PreLoader": {
+    "Selector": ".preloader",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#1D2229"
+      },
+      "Light": {
+        "BgColor": "#c0c0c0"
+      }
+    },
+    "Order": "0"
+  },
+  "Body": {
+    "Selector": "body",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#323232"
+      },
+      "Light": {
+        "BgColor": "#c0c0c0"
+      }
+    },
+    "Order": "1"
+  },
+  "Background": {
+    "Selector": ".window,.top-bar,.side-bar",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#1d2229"
+      },
+      "Light": {
+        "BgColor": "#ffffff"
+      }
+    },
+    "Order": "2"
+  },
+  "Icons": {
+    "Selector": ".icon",
+    "Themes": {
+      "Dark": {
+        "Color": "#c0c0c0"
+      },
+      "Light": {
+        "Color": "#ffff80"
+      }
+    },
+    "Order": "3"
+  },
+  "Text": {
+    "Themes": {
+      "Dark": {
+        "Color": "#dad6d6"
+      },
+      "Light": {
+        "Color": "#1a1b1d"
+      }
+    },
+    "Selector": ".text",
+    "Order": "4"
+  },
+  "Hovered": {
+    "Selector": ".hovered",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#F05454"
+      },
+      "Light": {
+        "BgColor": "#FFC069"
+      }
+    },
+    "Order": "5"
+  },
+  "SidebarItems": {
+    "Selector": ".side-bar-item",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717",
+        "Hover": {
+          "BgColor": "#f05454"
+        }
+      },
+      "Light": {
+        "BgColor": "#DAD6D6",
+        "Hover": {
+          "BgColor": "#FFC069"
+        }
+      }
+    },
+    "Order": "6"
+  },
+  "SortBarBtns": {
+    "Selector": ".sort-buttons",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717",
+        "Hover": {
+          "BgColor": "#F05454",
+          "Scale": "1.1",
+          "Transition": "500ms"
+        }
+      },
+      "Light": {
+        "BgColor": "#DAD6D6",
+        "Hover": {
+          "BgColor": "#FFC069",
+          "Scale": "1.1",
+          "Transition": "500ms"
+        }
+      }
+    },
+    "Order": "7"
+  },
+  "SearchInput": {
+    "Selector": ".search-bar",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717"
+      },
+      "Light": {
+        "BgColor": "#DAD6D6"
+      }
+    },
+    "Order": "8"
+  },
+  "TaskElement": {
+    "Selector": ".task-container",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#393E46",
+        "Color": "#c0c0c0"
+      },
+      "Light": {
+        "BgColor": "#DAD6D6",
+        "Color": "#1B1A1D"
+      }
+    },
+    "Order": "9"
+  },
+  "TaskTitle": {
+    "Selector": ".task-title",
+    "Themes": {
+      "Dark": {
+        "Color": "#c0c0c0"
+      },
+      "Light": {
+        "Color": "#1a1b1d"
+      }
+    },
+    "Order": "10"
+  },
+  "CompletedTaskBadge": {
+    "Selector": ".completed-task-badge",
+    "Order": "11",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#40C057"
+      },
+      "Light": {
+        "BgColor": "#DAD6D6"
+      }
+    }
+  },
+  "FailedTaskBadge": {
+    "Selector": ".failed-task-badge",
+    "Order": "12",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#FF4545"
+      },
+      "Light": {
+        "BgColor": "#DAD6D6",
+        "Color": "#1B1A1D"
+      }
+    }
+  },
+  "TrashedTaskBadge": {
+    "Selector": ".trashed-task-badge",
+    "Order": "13",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#FF4545"
+      },
+      "Light": {
+        "BgColor": "#DAD6D6"
+      }
+    }
+  },
+  "TaskDateAndTimeContainer": {
+    "Selector": ".date-container",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#F05454"
+      },
+      "Light": {
+        "BgColor": "#FFC069"
+      }
+    },
+    "Order": "14"
+  },
+  "ContextMenu": {
+    "Selector": ".context-menu",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717"
+      },
+      "Light": {
+        "BgColor": "#F3EAD3"
+      }
+    },
+    "Order": "15"
+  },
+  "ContextMenuItem": {
+    "Selector": ".context-menu-item",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717",
+        "Hover": {
+          "BgColor": "#F05454",
+          "Scale": "",
+          "Transition": "500ms"
+        }
+      },
+      "Light": {
+        "BgColor": "#F3EAD3",
+        "Hover": {
+          "BgColor": "#FFC069",
+          "Scale": "",
+          "Transition": "500ms"
+        }
+      }
+    },
+    "Order": "16"
+  },
+  "WindowHeader": {
+    "Selector": ".window-header",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717"
+      },
+      "Light": {
+        "BgColor": "#DAD6D6"
+      }
+    },
+    "Order": "17"
+  },
+  "SelectBar": {
+    "Selector": ".select-bar",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#1d2229",
+        "BorderColor": "#323232"
+      },
+      "Light": {
+        "BgColor": "#F3EAD3",
+        "BorderColor": "#c0c0c0"
+      }
+    },
+    "Order": "18"
+  },
+  "SelectBarBtns": {
+    "Selector": ".select-bar-task-btn",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717",
+        "Hover": {
+          "BgColor": "#F05454",
+          "Scale": "",
+          "Transition": "500ms"
+        }
+      },
+      "Light": {
+        "BgColor": "#DAD6D6",
+        "Hover": {
+          "BgColor": "#FFC069",
+          "Scale": "",
+          "Transition": "500ms"
+        }
+      }
+    },
+    "Order": "19"
+  },
+  "ExitFromSelectModeBtn": {
+    "Selector": ".exit-select-mode-btn",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#FE4545"
+      },
+      "Light": {
+        "BgColor": "#FE4545"
+      }
+    },
+    "Order": "20"
+  },
+  "SettingsContainer": {
+    "Selector": ".settings-container",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#1d2229",
+        "BorderColor": "#323232"
+      },
+      "Light": {
+        "BgColor": "#393E46",
+        "BorderColor": "#c0c0c0"
+      }
+    },
+    "Order": "21"
+  },
+  "SettingsHeader": {
+    "Selector": ".settings-header",
+    "Themes": {
+      "Dark": {
+        "BorderColor": "#323232"
+      },
+      "Light": {
+        "BorderColor": "#c0c0c0"
+      }
+    },
+    "Order": "22"
+  },
+  "SettingsTitle": {
+    "Selector": ".settings-title",
+    "Themes": {
+      "Dark": {
+        "Color": "#c0c0c0"
+      },
+      "Light": {
+        "Color": "#1a1b1d"
+      }
+    },
+    "Order": "23"
+  },
+  "SettingsItem": {
+    "Selector": ".setting-item",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717"
+      },
+      "Light": {
+        "BgColor": "#FE4545"
+      }
+    },
+    "Order": "24"
+  },
+  "SettingsSubTitle": {
+    "Selector": ".setting-title",
+    "Themes": {
+      "Dark": {
+        "Color": "#c0c0c0"
+      },
+      "Light": {
+        "Color": "#FE4545"
+      }
+    },
+    "Order": "25"
+  },
+  "SettingsItemSelectBox": {
+    "Selector": ".setting-select-box",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#c0c0c0",
+        "Color": "#171717"
+      },
+      "Light": {
+        "BgColor": "#c0c0c0",
+        "Color": "#171717"
+      }
+    },
+    "Order": "26"
+  },
+  "SettingsItemOption": {
+    "Selector": ".setting-select-box option",
+    "Themes": {
+      "Dark": {
+        "Color": "#171717"
+      },
+      "Light": {
+        "Color": "#171717"
+      }
+    },
+    "Order": "27"
+  },
+  "Modal": {
+    "Selector": ".modal",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717"
+      },
+      "Light": {
+        "BgColor": "#ffff80"
+      }
+    },
+    "Order": "28"
+  },
+  "ModalInput": {
+    "Selector": ".modal-input",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#dad6d6"
+      },
+      "Light": {
+        "BgColor": "#ffff80"
+      }
+    },
+    "Order": "29"
+  },
+  "StickyInputBadge": {
+    "Selector": ".sticky-badge",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#FE4545",
+        "Color": ""
+      },
+      "Light": {
+        "BgColor": "#ffff80",
+        "Color": ""
+      }
+    },
+    "Order": "30"
+  },
+  "CharacterLimit": {
+    "Selector": ".sticky-badge",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#FE4545",
+        "Color": ""
+      },
+      "Light": {
+        "BgColor": "#ffff80",
+        "Color": ""
+      }
+    },
+    "Order": "31"
+  },
+  "ModalTitle": {
+    "Selector": ".modal-title",
+    "Themes": {
+      "Dark": {
+        "Color": "",
+        "BorderColor": ""
+      },
+      "Light": {
+        "Color": "",
+        "BorderColor": ""
+      }
+    },
+    "Order": "32"
+  },
+  "GreenOrConfirmBtn": {
+    "Selector": ".green-btn",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#40C057"
+      },
+      "Light": {
+        "BgColor": "#"
+      }
+    },
+    "Order": "33"
+  },
+  "RedOrCancelBtn": {
+    "Selector": ".red-btn",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#FF4545"
+      },
+      "Light": {
+        "BgColor": "#"
+      }
+    },
+    "Order": "34"
+  },
+  "ModalTextArea": {
+    "Selector": ".modal-text-area",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#393E46",
+        "Color": "#dad6d6"
+      },
+      "Light": {
+        "BgColor": "#",
+        "Color": "#"
+      }
+    },
+    "Order": "35"
+  },
+  "ModalBtn": {
+    "Selector": ".modal-button",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#393E46"
+      },
+      "Light": {
+        "BgColor": "#"
+      }
+    },
+    "Order": "36"
+  },
+  "NoteContainer": {
+    "Selector": ".note-container",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#393E46"
+      },
+      "Light": {
+        "BgColor": "#"
+      }
+    },
+    "Order": "37"
+  },
+  "NoteTitle": {
+    "Selector": ".note-title",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717",
+        "Color": "#dad6d6"
+      },
+      "Light": {
+        "BgColor": "#",
+        "Color": "#"
+      }
+    },
+    "Order": "38"
+  },
+  "NoteText": {
+    "Selector": ".note-text",
+    "Themes": {
+      "Dark": {
+        "Color": "#dad6d6"
+      },
+      "Light": {
+        "Color": "#"
+      }
+    },
+    "Order": "39"
+  },
+  "ViewNoteBtn": {
+    "Selector": ".view-note-btn",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#F05454",
+        "Color": "#dad6d6"
+      },
+      "Light": {
+        "BgColor": "#",
+        "Color": "#"
+      }
+    },
+    "Order": "40"
+  },
+  "MessageBox": {
+    "Selector": ".msg-box",
+    "Order": "41",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#393E46",
+        "Color": "#dad6d6"
+      },
+      "Light": {
+        "BgColor": "#",
+        "Color": "#"
+      }
+    }
+  },
+  "MessageTypeBox": {
+    "Selector": ".msg-type-wrapper",
+    "Order": "42",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#171717"
+      },
+      "Light": {
+        "BgColor": "#"
+      }
+    }
+  },
+  "ErrorMessage": {
+    "Selector": ".error.msg-type-text",
+    "Order": "43",
+    "Themes": {
+      "Dark": {
+        "Color": "#FF4545"
+      },
+      "Light": {
+        "Color": "#"
+      }
+    }
+  },
+  "SuccessMessage": {
+    "Selector": ".success.msg-type-text",
+    "Order": "44",
+    "Themes": {
+      "Dark": {
+        "Color": "#40C057"
+      },
+      "Light": {
+        "Color": "#"
+      }
+    }
+  }
+}

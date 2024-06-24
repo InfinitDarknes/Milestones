@@ -2,17 +2,17 @@ let TextIndex = 0;
 // Sub Components
 function AutoWriter() {
   let DisplayText = document.querySelector(".display-text");
-  let TextArray, Text, LetterArray, LetterIndex, AutoWriterInterval;
+  let Texts, Text, LetterArray, LetterIndex, AutoWriterInterval;
   switch (UserSettings.CurrentLang) {
     case "en":
-      TextArray = EnglishTextArray;
+      Texts = TextArray.EnglishTextArray;
       break;
     case "fa":
-      TextArray = PersianTextArray;
+      Texts = TextArray.PersianTextArray;
       break;
   }
-  if (TextIndex < TextArray.length) {
-    Text = TextArray[TextIndex];
+  if (TextIndex < Texts.length) {
+    Text = Texts[TextIndex];
     LetterArray = Text.split("");
     LetterIndex = 0;
     //

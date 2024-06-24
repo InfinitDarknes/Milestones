@@ -1,4 +1,15 @@
-window.onload = function () {
+let Strings;
+let TextArray;
+let ThemeObj;
+let DPStrings; // Date Picker Strings
+window.onload = async function () {
+  Strings = await FetchAppJsonFiles("Json/Lang.json");
+  ThemeObj = await FetchAppJsonFiles("Json/Theme.json");
+  TextArray = await FetchAppJsonFiles("Json/TextArray.json");
+  DPStrings = await FetchAppJsonFiles("Json/DatePickerStrings.json");
+  InitializeApp();
+};
+function InitializeApp() {
   LoadSave();
   PreLoader();
   LoadCurrentDate();
@@ -7,9 +18,14 @@ window.onload = function () {
   LoadAppComponents();
   ShowDateAndClock();
   setInterval(GetTime, 1000);
-  AutoWriter();
   InsertRules();
-};
+  AutoWriter();
+}
+async function FetchAppJsonFiles(Path) {
+  const Reasponse = await fetch(Path);
+  const ParsedValue = await Reasponse.json();
+  return ParsedValue;
+}
 function LoadAppComponents() {
   const Body = document.body;
   const TopBar = ReturnTopBar();
@@ -39,6 +55,11 @@ function PreLoader() {
   PreLoaderIcon.src = IconsSrc.PreLoaderGif[UserSettings.Theme];
   const PreLoaderText = document.createElement("span");
   PreLoaderText.className = "preloader-text text";
+  let counter = 0;
+  for (let i in Strings) {
+    counter++;
+  }
+  console.log(counter);
   PreLoaderText.innerText = Strings.Loading[UserSettings.CurrentLang];
   PreLoader.append(PreLoaderIcon, PreLoaderText);
   document.body.append(PreLoader);
@@ -77,11 +98,12 @@ function LoadSave() {
   if (CheckForSave("Themes")) {
     AppObj.Themes = JSON.parse(localStorage.getItem("Themes"));
   }
-  if (CheckForSave("AppElementsObjClone")) {
-    let AppElementsObjClone = JSON.parse(localStorage.getItem("AppElementsObjClone"));
+  if (CheckForSave("UserThemes")) {
+    let UserThemes = JSON.parse(localStorage.getItem("UserThemes"));
+    console.log(UserThemes);
     const OrgonizeObjects = () => {
-      let Entries = Object.entries(AppElementsObj);
-      let CloneEntries = Object.entries(AppElementsObjClone);
+      let Entries = Object.entries(ThemeObj);
+      let CloneEntries = Object.entries(UserThemes);
       for (let k in Entries) {
         Entries[k][1].Order = k;
         let Match = CloneEntries.find((Item) => {
@@ -92,68 +114,68 @@ function LoadSave() {
       CloneEntries.sort((A, B) => {
         return +A[1].Order > +B[1].Order;
       });
-      AppElementsObj = Object.fromEntries(Entries);
-      AppElementsObjClone = Object.fromEntries(CloneEntries);
+      ThemeObj = Object.fromEntries(Entries);
+      UserThemes = Object.fromEntries(CloneEntries);
     };
     OrgonizeObjects();
-    let Entries = Object.entries(AppElementsObj);
-    let CloneEntries = Object.entries(AppElementsObjClone);
+    let Entries = Object.entries(ThemeObj);
+    let CloneEntries = Object.entries(UserThemes);
     let Condition1 = Entries.every((Item) => {
-      return AppElementsObjClone[Item[0]];
+      return UserThemes[Item[0]];
     });
     let Condition2 = CloneEntries.every((Item) => {
-      return AppElementsObj[Item[0]];
+      return ThemeObj[Item[0]];
     });
-    console.log("Entries");
+    console.log("Main themes object entries");
     console.table(Entries);
-    console.log("Clone Entries");
+    console.log("User themes object entries");
     console.table(CloneEntries);
-    console.log(`Clone object has all the properties of main object : ${Condition1}`);
-    console.log(`Clone object has deprecated properties : ${!Condition2}`);
+    console.log(`User themes object has all the properties of main object : ${Condition1}`);
+    console.log(`User themes object has deprecated properties : ${!Condition2}`);
     console.log("Are two objects equal in properties ? ", Condition1 && Condition2);
     if (!Condition2) {
       let DeprecatedProperties = [];
-      for (let i in AppElementsObjClone) {
-        if (!AppElementsObj[i]) {
-          DeprecatedProperties.push(AppElementsObjClone[i]);
-          delete AppElementsObjClone[i];
-          localStorage.setItem("AppElementsObjClone", JSON.stringify(AppElementsObjClone));
+      for (let i in UserThemes) {
+        if (!ThemeObj[i]) {
+          DeprecatedProperties.push(UserThemes[i]);
+          delete UserThemes[i];
+          localStorage.setItem("UserThemes", JSON.stringify(UserThemes));
         }
       }
-      console.log(`Deprecated properties were found in the clone object by comparing the clone object to main object
-        and all of them were removed from the clone object`);
+      console.log(`Deprecated properties were found in the user themes theme by comparing the user themes object to main themes object
+        and all of them were removed from the user themes object`);
       console.log("Deprecated properties array : ");
       console.table(DeprecatedProperties);
     }
     if (!Condition1) {
       let NewProperties = [];
-      for (let i in AppElementsObj) {
-        if (!AppElementsObjClone[i]) {
-          NewProperties.push(AppElementsObj[i]);
-          AppElementsObjClone[i] = AppElementsObj[i];
-          localStorage.setItem("AppElementsObjClone", JSON.stringify(AppElementsObjClone));
+      for (let i in ThemeObj) {
+        if (!UserThemes[i]) {
+          NewProperties.push(ThemeObj[i]);
+          UserThemes[i] = ThemeObj[i];
+          localStorage.setItem("UserThemes", JSON.stringify(UserThemes));
         }
       }
-      console.log(`New properties were added to the main object that did not existed in the clone object so all of 
+      console.log(`New properties were added to the main themes object that did not existed in the user themes object so all of 
         those properties were created by the app.`);
       console.log(`New properties : `);
       console.table(NewProperties);
     }
     // Syncing themes , if you added a t
-    for (let i in AppElementsObjClone) {
+    for (let i in UserThemes) {
       for (let j of AppObj.Themes) {
-        if (!AppElementsObjClone[i].Themes[j]) {
-          AppElementsObjClone[i].Themes[j] = AppElementsObjClone[i].Themes.Dark;
-          localStorage.setItem("AppElementsObjClone", JSON.stringify(AppElementsObjClone));
+        if (!UserThemes[i].Themes[j]) {
+          UserThemes[i].Themes[j] = UserThemes[i].Themes.Dark;
+          localStorage.setItem("UserThemes", JSON.stringify(UserThemes));
         }
       }
     }
-    AppElementsObj = AppElementsObjClone;
-    console.log(`The main object and clone object are synced and aligned together now.`);
-    console.log("Main Object : ");
-    console.table(AppElementsObj);
-    console.log("Clone Object : ");
-    console.table(AppElementsObjClone);
+    ThemeObj = UserThemes;
+    console.log(`The main themes object and user themes object are synced and aligned together now.`);
+    console.log("Main themes object : ");
+    console.table(ThemeObj);
+    console.log("User themes object : ");
+    console.table(UserThemes);
   }
 }
 function ShortCutManager(Event) {
@@ -179,8 +201,8 @@ function ShortCutManager(Event) {
   }
 }
 function ReLoadWarning(Event) {
-  let AppElementsObjClone = JSON.parse(localStorage.getItem("AppElementsObjClone"));
-  if (AppElementsObjClone !== AppElementsObj) {
+  let UserThemes = JSON.parse(localStorage.getItem("UserThemes"));
+  if (UserThemes !== ThemeObj) {
     let Confirm = confirm("you haven't applied changes to UI are you sure you want to reload the page ? ");
     if (Confirm) window.location.reload();
   }

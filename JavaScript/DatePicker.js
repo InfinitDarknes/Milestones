@@ -527,7 +527,7 @@ function HighLightSelectedDay(ID) {
   });
   const SelectedDay = document.getElementById(ID);
   SelectedDay.classList.add("selected-day");
-  SelectedDay.style.backgroundColor = HoverColor[UserSettings.Theme];
+  SelectedDay.style.backgroundColor = ThemeObj.Hovered.Themes[UserSettings.Theme].BgColor;
   SelectedDay.style.transform = "scale(1.1)";
 }
 window.addEventListener("resize", () => {
