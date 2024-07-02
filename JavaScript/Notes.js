@@ -1,17 +1,20 @@
 let NotesArray = [];
-function NewNoteConstructor(ID, NumericDate, Title, Text) {
-  this.ID = ID;
-  this.Title = Title;
-  this.NumericDate = NumericDate;
-  this.Text = Text;
+function NewNoteConstructor(...Args) {
+  let [ID, NumericDate, Title, Text] = Args;
+  return {
+    ID,
+    Title,
+    NumericDate,
+    Text,
+  };
 }
 function NewNote(Title, Text) {
   let NoteTitle = Title;
   let NoteID = `Note-${GenerateUniqeID(5)}`;
-  let NotenumericDate = new Date().getTime();
-  let NewNote = new NewNoteConstructor(NoteID, NotenumericDate, NoteTitle, Text);
+  let NoteNumericDate = new Date().getTime();
+  let NewNote = NewNoteConstructor(NoteID, NoteNumericDate, NoteTitle, Text);
   NotesArray.push(NewNote);
-  SaveNotes();
+  Save("Notes");
   DisplayNotesIntoDOM();
 }
 function DeleteNote(ID) {
@@ -20,11 +23,8 @@ function DeleteNote(ID) {
   });
   NotesArray.splice(NoteIndex, 1);
   HideModal();
-  SaveNotes();
+  Save("Notes");
   DisplayNotesIntoDOM();
-}
-function SaveNotes() {
-  localStorage.setItem("Notes", JSON.stringify(NotesArray));
 }
 function LoadSavedNotes() {
   if (localStorage.getItem("Notes")) {
@@ -115,7 +115,7 @@ function ApplyEdit(NoteID) {
   } else {
     TargetNote.Title = NoteModalTitle.innerText;
   }
-  SaveNotes();
+  Save("Notes");
   DisplayNotesIntoDOM();
   ExitNoteEditMode();
 }

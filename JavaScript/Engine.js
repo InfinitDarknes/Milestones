@@ -18,6 +18,7 @@ function InitializeApp() {
   LoadAppComponents();
   ShowDateAndClock();
   setInterval(GetTime, 1000);
+  setInterval(ShowDateAndClock, 1000);
   InsertRules();
   AutoWriter();
 }
@@ -79,26 +80,38 @@ function CheckForSave(Item) {
   else return false;
 }
 function LoadSave() {
-  UserSettings.CurrentLang = localStorage.getItem("Lang") ? localStorage.getItem("Lang") : "en";
-  UserSettings.Theme = localStorage.getItem("Theme") && AppObj.Themes.includes(localStorage.getItem("Theme")) ? localStorage.getItem("Theme") : "Dark";
-  document.body.className = UserSettings.Theme;
-  UserSettings.Calendar = localStorage.getItem("DatePickerType") ? localStorage.getItem("DatePickerType") : "Gregorian";
-  DatePickerSettings.type = localStorage.getItem("DatePickerType") ? localStorage.getItem("DatePickerType") : "Gregorian";
-  UserSettings.Brightness = localStorage.getItem("Brightness") ? localStorage.getItem("Brightness") : 100;
-  const Overlay = document.getElementById("overlay");
-  Overlay.style.opacity = 100 - UserSettings.Brightness + "%";
-
   if (CheckForSave("AllTasks")) {
     AllTasksArray = JSON.parse(localStorage.getItem("AllTasks"));
     AllTasksArray.forEach((Task) => {
       Task.Selected = false;
     });
   }
-  if (CheckForSave("UserCategories")) UserCategoriesArray = JSON.parse(localStorage.getItem("UserCategories"));
+  if (CheckForSave("UserCategories")) {
+    UserCategoriesArray = JSON.parse(localStorage.getItem("UserCategories"));
+  }
   if (CheckForSave("Themes")) {
     AppObj.Themes = JSON.parse(localStorage.getItem("Themes"));
   }
-  if (CheckForSave("UserThemes")) {
+  KeepUpWithUpdates();
+  UserSettings.CurrentLang = localStorage.getItem("Lang") ?? "en";
+
+  UserSettings.Theme = localStorage.getItem("Theme") && AppObj.Themes.includes(localStorage.getItem("Theme")) ? localStorage.getItem("Theme") : "Dark";
+  document.body.className = UserSettings.Theme;
+
+  UserSettings.Calendar = localStorage.getItem("DatePickerType") ?? "Gregorian";
+  DatePickerSettings.type = localStorage.getItem("DatePickerType") ?? "Gregorian";
+
+  UserSettings.Brightness = localStorage.getItem("Brightness") ?? 100;
+  const Overlay = document.getElementById("overlay");
+  Overlay.style.opacity = 100 - UserSettings.Brightness + "%";
+}
+function KeepUpWithUpdates() {
+  console.log(AllTasksArray);
+  /* sometimes a new property is added to the app objects or the objects representing tasks
+  but that property is not included in previously created tasks or objects so here we check
+  these stuff and try to add/remove properties. */
+  const CheckThemeObj = function () {
+    if (!CheckForSave("UserThemes")) return;
     let UserThemes = JSON.parse(localStorage.getItem("UserThemes"));
     console.log(UserThemes);
     const OrgonizeObjects = () => {
@@ -176,7 +189,20 @@ function LoadSave() {
     console.table(ThemeObj);
     console.log("User themes object : ");
     console.table(UserThemes);
-  }
+  };
+  const CheckTasksObject = function () {
+    for (let i in AllTasksArray) {
+      for (let j in AppObj.RequiredTaskObjProperties) {
+        if (AllTasksArray[i][j] === undefined) {
+          console.log(j);
+          AllTasksArray[i][j] = AppObj.RequiredTaskObjProperties[j];
+        }
+      }
+    }
+    Save("Tasks");
+  };
+  CheckThemeObj();
+  CheckTasksObject();
 }
 function ShortCutManager(Event) {
   const SearchBar = document.getElementById("search-bar");

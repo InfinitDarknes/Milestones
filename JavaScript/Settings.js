@@ -1,11 +1,6 @@
 const UserSettings = {
   CurrentLang: null,
-  AutoWriter: null,
-  SideBar: null,
-  TopBar: null,
-  AutoBackUp: null,
   Calendar: null,
-  ClockFormat: null,
   Brightness: null,
   Theme: null,
 };
@@ -133,7 +128,10 @@ function DisplaySettings() {
   ThemeSettingTitle.className = "setting-title";
   ThemeSettingTitle.id = "theme-setting-title";
   ThemeSettingSelectBox.className = "setting-select-box";
-  ThemeSettingSelectBox.addEventListener("change", () => ThemeSwitcher(ThemeSettingSelectBox.value));
+  ThemeSettingSelectBox.addEventListener("change", () => {
+    console.log(ThemeSettingSelectBox.value);
+    ThemeSwitcher(ThemeSettingSelectBox.value);
+  });
   ThemeSettingTitle.innerText = Strings.ThemeSetting[UserSettings.CurrentLang];
   ThemeSettingContainer.append(ThemeSettingTitle, ThemeSettingSelectBox);
   SettingItemsContainer.append(ThemeSettingContainer);
@@ -205,6 +203,7 @@ function DatePickerSwitcher(Type) {
   UserSettings.Calendar = Type;
   DatePickerSettings.type = Type;
   localStorage.setItem("DatePickerType", Type);
+  UpdateInbox();
 }
 function DisplayUserSettingIntoDom() {
   // Lang
@@ -235,6 +234,7 @@ function DisplayUserSettingIntoDom() {
   }
   // Theme
   const Theme = document.querySelector(`#${UserSettings.Theme.toLowerCase()}-theme-option`);
+  console.log(Theme);
   Theme.selected = true;
   // Brightness
   if (UserSettings.Brightness) {

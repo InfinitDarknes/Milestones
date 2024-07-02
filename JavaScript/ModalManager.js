@@ -843,7 +843,16 @@ function BackUpModal() {
     const CopyButton = document.createElement("button");
     CopyButton.className = "copy-to-clipboard-button green-btn text";
     CopyButton.innerText = Strings.CopyButton[UserSettings.CurrentLang];
-    CopyButton.addEventListener("click", () => navigator.clipboard.writeText(FetchLocalStorge()));
+    CopyButton.addEventListener("click", () => {
+      navigator.clipboard
+        .writeText(FetchLocalStorge())
+        .then(() => {
+          DisplayMessage("Success", "Copied to clipboard successfully");
+        })
+        .catch((Error) => {
+          DisplayMessage("Error", Error);
+        });
+    });
     ModalSubPage.append(ModalTitle, ModalDescription, ModalTextArea, CopyButton, ReturnButton);
     ModalContainer.append(ModalSubPage);
   });

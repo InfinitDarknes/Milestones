@@ -9,6 +9,19 @@ let AppObj = {
     /^(Trash-(All|Today|Tomorrow|In2Days)|Home-(Unfinished|Today|Tomorrow|In2Days|Failed|Completed)|Notes|UserCategory-[0-9]{8}-(Unfinished|Today|Tomorrow|In2Days|Completed|Failed))$/,
   UserCategoryPattern: /^UserCategory-[0-9]{8}$/,
   ThemePattern: /^[a-zA-Z0-9]+$/,
+  RequiredTaskObjProperties: {
+    Descryption: false,
+    ID: null,
+    IsTaskCompleted: false,
+    IsTaskFailed: false,
+    IsTaskPinned: true,
+    IsTaskTrashed: false,
+    NumericDate: null,
+    OnlyShowInCategory: false,
+    Selected: false,
+    Title: "",
+    UserCategory: "none",
+  },
 };
 let ProxyHandler = {
   get: function (target, property) {

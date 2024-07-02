@@ -244,14 +244,15 @@ function ThemeTweakerModal() {
     }
     AppObj.Themes.push(Name);
     SelectedTheme = Name;
-    ApplyNewTheme();
+    ApplyChanges();
     CreateThemeBar();
     CreateThemeModeOptions();
     HighLightSelectedThemeBtn(`${SelectedTheme}-theme-btn`);
   };
-  const ApplyNewTheme = () => {
+  const ApplyChanges = () => {
     localStorage.setItem("UserThemes", JSON.stringify(UserThemes));
     localStorage.setItem("Themes", JSON.stringify(AppObj.Themes));
+    DisplayMessage("Success", "Changes has been applied");
   };
   const DeleteTheme = (Theme) => {
     if (Theme === "Dark" || Theme === "Light") {
@@ -270,7 +271,7 @@ function ThemeTweakerModal() {
     CreateThemeBar();
     CreateThemeModeOptions();
     HighLightSelectedThemeBtn("dark-theme-btn");
-    ApplyNewTheme();
+    ApplyChanges();
   };
   const CreateDeleteThemeWarning = () => {
     if (document.querySelector(".theme-tweaker-warning")) {
@@ -356,7 +357,7 @@ function ThemeTweakerModal() {
     ThemeTweakerModal.append(NewThemeForm);
   };
   // Events
-  ApplyButton.addEventListener("click", ApplyNewTheme);
+  ApplyButton.addEventListener("click", ApplyChanges);
   DefualtPalletButton.addEventListener("click", () => {
     localStorage.removeItem("UserThemes");
     window.location.reload();

@@ -26,7 +26,7 @@ function AddTask() {
   let OnlyShowInCategory = false; // only for now
   let NewTask = NewTaskConstructor(ID, Title, NumericDate, UserCategory, OnlyShowInCategory);
   AllTasksArray.push(NewTask);
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 function DeleteTask(ID) {
@@ -46,7 +46,7 @@ function DeleteTask(ID) {
     let Index = FindIndexOfTask(ID);
     AllTasksArray.splice(Index, 1);
   }
-  SaveAll();
+  Save("Tasks");
   setTimeout(() => {
     UpdateInbox();
   }, 500);
@@ -60,7 +60,7 @@ function FailTask(ID) {
     Task.IsTaskTrashed = false;
     Task.Selected = false;
   });
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 function CompleteTask(ID) {
@@ -72,7 +72,7 @@ function CompleteTask(ID) {
     Task.IsTaskTrashed = false;
     Task.Selected = false;
   });
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 function MoveToTrash(ID) {
@@ -84,7 +84,7 @@ function MoveToTrash(ID) {
     Task.IsTaskTrashed = true;
     Task.Selected = false;
   });
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 function LocalizeTask(ID) {
@@ -106,50 +106,19 @@ function LocalizeTask(ID) {
     Task.OnlyShowInCategory = !Task.OnlyShowInCategory;
     Task.Selected = false;
   }
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 // Restore Tasks
-function RestoreFromCompleted(ID) {
-  if (AppObj.SelectMode) {
-    ReturnSelectedTasks().forEach((Task) => {
-      Task.IsTaskCompleted = false;
-      Task.Selected = false;
-    });
-  } else {
-    let Task = AllTasksArray[FindIndexOfTask(ID)];
-    Task.IsTaskCompleted = false;
+function RestoreTasks(ID) {
+  let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
+  SelectedTasks.forEach((Task) => {
+    if (Task.IsTaskCompleted) Task.IsTaskCompleted = false;
+    if (Task.IsTaskFailed) Task.IsTaskFailed = false;
+    if (Task.IsTaskTrashed) Task.IsTaskTrashed = false;
     Task.Selected = false;
-  }
-  SaveAll();
-  UpdateInbox();
-}
-function RestoreFromFailed(ID) {
-  if (AppObj.SelectMode) {
-    ReturnSelectedTasks().forEach((Task) => {
-      Task.IsTaskFailed = false;
-      Task.Selected = false;
-    });
-  } else {
-    let Task = AllTasksArray[FindIndexOfTask(ID)];
-    Task.IsTaskFailed = false;
-    Task.Selected = false;
-  }
-  SaveAll();
-  UpdateInbox();
-}
-function RestoreFromTrash(ID) {
-  if (AppObj.SelectMode) {
-    ReturnSelectedTasks().forEach((Task) => {
-      Task.IsTaskTrashed = false;
-      Task.Selected = false;
-    });
-  } else {
-    let Task = AllTasksArray[FindIndexOfTask(ID)];
-    Task.IsTaskTrashed = false;
-    Task.Selected = false;
-  }
-  SaveAll();
+  });
+  Save("Tasks");
   UpdateInbox();
 }
 // sort and show user-categorized tasks and category page
@@ -214,13 +183,13 @@ function ReturnTrashedTasks() {
 function SortNewestTasks() {
   let SortedArray = AllTasksArray.sort((A, B) => B.NumericDate - A.NumericDate);
   AllTasksArray = SortedArray;
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 function SortOldestTasks() {
   let SortedArray = AllTasksArray.sort((A, B) => A.NumericDate - B.NumericDate);
   AllTasksArray = SortedArray;
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 // show sorted tasks in DOM
@@ -287,7 +256,7 @@ function MoveToPreviousDay(ID) {
   let NumericPreviousDay = TaskNumericDate - 24 * 60 * 60 * 1000;
   if (UserSettings.Calendar === "Solar") Task.NumericDate = NumericPreviousDay;
   if (UserSettings.Calendar === "Gregorian") Task.NumericDate = NumericPreviousDay;
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 function MoveToNextDay(ID) {
@@ -296,7 +265,7 @@ function MoveToNextDay(ID) {
   let NumericNextDay = TaskNumericDate + 24 * 60 * 60 * 1000;
   if (UserSettings.Calendar === "Solar") Task.NumericDate = NumericNextDay;
   if (UserSettings.Calendar === "Gregorian") Task.NumericDate = NumericNextDay;
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 function MoveToToday(ID) {
@@ -304,8 +273,8 @@ function MoveToToday(ID) {
   let NumericToday = new Date().getTime();
   if (UserSettings.Calendar === "Solar") Task.NumericDate = NumericToday;
   if (UserSettings.Calendar === "Gregorian") Task.NumericDate = NumericToday;
+  Save("Tasks");
   UpdateInbox();
-  SaveAll();
 }
 function MoveToTomorrow(ID) {
   let Task = AllTasksArray[FindIndexOfTask(ID)];
@@ -313,7 +282,7 @@ function MoveToTomorrow(ID) {
   let NumericTomorrow = NumericToday + 24 * 60 * 60 * 1000;
   if (UserSettings.Calendar === "Solar") Task.NumericDate = NumericTomorrow;
   if (UserSettings.Calendar === "Gregorian") Task.NumericDate = NumericTomorrow;
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 function MoveIn2Days(ID) {
@@ -322,7 +291,7 @@ function MoveIn2Days(ID) {
   let NumericIn2Days = NumericToday + 48 * 60 * 60 * 1000;
   if (UserSettings.Calendar === "Solar") Task.NumericDate = NumericIn2Days;
   if (UserSettings.Calendar === "Gregorian") Task.NumericDate = NumericIn2Days;
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 // Select/Deselect
@@ -430,12 +399,12 @@ function PinTask(ID) {
   }).length;
   if (NumberOfPinnedTasks > 5) return;
   AllTasksArray[FindIndexOfTask(ID)].IsTaskPinned = true;
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 function UnPinTask(ID) {
   AllTasksArray[FindIndexOfTask(ID)].IsTaskPinned = false;
-  SaveAll();
+  Save("Tasks");
   UpdateInbox();
 }
 // other
@@ -492,9 +461,20 @@ function UpdateInbox() {
   ExitSelectMode();
 }
 // Saving
-function SaveAll() {
-  localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-  localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
+function Save(Type) {
+  switch (Type) {
+    case "Tasks":
+      localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
+      break;
+    case "UGC":
+      localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
+      break;
+    case "Notes":
+      console.log(NotesArray);
+      localStorage.setItem("Notes", JSON.stringify(NotesArray));
+      break;
+  }
+  return `Saved ${Type} successfully`;
 }
 // Searching
 function Search(KeyWord) {

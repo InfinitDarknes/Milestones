@@ -27,7 +27,7 @@ function AddCategory() {
   let Icon = TempUserCategoryInfo.Icon;
   let ID = "UserCategory-" + GenerateUniqeID(8);
   UserCategoriesArray.push(NewCategoryConstructor(ID, Name, Color, Icon));
-  SaveAll();
+  Save("UGC");
   DisplayUserCategories();
   ResetTempUserCategoryInfo();
   DisplayMessage("Success", MessageBoxStrings.CategorySuccess[UserSettings.CurrentLang]);
@@ -45,7 +45,7 @@ function DeleteCategory(ID) {
     let Index = UserCategoriesArray.indexOf(Category);
     UserCategoriesArray.splice(Index, 1);
   });
-  SaveAll();
+  Save("UGC");
   DisplayUserCategories();
   DisplayHomeWindow();
 }

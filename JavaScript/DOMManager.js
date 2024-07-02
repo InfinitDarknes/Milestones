@@ -155,7 +155,7 @@ function AddDragAndDropEvents(Element, TargetWindow, Type, UserCategoryID) {
       ChangeWindow(TargetWindow);
       HighLightSelectedSortButton(Element.id);
     }
-    SaveAll();
+    Save("Tasks");
   });
 }
 // App components
@@ -509,8 +509,8 @@ function ReturnUserCategoryWindow(ID) {
   let SelectedCategory = UserCategoriesArray.find((Category) => {
     return Category.ID === ID;
   });
-  let Name = SelectedCategory.Name;
-  let Icon = SelectedCategory.Icon;
+  console.log(SelectedCategory);
+  let { Name, Icon } = SelectedCategory;
   // Define elements
   const UserCategoryPage = document.createElement("section");
   const UserCategoryPageHeader = document.createElement("header");
@@ -826,39 +826,25 @@ function DisplaySelectModeBar() {
   MoveToTrashButton.addEventListener("click", MoveToTrash);
   FailButton.addEventListener("click", FailTask);
   CompleteButton.addEventListener("click", CompleteTask);
+  RestoreButton.addEventListener("click", RestoreTasks);
   // Append
   SelectBar.append(ExistSelectModeButton, SelectedItemsElem, DeleteButton);
-  switch (AppObj.CurrentWindow) {
-    case "Trash-All":
-    case "Trash-Today":
-    case "Trash-Tomorrow":
-    case "Trash-In2Days":
-      SelectBar.append(RestoreButton);
-      RestoreButton.addEventListener("click", RestoreFromTrash);
-      DeleteButton.addEventListener("click", () => DeleteModal("Trashed"));
-      break;
-    case "Home-Unfinished":
-    case "Home-Today":
-    case "Home-Tomorrow":
-    case "Home-In2Days":
-    case "UserCategory-Unfinished":
-    case "UserCategory-Today":
-    case "UserCategory-Tomorrow":
-    case "UserCategory-In2Days":
-      SelectBar.append(MoveToTrashButton, FailButton, CompleteButton);
-      DeleteButton.addEventListener("click", () => DeleteModal("Normal"));
-      break;
-    case "Home-Failed":
-      SelectBar.append(MoveToTrashButton, RestoreButton);
-      RestoreButton.addEventListener("click", RestoreFromFailed);
-      DeleteButton.addEventListener("click", () => DeleteModal("Failed"));
-      break;
-    case "Home-Completed":
-      SelectBar.append(MoveToTrashButton, FailButton, RestoreButton);
-      RestoreButton.addEventListener("click", RestoreFromCompleted);
-      DeleteButton.addEventListener("click", () => DeleteModal("Completed"));
-      break;
-  } //Append
+  if (AppObj.CurrentWindow.includes("UserCategory") || ["Home-Unfinished", "Home-Today", "Home-Tomorrow", "Home-In2Days"].includes(AppObj.CurrentWindow)) {
+    SelectBar.append(MoveToTrashButton, FailButton, CompleteButton);
+    DeleteButton.addEventListener("click", () => DeleteModal("Normal"));
+  }
+  if (AppObj.CurrentWindow.includes("Trash")) {
+    SelectBar.append(RestoreButton);
+    DeleteButton.addEventListener("click", () => DeleteModal("Trashed"));
+  }
+  if (AppObj.CurrentWindow === "Home-Failed") {
+    DeleteButton.addEventListener("click", () => DeleteModal("Failed"));
+    SelectBar.append(MoveToTrashButton, RestoreButton);
+  }
+  if (AppObj.CurrentWindow === "Home-Completed") {
+    SelectBar.append(MoveToTrashButton, FailButton, RestoreButton);
+    DeleteButton.addEventListener("click", () => DeleteModal("Completed"));
+  }
   document.body.append(SelectBar);
 }
 function HideSelectModeBar() {

@@ -210,16 +210,8 @@ function DisplayTaskContextMenu(Event, TargetType) {
   RestoreTaskIcon.src = "../Icons/loop-left-line.svg";
   RestoreTaskText.innerText = Strings.RestoreTask[UserSettings.CurrentLang];
   RestoreTaskButton.addEventListener("click", () => {
-    if (Target.IsTaskTrashed) {
-      AppObj.SelectMode ? RestoreFromTrash() : RestoreFromTrash(Event.target.id);
-      HideContextMenu();
-    } else if (!Target.IsTaskTrashed && Target.IsTaskCompleted) {
-      AppObj.SelectMode ? RestoreFromCompleted() : RestoreFromCompleted(Event.target.id);
-      HideContextMenu();
-    } else if (!Target.IsTaskTrashed && Target.IsTaskFailed) {
-      AppObj.SelectMode ? RestoreFromFailed() : RestoreFromFailed(Event.target.id);
-      HideContextMenu();
-    }
+    RestoreTasks(Event.target.id);
+    HideContextMenu();
   });
   RestoreTaskButton.append(RestoreTaskText, RestoreTaskIcon);
   // Move to trash Button
