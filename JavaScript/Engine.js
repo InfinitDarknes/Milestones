@@ -56,11 +56,6 @@ function PreLoader() {
   PreLoaderIcon.src = IconsSrc.PreLoaderGif[UserSettings.Theme];
   const PreLoaderText = document.createElement("span");
   PreLoaderText.className = "preloader-text text";
-  let counter = 0;
-  for (let i in Strings) {
-    counter++;
-  }
-  console.log(counter);
   PreLoaderText.innerText = Strings.Loading[UserSettings.CurrentLang];
   PreLoader.append(PreLoaderIcon, PreLoaderText);
   document.body.append(PreLoader);
