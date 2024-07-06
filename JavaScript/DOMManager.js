@@ -265,7 +265,7 @@ function ReturnSidebar() {
   HomeButtonText.className = "side-bar-item-text text";
 
   HomeButtonIcon.src = "../Icons/home-line.svg";
-  HomeButtonText.innerText = Strings.HomeButton[UserSettings.CurrentLang];
+  HomeButtonText.innerText = Strings.Home[UserSettings.CurrentLang];
   HomeButton.addEventListener("click", DisplayHomeWindow);
   HomeButton.append(HomeButtonIcon, HomeButtonText);
   // New task button
@@ -278,7 +278,7 @@ function ReturnSidebar() {
   NewTaskButtonText.className = "side-bar-item-text text";
 
   NewTaskButtonIcon.src = "../Icons/task-line.svg";
-  NewTaskButtonText.innerText = Strings.NewTaskButton[UserSettings.CurrentLang];
+  NewTaskButtonText.innerText = Strings.NewTask[UserSettings.CurrentLang];
 
   NewTaskButton.addEventListener("click", NewTaskModal);
   NewTaskButton.append(NewTaskButtonIcon, NewTaskButtonText);
@@ -293,7 +293,7 @@ function ReturnSidebar() {
 
   NewCategoryButton.addEventListener("click", NewCategoryModal);
   NewCategoryButtonIcon.src = "../Icons/apps-2-add-line.svg";
-  NewCategoryButtonText.innerText = Strings.NewCategoryButton[UserSettings.CurrentLang];
+  NewCategoryButtonText.innerText = Strings.NewCategory[UserSettings.CurrentLang];
   NewCategoryButton.append(NewCategoryButtonIcon, NewCategoryButtonText);
   // Calendar Button
   const Analysis = document.createElement("button");
@@ -763,14 +763,6 @@ function DisplayNoResultBox(Text) {
   // Appending to DOM
   EmptyBoxIconContainer.append(EmptyBoxIcon, EmptyBoxText);
   ListSection.append(EmptyBoxIconContainer);
-}
-function ScrollRight(Selector) {
-  const Target = document.querySelector(Selector);
-  Target.scrollLeft += 100;
-}
-function ScrollLeft(Selector) {
-  const Target = document.querySelector(Selector);
-  Target.scrollLeft -= 100;
 }
 function HighLightSelectedSortButton(ID) {
   const SortButton = document.querySelectorAll(".sort-buttons");

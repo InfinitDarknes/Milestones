@@ -17,17 +17,15 @@ function NewTaskConstructor(...Args) {
     OnlyShowInCategory: false,
   };
 }
-function AddTask() {
+function AddTask(...Args) {
+  let [Title, NumericDate, Category] = Args;
   let ID = "Task-" + GenerateUniqeID(5);
-  let Title = document.querySelector(".task-title-input").value;
-  let NumericDate = ExtractDate("Numeric");
-  let SelectBox = document.querySelector(".select-box");
-  let UserCategory = SelectBox.dataset.value;
   let OnlyShowInCategory = false; // only for now
-  let NewTask = NewTaskConstructor(ID, Title, NumericDate, UserCategory, OnlyShowInCategory);
+  let NewTask = NewTaskConstructor(ID, Title, NumericDate, Category, OnlyShowInCategory);
   AllTasksArray.push(NewTask);
   Save("Tasks");
   UpdateInbox();
+  DisplayMessage("Success", MessageBoxStrings.TaskSuccess[UserSettings.CurrentLang]);
 }
 function DeleteTask(ID) {
   if (AppObj.SelectMode) {
@@ -470,7 +468,6 @@ function Save(Type) {
       localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
       break;
     case "Notes":
-      console.log(NotesArray);
       localStorage.setItem("Notes", JSON.stringify(NotesArray));
       break;
   }

@@ -1,14 +1,12 @@
 .theme-tweaker-modal {
   direction: ltr;
   width: 30%;
-  border-radius: 5px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 50%;
+  top: 100px;
   left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 10000;
   background-color: #1a1b1d;
 }

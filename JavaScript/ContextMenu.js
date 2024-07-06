@@ -126,7 +126,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   EditTaskIcon.src = "../Icons/edit-circle-line.svg";
   EditTaskText.innerText = Strings.Edit[UserSettings.CurrentLang];
   EditTaskButton.addEventListener("click", () => {
-    EditModal(Event.target.id);
+    EditTaskModal(Event.target.id);
     HideContextMenu();
   });
   EditTaskButton.append(EditTaskText, EditTaskIcon);

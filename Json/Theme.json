@@ -384,10 +384,12 @@
     "Selector": ".modal",
     "Themes": {
       "Dark": {
-        "BgColor": "#171717"
+        "BgColor": "#171717",
+        "BorderColor": "#171717"
       },
       "Light": {
-        "BgColor": "#ffff80"
+        "BgColor": "#ffff80",
+        "BorderColor": "#171717"
       }
     },
     "Order": "28"
@@ -485,7 +487,7 @@
     "Order": "35"
   },
   "ModalBtn": {
-    "Selector": ".modal-button",
+    "Selector": ".modal-btn",
     "Themes": {
       "Dark": {
         "BgColor": "#393E46"

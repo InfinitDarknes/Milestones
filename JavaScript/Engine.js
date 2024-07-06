@@ -110,7 +110,7 @@ function KeepUpWithUpdates() {
   /* sometimes a new property is added to the app objects or the objects representing tasks
   but that property is not included in previously created tasks or objects so here we check
   these stuff and try to add/remove properties. */
-  const CheckThemeObj = function () {
+  const CheckThemeObj = () => {
     if (!CheckForSave("UserThemes")) return;
     let UserThemes = JSON.parse(localStorage.getItem("UserThemes"));
     console.log(UserThemes);
@@ -174,11 +174,20 @@ function KeepUpWithUpdates() {
       console.log(`New properties : `);
       console.table(NewProperties);
     }
-    // Syncing themes , if you added a t
+    // Syncing themes
     for (let i in UserThemes) {
       for (let j of AppObj.Themes) {
         if (!UserThemes[i].Themes[j]) {
           UserThemes[i].Themes[j] = UserThemes[i].Themes.Dark;
+          localStorage.setItem("UserThemes", JSON.stringify(UserThemes));
+        }
+      }
+    }
+    for (let i in UserThemes) {
+      for (let j in ThemeObj) {
+        if (i === j && UserThemes[i].Selector !== ThemeObj[j].Selector) {
+          console.log(`Deprecated selector at UserThemes : ${UserThemes[i].Selector}. replaced with ${ThemeObj[j].Selector}`);
+          UserThemes[i].Selector = ThemeObj[j].Selector;
           localStorage.setItem("UserThemes", JSON.stringify(UserThemes));
         }
       }
@@ -190,7 +199,7 @@ function KeepUpWithUpdates() {
     console.log("User themes object : ");
     console.table(UserThemes);
   };
-  const CheckTasksObject = function () {
+  const CheckTasksObject = () => {
     for (let i in AllTasksArray) {
       for (let j in AppObj.RequiredTaskObjProperties) {
         if (AllTasksArray[i][j] === undefined) {

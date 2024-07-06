@@ -1,9 +1,4 @@
 let UserCategoriesArray = [];
-let TempUserCategoryInfo = {
-  Name: null,
-  Color: null,
-  Icon: null,
-};
 function NewCategoryConstructor(...Args) {
   let [ID, Name, Color, Icon] = Args;
   return {
@@ -13,25 +8,13 @@ function NewCategoryConstructor(...Args) {
     Icon,
   };
 }
-function AddCategory() {
-  try {
-    if (!TempUserCategoryInfo.Name) throw MessageBoxStrings.EmptyCategoryTitle[UserSettings.CurrentLang];
-    if (!TempUserCategoryInfo.Color) throw MessageBoxStrings.SelectColor[UserSettings.CurrentLang];
-    if (!TempUserCategoryInfo.Icon) throw MessageBoxStrings.SelectIcon[UserSettings.CurrentLang];
-  } catch (Message) {
-    DisplayMessage("Error", Message);
-    return false;
-  }
-  let Name = TempUserCategoryInfo.Name;
-  let Color = TempUserCategoryInfo.Color;
-  let Icon = TempUserCategoryInfo.Icon;
+function AddCategory(...Args) {
+  let [Name, Color, Icon] = Args;
   let ID = "UserCategory-" + GenerateUniqeID(8);
   UserCategoriesArray.push(NewCategoryConstructor(ID, Name, Color, Icon));
   Save("UGC");
   DisplayUserCategories();
-  ResetTempUserCategoryInfo();
   DisplayMessage("Success", MessageBoxStrings.CategorySuccess[UserSettings.CurrentLang]);
-  return true;
 }
 function DeleteCategory(ID) {
   let FilteredTasks = AllTasksArray.filter((Task) => {
@@ -48,9 +31,4 @@ function DeleteCategory(ID) {
   Save("UGC");
   DisplayUserCategories();
   DisplayHomeWindow();
-}
-function ResetTempUserCategoryInfo() {
-  TempUserCategoryInfo.Name = null;
-  TempUserCategoryInfo.Color = null;
-  TempUserCategoryInfo.Icon = null;
 }

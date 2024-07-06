@@ -29,6 +29,7 @@
   padding: 15px;
   max-width: 100%;
   line-break: normal;
+  direction: ltr;
 }
 .msg-type-icon {
   width: 30px;

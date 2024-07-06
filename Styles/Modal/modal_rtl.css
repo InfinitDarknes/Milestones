@@ -5,30 +5,30 @@
   justify-content: flex-start;
   position: absolute;
   top: 100px;
+  left: 50%;
   z-index: 100;
   width: 350px;
   height: fit-content;
   padding: 10px;
-  border-top-right-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-width: 2px;
+  border-style: solid;
 }
-.modal-buttons-container {
-  order: 2;
+.date-input {
+  cursor: pointer;
+}
+.backup-modal-options {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
 }
 .modal-sub-page {
-  order: 1;
   width: calc(100% - 30px);
   padding: 0 15px 15px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.return-button {
+.return-btn {
   width: 100%;
   height: 40px;
   border-top-right-radius: 4px;
@@ -50,8 +50,8 @@
   text-align: justify;
   font-size: 1em;
 }
-.copy-to-clipboard-button,
-.restore-button {
+.copy-to-clipboard-btn,
+.restore-btn {
   width: 100%;
   height: 40px;
   border: 0;
@@ -59,27 +59,6 @@
   border-bottom-left-radius: 4px;
   font-size: 1em;
   margin: 5px 0;
-}
-.modal-buttons-container {
-  order: 2;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
-.modal-button {
-  width: 100%;
-  height: 60px;
-  padding: 10px;
-  border: 0;
-  margin: 10px 0;
-  border-top-right-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-.modal-button-text {
-  font-size: 1.3em;
-  font-family: Vazir;
 }
 .close-btn {
   display: flex;
@@ -93,14 +72,12 @@
   height: 35px;
 }
 .modal-text {
-  order: 2;
   font-size: 1.1em;
   padding: 10px;
   text-align: center;
   color: #dad6d6;
 }
 .move-to-trash-container {
-  order: 5;
   width: calc(100% - 20px);
   padding: 0 10px;
   display: flex;
@@ -108,21 +85,28 @@
   justify-content: flex-start;
   margin: 10px 0;
 }
-.move-to-trash-checkbox {
-  order: 1;
-}
 .move-to-trash-text {
-  order: 2;
   font-size: 1em;
 }
-.modal-button-container {
-  order: 7;
+.modal-btn-container {
   bottom: 0;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   padding-bottom: 15px;
+}
+.modal-btn {
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  border: 0;
+  margin: 10px 0;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.modal-btn-text {
+  font-size: 1.3em;
 }
 .confirm-btn,
 .cancel-btn {
@@ -134,12 +118,6 @@
   border-bottom-left-radius: 4px;
   transition: font-size 0.5s;
   margin: 8px;
-}
-.cancel-btn {
-  order: 2;
-}
-.confirm-btn {
-  order: 1;
 }
 .green-btn {
   background-color: rgb(64, 192, 87);
@@ -165,7 +143,6 @@
 }
 .select-category-section {
   position: relative;
-  order: 6;
   padding-top: 3px 0 0 1px;
 }
 .select-box {
@@ -310,7 +287,6 @@
   z-index: 50;
 }
 .modal-inputs-container {
-  order: 2;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -323,13 +299,19 @@
   cursor: pointer;
 }
 .pick-color-section {
-  order: 3;
   width: 100%;
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 10px 0;
+}
+.color-slider,
+.icon-slider {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .colors-container {
   width: calc(100% - 70px);
@@ -337,7 +319,7 @@
   grid-template-columns: repeat(24, 1fr);
   overflow-x: scroll;
   scrollbar-width: none;
-  padding: 35px 0 24px 0;
+  padding: 8px 0;
 }
 .color-pallet {
   width: 35px;
@@ -346,9 +328,8 @@
   border: 0;
   outline: 0;
   border-radius: 50%;
-  /* box-sizing: border-box; */
 }
-.slide-left-button {
+.slide-left-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -358,7 +339,7 @@
   height: 35px;
   background: none;
 }
-.slide-right-button {
+.slide-right-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -368,16 +349,14 @@
   height: 35px;
   background: none;
 }
-.slide-left-button img,
-.slide-right-button img {
+.slide-left-btn img,
+.slide-right-btn img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 .pick-icon-section {
-  order: 4;
   width: 100%;
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -389,7 +368,7 @@
   grid-template-columns: repeat(18, 1fr);
   overflow-x: scroll;
   scrollbar-width: none;
-  padding: 35px 0 24px 0;
+  padding: 8px 0;
 }
 .pick-category-icon-button {
   display: flex;

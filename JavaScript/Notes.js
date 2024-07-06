@@ -16,6 +16,7 @@ function NewNote(Title, Text) {
   NotesArray.push(NewNote);
   Save("Notes");
   DisplayNotesIntoDOM();
+  DisplayMessage("Success", MessageBoxStrings.NoteSuccess[UserSettings.CurrentLang]);
 }
 function DeleteNote(ID) {
   let NoteIndex = NotesArray.findIndex((Note) => {

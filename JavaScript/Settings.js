@@ -234,7 +234,6 @@ function DisplayUserSettingIntoDom() {
   }
   // Theme
   const Theme = document.querySelector(`#${UserSettings.Theme.toLowerCase()}-theme-option`);
-  console.log(Theme);
   Theme.selected = true;
   // Brightness
   if (UserSettings.Brightness) {

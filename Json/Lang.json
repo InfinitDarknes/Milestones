@@ -43,6 +43,10 @@
     "en": "Select",
     "fa": "انتخاب"
   },
+  "Create": {
+    "en": "Create",
+    "fa": "ساختن"
+  },
   "ItemsSelected": {
     "en": "Tasks are selected",
     "fa": "رویداد انتخاب شده است"
@@ -251,33 +255,17 @@
     "en": "Move to trash bin",
     "fa": "فرستادن به سطل زباله"
   },
-  "EditModalCancelButton": {
-    "en": "Cancel",
-    "fa": "برگشت"
-  },
-  "NewTaskModalConfirmButton": {
+  "Add": {
     "en": "Add",
     "fa": "افزودن"
   },
-  "NewTaskModalCancelButton": {
-    "en": "Cancel",
-    "fa": "برگشت"
-  },
-  "NewCategoryInputBadge": {
+  "Name": {
     "en": "Name",
     "fa": "نام"
   },
-  "NewCategoryTitleInputPlaceHolder": {
+  "WriteAName": {
     "en": "Write a name",
     "fa": "یک نام بنویسید"
-  },
-  "NewCategoryModalConfirmButton": {
-    "en": "Create",
-    "fa": "ساختن"
-  },
-  "NewCategoryModalCancelButton": {
-    "en": "Cancel",
-    "fa": "برگشت"
   },
   "PickColorBadge": {
     "en": "Background color",
@@ -287,15 +275,15 @@
     "en": "Category Icon",
     "fa": "آیکون دسته بندی"
   },
-  "HomeButton": {
+  "Home": {
     "en": "Home",
     "fa": "خانه"
   },
-  "NewTaskButton": {
+  "NewTask": {
     "en": "New task",
     "fa": "افزودن رویداد"
   },
-  "NewCategoryButton": {
+  "NewCategory": {
     "en": "New category",
     "fa": "افزودن دسته بندی"
   },

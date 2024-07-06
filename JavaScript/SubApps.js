@@ -74,6 +74,9 @@ function DoesElementExist(ID) {
   if (document.getElementById(ID)) return true;
   else return false;
 }
+function GetRandomNumber(Min, Max) {
+  return Math.floor(Math.random() * (Max - Min + 1)) + Min;
+}
 function GenerateUniqeID(Length) {
   const Min = Math.pow(10, Length - 1);
   const Max = Math.pow(10, Length) - 1;

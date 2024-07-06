@@ -87,7 +87,6 @@ function PickDays(Day) {
     LoadGregorianDateFromSolar();
   }
   if (DatePickerSettings.type === "Gregorian") DateObject.GregorianDay = Number(Day);
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
   UpdateDatePicker();
 }
 function LoadToday() {
@@ -106,7 +105,6 @@ function LoadToday() {
     DateObject.GregorianMonth = GregorianMonth;
     DateObject.GregorianDay = GregorianDay;
   }
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
   UpdateDatePicker();
 }
 function LoadTomorrow() {
@@ -128,7 +126,6 @@ function LoadTomorrow() {
     DateObject.GregorianMonth = GregorianMonth;
     DateObject.GregorianDay = GregorianDay;
   }
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
   UpdateDatePicker();
 }
 function LoadIn2Days() {
@@ -150,7 +147,6 @@ function LoadIn2Days() {
     DateObject.GregorianMonth = GregorianMonth;
     DateObject.GregorianDay = GregorianDay;
   }
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
   UpdateDatePicker();
 }
 function LoadNextMonth() {
@@ -175,7 +171,6 @@ function LoadNextMonth() {
     }
     if (DateObject.GregorianDay === 31) if (DateObject.GregorianMonth > 6) DateObject.GregorianDay = 30;
   }
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
   UpdateDatePicker();
 }
 function LoadPreviousMonth() {
@@ -198,7 +193,6 @@ function LoadPreviousMonth() {
     }
     if (DateObject.GregorianDay === 31) if (DateObject.GregorianMonth > 6) DateObject.GregorianDay = 30;
   }
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
   UpdateDatePicker();
 }
 function LoadGregorianDateFromSolar() {
@@ -226,7 +220,6 @@ function LoadCustomDate(NumericDate) {
     DateObject.GregorianMonth = GregorianMonth;
     DateObject.GregorianDay = GregorianDay;
   }
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
   UpdateDatePicker();
 }
 function ExtractDate(Request, DateType) {
@@ -423,6 +416,7 @@ function UpdateDatePicker() {
   const TimePicker = document.getElementById("time-picker");
   const Month = document.getElementById("month");
   const Year = document.getElementById("year");
+
   const DayButtons = document.querySelectorAll(".pick-day-button");
   let SolarMonthArray = ["", "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
   let GregorianMonthArray = [
@@ -452,10 +446,15 @@ function UpdateDatePicker() {
     Month.innerText = GregorianMonthArray[DateObject.GregorianMonth];
     HighLightSelectedDay(`Day-${DateObject.GregorianDay}`);
   }
+  TargetInput.dataset.numericdate = ExtractDate("Numeric");
   CheckDaysOfTheMonth(DayButtons);
   DisplayDateStringIntoInput(TargetInput);
-  if (!TimePicker) return;
-  UpdateTimePicker();
+  if (TimePicker) {
+    const TaskHourInput = document.getElementById("task-hour-input");
+    const TaskMinuteInput = document.getElementById("task-minute-input");
+    TaskHourInput.value = PlacePersianNumbers(DateObject.Hour.toString().padStart(2, "0"));
+    TaskMinuteInput.value = PlacePersianNumbers(DateObject.Minute.toString().padStart(2, "0"));
+  }
 }
 function CheckDaysOfTheMonth(DayButtons) {
   if (DatePickerSettings.type === "Solar") {
@@ -490,33 +489,22 @@ function DisplayDateStringIntoInput(TargetInput) {
 function IncreamentHour() {
   DateObject.Hour++;
   if (DateObject.Hour > 23) DateObject.Hour = 0;
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
-  UpdateTimePicker();
+  UpdateDatePicker();
 }
 function DecreamentHour() {
   DateObject.Hour--;
   if (DateObject.Hour < 0) DateObject.Hour = 23;
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
-  UpdateTimePicker();
+  UpdateDatePicker();
 }
 function IncreamentMinute() {
   DateObject.Minute++;
   if (DateObject.Minute > 59) DateObject.Minute = 0;
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
-  UpdateTimePicker();
+  UpdateDatePicker();
 }
 function DecreamentMinute() {
   DateObject.Minute--;
   if (DateObject.Minute < 0) DateObject.Minute = 59;
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
-  UpdateTimePicker();
-}
-function UpdateTimePicker() {
-  const TaskHourInput = document.getElementById("task-hour-input");
-  const TaskMinuteInput = document.getElementById("task-minute-input");
-  TaskHourInput.value = PlacePersianNumbers(DateObject.Hour.toString().padStart(2, "0"));
-  TaskMinuteInput.value = PlacePersianNumbers(DateObject.Minute.toString().padStart(2, "0"));
-  TargetInput.dataset.DateObject = JSON.stringify(DateObject);
+  UpdateDatePicker();
 }
 function HighLightSelectedDay(ID) {
   const DayButtons = document.querySelectorAll(".pick-day-button");

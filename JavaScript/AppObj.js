@@ -2,13 +2,28 @@ let AppObj = {
   SelectMode: false,
   EditMode: false,
   DragModalMode: false,
+  ActiveModalID: "",
   CurrentWindow: null,
   SelectedUserCategory: null,
   Themes: ["Dark", "Light"],
   ValidWindowInput:
     /^(Trash-(All|Today|Tomorrow|In2Days)|Home-(Unfinished|Today|Tomorrow|In2Days|Failed|Completed)|Notes|UserCategory-[0-9]{8}-(Unfinished|Today|Tomorrow|In2Days|Completed|Failed))$/,
+  ValidModalID: [
+    null,
+    ".edit-category-modal",
+    ".new-category-modal",
+    ".new-task-modal",
+    ".edit-task-modal",
+    ".add-note-modal",
+    ".read-note-modal",
+    ".delete-task-modal",
+    ".delete-category-modal",
+    ".theme-tweaker-modal",
+    ".backup-modal",
+  ],
   UserCategoryPattern: /^UserCategory-[0-9]{8}$/,
   ThemePattern: /^[a-zA-Z0-9]+$/,
+  ReadNoteModalIDPattern: /^\.read-Note-\d{5}-modal$/,
   RequiredTaskObjProperties: {
     Descryption: false,
     ID: null,
@@ -61,6 +76,14 @@ let ProxyHandler = {
         return true;
       } else {
         throw new Error("AppObj.DragModalMode property can only get boolean values.");
+      }
+    }
+    if (property === "ActiveModalID") {
+      if (AppObj.ValidModalID.includes(value) || AppObj.ReadNoteModalIDPattern.test(value)) {
+        target[property] = value;
+        return true;
+      } else {
+        throw new Error("AppObj.ValidModalID property can only get certain values. to view them look for AppObj.ValidModalID");
       }
     }
     if (property === "SelectedUserCategory") {
