@@ -781,7 +781,6 @@ function NewTaskModal() {
 
   Modal.append(InputsContainer);
   document.body.append(Modal);
-
   PositionModal(".new-task-modal");
   AddDragEventListenersToModal(".new-task-modal");
   CharacterLimit(".new-task-title-input-charlimit", ".new-task-title-input");

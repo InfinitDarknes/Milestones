@@ -491,10 +491,12 @@ function Search(KeyWord) {
     AppendTaskContainer(Matches);
   } else {
     // DOMManager.js
-    DisplayNoResultBox(`${Strings.NoResultFor[UserSettings.CurrentLang]} "${KeyWord}" ${Strings.WasFound[UserSettings.CurrentLang]} :(`);
+    EmptyBox(`${Strings.NoResultFor[UserSettings.CurrentLang]} "${KeyWord}" ${Strings.WasFound[UserSettings.CurrentLang]} :(`);
   }
 }
 function ExitFromSearchMode() {
+  const ListSection = document.querySelector(".list-section");
+  ListSection.style = "";
   UpdateInbox();
 }
 //
