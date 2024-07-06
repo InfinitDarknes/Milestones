@@ -62,13 +62,13 @@ function ShowDateAndClock() {
 function GetTime() {
   let TimeIcon = document.querySelector(".time-icon");
   let Time = document.querySelector(".time");
-  let Hour = new Date().getHours().toString().padStart(2, "0");
-  let Minutes = new Date().getMinutes().toString().padStart(2, "0");
-  let Seconds = new Date().getSeconds().toString().padStart(2, "0");
+  let Hour = new Date().getHours().toString();
+  let Minutes = new Date().getMinutes().toString();
+  let Seconds = new Date().getSeconds().toString();
   if (Hour === 0) Hour = 12;
-  Time.innerText = `${PlacePersianNumbers(Hour)} : ${PlacePersianNumbers(Minutes)} : ${PlacePersianNumbers(Seconds)}`;
-  if ((Hour > 0 && Hour < 5) || Hour >= 18 || Hour === 0) TimeIcon.src = "../Icons/moon-line.svg";
-  if (Hour > 5 && Hour < 18) TimeIcon.src = "../Icons/sun-line.svg";
+  Time.innerText = `${PlacePersianNumbers(Hour.padStart(2, "0"))} : ${PlacePersianNumbers(Minutes.padStart(2, "0"))} : ${PlacePersianNumbers(Seconds.padStart(2, "0"))}`;
+  if ((+Hour > 0 && +Hour < 5) || +Hour >= 18 || +Hour === 0) TimeIcon.src = "../Icons/moon-line.svg";
+  if (+Hour > 5 && +Hour < 18) TimeIcon.src = "../Icons/sun-line.svg";
 }
 function DoesElementExist(ID) {
   if (document.getElementById(ID)) return true;

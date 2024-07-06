@@ -500,7 +500,7 @@ function AddNoteModal() {
   Modal.append(InputsContainer);
   document.body.append(Modal);
 
-  PositionModal(`.read-${ID}-modal`);
+  PositionModal(`.add-note-modal`);
   AddDragEventListenersToModal(".add-note-modal");
   CharacterLimit(".note-title-input-charlimit", ".note-title-input");
 }
@@ -1757,6 +1757,12 @@ function AddDragEventListenersToModal(Selector) {
     return;
   }
   const Modal = document.querySelector(Selector);
+  Modal.addEventListener("click", () => {
+    document.querySelectorAll(".modal").forEach((AnotherModal) => {
+      AnotherModal.classList.remove("active");
+    });
+    Modal.classList.add("active");
+  });
   Modal.addEventListener("mousedown", (Event) => {
     if (!Event.target.className.includes("modal")) return;
     AppObj.DragModalMode = true;
