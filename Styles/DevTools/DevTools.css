@@ -1,5 +1,5 @@
 .theme-tweaker-modal {
-  direction: ltr;
+  direction: ltr !important;
   width: 30%;
   padding: 20px;
   display: flex;
@@ -7,12 +7,11 @@
   position: absolute;
   top: 100px;
   left: 50%;
-  z-index: 10000;
-  background-color: #1a1b1d;
 }
 /* themes Bar */
 .theme-bar {
   order: 2;
+  min-width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -50,8 +49,8 @@
   scrollbar-width: none;
   max-height: 500px;
   width: 100%;
-  border-top: 2px dotted rgba(218, 214, 214, 0.5);
-  border-bottom: 2px dotted rgba(218, 214, 214, 0.5);
+  border-top: 2px solid rgba(218, 214, 214, 0.5);
+  border-bottom: 2px solid rgba(218, 214, 214, 0.5);
 }
 /* each seperate section dedicated for an element */
 .theme-tweaker-modal-row {
@@ -61,7 +60,7 @@
   padding: 10px 0;
 }
 .theme-tweaker-modal-row:not(:last-child) {
-  border-bottom: 1px dotted rgba(218, 214, 214, 0.5);
+  border-bottom: 1px solid rgba(218, 214, 214, 0.5);
 }
 .theme-tweaker-modal-row-label {
   order: 1;
@@ -89,6 +88,9 @@
   background-color: #2e3843;
   color: #f72f2f;
 }
+.css-property-input.mini {
+  width: 80px;
+}
 .css-property-label {
   color: #c8f705;
   font-size: 1em;
@@ -102,7 +104,6 @@
   display: flex;
   padding: 20px;
   width: calc(100% - 40px);
-  background-color: #1a1b1d;
 }
 .theme-tweaker-modal-btn {
   font-size: 1em;

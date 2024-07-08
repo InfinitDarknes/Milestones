@@ -147,9 +147,37 @@
     "en": "ID",
     "fa": "آیدی"
   },
+  "Border": {
+    "en": "Border",
+    "fa": "کادر"
+  },
+  "BackgroundColor": {
+    "en": "Background color",
+    "fa": "رنگ پس زمینه"
+  },
+  "Color": {
+    "en": "Color",
+    "fa": "رنگ متن"
+  },
+  "TextOpacity": {
+    "en": "Text opacity",
+    "fa": "روشنایی متن"
+  },
+  "BackgroundOpacity": {
+    "en": "Background opacity",
+    "fa": "روشنایی پس زمینه"
+  },
+  "HoverBg": {
+    "en": "Hover background color",
+    "fa": "رنگ هاور پس زمینه"
+  },
   "SelectCategoryBadge": {
     "en": "Category",
     "fa": "دسته بندی"
+  },
+  "CustomizeTheme": {
+    "en": "Customize theme",
+    "fa": "شخصی سازی تم"
   },
   "CategoryNoneOption": {
     "en": "None",
@@ -223,7 +251,7 @@
     "en": "You have no completed tasks:(",
     "fa": "هیچ کار تمام شده ای نداری"
   },
-  "NofailedTaskMessage": {
+  "NoFailedTaskMessage": {
     "en": "You have no failed task:)",
     "fa": "هیچ کار شکست خورده ای نداری"
   },
@@ -427,20 +455,8 @@
     "en": "Enable",
     "fa": "فعال"
   },
-  "ThemeSetting": {
+  "Theme": {
     "en": "Theme",
     "fa": "تم"
-  },
-  "DarkThemeOption": {
-    "en": "Dark",
-    "fa": "تاریک"
-  },
-  "LightThemeOption": {
-    "en": "Light",
-    "fa": "روشن"
-  },
-  "NeonThemeOption": {
-    "en": "Neon",
-    "fa": "نئون"
   }
 }

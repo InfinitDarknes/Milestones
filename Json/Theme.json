@@ -3,10 +3,16 @@
     "Selector": ".preloader",
     "Themes": {
       "Dark": {
-        "BgColor": "#1D2229"
+        "BgColor": "#1D2229",
+        "Opacity": "50"
       },
       "Light": {
-        "BgColor": "#c0c0c0"
+        "BgColor": "#c0c0c0",
+        "Opacity": "100"
+      },
+      "Tree": {
+        "BgColor": "#F5F7F8",
+        "Opacity": "100"
       }
     },
     "Order": "0"
@@ -15,10 +21,16 @@
     "Selector": "body",
     "Themes": {
       "Dark": {
-        "BgColor": "#323232"
+        "BgColor": "#323232",
+        "Opacity": "100"
       },
       "Light": {
-        "BgColor": "#c0c0c0"
+        "BgColor": "#c0c0c0",
+        "Opacity": "100"
+      },
+      "Tree": {
+        "BgColor": "#F4CE14",
+        "Opacity": "100"
       }
     },
     "Order": "1"
@@ -27,10 +39,16 @@
     "Selector": ".window,.top-bar,.side-bar",
     "Themes": {
       "Dark": {
-        "BgColor": "#1d2229"
+        "BgColor": "#1D2229",
+        "Opacity": "40"
       },
       "Light": {
-        "BgColor": "#ffffff"
+        "BgColor": "#ffffff",
+        "Opacity": "100"
+      },
+      "Tree": {
+        "BgColor": "#45474B",
+        "Opacity": "100"
       }
     },
     "Order": "2"
@@ -43,6 +61,9 @@
       },
       "Light": {
         "Color": "#ffff80"
+      },
+      "Tree": {
+        "Color": "#45474B"
       }
     },
     "Order": "3"
@@ -50,10 +71,16 @@
   "Text": {
     "Themes": {
       "Dark": {
-        "Color": "#dad6d6"
+        "Color": "#dad6d6",
+        "TextOpacity": "100"
       },
       "Light": {
-        "Color": "#1a1b1d"
+        "Color": "#1a1b1d",
+        "TextOpacity": "100"
+      },
+      "Tree": {
+        "Color": "#F5F7F8",
+        "TextOpacity": "100"
       }
     },
     "Selector": ".text",
@@ -63,10 +90,16 @@
     "Selector": ".hovered",
     "Themes": {
       "Dark": {
-        "BgColor": "#F05454"
+        "BgColor": "#F05454",
+        "Opacity": "100"
       },
       "Light": {
-        "BgColor": "#FFC069"
+        "BgColor": "#FFC069",
+        "Opacity": "100"
+      },
+      "Tree": {
+        "BgColor": "#F4CE14",
+        "Opacity": "100"
       }
     },
     "Order": "5"
@@ -78,13 +111,25 @@
         "BgColor": "#171717",
         "Hover": {
           "BgColor": "#f05454"
-        }
+        },
+        "Opacity": "80",
+        "Border": ["", "0", "None", "", "0"]
       },
       "Light": {
         "BgColor": "#DAD6D6",
         "Hover": {
           "BgColor": "#FFC069"
-        }
+        },
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#379777",
+        "Hover": {
+          "BgColor": "#F4CE14"
+        },
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
       }
     },
     "Order": "6"
@@ -98,7 +143,9 @@
           "BgColor": "#F05454",
           "Scale": "1.1",
           "Transition": "500ms"
-        }
+        },
+        "Opacity": "80",
+        "Border": ["", "", "", ""]
       },
       "Light": {
         "BgColor": "#DAD6D6",
@@ -106,7 +153,19 @@
           "BgColor": "#FFC069",
           "Scale": "1.1",
           "Transition": "500ms"
-        }
+        },
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#379777",
+        "Hover": {
+          "BgColor": "#F4CE14",
+          "Scale": "1.1",
+          "Transition": "500ms"
+        },
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
       }
     },
     "Order": "7"
@@ -115,10 +174,19 @@
     "Selector": ".search-bar",
     "Themes": {
       "Dark": {
-        "BgColor": "#171717"
+        "BgColor": "#171717",
+        "Opacity": "80",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#DAD6D6"
+        "BgColor": "#DAD6D6",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#379777",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "8"
@@ -128,11 +196,18 @@
     "Themes": {
       "Dark": {
         "BgColor": "#393E46",
-        "Color": "#c0c0c0"
+        "Opacity": "70",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
         "BgColor": "#DAD6D6",
-        "Color": "#1B1A1D"
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#379777",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "9"
@@ -141,10 +216,16 @@
     "Selector": ".task-title",
     "Themes": {
       "Dark": {
-        "Color": "#c0c0c0"
+        "Color": "#c0c0c0",
+        "TextOpacity": "100"
       },
       "Light": {
-        "Color": "#1a1b1d"
+        "Color": "#1a1b1d",
+        "TextOpacity": "100"
+      },
+      "Tree": {
+        "Color": "#F5F7F8",
+        "TextOpacity": "100"
       }
     },
     "Order": "10"
@@ -154,10 +235,16 @@
     "Order": "11",
     "Themes": {
       "Dark": {
-        "BgColor": "#40C057"
+        "BgColor": "#40C057",
+        "Opacity": "70"
       },
       "Light": {
-        "BgColor": "#DAD6D6"
+        "BgColor": "#DAD6D6",
+        "Opacity": "100"
+      },
+      "Tree": {
+        "BgColor": "#40C057",
+        "Opacity": "100"
       }
     }
   },
@@ -166,11 +253,16 @@
     "Order": "12",
     "Themes": {
       "Dark": {
-        "BgColor": "#FF4545"
+        "BgColor": "#FF4545",
+        "Opacity": "70"
       },
       "Light": {
         "BgColor": "#DAD6D6",
-        "Color": "#1B1A1D"
+        "Opacity": "100"
+      },
+      "Tree": {
+        "BgColor": "#FF4545",
+        "Opacity": "100"
       }
     }
   },
@@ -179,10 +271,16 @@
     "Order": "13",
     "Themes": {
       "Dark": {
-        "BgColor": "#FF4545"
+        "BgColor": "#FF4545",
+        "Opacity": "70"
       },
       "Light": {
-        "BgColor": "#DAD6D6"
+        "BgColor": "#DAD6D6",
+        "Opacity": "100"
+      },
+      "Tree": {
+        "BgColor": "#FF4545",
+        "Opacity": "100"
       }
     }
   },
@@ -190,10 +288,19 @@
     "Selector": ".date-container",
     "Themes": {
       "Dark": {
-        "BgColor": "#F05454"
+        "BgColor": "#F05454",
+        "Opacity": "80",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#FFC069"
+        "BgColor": "#FFC069",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#F4CE14",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "14"
@@ -202,10 +309,19 @@
     "Selector": ".context-menu",
     "Themes": {
       "Dark": {
-        "BgColor": "#171717"
+        "BgColor": "#171717",
+        "Opacity": "60",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#F3EAD3"
+        "BgColor": "#F3EAD3",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#40C057",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "15"
@@ -219,7 +335,9 @@
           "BgColor": "#F05454",
           "Scale": "",
           "Transition": "500ms"
-        }
+        },
+        "Opacity": "60",
+        "Border": ["", "", "", ""]
       },
       "Light": {
         "BgColor": "#F3EAD3",
@@ -227,7 +345,19 @@
           "BgColor": "#FFC069",
           "Scale": "",
           "Transition": "500ms"
-        }
+        },
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#40C057",
+        "Hover": {
+          "BgColor": "#F4CE14",
+          "Scale": "",
+          "Transition": "500ms"
+        },
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
       }
     },
     "Order": "16"
@@ -236,10 +366,19 @@
     "Selector": ".window-header",
     "Themes": {
       "Dark": {
-        "BgColor": "#171717"
+        "BgColor": "#171717",
+        "Opacity": "80",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#DAD6D6"
+        "BgColor": "#DAD6D6",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#171717",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "17"
@@ -248,12 +387,19 @@
     "Selector": ".select-bar",
     "Themes": {
       "Dark": {
-        "BgColor": "#1d2229",
-        "BorderColor": "#323232"
+        "BgColor": "#1D2229",
+        "Opacity": "50",
+        "Border": ["Top", "1", "Solid", "#393E46", "80"]
       },
       "Light": {
         "BgColor": "#F3EAD3",
-        "BorderColor": "#c0c0c0"
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#1d2229",
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
       }
     },
     "Order": "18"
@@ -267,7 +413,9 @@
           "BgColor": "#F05454",
           "Scale": "",
           "Transition": "500ms"
-        }
+        },
+        "Opacity": "80",
+        "Border": ["", "", "", ""]
       },
       "Light": {
         "BgColor": "#DAD6D6",
@@ -275,7 +423,19 @@
           "BgColor": "#FFC069",
           "Scale": "",
           "Transition": "500ms"
-        }
+        },
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#171717",
+        "Hover": {
+          "BgColor": "#F4CE14",
+          "Scale": "",
+          "Transition": "500ms"
+        },
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
       }
     },
     "Order": "19"
@@ -284,10 +444,19 @@
     "Selector": ".exit-select-mode-btn",
     "Themes": {
       "Dark": {
-        "BgColor": "#FE4545"
+        "BgColor": "#40C057",
+        "Opacity": "80",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#FE4545"
+        "BgColor": "#FE4545",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#FE4545",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "20"
@@ -296,12 +465,19 @@
     "Selector": ".settings-container",
     "Themes": {
       "Dark": {
-        "BgColor": "#1d2229",
-        "BorderColor": "#323232"
+        "BgColor": "#171717",
+        "Opacity": "70",
+        "Border": ["Left", "2", "Solid", "#393E46", "80"]
       },
       "Light": {
         "BgColor": "#393E46",
-        "BorderColor": "#c0c0c0"
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#1d2229",
+        "Opacity": "100",
+        "Border": ["", "", "", ""]
       }
     },
     "Order": "21"
@@ -310,10 +486,13 @@
     "Selector": ".settings-header",
     "Themes": {
       "Dark": {
-        "BorderColor": "#323232"
+        "Border": ["Bottom", "2", "Solid", "#393E46", "80"]
       },
       "Light": {
-        "BorderColor": "#c0c0c0"
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "22"
@@ -322,10 +501,16 @@
     "Selector": ".settings-title",
     "Themes": {
       "Dark": {
-        "Color": "#c0c0c0"
+        "Color": "#c0c0c0",
+        "TextOpacity": "100"
       },
       "Light": {
-        "Color": "#1a1b1d"
+        "Color": "#1a1b1d",
+        "TextOpacity": "100"
+      },
+      "Tree": {
+        "Color": "#c0c0c0",
+        "TextOpacity": "100"
       }
     },
     "Order": "23"
@@ -334,10 +519,19 @@
     "Selector": ".setting-item",
     "Themes": {
       "Dark": {
-        "BgColor": "#171717"
+        "BgColor": "#393E46",
+        "Opacity": "60",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#FE4545"
+        "BgColor": "#FE4545",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#171717",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "24"
@@ -346,10 +540,19 @@
     "Selector": ".setting-title",
     "Themes": {
       "Dark": {
-        "Color": "#c0c0c0"
+        "Color": "#c0c0c0",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "Color": "#FE4545"
+        "Color": "#FE4545",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "Color": "#c0c0c0",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "25"
@@ -359,11 +562,24 @@
     "Themes": {
       "Dark": {
         "BgColor": "#c0c0c0",
-        "Color": "#171717"
+        "Color": "#171717",
+        "Opacity": "80",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
         "BgColor": "#c0c0c0",
-        "Color": "#171717"
+        "Color": "#171717",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#c0c0c0",
+        "Color": "#171717",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "26"
@@ -372,10 +588,16 @@
     "Selector": ".setting-select-box option",
     "Themes": {
       "Dark": {
-        "Color": "#171717"
+        "Color": "#171717",
+        "TextOpacity": "100"
       },
       "Light": {
-        "Color": "#171717"
+        "Color": "#171717",
+        "TextOpacity": "100"
+      },
+      "Tree": {
+        "Color": "#171717",
+        "TextOpacity": "100"
       }
     },
     "Order": "27"
@@ -385,11 +607,18 @@
     "Themes": {
       "Dark": {
         "BgColor": "#171717",
-        "BorderColor": "#171717"
+        "Opacity": "90",
+        "Border": ["", "1", "Solid", "#393E46", "80"]
       },
       "Light": {
         "BgColor": "#ffff80",
-        "BorderColor": "#171717"
+        "Opacity": "100",
+        "Border": ["", "3", "Solid", "#393E46", "100"]
+      },
+      "Tree": {
+        "BgColor": "#171717",
+        "Opacity": "100",
+        "Border": ["", "3", "Solid", "#393E46", "100"]
       }
     },
     "Order": "28"
@@ -398,90 +627,166 @@
     "Selector": ".modal-input",
     "Themes": {
       "Dark": {
-        "BgColor": "#dad6d6"
+        "BgColor": "#dad6d6",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#ffff80"
+        "BgColor": "#ffff80",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#dad6d6",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "29"
+  },
+  "BackUpModalTextArea": {
+    "Selector": ".modal-text-area",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#393E46",
+        "Color": "#dad6d6",
+        "Opacity": "60",
+        "TextOpacity": "100",
+        "Border": ["", "1", "Solid", "#393E46", "80"]
+      },
+      "Light": {
+        "BgColor": "#dad6d6",
+        "Color": "#dad6d6",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#393E46",
+        "Color": "#dad6d6",
+        "Opacity": "60",
+        "TextOpacity": "100",
+        "Border": ["", "1", "Solid", "#393E46", "80"]
+      }
+    },
+    "Order": "30"
   },
   "StickyInputBadge": {
     "Selector": ".sticky-badge",
     "Themes": {
       "Dark": {
         "BgColor": "#FE4545",
-        "Color": ""
+        "Color": "",
+        "Opacity": "90",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
         "BgColor": "#ffff80",
-        "Color": ""
-      }
-    },
-    "Order": "30"
-  },
-  "CharacterLimit": {
-    "Selector": ".sticky-badge",
-    "Themes": {
-      "Dark": {
+        "Color": "",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
         "BgColor": "#FE4545",
-        "Color": ""
-      },
-      "Light": {
-        "BgColor": "#ffff80",
-        "Color": ""
+        "Color": "",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "31"
+  },
+  "CharacterLimit": {
+    "Selector": ".character-limit",
+    "Themes": {
+      "Dark": {
+        "BgColor": "#FE4545",
+        "Color": "",
+        "Opacity": "90",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Light": {
+        "BgColor": "#ffff80",
+        "Color": "",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#FE4545",
+        "Color": "",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      }
+    },
+    "Order": "32"
   },
   "ModalTitle": {
     "Selector": ".modal-title",
     "Themes": {
       "Dark": {
         "Color": "",
-        "BorderColor": ""
+        "BorderColor": "",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
         "Color": "",
-        "BorderColor": ""
+        "BorderColor": "",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "Color": "",
+        "BorderColor": "",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
-    "Order": "32"
+    "Order": "33"
   },
   "GreenOrConfirmBtn": {
     "Selector": ".green-btn",
     "Themes": {
       "Dark": {
-        "BgColor": "#40C057"
+        "BgColor": "#40C057",
+        "Opacity": "80",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#"
+        "BgColor": "#",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#40C057",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
-    "Order": "33"
+    "Order": "34"
   },
   "RedOrCancelBtn": {
     "Selector": ".red-btn",
     "Themes": {
       "Dark": {
-        "BgColor": "#FF4545"
-      },
-      "Light": {
-        "BgColor": "#"
-      }
-    },
-    "Order": "34"
-  },
-  "ModalTextArea": {
-    "Selector": ".modal-text-area",
-    "Themes": {
-      "Dark": {
-        "BgColor": "#393E46",
-        "Color": "#dad6d6"
+        "BgColor": "#FF4545",
+        "Opacity": "80",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
         "BgColor": "#",
-        "Color": "#"
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#FF4545",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "35"
@@ -490,10 +795,19 @@
     "Selector": ".modal-btn",
     "Themes": {
       "Dark": {
-        "BgColor": "#393E46"
+        "BgColor": "#393E46",
+        "Opacity": "80",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#"
+        "BgColor": "#",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#393E46",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "36"
@@ -502,10 +816,19 @@
     "Selector": ".note-container",
     "Themes": {
       "Dark": {
-        "BgColor": "#393E46"
+        "BgColor": "#393E46",
+        "Opacity": "70",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#"
+        "BgColor": "#",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#393E46",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "37"
@@ -515,11 +838,24 @@
     "Themes": {
       "Dark": {
         "BgColor": "#171717",
-        "Color": "#dad6d6"
+        "Color": "#dad6d6",
+        "Opacity": "80",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
         "BgColor": "#",
-        "Color": "#"
+        "Color": "#",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#171717",
+        "Color": "#dad6d6",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "38"
@@ -528,10 +864,16 @@
     "Selector": ".note-text",
     "Themes": {
       "Dark": {
-        "Color": "#dad6d6"
+        "Color": "#dad6d6",
+        "TextOpacity": "100"
       },
       "Light": {
-        "Color": "#"
+        "Color": "#",
+        "TextOpacity": "100"
+      },
+      "Tree": {
+        "Color": "#dad6d6",
+        "TextOpacity": "100"
       }
     },
     "Order": "39"
@@ -541,11 +883,24 @@
     "Themes": {
       "Dark": {
         "BgColor": "#F05454",
-        "Color": "#dad6d6"
+        "Color": "#dad6d6",
+        "Opacity": "80",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
         "BgColor": "#",
-        "Color": "#"
+        "Color": "#",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#F05454",
+        "Color": "#dad6d6",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     },
     "Order": "40"
@@ -556,11 +911,24 @@
     "Themes": {
       "Dark": {
         "BgColor": "#393E46",
-        "Color": "#dad6d6"
+        "Color": "#dad6d6",
+        "Opacity": "85",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
         "BgColor": "#",
-        "Color": "#"
+        "Color": "#",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#393E46",
+        "Color": "#dad6d6",
+        "Opacity": "100",
+        "TextOpacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     }
   },
@@ -569,10 +937,19 @@
     "Order": "42",
     "Themes": {
       "Dark": {
-        "BgColor": "#171717"
+        "BgColor": "#171717",
+        "Opacity": "80",
+        "Border": ["", "", "", "", ""]
       },
       "Light": {
-        "BgColor": "#"
+        "BgColor": "#",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
+      },
+      "Tree": {
+        "BgColor": "#171717",
+        "Opacity": "100",
+        "Border": ["", "", "", "", ""]
       }
     }
   },
@@ -581,10 +958,16 @@
     "Order": "43",
     "Themes": {
       "Dark": {
-        "Color": "#FF4545"
+        "Color": "#FF4545",
+        "TextOpacity": "100"
       },
       "Light": {
-        "Color": "#"
+        "Color": "#",
+        "TextOpacity": "100"
+      },
+      "Tree": {
+        "Color": "#FF4545",
+        "TextOpacity": "100"
       }
     }
   },
@@ -593,10 +976,16 @@
     "Order": "44",
     "Themes": {
       "Dark": {
-        "Color": "#40C057"
+        "Color": "#40C057",
+        "TextOpacity": "100"
       },
       "Light": {
-        "Color": "#"
+        "Color": "#",
+        "TextOpacity": "100"
+      },
+      "Tree": {
+        "Color": "#40C057",
+        "TextOpacity": "100"
       }
     }
   }

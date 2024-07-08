@@ -22,12 +22,13 @@
   font-family: Inter;
   src: url(../../Fonts/Inter.ttf);
 }
-@font-face {
-  font-family: dastnevis;
-  src: url(../../Fonts/danstevis.otf);
-}
 * {
   font-family: "Inter", "vazir";
+}
+#background {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
 }
 .disable-selection {
   -webkit-user-select: none; /* Safari */

@@ -129,10 +129,9 @@ function DisplaySettings() {
   ThemeSettingTitle.id = "theme-setting-title";
   ThemeSettingSelectBox.className = "setting-select-box";
   ThemeSettingSelectBox.addEventListener("change", () => {
-    console.log(ThemeSettingSelectBox.value);
     ThemeSwitcher(ThemeSettingSelectBox.value);
   });
-  ThemeSettingTitle.innerText = Strings.ThemeSetting[UserSettings.CurrentLang];
+  ThemeSettingTitle.innerText = Strings.Theme[UserSettings.CurrentLang];
   ThemeSettingContainer.append(ThemeSettingTitle, ThemeSettingSelectBox);
   SettingItemsContainer.append(ThemeSettingContainer);
   // Theme Setting Options
@@ -150,8 +149,7 @@ function DisplaySettings() {
   CloudStorgeButtonIcon.className = "side-bar-item-icon icon";
   CloudStorgeButtonIcon.src = "../Icons/cloud-line.svg";
   CloudStorgeButtonText.className = "side-bar-item-text text";
-  CloudStorgeButton.id = "cloud-storge-button";
-  CloudStorgeButtonText.id = "cloud-storge-button-text";
+  CloudStorgeButton.className = "cloud-storge-button setting-item";
   CloudStorgeButtonText.innerText = Strings.CouldStorgeButton[UserSettings.CurrentLang];
   CloudStorgeButton.addEventListener("click", () => {});
   CloudStorgeButton.append(CloudStorgeButtonIcon, CloudStorgeButtonText);
@@ -163,12 +161,23 @@ function DisplaySettings() {
   BackUpOptionsIcon.className = "side-bar-item-icon icon";
   BackUpOptionsIcon.src = "../Icons/inbox-archive-line.svg";
   BackUpOptionsText.className = "side-bar-item-text text";
-  BackUpOptions.id = "generate-backup-button";
-  BackUpOptionsText.id = "generate-backup-button-text";
+  BackUpOptions.className = "generate-backup-button setting-item";
   BackUpOptionsText.innerText = Strings.BackUp[UserSettings.CurrentLang];
   BackUpOptions.addEventListener("click", BackUpModal);
   BackUpOptions.append(BackUpOptionsIcon, BackUpOptionsText);
   SettingItemsContainer.append(BackUpOptions);
+  // Customize theme section
+  const CustomizeTheme = document.createElement("button");
+  const CustomizeThemeIcon = document.createElement("img");
+  const CustomizeThemeText = document.createElement("span");
+  CustomizeThemeIcon.className = "side-bar-item-icon icon";
+  CustomizeThemeIcon.src = "../Icons/brush-line.svg";
+  CustomizeThemeText.className = "side-bar-item-text text";
+  CustomizeTheme.className = "customize-theme-button setting-item";
+  CustomizeThemeText.innerText = Strings.CustomizeTheme[UserSettings.CurrentLang];
+  CustomizeTheme.addEventListener("click", ThemeTweakerModal);
+  CustomizeTheme.append(CustomizeThemeIcon, CustomizeThemeText);
+  SettingItemsContainer.append(CustomizeTheme);
   //
   void SettingsContainer.offsetWidth;
   SettingsContainer.classList.add("setting-in");

@@ -141,7 +141,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin: 20px 0;
+  margin: 10px 0;
   width: 95%;
 }
 .select-category-section {
@@ -159,7 +159,7 @@
   width: 100%;
   border: 0;
   border-top-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 .select-box-text {
   font-size: 1em;
@@ -173,8 +173,8 @@
   top: 50px;
   background-color: #dad6d6;
   overflow: hidden;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
   margin-top: 1px;
 }
 .show-select-box {
@@ -224,11 +224,8 @@
 .modal-input {
   height: 45px;
   width: 100%;
-  margin: 3px 0;
   font-size: 1em;
   text-align: center;
-  border: 0;
-  background-color: #dad6d6;
   border-top-left-radius: 4px;
   border-bottom-right-radius: 4px;
   border-top-right-radius: 0;
@@ -262,31 +259,19 @@
   z-index: 50;
 }
 .sticky-badge {
-  position: absolute;
-  right: 14px;
-  top: -13px;
   font-size: 0.9em;
-  transform: translateX(14px) translateY(-7.5px);
   padding: 0 6px 1px 5px;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  background: 0.1b1a1d;
   letter-spacing: 1px;
-  color: #dad6d6;
   z-index: 50;
 }
 .character-limit {
-  position: absolute;
-  left: 0;
-  bottom: -10px;
   font-size: 0.9em;
   padding: 0 6px 1px 5px;
   border-top-right-radius: 4px;
   border-bottom-left-radius: 4px;
-  background: #f05454;
   letter-spacing: 1px;
-  border-top: none;
-  color: #dad6d6;
   z-index: 50;
 }
 .modal-inputs-container {
@@ -319,7 +304,7 @@
 .colors-container {
   width: calc(100% - 70px);
   display: grid;
-  grid-template-columns: repeat(24, 1fr);
+  /*Assining grid-template-columns dynamically with js based on number of colors at ModalManager.js NewCategoryModal() and EditCategoryModal() functions*/
   overflow-x: scroll;
   scrollbar-width: none;
   padding: 8px 0;
@@ -368,7 +353,7 @@
 .icons-container {
   width: calc(100% - 70px);
   display: grid;
-  grid-template-columns: repeat(18, 1fr);
+  /*Assining grid-template-columns dynamically with js based on number of icons at ModalManager.js NewCategoryModal() and EditCategoryModal() functions*/
   overflow-x: scroll;
   scrollbar-width: none;
   padding: 8px 0;
@@ -429,4 +414,23 @@
 .apply-note-edit-btn,
 .cancel-note-edit-btn {
   display: none;
+}
+.modal-option {
+  border: 0;
+  border-radius: 10px;
+  padding: 7px;
+  font-size: 1rem;
+  font-style: normal;
+  cursor: pointer;
+}
+.css-property-select-box {
+  border: 0;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 0 3px;
+  border-radius: 10px;
+  background-color: #2e3843;
+  color: #f72f2f;
 }

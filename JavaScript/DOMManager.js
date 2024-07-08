@@ -744,26 +744,6 @@ function EmptyBox(Text) {
   EmptyBoxIconContainer.append(EmptyBoxIcon, EmptyBoxText);
   ListSection.append(EmptyBoxIconContainer);
 }
-function DisplayNoResultBox(Text) {
-  const ListSection = document.querySelector(".list-section");
-  const EmptyBoxIconContainer = document.createElement("section");
-  EmptyBoxIconContainer.id = "empty-box-container";
-  // Empty box icon
-  const EmptyBoxIcon = document.createElement("img");
-  EmptyBoxIcon.src = IconsSrc.NoResultFoundIcon[UserSettings.Theme];
-  // Empty box text
-  const EmptyBoxText = document.createElement("p");
-  EmptyBoxText.id = "empty-box-text";
-  EmptyBoxText.innerText = Text;
-  // Modifing List Section
-  ClearListSection();
-  ListSection.style.display = "flex";
-  ListSection.style.alignItems = "center";
-  ListSection.style.justifyContent = "center";
-  // Appending to DOM
-  EmptyBoxIconContainer.append(EmptyBoxIcon, EmptyBoxText);
-  ListSection.append(EmptyBoxIconContainer);
-}
 function HighLightSelectedSortButton(ID) {
   const SortButton = document.querySelectorAll(".sort-buttons");
   SortButton.forEach((Button) => {
@@ -1159,6 +1139,18 @@ function HexToFilter(hex) {
   const result = solver.solve();
   return result.filter;
 }
+function HexToRgba(Hex, Opacity) {
+  var c;
+  if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(Hex)) {
+    c = Hex.substring(1).split("");
+    if (c.length == 3) {
+      c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    }
+    c = "0x" + c.join("");
+    return "rgba(" + [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") + `,${Opacity})`;
+  }
+  throw new Error("Bad Hex");
+}
 function InsertRules() {
   for (let i in ThemeObj) {
     if (i === "Hovered") {
@@ -1179,38 +1171,71 @@ function InsertRules() {
       if (SvgIconColorRule) document.styleSheets[0].insertRule(SvgIconColorRule);
       continue;
     }
-    const BgColorRule = ThemeObj[i].Themes[UserSettings.Theme]?.BgColor
-      ? `
+    const BgColorRule = () => {
+      const BgColor = ThemeObj[i].Themes[UserSettings.Theme]?.BgColor;
+      if (!BgColor) return null;
+      return `
     ${ThemeObj[i].Selector} {
-    background-color : ${ThemeObj[i].Themes[UserSettings.Theme].BgColor};    
+    background-color : ${HexToRgba(
+      ThemeObj[i].Themes[UserSettings.Theme].BgColor,
+      ThemeObj[i].Themes[UserSettings.Theme]?.Opacity ? ThemeObj[i].Themes[UserSettings.Theme].Opacity / 100 : 1
+    )};    
     }
-    `
-      : null;
-    const ColorRule = ThemeObj[i].Themes[UserSettings.Theme]?.Color
-      ? `
-    ${ThemeObj[i].Selector} {
-    color : ${ThemeObj[i].Themes[UserSettings.Theme].Color};    
-    }    
-    `
-      : null;
-    const HoverBgColorRule = ThemeObj[i].Themes[UserSettings.Theme]?.Hover?.BgColor
-      ? `
+    `;
+    };
+    const ColorRule = () => {
+      const Color = ThemeObj[i].Themes[UserSettings.Theme]?.Color;
+      if (!Color) return null;
+      return `
+         ${ThemeObj[i].Selector} {
+           color : ${HexToRgba(
+             ThemeObj[i].Themes[UserSettings.Theme].Color,
+             ThemeObj[i].Themes[UserSettings.Theme]?.TextOpacity ? ThemeObj[i].Themes[UserSettings.Theme].TextOpacity / 100 : 1
+           )};    
+          }    
+          `;
+    };
+    const HoverBgColorRule = () => {
+      let HoverBgColor = ThemeObj[i].Themes[UserSettings.Theme]?.Hover?.BgColor;
+      if (HoverBgColor === "") {
+        return `
         ${ThemeObj[i].Selector}:hover {
-    background-color : ${ThemeObj[i].Themes[UserSettings.Theme].Hover.BgColor}  !important;    
-    }    
-    `
-      : null;
-    const BorderColorRule = ThemeObj[i].Themes[UserSettings.Theme]?.BorderColor
-      ? `
-    ${ThemeObj[i].Selector} {
-    border-color : ${ThemeObj[i].Themes[UserSettings.Theme].BorderColor};    
-    }    
-    `
-      : null;
-
-    if (BgColorRule) document.styleSheets[0].insertRule(BgColorRule);
-    if (ColorRule) document.styleSheets[0].insertRule(ColorRule);
-    if (HoverBgColorRule) document.styleSheets[0].insertRule(HoverBgColorRule);
-    if (BorderColorRule) document.styleSheets[0].insertRule(BorderColorRule);
+          background-color : transparent !important;    
+        }    
+        `;
+      } else if (HoverBgColor === undefined) {
+        return null;
+      } else {
+        return `
+        ${ThemeObj[i].Selector}:hover {
+          background-color : ${ThemeObj[i].Themes[UserSettings.Theme].Hover.BgColor}  !important;    
+        }    
+        `;
+      }
+    };
+    const BorderRule = () => {
+      let Border = ThemeObj[i].Themes[UserSettings.Theme]?.Border;
+      if (Border) {
+        if (Border[1] && Border[2] && Border[3] && Border[4]) {
+          if (Border[0]) {
+            return `
+             ${ThemeObj[i].Selector} {
+                border-${Border[0].toLowerCase()} : ${Border[1]}px ${Border[2]} ${HexToRgba(Border[3], Border[4] / 100)};    
+              }    
+              `;
+          } else {
+            return `
+             ${ThemeObj[i].Selector} {
+                border: ${Border[1]}px ${Border[2]} ${HexToRgba(Border[3], Border[4] / 100)};    
+              }    
+              `;
+          }
+        } else return null;
+      }
+    };
+    if (BgColorRule()) document.styleSheets[0].insertRule(BgColorRule());
+    if (ColorRule()) document.styleSheets[0].insertRule(ColorRule());
+    if (HoverBgColorRule()) document.styleSheets[0].insertRule(HoverBgColorRule());
+    if (BorderRule()) document.styleSheets[0].insertRule(BorderRule());
   }
 }

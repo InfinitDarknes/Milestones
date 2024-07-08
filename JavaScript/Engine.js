@@ -178,12 +178,32 @@ function KeepUpWithUpdates() {
         }
       }
     }
+    // Syncing Selector value
     for (let i in UserThemes) {
       for (let j in ThemeObj) {
         if (i === j && UserThemes[i].Selector !== ThemeObj[j].Selector) {
           console.log(`Deprecated selector at UserThemes : ${UserThemes[i].Selector}. replaced with ${ThemeObj[j].Selector}`);
           UserThemes[i].Selector = ThemeObj[j].Selector;
           localStorage.setItem("UserThemes", JSON.stringify(UserThemes));
+        }
+      }
+    }
+    // Syncing sub properties
+    for (let a in UserThemes) {
+      for (let b in UserThemes[a].Themes) {
+        for (let c in UserThemes[a].Themes[b]) {
+          for (let a2 in ThemeObj) {
+            for (let b2 in ThemeObj[a2].Themes) {
+              for (let c2 in ThemeObj[a2].Themes[b2]) {
+                if (a !== a2) continue;
+                if (UserThemes[a].Themes[b][c] && !ThemeObj[a2].Themes[b2][c]) {
+                  delete UserThemes[a].Themes[b][c];
+                } else if (!UserThemes[a].Themes[b][c2] && ThemeObj[a2].Themes[b2][c2]) {
+                  UserThemes[a].Themes[b][c2] = ThemeObj[a2].Themes[b2][c2];
+                } else continue;
+              }
+            }
+          }
         }
       }
     }

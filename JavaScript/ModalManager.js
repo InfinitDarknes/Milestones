@@ -25,9 +25,9 @@ function ThemeTweakerModal() {
   DeleteThemeBtn.className = "theme-tweaker-modal-btn delete-btn";
   DefualtPalletButton.className = "theme-tweaker-modal-btn defualt-btn";
   // InnerText and srx
-  ApplyButton.innerText = "Apply";
+  ApplyButton.innerText = Strings.Apply[UserSettings.CurrentLang];
   DefualtPalletButton.innerText = "Defualt Pallet";
-  DeleteThemeBtn.innerText = "Delete Theme";
+  DeleteThemeBtn.innerText = `${Strings.Delete[UserSettings.CurrentLang]} ${Strings.Theme[UserSettings.CurrentLang].toLowerCase()}`;
   HideModalIcon.src = "../Icons/close-large-line.svg";
   // Theme bar and options
   const CreateThemeBar = () => {
@@ -46,7 +46,7 @@ function ThemeTweakerModal() {
       ThemeBar.append(ThemeBtn);
     });
     const NewThemeBtn = document.createElement("button");
-    NewThemeBtn.innerText = "New Theme";
+    NewThemeBtn.innerText = `${Strings.Add[UserSettings.CurrentLang]} ${Strings.Theme[UserSettings.CurrentLang].toLowerCase()}`;
     NewThemeBtn.className = "new-theme-btn";
     NewThemeBtn.style.order = `${AppObj.Themes.length + 1}`;
     ThemeBar.append(NewThemeBtn);
@@ -59,8 +59,10 @@ function ThemeTweakerModal() {
       const RowLabel = document.createElement("span");
       let BgColor = ThemeObj[i]?.Themes[SelectedTheme]?.BgColor;
       let Color = ThemeObj[i]?.Themes[SelectedTheme]?.Color;
-      let BorderColor = ThemeObj[i]?.Themes[SelectedTheme]?.BorderColor;
       let Hover = ThemeObj[i]?.Themes[SelectedTheme]?.Hover?.BgColor;
+      let Opacity = ThemeObj[i]?.Themes[SelectedTheme]?.Opacity;
+      let TextOpacity = ThemeObj[i]?.Themes[SelectedTheme]?.TextOpacity;
+      let Border = ThemeObj[i]?.Themes[SelectedTheme]?.Border;
       if (BgColor) {
         const Container = document.createElement("div");
         const CssPropertyLabel = document.createElement("label");
@@ -76,11 +78,13 @@ function ThemeTweakerModal() {
 
         BgColorPicker.value = BgColor;
         BgColorInput.value = BgColor;
-        CssPropertyLabel.innerText = "Bg Color";
-        BgColorPicker.placeholder = "Bg Color";
+        CssPropertyLabel.innerText = Strings.BackgroundColor[UserSettings.CurrentLang];
+        BgColorPicker.placeholder = Strings.BackgroundColor[UserSettings.CurrentLang];
 
         BgColorPicker.type = "color";
         BgColorInput.type = "text";
+
+        Container.style.order = 3;
 
         BgColorPicker.addEventListener("input", () => {
           document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
@@ -90,14 +94,14 @@ function ThemeTweakerModal() {
           BgColorInput.value = BgColorPicker.value;
         });
         BgColorInput.addEventListener("input", () => {
-          if (BgColorInput.value.match(ValidColorFormat)) {
+          if (BgColorInput.value.match(ValidColorFormat) || BgColorInput.value === "") {
             document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
               Element.style.backgroundColor = BgColorInput.value;
             });
             UserThemes[i].Themes[SelectedTheme].BgColor = BgColorInput.value;
             BgColorPicker.value = BgColorInput.value;
           } else {
-            DisplayMessage("Error", `Invalid Color Format At ${i}`);
+            DisplayMessage("Error", `Invalid color format at ${i} , value must be in Hex format`);
           }
         });
         CssProperyInputsContainer.append(BgColorInput, BgColorPicker);
@@ -105,6 +109,7 @@ function ThemeTweakerModal() {
         Row.append(Container);
       }
       if (Color) {
+        Strings.BackgroundColor[UserSettings.CurrentLang];
         const Container = document.createElement("div");
         const CssPropertyLabel = document.createElement("label");
         const CssProperyInputsContainer = document.createElement("div");
@@ -119,11 +124,13 @@ function ThemeTweakerModal() {
 
         ColorPicker.value = Color;
         ColorInput.value = Color;
-        CssPropertyLabel.innerText = "Color";
-        ColorPicker.placeholder = "Color";
+        CssPropertyLabel.innerText = Strings.Color[UserSettings.CurrentLang];
+        ColorPicker.placeholder = Strings.Color[UserSettings.CurrentLang];
 
         ColorPicker.type = "color";
         ColorInput.type = "text";
+
+        Container.style.order = 4;
 
         ColorPicker.addEventListener("input", () => {
           document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
@@ -133,7 +140,7 @@ function ThemeTweakerModal() {
           ColorInput.value = ColorPicker.value;
         });
         ColorInput.addEventListener("input", () => {
-          if (ColorInput.value.match(ValidColorFormat)) {
+          if (ColorInput.value.match(ValidColorFormat) || ColorInput.value === "") {
             UserThemes[i].Themes[SelectedTheme].Color = ColorInput.value;
             ColorPicker.value = ColorInput.value;
             let FilterForSvg = HexToFilter(ColorInput.value);
@@ -145,53 +152,194 @@ function ThemeTweakerModal() {
               }
             });
           } else {
-            DisplayMessage("Error", `Invalid Color Format At ${i}`);
+            DisplayMessage("Error", `Invalid color format at ${i} , value must be in Hex format`);
           }
         });
         CssProperyInputsContainer.append(ColorInput, ColorPicker);
         Container.append(CssPropertyLabel, CssProperyInputsContainer);
         Row.append(Container);
       }
-      if (BorderColor) {
+      if (Border) {
         const Container = document.createElement("div");
         const CssPropertyLabel = document.createElement("label");
         const CssProperyInputsContainer = document.createElement("div");
-        const BorderColorPicker = document.createElement("input");
-        const BorderColorInput = document.createElement("input");
+        const PositionSelect = document.createElement("select");
+        const StyleSelect = document.createElement("select");
+        const WidthInput = document.createElement("input");
+        const ColorInput = document.createElement("input");
+        const OpacityInput = document.createElement("input");
+
+        const BorderStyles = ["None", "Hidden", "Dotted", "Dashed", "Solid", "Double", "Groove", "Ridge", "Inset", "Outset", "Initial", "Inherit"];
+        const BorderPositions = ["All", "Top", "Bottom", "Left", "Right"];
+
+        BorderStyles.forEach((Style) => {
+          const OptionElement = document.createElement("option");
+          OptionElement.className = "modal-option";
+          OptionElement.textContent = Style;
+          OptionElement.value = Style;
+          StyleSelect.append(OptionElement);
+        });
+        BorderPositions.forEach((Position) => {
+          const OptionElement = document.createElement("option");
+          OptionElement.className = "modal-option";
+          OptionElement.textContent = Position;
+          if (Position === "All") OptionElement.value = "";
+          else OptionElement.value = Position;
+          PositionSelect.append(OptionElement);
+        });
 
         Container.className = "theme-tweaker-inner-row-container";
         CssProperyInputsContainer.className = "css-property-inputs-container";
         CssPropertyLabel.className = "css-property-label";
-        BorderColorPicker.className = "css-property-input";
-        BorderColorInput.className = "css-property-input";
+        PositionSelect.className = "css-property-select-box mini";
+        StyleSelect.className = "css-property-select-box mini";
+        WidthInput.className = "css-property-input mini";
+        ColorInput.className = "css-property-input mini";
+        OpacityInput.className = "css-property-input mini";
 
-        BorderColorPicker.value = BorderColor;
-        BorderColorInput.value = BorderColor;
-        CssPropertyLabel.innerText = "Border Color";
-        BorderColorPicker.placeholder = "Border Color";
+        PositionSelect.value = Border[0];
+        WidthInput.value = +Border[1];
+        StyleSelect.value = Border[2] || "None";
+        ColorInput.value = Border[3];
+        OpacityInput.value = +Border[4];
+        CssPropertyLabel.innerText = Strings.Border[UserSettings.CurrentLang];
 
-        BorderColorPicker.type = "color";
-        BorderColorInput.type = "text";
+        WidthInput.type = "number";
+        ColorInput.type = "text";
+        OpacityInput.type = "number";
 
-        BorderColorPicker.addEventListener("input", () => {
+        WidthInput.placeholder = "Width";
+        ColorInput.placeholder = "Color";
+        OpacityInput.placeholder = "Opacity";
+
+        Container.style.order = 2;
+
+        OpacityInput.min = 0;
+        OpacityInput.max = 100;
+        WidthInput.min = 0;
+
+        PositionSelect.addEventListener("change", () => {
+          UserThemes[i].Themes[SelectedTheme].Border[0] = PositionSelect.value;
+          if (!WidthInput.value || !ColorInput.value || !OpacityInput.value || !StyleSelect.value) {
+            return;
+          }
           document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
-            Element.style.borderColor = BorderColorPicker.value;
+            Element.style.border = "";
+            Element.style.borderTop = "";
+            Element.style.borderBottom = "";
+            Element.style.borderLeft = "";
+            Element.style.borderRight = "";
+            Element.style[`border${PositionSelect.value}`] = `${WidthInput.value}px ${StyleSelect.value} ${HexToRgba(ColorInput.value, OpacityInput.value / 100)}`;
           });
-          UserThemes[i].Themes[SelectedTheme].BorderColor = BorderColorPicker.value;
-          BorderColorInput.value = BorderColorPicker.value;
         });
-        BorderColorInput.addEventListener("input", () => {
-          if (BorderColorInput.value.match(ValidColorFormat)) {
-            UserThemes[i].Themes[SelectedTheme].BorderColor = BorderColorInput.value;
-            BorderColorPicker.value = BorderColorInput.value;
+        WidthInput.addEventListener("input", () => {
+          if (!isNaN(+WidthInput.value)) {
+            console.log("b width");
+            UserThemes[i].Themes[SelectedTheme].Border[1] = WidthInput.value.toString();
             document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
-              Element.style.color = BorderColorInput.value;
+              Element.style.borderWidth = `${WidthInput.value}px`;
             });
           } else {
-            DisplayMessage("Error", `Invalid Color Format At ${i}`);
+            DisplayMessage("Error", `Invalid width format At ${i} , value must be a number`);
           }
         });
-        CssProperyInputsContainer.append(BorderColorInput, BorderColorPicker);
+        StyleSelect.addEventListener("change", () => {
+          UserThemes[i].Themes[SelectedTheme].Border[2] = StyleSelect.value;
+          document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
+            Element.style["border" + PositionSelect.value + "Style"] = StyleSelect.value;
+          });
+        });
+        ColorInput.addEventListener("input", () => {
+          if (ColorInput.value.match(ValidColorFormat) || ColorInput.value === "") {
+            UserThemes[i].Themes[SelectedTheme].Border[3] = ColorInput.value;
+            document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
+              Element.style["border" + PositionSelect.value + "Color"] = HexToRgba(ColorInput.value, OpacityInput.value / 100);
+            });
+          } else {
+            DisplayMessage("Error", `Invalid color format at ${i} , value must be in Hex format`);
+          }
+        });
+        OpacityInput.addEventListener("input", () => {
+          if (OpacityInput.value && +OpacityInput.value >= 0 && +OpacityInput.value <= 100) {
+            UserThemes[i].Themes[SelectedTheme].Border[4] = OpacityInput.value.toString();
+            document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
+              Element.style["border" + PositionSelect.value + "Color"] = HexToRgba(ColorInput.value, OpacityInput.value / 100);
+            });
+          } else {
+            DisplayMessage("Error", `Invalid opacity format at ${i} , value must be from 0 to 100 only`);
+          }
+        });
+        CssProperyInputsContainer.append(PositionSelect, WidthInput, StyleSelect, ColorInput, OpacityInput);
+        Container.append(CssPropertyLabel, CssProperyInputsContainer);
+        Row.append(Container);
+      }
+      if (Opacity) {
+        const Container = document.createElement("div");
+        const CssPropertyLabel = document.createElement("label");
+        const CssProperyInputsContainer = document.createElement("div");
+        const OpacityInput = document.createElement("input");
+
+        Container.className = "theme-tweaker-inner-row-container";
+        CssProperyInputsContainer.className = "css-property-inputs-container";
+        CssPropertyLabel.className = "css-property-label";
+        OpacityInput.className = "css-property-input";
+
+        OpacityInput.value = Opacity;
+        CssPropertyLabel.innerText = `${Strings.BackgroundOpacity[UserSettings.CurrentLang]} (%)`;
+        OpacityInput.placeholder = `${Strings.BackgroundOpacity[UserSettings.CurrentLang]} (%)`;
+        OpacityInput.min = 0;
+        OpacityInput.max = 100;
+
+        OpacityInput.type = "number";
+
+        Container.style.order = 6;
+
+        OpacityInput.addEventListener("input", () => {
+          if (OpacityInput.value && OpacityInput.value >= 0 && OpacityInput.value <= 100) {
+            UserThemes[i].Themes[SelectedTheme].Opacity = OpacityInput.value;
+            document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
+              Element.style.backgroundColor = HexToRgba(UserThemes[i].Themes[SelectedTheme].BgColor, OpacityInput.value / 100);
+            });
+          } else {
+            DisplayMessage("Error", `Invalid opacity format at ${i} , value must be from 0 to 100 only`);
+          }
+        });
+        CssProperyInputsContainer.append(OpacityInput);
+        Container.append(CssPropertyLabel, CssProperyInputsContainer);
+        Row.append(Container);
+      }
+      if (TextOpacity) {
+        const Container = document.createElement("div");
+        const CssPropertyLabel = document.createElement("label");
+        const CssProperyInputsContainer = document.createElement("div");
+        const OpacityInput = document.createElement("input");
+
+        Container.className = "theme-tweaker-inner-row-container";
+        CssProperyInputsContainer.className = "css-property-inputs-container";
+        CssPropertyLabel.className = "css-property-label";
+        OpacityInput.className = "css-property-input";
+
+        OpacityInput.value = TextOpacity;
+        CssPropertyLabel.innerText = `${Strings.TextOpacity[UserSettings.CurrentLang]} (%)`;
+        OpacityInput.placeholder = `${Strings.TextOpacity[UserSettings.CurrentLang]} (%)`;
+        OpacityInput.min = 0;
+        OpacityInput.max = 100;
+
+        OpacityInput.type = "number";
+
+        Container.style.order = 7;
+
+        OpacityInput.addEventListener("input", () => {
+          if (OpacityInput.value && OpacityInput.value >= 0 && OpacityInput.value <= 100) {
+            UserThemes[i].Themes[SelectedTheme].TextOpacity = OpacityInput.value;
+            document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
+              Element.style.color = HexToRgba(UserThemes[i].Themes[SelectedTheme].Color, OpacityInput.value / 100);
+            });
+          } else {
+            DisplayMessage("Error", `Invalid opacity format at ${i} , value must be from 0 to 100 only`);
+          }
+        });
+        CssProperyInputsContainer.append(OpacityInput);
         Container.append(CssPropertyLabel, CssProperyInputsContainer);
         Row.append(Container);
       }
@@ -208,24 +356,26 @@ function ThemeTweakerModal() {
         HoverBgColorPicker.className = "css-property-input";
         HoverBgColorInput.className = "css-property-input";
 
-        CssPropertyLabel.innerText = "Hover Bg Color";
+        CssPropertyLabel.innerText = Strings.HoverBg[UserSettings.CurrentLang];
+        HoverBgColorInput.placeholder = Strings.HoverBg[UserSettings.CurrentLang];
         HoverBgColorPicker.value = Hover;
         HoverBgColorInput.value = Hover;
-        HoverBgColorInput.placeholder = "Hover Bg Color";
 
         HoverBgColorPicker.type = "color";
         HoverBgColorInput.type = "text";
+
+        Container.style.order = 5;
 
         HoverBgColorPicker.addEventListener("input", () => {
           UserThemes[i].Themes[SelectedTheme].Hover.BgColor = HoverBgColorPicker.value;
           HoverBgColorInput.value = HoverBgColorPicker.value;
         });
         HoverBgColorInput.addEventListener("input", () => {
-          if (HoverBgColorInput.value.match(ValidColorFormat)) {
+          if (HoverBgColorInput.value.match(ValidColorFormat) || ColorInput.value === "") {
             UserThemes[i].Themes[SelectedTheme].Hover.BgColor = HoverBgColorInput.value;
             HoverBgColorPicker.value = HoverBgColorInput.value;
           } else {
-            DisplayMessage("Error", `Invalid Color Format At ${i}`);
+            DisplayMessage("Error", `Invalid color format at ${i} , value must be in Hex format`);
           }
         });
         CssProperyInputsContainer.append(HoverBgColorInput, HoverBgColorPicker);
@@ -235,6 +385,7 @@ function ThemeTweakerModal() {
       Row.className = "theme-tweaker-modal-row";
       RowLabel.className = "theme-tweaker-modal-row-label";
       RowLabel.innerText = i;
+      Row.style.order = 1;
       Row.append(RowLabel);
       Options.append(Row);
     }
@@ -427,9 +578,9 @@ function AddNoteModal() {
     const CharacterLimitTag = document.createElement("section");
 
     TitleSection.className = "note-title-section";
-    TitleBadge.className = "sticky-badge";
+    TitleBadge.className = "sticky-badge text";
     TitleInput.className = "note-title-input modal-input";
-    CharacterLimitTag.className = "character-limit note-title-input-charlimit";
+    CharacterLimitTag.className = "character-limit note-title-input-charlimit text";
 
     TitleBadge.innerText = Strings.Title[UserSettings.CurrentLang];
     TitleInput.placeholder = Strings.NoteTitleInputPlaceHolder[UserSettings.CurrentLang];
@@ -450,11 +601,11 @@ function AddNoteModal() {
 
     NoteSection.className = "note-section";
     NoteTextArea.className = "note-text-area";
-    NoteBadge.className = "sticky-badge";
+    NoteBadge.className = "sticky-badge text";
 
     NoteBadge.innerText = Strings.NoteBadge[UserSettings.CurrentLang];
 
-    NoteSection.append(NoteTextArea, NoteBadge);
+    NoteSection.append(NoteBadge, NoteTextArea);
     InputsContainer.append(NoteSection);
     InitTinyMce(NoteTextArea, false);
   };
@@ -671,8 +822,8 @@ function NewTaskModal() {
 
     TitleSection.className = "task-title-section";
     TitleInput.className = "modal-input new-task-title-input";
-    TitleInputBadge.className = "sticky-badge";
-    CharacterLimitTag.className = "character-limit new-task-title-input-charlimit";
+    TitleInputBadge.className = "sticky-badge text";
+    CharacterLimitTag.className = "character-limit new-task-title-input-charlimit text";
 
     TitleInput.placeholder = Strings.TaskTitleInputPlaceHolder[UserSettings.CurrentLang];
     TitleInput.maxLength = "70";
@@ -693,7 +844,7 @@ function NewTaskModal() {
 
     DateSection.className = "task-date-section";
     DateInput.className = "new-task-date-input modal-input date-input";
-    DateInputBadge.className = "sticky-badge";
+    DateInputBadge.className = "sticky-badge text";
 
     DateInputBadge.innerText = Strings.Date[UserSettings.CurrentLang];
     DateInput.placeholder = Strings.TaskDateInputPlaceHolder[UserSettings.CurrentLang];
@@ -723,11 +874,11 @@ function NewTaskModal() {
     const TaskCategorySectionBadge = document.createElement("span");
 
     TaskCategorySection.className = "select-category-section";
-    TaskCategorySectionBadge.className = "sticky-badge";
+    TaskCategorySectionBadge.className = "sticky-badge text";
 
     TaskCategorySectionBadge.innerText = Strings.SelectCategoryBadge[UserSettings.CurrentLang];
 
-    TaskCategorySection.append(CategorySelectBox, TaskCategorySectionBadge);
+    TaskCategorySection.append(TaskCategorySectionBadge, CategorySelectBox);
 
     let SelectBoxAttributeObserver = new MutationObserver(function (Mutation) {
       Mutation.forEach(function (Mutation) {
@@ -831,8 +982,8 @@ function EditTaskModal(ID) {
 
     TitleSection.className = "task-title-section";
     TitleInput.className = "modal-input edit-task-title-input";
-    TitleInputBadge.className = "sticky-badge";
-    CharacterLimitTag.className = "character-limit edit-task-title-input-charlimit";
+    TitleInputBadge.className = "sticky-badge text";
+    CharacterLimitTag.className = "character-limit edit-task-title-input-charlimit text";
 
     TitleInput.placeholder = Strings.TaskTitleInputPlaceHolder[UserSettings.CurrentLang];
     TitleInput.maxLength = "70";
@@ -854,7 +1005,7 @@ function EditTaskModal(ID) {
 
     DateSection.className = "task-date-section";
     DateInput.className = "edit-task-date-input modal-input date-input";
-    DateInputBadge.className = "sticky-badge";
+    DateInputBadge.className = "sticky-badge text";
 
     DateInputBadge.innerText = Strings.Date[UserSettings.CurrentLang];
     DateInput.placeholder = Strings.TaskDateInputPlaceHolder[UserSettings.CurrentLang];
@@ -889,11 +1040,11 @@ function EditTaskModal(ID) {
     const TaskCategorySectionBadge = document.createElement("span");
 
     TaskCategorySection.className = "select-category-section";
-    TaskCategorySectionBadge.className = "sticky-badge";
+    TaskCategorySectionBadge.className = "sticky-badge text";
 
     TaskCategorySectionBadge.innerText = Strings.SelectCategoryBadge[UserSettings.CurrentLang];
 
-    TaskCategorySection.append(CategorySelectBox, TaskCategorySectionBadge);
+    TaskCategorySection.append(TaskCategorySectionBadge, CategorySelectBox);
 
     let SelectBoxAttributeObserver = new MutationObserver(function (Mutation) {
       Mutation.forEach(function (Mutation) {
@@ -917,7 +1068,7 @@ function EditTaskModal(ID) {
     CancelBtn.className = "cancel-btn red-btn";
 
     ButtonContainer.style.order = "3";
-    ConfirmBtn.innerText = Strings.Create[UserSettings.CurrentLang];
+    ConfirmBtn.innerText = Strings.Edit[UserSettings.CurrentLang];
     CancelBtn.innerText = Strings.Return[UserSettings.CurrentLang];
 
     ConfirmBtn.addEventListener("click", function () {
@@ -996,9 +1147,9 @@ function NewCategoryModal() {
 
     TitleSection.className = "category-title-section";
     InputContainer.className = "modal-inputs-container";
-    TitleInputBadge.className = "sticky-badge";
+    TitleInputBadge.className = "sticky-badge text";
     TitleInput.className = "new-category-title-input modal-input";
-    CharacterLimitTag.className = "character-limit new-category-title-input-charlimit";
+    CharacterLimitTag.className = "character-limit new-category-title-input-charlimit text";
 
     InputContainer.style.order = "2";
     TitleInputBadge.innerText = Strings.Name[UserSettings.CurrentLang];
@@ -1034,6 +1185,7 @@ function NewCategoryModal() {
     ColorSlideRightIcon.className = "icon";
 
     ColorSection.style.order = "3";
+    ColorsContainer.style.gridTemplateColumns = `repeat(${CategoryColors.length},1fr)`;
     PickColorBadge.innerText = Strings.PickColorBadge[UserSettings.CurrentLang];
     ColorSlideLeftIcon.src = "../Icons/arrow-left-s-fill.svg";
     ColorSlideRightIcon.src = "../Icons/arrow-right-s-fill.svg";
@@ -1080,6 +1232,7 @@ function NewCategoryModal() {
     IconSlideRightIcon.className = "icon";
 
     IconSection.style.order = "4";
+    IconsContainer.style.gridTemplateColumns = `repeat(${CategoryIcons.length},1fr)`;
     PickIconBadge.innerText = Strings.PickIconBadge[UserSettings.CurrentLang];
     IconSlideLeftIcon.src = "../Icons/arrow-left-s-fill.svg";
     IconSlideRightIcon.src = "../Icons/arrow-right-s-fill.svg";
@@ -1195,9 +1348,9 @@ function EditCategoryModal(ID) {
 
     TitleSection.className = "category-title-section";
     InputContainer.className = "modal-inputs-container";
-    TitleInputBadge.className = "sticky-badge";
+    TitleInputBadge.className = "sticky-badge text";
     TitleInput.className = "edit-category-title-input modal-input";
-    CharacterLimitTag.className = "character-limit edit-category-title-input-charlimit";
+    CharacterLimitTag.className = "character-limit edit-category-title-input-charlimit text";
 
     TitleInputBadge.innerText = Strings.Name[UserSettings.CurrentLang];
     TitleInput.placeholder = Strings.WriteAName[UserSettings.CurrentLang];
@@ -1232,6 +1385,7 @@ function EditCategoryModal(ID) {
     ColorSlideLeftIcon.className = "icon";
     ColorSlideRightIcon.className = "icon";
 
+    ColorsContainer.style.gridTemplateColumns = `repeat(${CategoryColors.length},1fr)`;
     PickColorBadge.innerText = Strings.PickColorBadge[UserSettings.CurrentLang];
     ColorSlideLeftIcon.src = "../Icons/arrow-left-s-fill.svg";
     ColorSlideRightIcon.src = "../Icons/arrow-right-s-fill.svg";
@@ -1277,6 +1431,7 @@ function EditCategoryModal(ID) {
     IconSlideLeftIcon.className = "icon";
     IconSlideRightIcon.className = "icon";
 
+    IconsContainer.style.gridTemplateColumns = `repeat(${CategoryIcons.length},1fr)`;
     PickIconBadge.innerText = Strings.PickIconBadge[UserSettings.CurrentLang];
     IconSlideLeftIcon.src = "../Icons/arrow-left-s-fill.svg";
     IconSlideRightIcon.src = "../Icons/arrow-right-s-fill.svg";
@@ -1756,6 +1911,7 @@ function AddDragEventListenersToModal(Selector) {
     return;
   }
   const Modal = document.querySelector(Selector);
+  let Timer;
   Modal.addEventListener("click", () => {
     document.querySelectorAll(".modal").forEach((AnotherModal) => {
       AnotherModal.classList.remove("active");
@@ -1764,13 +1920,16 @@ function AddDragEventListenersToModal(Selector) {
   });
   Modal.addEventListener("mousedown", (Event) => {
     if (!Event.target.className.includes("modal")) return;
-    AppObj.DragModalMode = true;
-    AppObj.ActiveModalID = Selector;
-    document.querySelectorAll("*").forEach((Element) => {
-      Element.classList.add("disable-selection");
-    });
+    Timer = setTimeout(() => {
+      AppObj.DragModalMode = true;
+      AppObj.ActiveModalID = Selector;
+      document.querySelectorAll("*").forEach((Element) => {
+        Element.classList.add("disable-selection");
+      });
+    }, 180);
   });
   document.addEventListener("mouseup", () => {
+    clearTimeout(Timer);
     AppObj.DragModalMode = false;
     AppObj.ActiveModalID = null;
     document.querySelectorAll("*").forEach((Element) => {
