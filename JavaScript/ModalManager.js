@@ -33,6 +33,9 @@ function ThemeTweakerModal() {
   DefualtPalletButton.innerText = "Defualt Pallet";
   DeleteThemeBtn.innerText = `${Strings.Delete[UserSettings.CurrentLang]} ${Strings.Theme[UserSettings.CurrentLang].toLowerCase()}`;
   HideModalIcon.src = "../Icons/close-large-line.svg";
+  ApplyButton.title = "ShortCut : CTRL + S";
+  DeleteThemeBtn.title = "ShortCut : DEL";
+  HideModalBtn.title = "ShortCut : ESC";
   // Theme bar and options
   const CreateThemeBar = () => {
     ThemeBar.innerHTML = "";
@@ -592,7 +595,6 @@ function AddNoteModal() {
 
     HideModalBtn.addEventListener("click", function (Event) {
       Event.stopPropagation();
-
       HideModal(".add-note-modal");
     });
 
@@ -650,6 +652,7 @@ function AddNoteModal() {
     ButtonContainer.style.order = "3";
     ConfirmBtn.innerText = Strings.Create[UserSettings.CurrentLang];
     CancelBtn.innerText = Strings.Return[UserSettings.CurrentLang];
+    ConfirmBtn.title = "ShortCut : Enter";
 
     ConfirmBtn.addEventListener("click", function () {
       let RawNoteContent = tinymce.activeEditor.getContent({ format: "raw" });
@@ -705,7 +708,6 @@ function ReadNoteModal(...Args) {
 
     HideModalBtn.addEventListener("click", function (Event) {
       Event.stopPropagation();
-
       HideModal(`.read-${ID}-modal`);
     });
 
@@ -939,6 +941,7 @@ function NewTaskModal() {
     ButtonContainer.className = "modal-btn-container";
     ConfirmBtn.className = "confirm-btn green-btn";
     CancelBtn.className = "cancel-btn red-btn";
+    ConfirmBtn.title = "ShortCut : Enter";
 
     ButtonContainer.style.order = "3";
     ConfirmBtn.innerText = Strings.Create[UserSettings.CurrentLang];
@@ -1117,6 +1120,7 @@ function EditTaskModal(ID) {
     ButtonContainer.className = "modal-btn-container";
     ConfirmBtn.className = "confirm-btn green-btn";
     CancelBtn.className = "cancel-btn red-btn";
+    ConfirmBtn.title = "ShortCut : Enter";
 
     ButtonContainer.style.order = "3";
     ConfirmBtn.innerText = Strings.Edit[UserSettings.CurrentLang];
@@ -1327,6 +1331,7 @@ function NewCategoryModal() {
     ButtonContainer.className = "modal-btn-container";
     ConfirmBtn.className = "confirm-btn green-btn";
     CancelBtn.className = "cancel-btn red-btn";
+    ConfirmBtn.title = "ShortCut : Enter";
 
     ButtonContainer.style.order = "5";
     ConfirmBtn.innerText = Strings.Create[UserSettings.CurrentLang];
@@ -1530,6 +1535,7 @@ function EditCategoryModal(ID) {
     ButtonContainer.className = "modal-btn-container";
     ConfirmBtn.className = "confirm-btn green-btn";
     CancelBtn.className = "cancel-btn red-btn";
+    ConfirmBtn.title = "ShortCut : Enter";
 
     ConfirmBtn.innerText = Strings.Edit[UserSettings.CurrentLang];
     CancelBtn.innerText = Strings.Return[UserSettings.CurrentLang];
@@ -1670,6 +1676,7 @@ function BackUpModal() {
 
     ModalTextArea.placeholder = Strings.InsertBackUpTextPlaceHolder[UserSettings.CurrentLang];
     InsertBackUpTextIcon.src = "";
+    RestoreButton.title = "ShortCut : Enter";
 
     ReturnButton.addEventListener("click", ReturnFromModalSubPage);
     RestoreButton.addEventListener("click", () => RestoreFromText(ModalTextArea.value));
@@ -1804,6 +1811,8 @@ function DeleteModal(Type, ID) {
   MoveToTrashText.innerText = Strings.MoveToTrashText[UserSettings.CurrentLang];
   ConfirmBtn.innerText = Strings.Delete[UserSettings.CurrentLang];
   CancelBtn.innerText = Strings.Return[UserSettings.CurrentLang];
+  ConfirmBtn.title = "ShortCut : Enter";
+  HideModalBtn.title = "ShortCut : ESC";
 
   HideModalBtn.style.order = "1";
   ModalText.style.order = "2";
