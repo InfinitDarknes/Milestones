@@ -9,17 +9,6 @@ window.onload = async function () {
   DPStrings = await FetchAppJsonFiles("Json/DatePickerStrings.json");
   InitializeApp();
 };
-
-// This will be a future feature to warn user of unsaved changes before proceeding to refresh the page
-
-// window.BeforeUnloadEvent = () => {
-//   let UserThemes = JSON.parse(localStorage.getItem("UserThemes"));
-//   if (UserThemes !== ThemeObj) {
-//     let Confirm = confirm("you haven't applied changes to UI are you sure you want to reload the page ? ");
-//     if (Confirm) window.location.reload();
-//   }
-// };
-
 function InitializeApp() {
   LoadSave();
   PreLoader();

@@ -32,17 +32,14 @@ function AddTask(...Args) {
   DisplayMessage("Success", MessageBoxStrings.TaskSuccess[UserSettings.CurrentLang]);
 }
 function DeleteTask(ID) {
-  if (AppObj.SelectMode) {
-    ReturnSelectedTasks().forEach((Task) => {
-      AllTasksArray.splice(FindIndexOfTask(Task.ID), 1);
-      Task.Selected = false;
-    });
-  } else {
-    let Index = FindIndexOfTask(ID);
-    AllTasksArray.splice(Index, 1);
-  }
+  let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
+  SelectedTasks.forEach((Task) => {
+    AllTasksArray.splice(FindIndexOfTask(Task.ID), 1);
+    Task.Selected = false;
+  });
   Save("Tasks");
   UpdateInbox();
+  // DeleteWithAnimation();
 }
 function FailTask(ID) {
   let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
@@ -113,6 +110,8 @@ function LocalizeTask(ID) {
   Save("Tasks");
   UpdateInbox();
 }
+// Animate (Disintegrate and Canvas)
+function DeleteWithAnimation() {}
 // Restore Tasks
 function RestoreTasks(ID) {
   let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
@@ -503,6 +502,7 @@ function UpdateInbox() {
   } else {
     throw new Error("Inbox failed to update because CurrentWindow value is invalid");
   }
+  console.log("Updated Inbox");
   ExitSelectMode();
 }
 // Saving

@@ -1778,8 +1778,9 @@ function ReturnFromModalSubPage() {
 }
 
 function DeleteModal(Type, ID) {
+  if (document.querySelector(".delete-modal")) return;
   const Modal = document.createElement("section");
-  Modal.className = "modal";
+  Modal.className = "modal delete-modal";
 
   const HideModalBtn = document.createElement("button");
   const HideModalIcon = document.createElement("img");
