@@ -130,29 +130,16 @@
   padding: 10px 5px 10px 10px;
   text-align: right;
 }
-/* Date Container */
-.date-container {
+/* Task Extra Info */
+.task-extra-info {
   display: flex;
   flex-direction: row;
   position: absolute;
   top: -20px;
   right: 0px;
-  margin: 0;
+  padding: 3px 5px;
   border-top-right-radius: 4px;
   border-bottom-left-radius: 4px;
-}
-/* Task Date */
-.task-date {
-  order: 2;
-  padding: 3px 5px;
-  font-size: 0.9em;
-  direction: ltr;
-}
-/* Task Time */
-.task-time {
-  order: 1;
-  padding: 3px 5px;
-  font-size: 0.9em;
   direction: ltr;
 }
 /* Badges for Failed and Completed Tasks */
@@ -190,10 +177,7 @@
 }
 /* Empty Box Container */
 .empty-box-container {
-  position: absolute;
-  top: 50%;
-  left: 60%;
-  transform: translate(-50%, -50%);
+  margin: auto;
   width: fit-content;
   height: fit-content;
   display: flex;
@@ -203,8 +187,8 @@
 }
 /* Empty Box Image */
 .empty-box-container img {
-  width: 200px;
-  height: 200px;
+  width: 10rem;
+  height: 10rem;
 }
 /* Empty Box Text */
 .empty-box-text {

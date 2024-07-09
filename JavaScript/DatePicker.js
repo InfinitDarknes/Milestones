@@ -22,8 +22,19 @@ function ToggleDatePicker(Selector, NumericDate) {
   if (document.querySelector("#date-picker")) HideDatePicker();
   else {
     CreateDatePicker(Selector);
-    if (AppObj.EditMode) LoadCustomDate(NumericDate);
-    else LoadToday();
+    if (NumericDate) {
+      LoadCustomDate(NumericDate);
+    } else {
+      if (AppObj.CurrentWindow.includes("Today")) {
+        LoadToday();
+      } else if (AppObj.CurrentWindow.includes("Tomorrow")) {
+        LoadTomorrow();
+      } else if (AppObj.CurrentWindow.includes("In2Days")) {
+        LoadIn2Days();
+      } else {
+        LoadToday();
+      }
+    }
     UpdateDatePicker();
   }
 }
@@ -108,6 +119,7 @@ function LoadToday() {
   UpdateDatePicker();
 }
 function LoadTomorrow() {
+  console.log("Loading Tomorrow");
   let TodayNumericTime = new Date().getTime();
   let TomorrowNumericTime = TodayNumericTime + 24 * 60 * 60 * 1000;
   let GregorianYear = new Date(TomorrowNumericTime).getFullYear();
@@ -220,6 +232,7 @@ function LoadCustomDate(NumericDate) {
     DateObject.GregorianMonth = GregorianMonth;
     DateObject.GregorianDay = GregorianDay;
   }
+  DisplayDateStringIntoInput();
   UpdateDatePicker();
 }
 function ExtractDate(Request, DateType) {
@@ -411,7 +424,6 @@ function HideDatePicker() {
   if (DoesElementExist("date-picker")) document.getElementById("date-picker").remove();
 }
 function UpdateDatePicker() {
-  const TargetInput = document.querySelector(TargetInputID.toString());
   const DatePicker = document.getElementById("date-picker");
   const TimePicker = document.getElementById("time-picker");
   const Month = document.getElementById("month");
@@ -435,20 +447,22 @@ function UpdateDatePicker() {
     DPStrings.December[UserSettings.CurrentLang],
   ];
   if (DatePickerSettings.type === "Solar") {
-    if (!DatePicker) return;
-    Year.innerText = PlacePersianNumbers(DateObject.SolarYear);
-    Month.innerText = SolarMonthArray[DateObject.SolarMonth];
-    HighLightSelectedDay(`Day-${DateObject.SolarDay}`);
+    if (DatePicker) {
+      Year.innerText = PlacePersianNumbers(DateObject.SolarYear);
+      Month.innerText = SolarMonthArray[DateObject.SolarMonth];
+      HighLightSelectedDay(`Day-${DateObject.SolarDay}`);
+    }
   }
   if (DatePickerSettings.type === "Gregorian") {
-    if (!DatePicker) return;
-    Year.innerText = PlacePersianNumbers(DateObject.GregorianYear);
-    Month.innerText = GregorianMonthArray[DateObject.GregorianMonth];
-    HighLightSelectedDay(`Day-${DateObject.GregorianDay}`);
+    if (DatePicker) {
+      Year.innerText = PlacePersianNumbers(DateObject.GregorianYear);
+      Month.innerText = GregorianMonthArray[DateObject.GregorianMonth];
+      HighLightSelectedDay(`Day-${DateObject.GregorianDay}`);
+    }
   }
   TargetInput.dataset.numericdate = ExtractDate("Numeric");
-  CheckDaysOfTheMonth(DayButtons);
-  DisplayDateStringIntoInput(TargetInput);
+  if (DatePicker) CheckDaysOfTheMonth(DayButtons);
+  DisplayDateStringIntoInput();
   if (TimePicker) {
     const TaskHourInput = document.getElementById("task-hour-input");
     const TaskMinuteInput = document.getElementById("task-minute-input");
@@ -478,7 +492,7 @@ function CheckDaysOfTheMonth(DayButtons) {
     }
   }
 }
-function DisplayDateStringIntoInput(TargetInput) {
+function DisplayDateStringIntoInput() {
   if (DatePickerSettings.type === "Solar") {
     if (TargetInput) TargetInput.value = PlacePersianNumbers(ExtractDate("Solar", "String"));
   }

@@ -50,12 +50,20 @@ function AutoWriter() {
 }
 function ShowDateAndClock() {
   const FullDate = document.querySelector(".full-date");
+  let GregorianYear = new Date().getFullYear();
+  let GregorianMonth = new Date().getMonth() + 1;
+  let GregorianDay = new Date().getDate();
   switch (UserSettings.Calendar) {
     case "Solar":
-      FullDate.innerText = PlacePersianNumbers(ExtractDate("Solar", "String"));
+      let FullSolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
+      FullDate.innerText = PlacePersianNumbers(
+        `${FullSolarDate[0].toString().padStart("2", "0")} / ${FullSolarDate[1].toString().padStart("2", "0")} / ${FullSolarDate[2].toString().padStart("2", "0")}`
+      );
       break;
     default:
-      FullDate.innerText = PlacePersianNumbers(ExtractDate("Gregorian", "String"));
+      FullDate.innerText = PlacePersianNumbers(
+        `${GregorianYear.toString().padStart("2", "0")} / ${GregorianMonth.toString().padStart("2", "0")} / ${GregorianDay.toString().padStart("2", "0")}`
+      );
       break;
   }
 }

@@ -74,6 +74,7 @@ function ReadNote(ID) {
 function ActivateReadNoteModalEditMode() {
   const NoteModal = document.querySelector(`.read-note-modal`);
   if (!NoteModal) return;
+  AppObj.EditNoteMode = true;
   const NoteModalText = document.querySelector(`.note-modal-text`);
   const NoteModalTitle = document.querySelector(`.note-modal-title`);
   const NoteModalDeleteBtn = document.querySelector(`.delete-note-btn`);
@@ -92,6 +93,7 @@ function ActivateReadNoteModalEditMode() {
 function ExitNoteEditMode() {
   const NoteModal = document.querySelector(`.read-note-modal`);
   if (!NoteModal) return;
+  AppObj.EditNoteMode = false;
   const NoteModalTitle = document.querySelector(`.note-modal-title`);
   const NoteModalDeleteBtn = document.querySelector(`.delete-note-btn`);
   const NoteModalEditBtn = document.querySelector(`.edit-note-btn`);

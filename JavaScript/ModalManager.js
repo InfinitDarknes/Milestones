@@ -10,6 +10,7 @@ function ThemeTweakerModal() {
   const HideModalBtn = document.createElement("button");
   const HideModalIcon = document.createElement("img");
   const ThemeBar = document.createElement("div");
+  const SearchBar = document.createElement("input");
   const Options = document.createElement("section");
   const ButtonContainer = document.createElement("div");
   const ApplyButton = document.createElement("button");
@@ -17,14 +18,17 @@ function ThemeTweakerModal() {
   const DefualtPalletButton = document.createElement("button");
   // ID and class
   ThemeTweakerModal.className = "theme-tweaker-modal modal";
+
   HideModalBtn.className = "close-btn icon";
   ThemeBar.className = "theme-bar";
+  SearchBar.className = "theme-modal-search-bar";
   Options.className = "theme-tweaker-options";
   ButtonContainer.className = "theme-tweaker-modal-btn-container";
   ApplyButton.className = "theme-tweaker-modal-btn apply-btn";
   DeleteThemeBtn.className = "theme-tweaker-modal-btn delete-btn";
   DefualtPalletButton.className = "theme-tweaker-modal-btn defualt-btn";
-  // InnerText and srx
+  // InnerText and src and placeholder
+  SearchBar.placeholder = Strings.Search[UserSettings.CurrentLang];
   ApplyButton.innerText = Strings.Apply[UserSettings.CurrentLang];
   DefualtPalletButton.innerText = "Defualt Pallet";
   DeleteThemeBtn.innerText = `${Strings.Delete[UserSettings.CurrentLang]} ${Strings.Theme[UserSettings.CurrentLang].toLowerCase()}`;
@@ -508,7 +512,28 @@ function ThemeTweakerModal() {
     NewThemeForm.append(NewThemeNameInput, NewThemeFormBtnContainer);
     ThemeTweakerModal.append(NewThemeForm);
   };
+  // Search Input function
+  const SearchElements = (KeyWord) => {
+    CreateThemeModeOptions();
+    const Elements = Array.from(document.querySelectorAll(".theme-tweaker-modal-row-label"));
+    const Matches = Elements.filter((Elem) => {
+      if (Elem.innerHTML.toLowerCase().includes(KeyWord.toLowerCase())) {
+        Elem.parentElement.style.display = "flex";
+        return Elem;
+      } else {
+        Elem.parentElement.style.display = "none";
+      }
+    });
+    if (Matches.length === 0) {
+      if (!document.querySelector(".theme-tweaker-options .empty-box-container")) {
+        EmptyBox("No element was found :(", ".theme-tweaker-options");
+      }
+    }
+  };
   // Events
+  SearchBar.addEventListener("input", () => {
+    SearchElements(SearchBar.value.toLowerCase());
+  });
   ApplyButton.addEventListener("click", ApplyChanges);
   DefualtPalletButton.addEventListener("click", () => {
     localStorage.removeItem("UserThemes");
@@ -522,10 +547,11 @@ function ThemeTweakerModal() {
   // Finaly
   HideModalBtn.append(HideModalIcon);
   ButtonContainer.append(ApplyButton, DefualtPalletButton, DeleteThemeBtn);
-  ThemeTweakerModal.append(HideModalBtn, ThemeBar, Options, ButtonContainer);
+  ThemeTweakerModal.append(HideModalBtn, ThemeBar, SearchBar, Options, ButtonContainer);
   document.body.append(ThemeTweakerModal);
   CreateThemeBar();
   CreateThemeModeOptions();
+  ChooseActiveModal();
   AddDragEventListenersToModal(".theme-tweaker-modal");
   PositionModal(".theme-tweaker-modal");
   HighLightSelectedThemeBtn(`${SelectedTheme.toLowerCase()}-theme-btn`);
@@ -559,11 +585,14 @@ function AddNoteModal() {
 
     ModalTopBar.className = "modal-top-bar";
     HideModalBtn.className = "close-btn icon";
+    HideModalBtn.title = "ShortCut : ESC";
 
     ModalTopBar.style.order = "1";
     HideModalIcon.src = "../Icons/close-large-line.svg";
 
-    HideModalBtn.addEventListener("click", function () {
+    HideModalBtn.addEventListener("click", function (Event) {
+      Event.stopPropagation();
+
       HideModal(".add-note-modal");
     });
 
@@ -652,6 +681,7 @@ function AddNoteModal() {
   document.body.append(Modal);
 
   PositionModal(`.add-note-modal`);
+  ChooseActiveModal();
   AddDragEventListenersToModal(".add-note-modal");
   CharacterLimit(".note-title-input-charlimit", ".note-title-input");
 }
@@ -670,10 +700,12 @@ function ReadNoteModal(...Args) {
 
     ModalTopBar.className = "modal-top-bar";
     HideModalBtn.className = "close-btn icon";
-
+    HideModalBtn.title = "ShortCut : ESC";
     HideModalIcon.src = "../Icons/close-large-line.svg";
 
-    HideModalBtn.addEventListener("click", function () {
+    HideModalBtn.addEventListener("click", function (Event) {
+      Event.stopPropagation();
+
       HideModal(`.read-${ID}-modal`);
     });
 
@@ -752,6 +784,8 @@ function ReadNoteModal(...Args) {
     CancelEditBtn.innerText = Strings.Cancel[UserSettings.CurrentLang];
     ApplyEditBtn.innerText = Strings.Apply[UserSettings.CurrentLang];
 
+    ApplyEditBtn.title = "ShortCut : CTRL + S";
+
     EditBtn.addEventListener("click", () => {
       ActivateReadNoteModalEditMode(ID);
     });
@@ -776,6 +810,7 @@ function ReadNoteModal(...Args) {
 
   document.body.append(Modal);
   PositionModal(`.read-${ID}-modal`);
+  ChooseActiveModal();
   AddDragEventListenersToModal(`.read-${ID}-modal`);
 }
 
@@ -802,11 +837,13 @@ function NewTaskModal() {
 
     ModalTopBar.className = "modal-top-bar";
     HideModalBtn.className = "close-btn icon";
+    HideModalBtn.title = "ShortCut : ESC";
 
     ModalTopBar.style.order = "1";
     HideModalIcon.src = "../Icons/close-large-line.svg";
 
-    HideModalBtn.addEventListener("click", function () {
+    HideModalBtn.addEventListener("click", function (Event) {
+      Event.stopPropagation();
       HideModal(".new-task-modal");
     });
 
@@ -854,15 +891,17 @@ function NewTaskModal() {
       SetupTargetInput(".new-task-date-input");
       ToggleDatePicker(".new-task-date-input");
     });
-    let DateInputAttributeObserver = new MutationObserver(function (Mutation) {
-      Mutation.forEach(function (Mutation) {
-        if (Mutation.type === "attributes") {
-          NewTaskInfo.Date = +DateInput.dataset.numericdate;
+
+    let DateInputAttributeObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (mutation.type === "attributes" && mutation.attributeName === "data-numericdate") {
+          NewTaskInfo.Date = Number(DateInput.dataset.numericdate);
         }
       });
     });
     DateInputAttributeObserver.observe(DateInput, {
       attributes: true,
+      attributeFilter: ["data-numericdate"],
     });
 
     DateSection.append(DateInputBadge, DateInput);
@@ -932,12 +971,25 @@ function NewTaskModal() {
 
   Modal.append(InputsContainer);
   document.body.append(Modal);
+  SetupTargetInput(".new-task-date-input");
+  if (AppObj.CurrentWindow.includes("Today")) {
+    LoadToday();
+  } else if (AppObj.CurrentWindow.includes("Tomorrow")) {
+    LoadTomorrow();
+  } else if (AppObj.CurrentWindow.includes("In2Days")) {
+    LoadIn2Days();
+  } else {
+    LoadToday();
+  }
   PositionModal(".new-task-modal");
+  ChooseActiveModal();
   AddDragEventListenersToModal(".new-task-modal");
   CharacterLimit(".new-task-title-input-charlimit", ".new-task-title-input");
 }
 function EditTaskModal(ID) {
   if (document.querySelector(".edit-task-modal")) return;
+
+  AppObj.EditMode = true;
 
   let TaskIndex = AllTasksArray.findIndex((Task) => {
     return Task.ID === ID;
@@ -962,11 +1014,14 @@ function EditTaskModal(ID) {
 
     ModalTopBar.className = "modal-top-bar";
     HideModalBtn.className = "close-btn icon";
+    HideModalBtn.title = "ShortCut : ESC";
 
     ModalTopBar.style.order = "1";
     HideModalIcon.src = "../Icons/close-large-line.svg";
 
-    HideModalBtn.addEventListener("click", function () {
+    HideModalBtn.addEventListener("click", function (Event) {
+      Event.stopPropagation();
+
       HideModal(".edit-task-modal");
     });
 
@@ -1010,32 +1065,28 @@ function EditTaskModal(ID) {
     DateInputBadge.innerText = Strings.Date[UserSettings.CurrentLang];
     DateInput.placeholder = Strings.TaskDateInputPlaceHolder[UserSettings.CurrentLang];
     DateInput.setAttribute("readonly", "");
-    if (UserSettings.Calendar === "Solar") {
-      DateInput.value = PlacePersianNumbers(NumericToSolar(TaskInfo.Date));
-    }
-    if (UserSettings.Calendar === "Gregorian") {
-      DateInput.value = PlacePersianNumbers(NumericToGregorian(TaskInfo.Date));
-    }
     DateInput.addEventListener("click", () => {
       SetupTargetInput(".edit-task-date-input");
       ToggleDatePicker(".edit-task-date-input", TaskInfo.Date);
     });
-    let DateInputAttributeObserver = new MutationObserver(function (Mutation) {
-      Mutation.forEach(function (Mutation) {
-        if (Mutation.type === "attributes") {
-          TaskInfo.Date = +DateInput.dataset.numericdate;
+
+    let DateInputAttributeObserver = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (mutation.type === "attributes" && mutation.attributeName === "data-numericdate") {
+          TaskInfo.Date = Number(DateInput.dataset.numericdate);
         }
       });
     });
     DateInputAttributeObserver.observe(DateInput, {
       attributes: true,
+      attributeFilter: ["data-numericdate"],
     });
 
     DateSection.append(DateInputBadge, DateInput);
     InputsContainer.append(DateSection);
   };
   const CreateCategorySection = () => {
-    const CategorySelectBox = ReturnSelectBox();
+    const CategorySelectBox = ReturnSelectBox(TaskInfo.Category);
     const TaskCategorySection = document.createElement("section");
     const TaskCategorySectionBadge = document.createElement("span");
 
@@ -1085,9 +1136,11 @@ function EditTaskModal(ID) {
       Save("Tasks");
       UpdateInbox();
       HideModal(".edit-task-modal");
+      AppObj.EditMode = false;
     });
     CancelBtn.addEventListener("click", function () {
       HideModal(".edit-task-modal");
+      AppObj.EditMode = false;
     });
 
     ButtonContainer.append(ConfirmBtn, CancelBtn);
@@ -1099,11 +1152,13 @@ function EditTaskModal(ID) {
   CreateDateSection();
   CreateCategorySection();
   CreateBtnSection();
-
   Modal.append(InputsContainer);
   document.body.append(Modal);
 
+  SetupTargetInput(".edit-task-date-input");
+  LoadCustomDate(TaskInfo.Date);
   PositionModal(".edit-task-modal");
+  ChooseActiveModal();
   AddDragEventListenersToModal(".edit-task-modal");
   CharacterLimit(".edit-task-title-input-charlimit", ".edit-task-title-input");
 }
@@ -1126,11 +1181,14 @@ function NewCategoryModal() {
 
     ModalTopBar.className = "modal-top-bar";
     HideModalBtn.className = "close-btn icon";
+    HideModalBtn.title = "ShortCut : ESC";
 
     ModalTopBar.style.order = "1";
     HideModalIcon.src = "../Icons/close-large-line.svg";
 
-    HideModalBtn.addEventListener("click", function () {
+    HideModalBtn.addEventListener("click", function (Event) {
+      Event.stopPropagation();
+
       HideModal(".new-category-modal");
     });
 
@@ -1249,7 +1307,7 @@ function NewCategoryModal() {
         HighLightSelectedIcon(Icon.ID);
       });
       const CategoryIcon = document.createElement("img");
-      CategoryIcon.className = "pick-category-icon";
+      CategoryIcon.className = "pick-category-icon icon";
       CategoryIcon.src = Icon.Source;
       CategoryButton.append(CategoryIcon);
       IconsContainer.append(CategoryButton);
@@ -1303,6 +1361,7 @@ function NewCategoryModal() {
   document.body.append(Modal);
 
   PositionModal(".new-category-modal");
+  ChooseActiveModal();
   AddDragEventListenersToModal(".new-category-modal");
   CharacterLimit(".new-category-title-input-charlimit", ".new-category-title-input");
 }
@@ -1328,10 +1387,13 @@ function EditCategoryModal(ID) {
 
     ModalTopBar.className = "modal-top-bar";
     HideModalBtn.className = "close-btn icon";
+    HideModalBtn.title = "ShortCut : ESC";
 
     HideModalIcon.src = "../Icons/close-large-line.svg";
 
-    HideModalBtn.addEventListener("click", function () {
+    HideModalBtn.addEventListener("click", function (Event) {
+      Event.stopPropagation();
+
       HideModal(".edit-category-modal");
     });
 
@@ -1448,7 +1510,7 @@ function EditCategoryModal(ID) {
         HighLightSelectedIcon(Icon.ID);
       });
       const CategoryIcon = document.createElement("img");
-      CategoryIcon.className = "pick-category-icon";
+      CategoryIcon.className = "pick-category-icon icon";
       CategoryIcon.src = Icon.Source;
       CategoryButton.append(CategoryIcon);
       IconsContainer.append(CategoryButton);
@@ -1506,6 +1568,7 @@ function EditCategoryModal(ID) {
   document.body.append(Modal);
 
   PositionModal(".edit-category-modal");
+  ChooseActiveModal();
   AddDragEventListenersToModal(".edit-category-modal");
   CharacterLimit(".edit-category-title-input-charlimit", ".edit-category-title-input");
 }
@@ -1548,11 +1611,14 @@ function BackUpModal() {
 
     ModalTopBar.className = "modal-top-bar";
     HideModalBtn.className = "close-btn icon";
+    HideModalBtn.title = "ShortCut : ESC";
 
     ModalTopBar.style.order = "1";
     HideModalIcon.src = "../Icons/close-large-line.svg";
 
-    HideModalBtn.addEventListener("click", function () {
+    HideModalBtn.addEventListener("click", function (Event) {
+      Event.stopPropagation();
+
       HideModal(".backup-modal");
     });
 
@@ -1694,6 +1760,7 @@ function BackUpModal() {
   document.body.append(Modal);
 
   PositionModal(".backup-modal");
+  ChooseActiveModal();
   AddDragEventListenersToModal(".backup-modal");
 }
 function ReturnFromModalSubPage() {
@@ -1778,6 +1845,7 @@ function DeleteModal(Type, ID) {
       Modal.classList.add("delete-task-modal");
       ModalText.innerText = Strings.DeleteText[UserSettings.CurrentLang];
       Modal.append(MoveToTrashContainer);
+      ChooseActiveModal();
       AddDragEventListenersToModal(".delete-task-modal");
       PositionModal(".delete-task-modal");
       CancelBtn.addEventListener("click", () => {
@@ -1791,6 +1859,7 @@ function DeleteModal(Type, ID) {
       if (document.querySelector(".delete-task-modal")) return;
       Modal.classList.add("delete-task-modal");
       ModalText.innerText = Strings.DeleteTrashText[UserSettings.CurrentLang];
+      ChooseActiveModal();
       AddDragEventListenersToModal(".delete-task-modal");
       PositionModal(".delete-task-modal");
       CancelBtn.addEventListener("click", () => {
@@ -1804,6 +1873,7 @@ function DeleteModal(Type, ID) {
       if (document.querySelector(".delete-category-modal")) return;
       Modal.classList.add("delete-category-modal");
       ModalText.innerText = Strings.DeleteCategoryText[UserSettings.CurrentLang];
+      ChooseActiveModal();
       AddDragEventListenersToModal(".delete-category-modal");
       PositionModal(".delete-category-modal");
       CancelBtn.addEventListener("click", () => {
@@ -1832,7 +1902,7 @@ function ReturnSelectBox(UserCategory) {
   SelectBoxIcon.className = "select-box-icon icon";
 
   NoneOption.setAttribute("data-value", "None");
-  SelectBox.setAttribute("data-value", "None");
+  SelectBox.setAttribute("data-value", UserCategory ?? "None");
   NoneOption.innerText = Strings.CategoryNoneOption[UserSettings.CurrentLang];
   SelectBoxText.innerText = NoneOption.innerText;
   SelectBoxIcon.src = "../Icons/arrow-down-s-fill.svg";
@@ -1898,7 +1968,11 @@ function SwitchValueOfCategorySelectBox(UserCategory) {
 }
 function HideModal(Selector) {
   const Modal = document.querySelector(Selector);
-  if (Modal) Modal.remove();
+  if (Modal) {
+    Modal.remove();
+    if (Selector.includes(".read-Note")) AppObj.EditNoteMode = false;
+    ChooseActiveModal();
+  }
 }
 function CharacterLimit(CharLimitSelector, InputSelector) {
   const CharacterLimitTag = document.querySelector(CharLimitSelector);
@@ -1907,7 +1981,7 @@ function CharacterLimit(CharLimitSelector, InputSelector) {
 }
 function AddDragEventListenersToModal(Selector) {
   if (!Selector) {
-    DisplayMessage("Error", `Invalid selector passed to AddDragEventListenersToModal() , AppObj.ActiveModalID : ${AppObj.ActiveModalID}`);
+    DisplayMessage("Error", `Invalid selector passed to ChooseActiveModal();AddDragEventListenersToModal() , AppObj.ActiveModalID : ${AppObj.ActiveModalID}`);
     return;
   }
   const Modal = document.querySelector(Selector);
@@ -1918,6 +1992,7 @@ function AddDragEventListenersToModal(Selector) {
     });
     Modal.classList.add("active");
   });
+
   Modal.addEventListener("mousedown", (Event) => {
     if (!Event.target.className.includes("modal")) return;
     Timer = setTimeout(() => {
@@ -1951,3 +2026,14 @@ document.addEventListener("mousemove", (Event) => {
   Modal.style.top = `${Event.clientY}px`;
   Modal.style.left = `${Event.clientX}px`;
 });
+function ChooseActiveModal() {
+  // This function decides witch is the active modal out of all of them being open
+  let Modals = Array.from(document.querySelectorAll(".modal"));
+  Modals.forEach((Modal) => {
+    if (Modals.indexOf(Modal) === Modals.length - 1) {
+      Modal.classList.add("active");
+    } else {
+      Modal.classList.remove("active");
+    }
+  });
+}

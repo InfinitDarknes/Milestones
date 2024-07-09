@@ -260,8 +260,10 @@ function DisplayTaskContextMenu(Event, TargetType) {
   // Assemble
   switch (TargetType) {
     case "Normal":
-      if (!Target.IsTaskPinned) TaskContextMenu.append(PinTaskButton);
-      if (Target.IsTaskPinned) TaskContextMenu.append(UnPinTaskButton);
+      if (!Target.Pinned && AppObj.CurrentWindow.includes("Home")) TaskContextMenu.append(PinTaskButton);
+      if (Target.Pinned && AppObj.CurrentWindow.includes("Home")) TaskContextMenu.append(UnPinTaskButton);
+      if (!Target.PinnedInCategory && Target.UserCategory === AppObj.SelectedUserCategory) TaskContextMenu.append(PinTaskButton);
+      if (Target.PinnedInCategory && Target.UserCategory === AppObj.SelectedUserCategory) TaskContextMenu.append(UnPinTaskButton);
       //
       let TaskDate = new Date(Target.NumericDate).getDate();
       let Today = new Date().getDate();

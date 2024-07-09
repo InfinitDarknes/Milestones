@@ -15,6 +15,18 @@
     "en": "Read",
     "fa": "خواندن"
   },
+  "CompletedAt": {
+    "en": "Completed at",
+    "fa": "اتمام در"
+  },
+  "TrashedAt": {
+    "en": "Trashed at",
+    "fa": "بایگانی شده در"
+  },
+  "FailedAt": {
+    "en": "Failed at",
+    "fa": "شکست خورده در"
+  },
   "Analysis": {
     "en": "Analysis",
     "fa": "آنالیز"
@@ -26,6 +38,10 @@
   "NoteTitleInputPlaceHolder": {
     "en": "Title is required",
     "fa": "عنوان یادداشت اجباری است"
+  },
+  "PinMoreThan5TaskErrorMsg": {
+    "en": "You can not pin more than 5 tasks in each window!",
+    "fa": "شما نمیتوانید در هر پنجره بیشتر از 5 رویداد را سنجاق کنید!"
   },
   "Delete": {
     "en": "Delete",

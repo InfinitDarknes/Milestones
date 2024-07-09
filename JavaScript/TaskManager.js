@@ -9,10 +9,14 @@ function NewTaskConstructor(...Args) {
     NumericDate,
     UserCategory,
     Descryption: false,
-    IsTaskPinned: false,
+    Pinned: false,
+    PinnedInCategory: false,
     IsTaskCompleted: false,
     IsTaskFailed: false,
     IsTaskTrashed: false,
+    CompletedAt: null,
+    FailedAt: null,
+    TrashedAt: null,
     Selected: false,
     OnlyShowInCategory: false,
   };
@@ -30,32 +34,26 @@ function AddTask(...Args) {
 function DeleteTask(ID) {
   if (AppObj.SelectMode) {
     ReturnSelectedTasks().forEach((Task) => {
-      const Element = document.querySelector(Task.ID);
-      Element.style.animation = "DeleteAnimation 700ms";
       AllTasksArray.splice(FindIndexOfTask(Task.ID), 1);
       Task.Selected = false;
     });
   } else {
-    const Element = document.getElementById(ID);
-    Element.setAttribute("data-dis-type", "self-contained");
-    Element.classList.add("clickable");
-    disintegrate.init();
-    // Element.style.animation = "DeleteAnimation 700ms";
     let Index = FindIndexOfTask(ID);
     AllTasksArray.splice(Index, 1);
   }
   Save("Tasks");
-  setTimeout(() => {
-    UpdateInbox();
-  }, 500);
+  UpdateInbox();
 }
 function FailTask(ID) {
   let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
   SelectedTasks.forEach((Task) => {
-    Task.IsTaskPinned = false;
+    Task.Pinned = false;
     Task.IsTaskCompleted = false;
     Task.IsTaskFailed = true;
     Task.IsTaskTrashed = false;
+    Task.CompletedAt = null;
+    Task.FailedAt = new Date().getTime();
+    Task.TrashedAt = null;
     Task.Selected = false;
   });
   Save("Tasks");
@@ -64,10 +62,13 @@ function FailTask(ID) {
 function CompleteTask(ID) {
   let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
   SelectedTasks.forEach((Task) => {
-    Task.IsTaskPinned = false;
+    Task.Pinned = false;
     Task.IsTaskCompleted = true;
     Task.IsTaskFailed = false;
     Task.IsTaskTrashed = false;
+    Task.CompletedAt = new Date().getTime();
+    Task.FailedAt = null;
+    Task.TrashedAt = null;
     Task.Selected = false;
   });
   Save("Tasks");
@@ -76,10 +77,13 @@ function CompleteTask(ID) {
 function MoveToTrash(ID) {
   let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
   SelectedTasks.forEach((Task) => {
-    Task.IsTaskPinned = false;
+    Task.Pinned = false;
     Task.IsTaskCompleted = false;
     Task.IsTaskFailed = false;
     Task.IsTaskTrashed = true;
+    Task.CompletedAt = null;
+    Task.FailedAt = null;
+    Task.TrashedAt = new Date().getTime();
     Task.Selected = false;
   });
   Save("Tasks");
@@ -97,11 +101,13 @@ function LocalizeTask(ID) {
     }
     ReturnSelectedTasks().forEach((Task) => {
       Task.OnlyShowInCategory = !Task.OnlyShowInCategory;
+      if (Task.OnlyShowInCategory) Task.Pinned = false;
       Task.Selected = false;
     });
   } else {
     let Task = AllTasksArray[FindIndexOfTask(ID)];
     Task.OnlyShowInCategory = !Task.OnlyShowInCategory;
+    if (Task.OnlyShowInCategory) Task.Pinned = false;
     Task.Selected = false;
   }
   Save("Tasks");
@@ -111,9 +117,18 @@ function LocalizeTask(ID) {
 function RestoreTasks(ID) {
   let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
   SelectedTasks.forEach((Task) => {
-    if (Task.IsTaskCompleted) Task.IsTaskCompleted = false;
-    if (Task.IsTaskFailed) Task.IsTaskFailed = false;
-    if (Task.IsTaskTrashed) Task.IsTaskTrashed = false;
+    if (Task.IsTaskCompleted) {
+      Task.IsTaskCompleted = false;
+      Task.CompletedAt = null;
+    }
+    if (Task.IsTaskFailed) {
+      Task.IsTaskFailed = false;
+      Task.FailedAt = null;
+    }
+    if (Task.IsTaskTrashed) {
+      Task.IsTaskTrashed = false;
+      Task.TrashedAt = null;
+    }
     Task.Selected = false;
   });
   Save("Tasks");
@@ -123,28 +138,35 @@ function RestoreTasks(ID) {
 function ReturnUserCategorisedTasks(TargetArray = ReturnUnfinishedTasks()) {
   return TargetArray.filter((Task) => {
     if (Task.UserCategory === AppObj.SelectedUserCategory) return Task;
-  }).sort((taskA, taskB) => taskB.IsTaskPinned - taskA.IsTaskPinned);
+  });
 }
 function LoadUserCategorisedTasks(TargetArray = ReturnUnfinishedTasks()) {
   if (ReturnUserCategorisedTasks(TargetArray).length >= 1) {
     ClearListSection();
     AppendTaskContainer(ReturnUserCategorisedTasks(TargetArray));
   } else {
-    EmptyBox(Strings.NoTaskInUserCategory[UserSettings.CurrentLang]);
+    EmptyBox(Strings.NoTaskInUserCategory[UserSettings.CurrentLang], ".list-section");
   }
 }
 // sort and return tasks
+function PrioritizePinnedTasks(Array) {
+  if (AppObj.CurrentWindow.includes("Home")) {
+    return Array.sort((taskA, taskB) => taskB.Pinned - taskA.Pinned);
+  } else {
+    return Array.sort((taskA, taskB) => taskB.PinnedInCategory - taskA.PinnedInCategory);
+  }
+}
 function ReturnUnfinishedTasks() {
   return AllTasksArray.filter((Task) => {
     return !Task.IsTaskCompleted && !Task.IsTaskFailed && !Task.IsTaskTrashed;
-  }).sort((taskA, taskB) => taskB.IsTaskPinned - taskA.IsTaskPinned);
+  });
 }
 function ReturnTodayTasks(TargetArray = ReturnUnfinishedTasks()) {
   let Today = new Date().getDate();
   return TargetArray.filter((Task) => {
     let TaskDate = new Date(Task.NumericDate).getDate();
     return TaskDate === Today;
-  }).sort((taskA, taskB) => taskB.IsTaskPinned - taskA.IsTaskPinned);
+  });
 }
 function ReturnTomorrowTasks(TargetArray = ReturnUnfinishedTasks()) {
   let NumericTomorrow = new Date().getTime() + 86400000;
@@ -152,7 +174,7 @@ function ReturnTomorrowTasks(TargetArray = ReturnUnfinishedTasks()) {
   return TargetArray.filter((Task) => {
     let TaskDate = new Date(Task.NumericDate).getDate();
     return TaskDate === Tomorrow;
-  }).sort((taskA, taskB) => taskB.IsTaskPinned - taskA.IsTaskPinned);
+  });
 }
 function ReturnIn2DaysTasks(TargetArray = ReturnUnfinishedTasks()) {
   let NumericIn2Days = new Date().getTime() + 172800000;
@@ -160,17 +182,17 @@ function ReturnIn2DaysTasks(TargetArray = ReturnUnfinishedTasks()) {
   return TargetArray.filter((Task) => {
     let TaskDate = new Date(Task.NumericDate).getDate();
     return TaskDate === In2Days;
-  }).sort((taskA, taskB) => taskB.IsTaskPinned - taskA.IsTaskPinned);
+  });
 }
 function ReturnCompletedTasks() {
   return AllTasksArray.filter((Task) => {
     return Task.IsTaskCompleted && !Task.IsTaskTrashed && !Task.IsTaskFailed;
-  }).sort((taskA, taskB) => taskB.IsTaskPinned - taskA.IsTaskPinned);
+  });
 }
 function ReturnFailedTasks() {
   return AllTasksArray.filter((Task) => {
     return Task.IsTaskFailed && !Task.IsTaskTrashed && !Task.IsTaskCompleted;
-  }).sort((taskA, taskB) => taskB.IsTaskPinned - taskA.IsTaskPinned);
+  });
 }
 function ReturnTrashedTasks() {
   return AllTasksArray.filter((Task) => {
@@ -202,49 +224,49 @@ function LoadUnfinishedTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnUnfinishedTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoTaskToDoMessage[UserSettings.CurrentLang]);
+    EmptyBox(Strings.NoTaskToDoMessage[UserSettings.CurrentLang], ".list-section");
   }
 }
 function LoadTodayTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnTodayTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoTaskForTodayMessage[UserSettings.CurrentLang]);
+    EmptyBox(Strings.NoTaskForTodayMessage[UserSettings.CurrentLang], ".list-section");
   }
 }
 function LoadTomorrowTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnTomorrowTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoTaskForTomorrowMessage[UserSettings.CurrentLang]);
+    EmptyBox(Strings.NoTaskForTomorrowMessage[UserSettings.CurrentLang], ".list-section");
   }
 }
 function LoadIn2DaysTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnIn2DaysTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.CurrentLang]);
+    EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.CurrentLang], ".list-section");
   }
 }
 function LoadCompletedTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnCompletedTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoCompletedTaskMessage[UserSettings.CurrentLang]);
+    EmptyBox(Strings.NoCompletedTaskMessage[UserSettings.CurrentLang], ".list-section");
   }
 }
 function LoadFailedTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnFailedTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoFailedTaskMessage[UserSettings.CurrentLang]);
+    EmptyBox(Strings.NoFailedTaskMessage[UserSettings.CurrentLang], ".list-section");
   }
 }
 function LoadTrashedTasks(TargetArray = ReturnTrashedTasks()) {
   ClearListSection();
   AppendTaskContainer(TargetArray);
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox("You have no task in trash bin");
+    EmptyBox("You have no task in trash bin", ".list-section");
   }
 }
 //
@@ -392,16 +414,41 @@ function ToggleSelectMode() {
 }
 // Pin/Unpin
 function PinTask(ID) {
-  let NumberOfPinnedTasks = AllTasksArray.filter((Task) => {
-    return Task.IsTaskPinned;
-  }).length;
-  if (NumberOfPinnedTasks > 5) return;
-  AllTasksArray[FindIndexOfTask(ID)].IsTaskPinned = true;
+  let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
+  SelectedTasks.forEach((Task) => {
+    if (Task.UserCategory === AppObj.SelectedUserCategory) {
+      let PinnedTasks = AllTasksArray.filter((Task) => {
+        return Task.PinnedInCategory && Task.UserCategory === AppObj.SelectedUserCategory;
+      });
+      if (PinnedTasks.length < 5) {
+        Task.PinnedInCategory = true;
+      } else {
+        DisplayMessage("Error", Strings.PinMoreThan5TaskErrorMsg[UserSettings.CurrentLang]);
+      }
+    }
+    if (AppObj.CurrentWindow.includes("Home")) {
+      let PinnedTasks = AllTasksArray.filter((Task) => {
+        return Task.Pinned;
+      });
+      if (PinnedTasks.length < 5) {
+        Task.Pinned = true;
+      } else {
+        DisplayMessage("Error", Strings.PinMoreThan5TaskErrorMsg[UserSettings.CurrentLang]);
+      }
+    }
+  });
   Save("Tasks");
   UpdateInbox();
 }
 function UnPinTask(ID) {
-  AllTasksArray[FindIndexOfTask(ID)].IsTaskPinned = false;
+  let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
+  SelectedTasks.forEach((Task) => {
+    if (AppObj.CurrentWindow.includes("UserCategory")) {
+      Task.PinnedInCategory = false;
+    } else {
+      Task.Pinned = false;
+    }
+  });
   Save("Tasks");
   UpdateInbox();
 }
@@ -491,7 +538,7 @@ function Search(KeyWord) {
     AppendTaskContainer(Matches);
   } else {
     // DOMManager.js
-    EmptyBox(`${Strings.NoResultFor[UserSettings.CurrentLang]} "${KeyWord}" ${Strings.WasFound[UserSettings.CurrentLang]} :(`);
+    EmptyBox(`${Strings.NoResultFor[UserSettings.CurrentLang]} "${KeyWord}" ${Strings.WasFound[UserSettings.CurrentLang]} :(`, ".list-section");
   }
 }
 function ExitFromSearchMode() {
@@ -509,6 +556,10 @@ function ReturnTaskState(ID) {
 }
 // Restoring
 function RestoreFromText(Text) {
+  if (typeof Text !== "object" || Array.isArray(Text)) {
+    DisplayMessage("Error", "Input is not a valid JSON object");
+    return;
+  }
   let TextObject = JSON.parse(Text);
   for (let n in TextObject) {
     localStorage.setItem(n.toString(), TextObject[n]);
@@ -516,12 +567,32 @@ function RestoreFromText(Text) {
   location.reload();
 }
 // Window manager => we have different windows such as Home-Unfinished or Trash-All we use it to load tasks accordingly
-function ChangeWindow(Window) {
+function ChangeWindow(Window, FirstTime) {
   if (document.querySelector(".settings-container")) HideSettings();
   ExitSelectMode();
+  if (!localStorage.getItem("LastWindow").includes(Window.replace(/-.*/, "")) || FirstTime) {
+    if (Window.includes("Home")) {
+      DisplayHomeWindow(true);
+    }
+    if (Window.includes("Notes")) {
+      DisplayNotesWindow(true);
+    }
+    if (Window.includes("Trash")) {
+      DisplayTrashBinWindow(true);
+    }
+    if (Window.includes("UserCategory")) {
+      let CategoryID = Window.slice(0, 21);
+      AppObj.SelectedUserCategory = CategoryID;
+      DisplayUserCategoryWindow(CategoryID);
+    }
+  }
   AppObj.CurrentWindow = Window.toString();
+  localStorage.setItem("LastWindow", Window);
+  if (!Window.includes("UserCategory")) AppObj.SelectedUserCategory = "";
   if (AppObj.CurrentWindow.includes("UserCategory-") && DoesElementExist("new-task-modal")) {
     SwitchValueOfCategorySelectBox(AppObj.SelectedUserCategory);
   }
   UpdateInbox();
+  HighLightSelectedSortButton();
+  HighLightSelectedSideBarItem();
 }

@@ -9,6 +9,17 @@ window.onload = async function () {
   DPStrings = await FetchAppJsonFiles("Json/DatePickerStrings.json");
   InitializeApp();
 };
+
+// This will be a future feature to warn user of unsaved changes before proceeding to refresh the page
+
+// window.BeforeUnloadEvent = () => {
+//   let UserThemes = JSON.parse(localStorage.getItem("UserThemes"));
+//   if (UserThemes !== ThemeObj) {
+//     let Confirm = confirm("you haven't applied changes to UI are you sure you want to reload the page ? ");
+//     if (Confirm) window.location.reload();
+//   }
+// };
+
 function InitializeApp() {
   LoadSave();
   PreLoader();
@@ -33,7 +44,12 @@ function LoadAppComponents() {
   const Sidebar = ReturnSidebar();
   Body.append(TopBar, Sidebar);
   DisplayUserCategories();
-  DisplayHomeWindow(true);
+  if (CheckForSave("LastWindow")) {
+    ChangeWindow(localStorage.getItem("LastWindow"), true);
+  } else {
+    localStorage.setItem("LastWindow", "Home-Unfinished");
+    ChangeWindow("Home-Unfinished", true);
+  }
   Body.addEventListener("click", (Event) => {
     AutoHideContextMenu(Event);
   });
@@ -229,31 +245,86 @@ function KeepUpWithUpdates() {
   CheckTasksObject();
 }
 function ShortCutManager(Event) {
-  const SearchBar = document.getElementById("search-bar");
+  const SearchBar = document.querySelector(".search-bar");
+  // ESC
   if (Event.keyCode === 27) {
-    if (DoesElementExist("modal-container")) {
+    // Modal first , Select bar second , Settings third
+    if (!document.querySelector(".modal") && !AppObj.SelectMode && document.querySelector(".settings-container")) {
+      HideSettings();
+    }
+    if (AppObj.SelectMode && !document.querySelector(".modal")) {
+      ExitSelectMode();
+    }
+    if (document.querySelector(".modal")) {
       Event.preventDefault();
-      HideModal();
+      HideModal(".modal.active");
     }
   }
-  if (Event.ctrlKey && Event.keyCode === 70) {
+  // Enter
+  if (Event.keyCode === 13) {
+    if (document.querySelector(".modal")) {
+      const ConfirmBtn = document.querySelector(".modal.active .confirm-btn");
+      if (ConfirmBtn) {
+        Event.preventDefault();
+        ConfirmBtn.click();
+      }
+    }
+  }
+  // CTRL + F
+  if (Event.ctrlKey && Event.key === "f") {
     Event.preventDefault();
     SearchBar.focus();
   }
-  if (AppObj.SelectMode && Event.keyCode === 46) {
-    DeleteModal("Normal");
+  // CTRL + S
+  if (Event.ctrlKey && Event.key === "s") {
+    Event.preventDefault();
+    if (AppObj.EditNoteMode && document.querySelector(".read-note-modal.active")) {
+      document.querySelector(".apply-note-edit-btn").click();
+    }
+    if (document.querySelector(".theme-tweaker-modal.active")) {
+      document.querySelector(".apply-btn").click();
+    }
   }
-  if (AppObj.SelectMode && Event.keyCode === 27) {
-    ExitSelectMode();
+  // F1
+  if (Event.keyCode === 112) {
+    Event.preventDefault();
+    if (
+      !AppObj.CurrentWindow.includes("Completed") &&
+      !AppObj.CurrentWindow.includes("Failed") &&
+      !AppObj.CurrentWindow.includes("Trash") &&
+      !AppObj.CurrentWindow.includes("Notes")
+    ) {
+      NewTaskModal();
+    } else if (AppObj.CurrentWindow.includes("Notes")) {
+      AddNoteModal();
+    }
   }
-  if (Event.keyCode === 119) {
+  // F2
+  if (Event.keyCode === 113) {
+    Event.preventDefault();
+    NewCategoryModal();
+  }
+  // F3
+  if (Event.keyCode === 114) {
+    Event.preventDefault();
+    BackUpModal();
+  }
+  // F4
+  if (Event.keyCode === 115) {
     ThemeTweakerModal();
   }
-}
-function ReLoadWarning(Event) {
-  let UserThemes = JSON.parse(localStorage.getItem("UserThemes"));
-  if (UserThemes !== ThemeObj) {
-    let Confirm = confirm("you haven't applied changes to UI are you sure you want to reload the page ? ");
-    if (Confirm) window.location.reload();
+  // F5
+  if (Event.keyCode === 116) {
+    Event.preventDefault();
+    if (document.querySelector(".settings-container")) HideSettings();
+    else DisplaySettings();
+  }
+  // DEL
+  if (AppObj.SelectMode && Event.keyCode === 46) {
+    if (AppObj.CurrentWindow.includes("Trash")) {
+      DeleteModal("Trashed");
+    } else {
+      DeleteModal("Normal");
+    }
   }
 }

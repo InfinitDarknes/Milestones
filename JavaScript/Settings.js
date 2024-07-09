@@ -163,6 +163,7 @@ function DisplaySettings() {
   BackUpOptionsText.className = "side-bar-item-text text";
   BackUpOptions.className = "generate-backup-button setting-item";
   BackUpOptionsText.innerText = Strings.BackUp[UserSettings.CurrentLang];
+  BackUpOptions.title = "ShortCut : F3";
   BackUpOptions.addEventListener("click", BackUpModal);
   BackUpOptions.append(BackUpOptionsIcon, BackUpOptionsText);
   SettingItemsContainer.append(BackUpOptions);
@@ -175,6 +176,7 @@ function DisplaySettings() {
   CustomizeThemeText.className = "side-bar-item-text text";
   CustomizeTheme.className = "customize-theme-button setting-item";
   CustomizeThemeText.innerText = Strings.CustomizeTheme[UserSettings.CurrentLang];
+  CustomizeTheme.title = "ShortCut : F4";
   CustomizeTheme.addEventListener("click", ThemeTweakerModal);
   CustomizeTheme.append(CustomizeThemeIcon, CustomizeThemeText);
   SettingItemsContainer.append(CustomizeTheme);

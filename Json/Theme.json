@@ -284,8 +284,8 @@
       }
     }
   },
-  "TaskDateAndTimeContainer": {
-    "Selector": ".date-container",
+  "TaskExtraInfo": {
+    "Selector": ".task-extra-info",
     "Themes": {
       "Dark": {
         "BgColor": "#F05454",

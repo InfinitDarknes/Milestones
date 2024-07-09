@@ -6,7 +6,6 @@ function ReturnSortAllBtn() {
   Btn.textContent = Strings.SortAllTrash[UserSettings.CurrentLang];
   Btn.addEventListener("click", () => {
     ChangeWindow("Trash-All");
-    HighLightSelectedSortButton("sort-all-trash");
   });
   return Btn;
 }
@@ -17,7 +16,6 @@ function ReturnSortUnfinishedBtn(TargetWindow) {
   Btn.textContent = Strings.SortUnfinished[UserSettings.CurrentLang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Unfinished`);
-    HighLightSelectedSortButton("sort-unfinished");
   });
   AddDragAndDropEvents(Btn, `${TargetWindow}-Unfinished`, "Unfinished");
   return Btn;
@@ -29,7 +27,6 @@ function ReturnSortTodayBtn(TargetWindow) {
   Btn.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Today`);
-    HighLightSelectedSortButton("sort-today");
   });
   AddDragAndDropEvents(Btn, `${TargetWindow}-Today`, "Today");
   return Btn;
@@ -41,7 +38,6 @@ function ReturnSortTomorrowBtn(TargetWindow) {
   Btn.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Tomorrow`);
-    HighLightSelectedSortButton("sort-tomorrow");
   });
   AddDragAndDropEvents(Btn, `${TargetWindow}-Tomorrow`, "Tomorrow");
   return Btn;
@@ -53,7 +49,6 @@ function ReturnSortIn2DaysBtn(TargetWindow) {
   Btn.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-In2Days`);
-    HighLightSelectedSortButton("sort-in-2-days");
   });
   AddDragAndDropEvents(Btn, `${TargetWindow}-In2Days`, "In2Days");
   return Btn;
@@ -65,7 +60,6 @@ function ReturnSortCompletedBtn(TargetWindow) {
   Btn.textContent = Strings.CategoryCompletedButton[UserSettings.CurrentLang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Completed`);
-    HighLightSelectedSortButton("sort-completed");
   });
   AddDragAndDropEvents(Btn, `${TargetWindow}-Completed`, "Completed");
   return Btn;
@@ -77,7 +71,6 @@ function ReturnSortFailedBtn(TargetWindow) {
   Btn.textContent = Strings.CategoryFailedButton[UserSettings.CurrentLang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Failed`);
-    HighLightSelectedSortButton("sort-failed");
   });
   AddDragAndDropEvents(Btn, `${TargetWindow}-Failed`, "Failed");
   return Btn;
@@ -153,7 +146,6 @@ function AddDragAndDropEvents(Element, TargetWindow, Type, UserCategoryID) {
       DisplayUserCategoryWindow(UserCategoryID);
     } else {
       ChangeWindow(TargetWindow);
-      HighLightSelectedSortButton(Element.id);
     }
     Save("Tasks");
   });
@@ -191,6 +183,7 @@ function ReturnTaskBar(Type) {
   SpanElement.textContent = Strings.SelectAllCheckBox[UserSettings.CurrentLang];
   CheckBox.type = "checkbox";
   SearchBar.placeholder = Strings.Search[UserSettings.CurrentLang];
+  SearchBar.title = "ShortCut : CTRL + F";
   //Events
   CheckBox.addEventListener("change", (Event) => {
     if (Event.target.checked) SelectAll();
@@ -238,7 +231,7 @@ function ReturnUserCategorise() {
     // Events
     UserCategoryButton.addEventListener("click", () => {
       AppObj.SelectedUserCategory = Category.ID;
-      DisplayUserCategoryWindow(Category.ID);
+      ChangeWindow(`${Category.ID}-Unfinished`);
     });
     UserCategoryButton.addEventListener("contextmenu", (Event) => {
       Event.preventDefault();
@@ -266,7 +259,9 @@ function ReturnSidebar() {
 
   HomeButtonIcon.src = "../Icons/home-line.svg";
   HomeButtonText.innerText = Strings.Home[UserSettings.CurrentLang];
-  HomeButton.addEventListener("click", DisplayHomeWindow);
+  HomeButton.addEventListener("click", () => {
+    ChangeWindow("Home-Unfinished");
+  });
   HomeButton.append(HomeButtonIcon, HomeButtonText);
   // New task button
   const NewTaskButton = document.createElement("button");
@@ -279,6 +274,7 @@ function ReturnSidebar() {
 
   NewTaskButtonIcon.src = "../Icons/task-line.svg";
   NewTaskButtonText.innerText = Strings.NewTask[UserSettings.CurrentLang];
+  NewTaskButton.title = "ShortCut : F1";
 
   NewTaskButton.addEventListener("click", NewTaskModal);
   NewTaskButton.append(NewTaskButtonIcon, NewTaskButtonText);
@@ -294,6 +290,8 @@ function ReturnSidebar() {
   NewCategoryButton.addEventListener("click", NewCategoryModal);
   NewCategoryButtonIcon.src = "../Icons/apps-2-add-line.svg";
   NewCategoryButtonText.innerText = Strings.NewCategory[UserSettings.CurrentLang];
+  NewCategoryButton.title = "ShortCut : F2";
+
   NewCategoryButton.append(NewCategoryButtonIcon, NewCategoryButtonText);
   // Calendar Button
   const Analysis = document.createElement("button");
@@ -304,7 +302,6 @@ function ReturnSidebar() {
   AnalysisIcon.className = "side-bar-item-icon icon";
   AnalysisText.className = "side-bar-item-text text";
 
-  Analysis.addEventListener("click", () => HighLightSelectedSideBarItem(Analysis.className));
   AnalysisIcon.src = "../Icons/bar-chart-line.svg";
   AnalysisText.innerText = Strings.Analysis[UserSettings.CurrentLang];
   Analysis.append(AnalysisIcon, AnalysisText);
@@ -317,7 +314,9 @@ function ReturnSidebar() {
   NotesIcon.className = "side-bar-item-icon icon";
   NotesText.className = "side-bar-item-text text";
 
-  Notes.addEventListener("click", DisplayNotesWindow);
+  Notes.addEventListener("click", () => {
+    ChangeWindow("Notes");
+  });
   NotesIcon.src = "../Icons/sticky-note-line.svg";
   NotesText.innerText = Strings.NotesButton[UserSettings.CurrentLang];
   Notes.append(NotesIcon, NotesText);
@@ -330,7 +329,6 @@ function ReturnSidebar() {
   AlarmsIcon.className = "side-bar-item-icon icon";
   AlarmsText.className = "side-bar-item-text text";
 
-  Alarms.addEventListener("click", () => HighLightSelectedSideBarItem(Alarms.className));
   AlarmsIcon.src = "../Icons/time-line.svg";
   AlarmsText.innerText = Strings.AlarmsButton[UserSettings.CurrentLang];
   Alarms.append(AlarmsIcon, AlarmsText);
@@ -343,7 +341,9 @@ function ReturnSidebar() {
   TrashBinIcon.className = "side-bar-item-icon icon";
   TrashBinText.className = "side-bar-item-text text";
 
-  TrashBin.addEventListener("click", DisplayTrashBinWindow);
+  TrashBin.addEventListener("click", () => {
+    ChangeWindow("Trash-All");
+  });
   AddDragAndDropEvents(TrashBin, "Trash-All", "Trash");
   TrashBinIcon.src = "../Icons/delete-bin-7-line.svg";
   TrashBinText.innerText = Strings.TrashBinButton[UserSettings.CurrentLang];
@@ -360,6 +360,8 @@ function ReturnSidebar() {
   SettingsButton.addEventListener("click", DisplaySettings);
   SettingsButtonIcon.src = "../Icons/settings-5-line.svg";
   SettingsButtonText.innerText = Strings.SettingsButton[UserSettings.CurrentLang];
+  SettingsButton.title = "ShortCut : F5";
+
   SettingsButton.append(SettingsButtonIcon, SettingsButtonText);
   // User Category Container
   const UserCategoryContainer = document.createElement("div");
@@ -541,26 +543,22 @@ function DisplayHomeWindow(FirstTime) {
   const WindowElem = document.querySelector(".window");
   if (WindowElem) WindowElem.remove();
   document.body.append(ReturnHomeWindow());
-  HighLightSelectedSideBarItem("home-button");
-  HighLightSelectedSortButton("sort-unfinished");
-  ChangeWindow("Home-Unfinished");
 }
-function DisplayNotesWindow() {
-  if (AppObj.CurrentWindow.includes("Notes")) return;
+function DisplayNotesWindow(FirstTime) {
+  if (!FirstTime) {
+    if (AppObj.CurrentWindow.includes("Notes")) return;
+  }
   const WindowElem = document.querySelector(".window");
   if (WindowElem) WindowElem.remove();
   document.body.append(ReturnNotesWindow());
-  HighLightSelectedSideBarItem("notes-button");
-  ChangeWindow("Notes");
 }
-function DisplayTrashBinWindow() {
-  if (AppObj.CurrentWindow.includes("Trash")) return;
+function DisplayTrashBinWindow(FirstTime) {
+  if (!FirstTime) {
+    if (AppObj.CurrentWindow.includes("Trash")) return;
+  }
   const WindowElem = document.querySelector(".window");
   if (WindowElem) WindowElem.remove();
   document.body.append(ReturnTrashBinWindow());
-  HighLightSelectedSortButton("sort-all-trash");
-  HighLightSelectedSideBarItem("trash-bin-button");
-  ChangeWindow("Trash-All");
 }
 function DisplayUserCategoryWindow(ID) {
   // Go to UGCM file to find out what the fuck is going on
@@ -568,8 +566,6 @@ function DisplayUserCategoryWindow(ID) {
   if (Window) Window.remove();
   const UGCP = ReturnUserCategoryWindow(ID);
   document.body.append(UGCP);
-  HighLightSelectedSortButton("sort-unfinished");
-  ChangeWindow(`${ID}-Unfinished`);
   // Unhover the sidebar items because the UGC are also in sidebar
   const SidebarItems = document.querySelectorAll(".side-bar-item");
   SidebarItems.forEach((Item) => {
@@ -585,38 +581,33 @@ function DisplayUserCategories() {
 function AppendTaskContainer(Tasks) {
   const ListSection = document.querySelector(".list-section");
   let FragmentOfTaskContainers = document.createDocumentFragment();
-  Tasks.forEach((Task) => {
-    let { ID, Title, NumericDate, UserCategory, OnlyShowInCategory } = Task;
-    if (OnlyShowInCategory && (AppObj.SelectedUserCategory !== UserCategory || !AppObj.CurrentWindow.includes("UserCategory"))) return;
+  PrioritizePinnedTasks(Tasks).forEach((Task) => {
+    let { ID, Title, NumericDate, UserCategory, OnlyShowInCategory, CompletedAt, FailedAt, TrashedAt } = Task;
+    if (OnlyShowInCategory && AppObj.SelectedUserCategory !== UserCategory && !AppObj.CurrentWindow.includes("Trash")) return;
+
     const TaskContainer = document.createElement("section");
-    TaskContainer.className = "task-container";
-    TaskContainer.id = ID;
-    TaskContainer.draggable = "true";
     const CheckBoxContainer = document.createElement("label");
-    CheckBoxContainer.className = "checkbox-container";
-    CheckBoxContainer.style.display = "none";
     const Checkbox = document.createElement("input");
-    Checkbox.type = "checkbox";
-    Checkbox.className = "checkbox task-checkbox";
-    Checkbox.addEventListener("change", () => {
-      if (Checkbox.checked) SelectTask(ID);
-      else DeSelectTask(ID);
-    });
     const CheckMark = document.createElement("div");
-    CheckMark.className = "checkmark";
     const TaskTitle = document.createElement("section");
+    const TaskExtraInfo = document.createElement("section");
+
+    TaskContainer.className = "task-container";
+    CheckBoxContainer.className = "checkbox-container";
+    Checkbox.className = "checkbox task-checkbox";
+    CheckMark.className = "checkmark";
     TaskTitle.className = "task-title text";
+    TaskExtraInfo.className = "task-extra-info text";
+    TaskContainer.id = ID;
+
+    TaskContainer.draggable = "true";
+    CheckBoxContainer.style.display = "none";
+    Checkbox.type = "checkbox";
     TaskTitle.setAttribute("inert", "");
-    const DateContainer = document.createElement("section");
-    DateContainer.className = "date-container";
-    DateContainer.inert = "true";
-    const TaskDate = document.createElement("section");
-    TaskDate.className = "task-date text";
-    const TaskTime = document.createElement("section");
-    TaskTime.className = "task-time text";
-    TaskContainer.append(CheckBoxContainer, TaskTitle, DateContainer);
+    TaskExtraInfo.inert = "true";
+
+    TaskContainer.append(CheckBoxContainer, TaskTitle, TaskExtraInfo);
     CheckBoxContainer.append(Checkbox, CheckMark);
-    DateContainer.append(TaskDate, TaskTime);
     if (ReturnTaskState(ID) === "Unfinished") {
       TaskContainer.addEventListener("contextmenu", (Event) => {
         Event.preventDefault();
@@ -680,6 +671,10 @@ function AppendTaskContainer(Tasks) {
         TaskContainer.append(CategoryBadge);
       }
     }
+    Checkbox.addEventListener("change", () => {
+      if (Checkbox.checked) SelectTask(ID);
+      else DeSelectTask(ID);
+    });
     TaskContainer.addEventListener("click", (Event) => {
       if (!AppObj.SelectMode || !Event.target.id.includes("Task")) return;
       let Task = AllTasksArray[FindIndexOfTask(Event.target.id)];
@@ -701,7 +696,14 @@ function AppendTaskContainer(Tasks) {
       if (AppObj.SelectMode) Event.target.style.cursor = "pointer";
       else Event.target.style.cursor = "";
     });
-    if (Task.IsTaskPinned) {
+    if (Task.Pinned && AppObj.CurrentWindow.includes("Home") && ReturnTaskState(ID) === "Unfinished") {
+      const PinBadge = document.createElement("img");
+      PinBadge.className = "pinned-task-badge icon";
+      PinBadge.inert = "true";
+      PinBadge.src = "../Icons/attachment-line.svg";
+      TaskContainer.append(PinBadge);
+    }
+    if (Task.PinnedInCategory && Task.UserCategory === AppObj.SelectedUserCategory && ReturnTaskState(ID) === "Unfinished") {
       const PinBadge = document.createElement("img");
       PinBadge.className = "pinned-task-badge icon";
       PinBadge.inert = "true";
@@ -710,12 +712,37 @@ function AppendTaskContainer(Tasks) {
     }
     TaskTitle.textContent = Title;
     if (UserSettings.Calendar === "Solar") {
-      TaskDate.textContent = PlacePersianNumbers(NumericToSolar(NumericDate));
+      TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(NumericDate))}`;
+      if (Task.CompletedAt) {
+        TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(NumericDate))}\u00A0\u00A0${
+          Strings.CompletedAt[UserSettings.CurrentLang]
+        }\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(CompletedAt))}\u00A0\u00A0${NumericToTime(CompletedAt)}`;
+      } else if (Task.FailedAt) {
+        TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(NumericDate))}\u00A0\u00A0${
+          Strings.FailedAt[UserSettings.CurrentLang]
+        }\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(FailedAt))}\u00A0\u00A0${NumericToTime(FailedAt)}`;
+      } else if (Task.TrashedAt) {
+        TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(NumericDate))}\u00A0\u00A0${
+          Strings.TrashedAt[UserSettings.CurrentLang]
+        }\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(TrashedAt))}\u00A0\u00A0${NumericToTime(TrashedAt)}`;
+      }
     }
     if (UserSettings.Calendar === "Gregorian") {
-      TaskDate.textContent = PlacePersianNumbers(NumericToGregorian(NumericDate));
+      TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(NumericDate))}`;
+      if (Task.CompletedAt) {
+        TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(NumericDate))}\u00A0\u00A0${
+          Strings.CompletedAt[UserSettings.CurrentLang]
+        }\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(CompletedAt))}\u00A0\u00A0${NumericToTime(CompletedAt)}`;
+      } else if (Task.FailedAt) {
+        TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(NumericDate))}\u00A0\u00A0${
+          Strings.FailedAt[UserSettings.CurrentLang]
+        }\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(FailedAt))}\u00A0\u00A0${NumericToTime(FailedAt)}`;
+      } else if (Task.TrashedAt) {
+        TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(NumericDate))}\u00A0\u00A0${
+          Strings.TrashedAt[UserSettings.CurrentLang]
+        }\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(TrashedAt))}\u00A0\u00A0${NumericToTime(TrashedAt)}`;
+      }
     }
-    TaskTime.textContent = PlacePersianNumbers(NumericToTime(NumericDate));
     FragmentOfTaskContainers.append(TaskContainer);
   });
   ListSection.append(FragmentOfTaskContainers);
@@ -726,9 +753,13 @@ function ClearListSection() {
   ListSection.innerHTML = "";
 }
 // Functionalities
-function EmptyBox(Text) {
+function EmptyBox(Text, TargetSelector) {
   // Look into functions that Start with Load and End with Tasks inside TaskManager.js to trace proces of this function.
-  const ListSection = document.querySelector(".list-section");
+  if (!TargetSelector) {
+    DisplayMessage("Error", "DOMManager.js > EmptyBox(). No selector passed to emptybox");
+    return;
+  }
+  const TargetElem = document.querySelector(TargetSelector);
   const EmptyBoxIconContainer = document.createElement("section");
   EmptyBoxIconContainer.className = "empty-box-container";
   // Empty box icon
@@ -738,25 +769,58 @@ function EmptyBox(Text) {
   const EmptyBoxText = document.createElement("p");
   EmptyBoxText.className = "empty-box-text text";
   EmptyBoxText.innerText = Text;
-  // Modifing List Section
-  ClearListSection();
+  // Modifing Target
+  TargetElem.innerHTML = "";
   // Appending to DOM
   EmptyBoxIconContainer.append(EmptyBoxIcon, EmptyBoxText);
-  ListSection.append(EmptyBoxIconContainer);
+  TargetElem.append(EmptyBoxIconContainer);
 }
-function HighLightSelectedSortButton(ID) {
+function HighLightSelectedSortButton() {
   const SortButton = document.querySelectorAll(".sort-buttons");
   SortButton.forEach((Button) => {
-    if (Button.id === ID) Button.classList.add("hovered");
-    else Button.classList.remove("hovered");
+    Button.classList.remove("hovered");
   });
+  if (AppObj.CurrentWindow.includes("All")) {
+    document.querySelector("#sort-all-trash").classList.add("hovered");
+  }
+  if (AppObj.CurrentWindow.includes("Unfinished")) {
+    document.querySelector("#sort-unfinished").classList.add("hovered");
+  }
+  if (AppObj.CurrentWindow.includes("Today")) {
+    document.querySelector("#sort-today").classList.add("hovered");
+  }
+  if (AppObj.CurrentWindow.includes("Tomorrow")) {
+    document.querySelector("#sort-tomorrow").classList.add("hovered");
+  }
+  if (AppObj.CurrentWindow.includes("In2Days")) {
+    document.querySelector("#sort-in-2-days").classList.add("hovered");
+  }
+  if (AppObj.CurrentWindow.includes("Completed")) {
+    document.querySelector("#sort-completed").classList.add("hovered");
+  }
+  if (AppObj.CurrentWindow.includes("Failed")) {
+    document.querySelector("#sort-failed").classList.add("hovered");
+  }
 }
-function HighLightSelectedSideBarItem(Class) {
-  const SideBarItems = document.querySelectorAll(".side-bar-item");
-  SideBarItems.forEach((Item) => {
-    if (Item.className.includes(Class)) Item.classList.add("hovered");
-    else Item.classList.remove("hovered");
+function HighLightSelectedSideBarItem() {
+  const SidebarItem = document.querySelectorAll(".side-bar-item");
+  SidebarItem.forEach((Item) => {
+    Item.classList.remove("hovered");
   });
+  if (AppObj.CurrentWindow.includes("Home")) {
+    document.querySelector(".home-button").classList.add("hovered");
+  }
+  if (AppObj.CurrentWindow.includes("Trash")) {
+    document.querySelector(".trash-bin-button").classList.add("hovered");
+  }
+  if (AppObj.CurrentWindow.includes("Notes")) {
+    document.querySelector(".notes-button").classList.add("hovered");
+  }
+  if (AppObj.CurrentWindow.includes("UserCategory")) {
+    SidebarItem.forEach((Item) => {
+      Item.classList.remove("hovered");
+    });
+  }
 }
 function DisplaySelectModeBar() {
   if (document.querySelector(".select-bar")) {
@@ -992,6 +1056,7 @@ function HexToFilter(hex) {
       return value;
     }
   }
+
   class Solver {
     constructor(target, baseColor) {
       this.target = target;
@@ -1118,6 +1183,7 @@ function HexToFilter(hex) {
       return `filter: invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(3, 3.6)}deg) brightness(${fmt(4)}%) contrast(${fmt(5)}%);`;
     }
   }
+
   function hexToRgb(hex) {
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -1128,16 +1194,15 @@ function HexToFilter(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : null;
   }
-
-  const rgb = hexToRgb(hex.toString());
-  if (rgb.length !== 3) {
-    DisplayMessage("Error", "Invalid format passed to HexToFilter() function");
-    return;
+  let color = new Color(...hexToRgb(hex));
+  let solver = new Solver(color);
+  let result = solver.solve();
+  let filterCSS = result.filter;
+  if (+result.loss.toFixed(1) !== 0) {
+    return HexToFilter(hex);
+  } else {
+    return filterCSS;
   }
-  const color = new Color(rgb[0], rgb[1], rgb[2]);
-  const solver = new Solver(color);
-  const result = solver.solve();
-  return result.filter;
 }
 function HexToRgba(Hex, Opacity) {
   var c;

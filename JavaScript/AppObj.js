@@ -1,6 +1,7 @@
 let AppObj = {
   SelectMode: false,
   EditMode: false,
+  EditNoteMode: false,
   DragModalMode: false,
   ActiveModalID: "",
   CurrentWindow: null,
@@ -29,7 +30,7 @@ let AppObj = {
     ID: null,
     IsTaskCompleted: false,
     IsTaskFailed: false,
-    IsTaskPinned: true,
+    Pinned: true,
     IsTaskTrashed: false,
     NumericDate: null,
     OnlyShowInCategory: false,
@@ -62,6 +63,14 @@ let ProxyHandler = {
         throw new Error("AppObj.EditMode property can only get boolean values.");
       }
     }
+    if (property === "EditNoteMode") {
+      if (typeof value === "boolean") {
+        target[property] = value;
+        return true;
+      } else {
+        throw new Error("AppObj.EditNoteMode property can only get boolean values.");
+      }
+    }
     if (property === "CurrentWindow") {
       if (AppObj.ValidWindowInput.test(value)) {
         target[property] = value;
@@ -87,7 +96,7 @@ let ProxyHandler = {
       }
     }
     if (property === "SelectedUserCategory") {
-      if (AppObj.UserCategoryPattern.test(value)) {
+      if (AppObj.UserCategoryPattern.test(value) || value === "") {
         target[property] = value;
         return true;
       } else {
