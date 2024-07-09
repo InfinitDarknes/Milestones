@@ -569,8 +569,25 @@ function RestoreFromText(Text) {
 // Window manager => we have different windows such as Home-Unfinished or Trash-All we use it to load tasks accordingly
 function ChangeWindow(Window, FirstTime) {
   if (document.querySelector(".settings-container")) HideSettings();
+  function ReplaceText(String) {
+    // Regular expression to match the pattern
+    const RegEx = /(UserCategory-\d+)|(.*?)-.*/;
+    // Match the pattern in the string
+    const Match = String.match(RegEx);
+    if (Match) {
+      // If the match starts with 'UserCategory-', return it as is
+      if (Match[1] !== undefined) {
+        return Match[1];
+      } else {
+        // Otherwise, return the matched group 2
+        return Match[2];
+      }
+    }
+
+    return String;
+  }
   ExitSelectMode();
-  if (!localStorage.getItem("LastWindow").includes(Window.replace(/-.*/, "")) || FirstTime) {
+  if (!localStorage.getItem("LastWindow").includes(ReplaceText(Window)) || FirstTime) {
     if (Window.includes("Home")) {
       DisplayHomeWindow(true);
     }

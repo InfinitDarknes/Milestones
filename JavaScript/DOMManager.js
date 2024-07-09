@@ -140,10 +140,10 @@ function AddDragAndDropEvents(Element, TargetWindow, Type, UserCategoryID) {
       }
     });
     if (Type === "Trash") {
-      DisplayTrashBinWindow();
+      ChangeWindow("Trash-All");
     } else if (Type === "UserCategory") {
       AppObj.SelectedUserCategory = UserCategoryID;
-      DisplayUserCategoryWindow(UserCategoryID);
+      ChangeWindow(`${UserCategoryID}-Unfinished`);
     } else {
       ChangeWindow(TargetWindow);
     }
