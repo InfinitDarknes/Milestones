@@ -151,7 +151,7 @@ function DisplaySettings() {
   CloudStorgeButtonText.className = "side-bar-item-text text";
   CloudStorgeButton.className = "cloud-storge-button setting-item";
   CloudStorgeButtonText.innerText = Strings.CouldStorgeButton[UserSettings.CurrentLang];
-  CloudStorgeButton.addEventListener("click", () => {});
+  CloudStorgeButton.addEventListener("click", AccountModal);
   CloudStorgeButton.append(CloudStorgeButtonIcon, CloudStorgeButtonText);
   SettingItemsContainer.append(CloudStorgeButton);
   // Generate BackUp section

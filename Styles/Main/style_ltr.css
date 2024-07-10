@@ -13,6 +13,7 @@
 @import url("../Notes/notes_ltr.css");
 @import url("../MessageBox/msg_box_ltr.css");
 @import url("../DevTools/DevTools.css");
+@import url("../AccountModal/account_modal_ltr.css");
 
 @font-face {
   font-family: vazir;

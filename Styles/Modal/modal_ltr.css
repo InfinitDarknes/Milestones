@@ -125,7 +125,7 @@
 .red-btn {
   background-color: rgb(255, 69, 69);
 }
-.task-title-section,
+.input-container,
 .task-date-section,
 .note-title-section,
 .edit-date-section,
@@ -261,7 +261,6 @@
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   letter-spacing: 1px;
-  color: #dad6d6;
   z-index: 50;
 }
 .character-limit {

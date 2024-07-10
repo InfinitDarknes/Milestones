@@ -1,0 +1,41 @@
+.account-form {
+  width: calc(100% - 30px);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.account-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.account-input {
+  width: calc(100% - 20px);
+  font-size: 1rem;
+  padding: 10px;
+  border-top-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+.account-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0;
+}
+.account-link {
+  margin: 3px 0;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 1rem;
+  color: royalblue;
+  cursor: pointer;
+}
+.account-btn {
+  width: calc(100% - 22px);
+  font-size: 1.1rem;
+  padding: 11px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  cursor: pointer;
+}

@@ -201,9 +201,9 @@ function KeepUpWithUpdates() {
             for (let b2 in ThemeObj[a2].Themes) {
               for (let c2 in ThemeObj[a2].Themes[b2]) {
                 if (a !== a2) continue;
-                if (UserThemes[a].Themes[b][c] && !ThemeObj[a2].Themes[b2][c]) {
+                if (UserThemes[a].Themes[b][c] && ThemeObj[a2].Themes[b2][c] === undefined) {
                   delete UserThemes[a].Themes[b][c];
-                } else if (!UserThemes[a].Themes[b][c2] && ThemeObj[a2].Themes[b2][c2]) {
+                } else if (UserThemes[a].Themes[b][c2] === undefined && ThemeObj[a2].Themes[b2][c2]) {
                   UserThemes[a].Themes[b][c2] = ThemeObj[a2].Themes[b2][c2];
                 } else continue;
               }
@@ -307,6 +307,11 @@ function ShortCutManager(Event) {
     Event.preventDefault();
     if (document.querySelector(".settings-container")) HideSettings();
     else DisplaySettings();
+  }
+  // F6
+  if (Event.keyCode === 117) {
+    Event.preventDefault();
+    AccountModal();
   }
   // DEL
   if (AppObj.SelectMode && Event.keyCode === 46) {

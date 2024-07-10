@@ -3,8 +3,7 @@ function ThemeTweakerModal() {
   // Reqs
   let UserThemes = { ...ThemeObj };
   let SelectedTheme = UserSettings.Theme;
-  let ValidColorFormat =
-    /^((rgb(a)?(\s*(\d{1,3}%?,\s*){2,3}\s*[01]?\.?\d+))|(#([a-fA-F0-9]{3}|[a-fA-F0-9]{6}))|(hsl(a)?(\s*(360|(\d{1,2}|[01]\d{2}))\s*,\s*((100|(\d{1,2}|[01]\d{2}))\s*%)?\s*,\s*((100|(\d{1,2}|[01]\d{2}))\s*%)?\s*(,\s*[01]?\.?\d+)?)))$/;
+  let ValidColorFormat = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
   // Define
   const ThemeTweakerModal = document.createElement("section");
   const HideModalBtn = document.createElement("button");
@@ -70,7 +69,7 @@ function ThemeTweakerModal() {
       let Opacity = ThemeObj[i]?.Themes[SelectedTheme]?.Opacity;
       let TextOpacity = ThemeObj[i]?.Themes[SelectedTheme]?.TextOpacity;
       let Border = ThemeObj[i]?.Themes[SelectedTheme]?.Border;
-      if (BgColor) {
+      if (BgColor !== undefined) {
         const Container = document.createElement("div");
         const CssPropertyLabel = document.createElement("label");
         const CssProperyInputsContainer = document.createElement("div");
@@ -101,12 +100,14 @@ function ThemeTweakerModal() {
           BgColorInput.value = BgColorPicker.value;
         });
         BgColorInput.addEventListener("input", () => {
-          if (BgColorInput.value.match(ValidColorFormat) || BgColorInput.value === "") {
+          if (BgColorInput.value.match(ValidColorFormat)) {
             document.querySelectorAll(ThemeObj[i].Selector).forEach((Element) => {
               Element.style.backgroundColor = BgColorInput.value;
             });
             UserThemes[i].Themes[SelectedTheme].BgColor = BgColorInput.value;
             BgColorPicker.value = BgColorInput.value;
+          } else if (BgColorInput.value === "") {
+            UserThemes[i].Themes[SelectedTheme].BgColor = BgColorInput.value;
           } else {
             DisplayMessage("Error", `Invalid color format at ${i} , value must be in Hex format`);
           }
@@ -115,7 +116,7 @@ function ThemeTweakerModal() {
         Container.append(CssPropertyLabel, CssProperyInputsContainer);
         Row.append(Container);
       }
-      if (Color) {
+      if (Color !== undefined) {
         Strings.BackgroundColor[UserSettings.CurrentLang];
         const Container = document.createElement("div");
         const CssPropertyLabel = document.createElement("label");
@@ -147,7 +148,7 @@ function ThemeTweakerModal() {
           ColorInput.value = ColorPicker.value;
         });
         ColorInput.addEventListener("input", () => {
-          if (ColorInput.value.match(ValidColorFormat) || ColorInput.value === "") {
+          if (ColorInput.value.match(ValidColorFormat)) {
             UserThemes[i].Themes[SelectedTheme].Color = ColorInput.value;
             ColorPicker.value = ColorInput.value;
             let FilterForSvg = HexToFilter(ColorInput.value);
@@ -158,6 +159,8 @@ function ThemeTweakerModal() {
                 Element.style.color = ColorInput.value;
               }
             });
+          } else if (ColorInput.value === "") {
+            UserThemes[i].Themes[SelectedTheme].Color = ColorInput.value;
           } else {
             DisplayMessage("Error", `Invalid color format at ${i} , value must be in Hex format`);
           }
@@ -166,7 +169,7 @@ function ThemeTweakerModal() {
         Container.append(CssPropertyLabel, CssProperyInputsContainer);
         Row.append(Container);
       }
-      if (Border) {
+      if (Border !== undefined) {
         const Container = document.createElement("div");
         const CssPropertyLabel = document.createElement("label");
         const CssProperyInputsContainer = document.createElement("div");
@@ -280,7 +283,7 @@ function ThemeTweakerModal() {
         Container.append(CssPropertyLabel, CssProperyInputsContainer);
         Row.append(Container);
       }
-      if (Opacity) {
+      if (Opacity !== undefined) {
         const Container = document.createElement("div");
         const CssPropertyLabel = document.createElement("label");
         const CssProperyInputsContainer = document.createElement("div");
@@ -315,7 +318,7 @@ function ThemeTweakerModal() {
         Container.append(CssPropertyLabel, CssProperyInputsContainer);
         Row.append(Container);
       }
-      if (TextOpacity) {
+      if (TextOpacity !== undefined) {
         const Container = document.createElement("div");
         const CssPropertyLabel = document.createElement("label");
         const CssProperyInputsContainer = document.createElement("div");
@@ -350,7 +353,7 @@ function ThemeTweakerModal() {
         Container.append(CssPropertyLabel, CssProperyInputsContainer);
         Row.append(Container);
       }
-      if (Hover) {
+      if (Hover !== undefined) {
         const Container = document.createElement("div");
         const CssPropertyLabel = document.createElement("label");
         const CssProperyInputsContainer = document.createElement("div");
@@ -414,7 +417,7 @@ function ThemeTweakerModal() {
     DisplayMessage("Success", "Changes has been applied");
   };
   const DeleteTheme = (Theme) => {
-    if (Theme === "Dark" || Theme === "Light") {
+    if (Theme === "Dark") {
       DisplayMessage("Error", `${Theme} is a defualt theme and can not be deleted`);
       return;
     }
@@ -816,6 +819,240 @@ function ReadNoteModal(...Args) {
   AddDragEventListenersToModal(`.read-${ID}-modal`);
 }
 
+function AccountModal() {
+  if (document.querySelector(".account-modal")) return;
+
+  const Modal = document.createElement("section");
+  Modal.className = "modal account-modal";
+
+  const EmailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  const PasswordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+  const UserNameRegex = /^[A-Za-z0-9]{6,}$/;
+
+  const CreateModalTopBar = () => {
+    const ModalTopBar = document.createElement("div");
+    const HideModalBtn = document.createElement("button");
+    const HideModalIcon = document.createElement("img");
+
+    ModalTopBar.className = "modal-top-bar";
+    HideModalBtn.className = "close-btn icon";
+    HideModalBtn.title = "ShortCut : ESC";
+
+    ModalTopBar.style.order = "1";
+    HideModalIcon.src = "../Icons/close-large-line.svg";
+
+    HideModalBtn.addEventListener("click", function (Event) {
+      Event.stopPropagation();
+      HideModal(".account-modal");
+    });
+
+    ModalTopBar.append(HideModalBtn);
+    HideModalBtn.append(HideModalIcon);
+    Modal.append(HideModalBtn);
+  };
+  const CreateLoginSection = () => {
+    if (document.querySelector(".account-form")) {
+      document.querySelector(".account-form").remove();
+    }
+    let LoginInfo = {
+      Email: null,
+      UserName: null,
+      Password: null,
+    };
+
+    const LoginForm = document.createElement("form");
+    const Title = document.createElement("div");
+    const InputContainer1 = document.createElement("div");
+    const InputContainer2 = document.createElement("div");
+    const InputContainer1Badge = document.createElement("span");
+    const InputContainer2Badge = document.createElement("span");
+    const Email_UserNameInput = document.createElement("input");
+    const PasswordInput = document.createElement("input");
+    const Options = document.createElement("div");
+    const CreateAccountOption = document.createElement("a");
+    const ForgotPasswordOption = document.createElement("a");
+    const LoginBtn = document.createElement("button");
+
+    LoginForm.className = "account-form";
+    Title.className = "account-modal-title";
+    InputContainer1.className = "input-container";
+    InputContainer2.className = "input-container";
+    InputContainer1Badge.className = "sticky-badge";
+    InputContainer2Badge.className = "sticky-badge";
+    Email_UserNameInput.className = "account-input";
+    PasswordInput.className = "account-input";
+    Options.className = "account-options";
+    CreateAccountOption.className = "account-link";
+    ForgotPasswordOption.className = "account-link";
+    LoginBtn.className = "account-btn";
+
+    Title.innerText = Strings.Login[UserSettings.CurrentLang];
+    InputContainer1Badge.innerText = `${Strings.Email[UserSettings.CurrentLang]}/${Strings.UserName[UserSettings.CurrentLang]}`;
+    InputContainer2Badge.innerText = `${Strings.Password[UserSettings.CurrentLang]}`;
+    CreateAccountOption.innerText = Strings.CreateAccount[UserSettings.CurrentLang];
+    ForgotPasswordOption.innerText = Strings.ForgotPassword[UserSettings.CurrentLang];
+    LoginBtn.innerText = Strings.Login[UserSettings.CurrentLang];
+
+    Email_UserNameInput.placeholder = `${Strings.Email[UserSettings.CurrentLang]}/${Strings.UserName[UserSettings.CurrentLang]}`;
+    PasswordInput.placeholder = `${Strings.Password[UserSettings.CurrentLang]}`;
+    LoginBtn.type = "submit";
+
+    LoginForm.addEventListener("submit", (Event) => {
+      Event.preventDefault();
+      try {
+        if (!Email_UserNameInput || !PasswordInput.value) {
+          throw new Error(Strings.FormInputError[UserSettings.CurrentLang]);
+        }
+        if (Email_UserNameInput.value.includes("@")) {
+          if (!EmailRegEx.test(Email_UserNameInput.value)) {
+            throw new Error(Strings.EmailFormatError[UserSettings.CurrentLang]);
+          }
+        } else {
+          if (!UserNameRegex.test(Email_UserNameInput.value)) {
+            throw new Error(Strings.UserNameFormatError[UserSettings.CurrentLang]);
+          }
+        }
+        if (!PasswordRegex.test(PasswordInput.value)) {
+          throw new Error(Strings.PasswordFormatError[UserSettings.CurrentLang]);
+        }
+      } catch (Error) {
+        DisplayMessage("Error", Error);
+        return;
+      }
+      if (EmailRegEx.test(Email_UserNameInput.value)) {
+        LoginInfo.Email = Email_UserNameInput.value.toLowerCase().trim();
+        LoginInfo.UserName = null;
+      } else {
+        LoginInfo.UserName = Email_UserNameInput.value.toLowerCase().trim();
+        LoginInfo.Email = null;
+      }
+      LoginInfo.Password = PasswordInput.value.trim();
+      console.log(LoginInfo);
+    });
+    CreateAccountOption.addEventListener("click", CreateSignUpSection);
+    ForgotPasswordOption.addEventListener("click", CreateForgetPasswordSection);
+
+    LoginForm.append(Title, InputContainer1, InputContainer2, Options, LoginBtn);
+    InputContainer1.append(InputContainer1Badge, Email_UserNameInput);
+    InputContainer2.append(InputContainer2Badge, PasswordInput);
+    Options.append(CreateAccountOption, ForgotPasswordOption);
+    Modal.append(LoginForm);
+  };
+  const CreateSignUpSection = () => {
+    if (document.querySelector(".account-form")) {
+      document.querySelector(".account-form").remove();
+    }
+    let SignUpInfo = {
+      Email: null,
+      UserName: null,
+      Password: null,
+    };
+
+    const SignUpForm = document.createElement("form");
+    const Title = document.createElement("div");
+    const InputContainer1 = document.createElement("div");
+    const InputContainer2 = document.createElement("div");
+    const InputContainer3 = document.createElement("div");
+    const InputContainer4 = document.createElement("div");
+    const InputContainer1Badge = document.createElement("span");
+    const InputContainer2Badge = document.createElement("span");
+    const InputContainer3Badge = document.createElement("span");
+    const InputContainer4Badge = document.createElement("span");
+    const EmailInput = document.createElement("input");
+    const UserNameInput = document.createElement("input");
+    const PasswordInput = document.createElement("input");
+    const RepeatPasswordInput = document.createElement("input");
+    const Options = document.createElement("div");
+    const LoginOption = document.createElement("a");
+    const SignUpBtn = document.createElement("button");
+
+    SignUpForm.className = "account-form";
+    Title.className = "account-modal-title";
+    InputContainer1.className = "input-container";
+    InputContainer2.className = "input-container";
+    InputContainer3.className = "input-container";
+    InputContainer4.className = "input-container";
+    InputContainer1Badge.className = "sticky-badge";
+    InputContainer2Badge.className = "sticky-badge";
+    InputContainer3Badge.className = "sticky-badge";
+    InputContainer4Badge.className = "sticky-badge";
+    EmailInput.className = "account-input";
+    UserNameInput.className = "account-input";
+    PasswordInput.className = "account-input";
+    RepeatPasswordInput.className = "account-input";
+    Options.className = "account-options";
+    LoginOption.className = "account-link";
+    SignUpBtn.className = "account-btn";
+
+    Title.innerText = Strings.SignUp[UserSettings.CurrentLang];
+    InputContainer1Badge.innerText = Strings.Email[UserSettings.CurrentLang];
+    InputContainer2Badge.innerText = `${Strings.UserName[UserSettings.CurrentLang]}`;
+    InputContainer3Badge.innerText = `${Strings.Password[UserSettings.CurrentLang]}`;
+    InputContainer4Badge.innerText = `${Strings.RepeatPassword[UserSettings.CurrentLang]}`;
+    LoginOption.innerText = Strings.LoginOption[UserSettings.CurrentLang];
+    SignUpBtn.innerText = Strings.SignUp[UserSettings.CurrentLang];
+
+    EmailInput.placeholder = Strings.Email[UserSettings.CurrentLang];
+    UserNameInput.placeholder = Strings.UserName[UserSettings.CurrentLang];
+    PasswordInput.placeholder = Strings.Password[UserSettings.CurrentLang];
+    RepeatPasswordInput.placeholder = Strings.RepeatPassword[UserSettings.CurrentLang];
+    SignUpBtn.type = "submit";
+
+    SignUpForm.addEventListener("submit", (Event) => {
+      Event.preventDefault();
+      try {
+        if (!EmailInput || !PasswordInput.value || !RepeatPasswordInput.value || !UserNameInput.value) {
+          throw new Error(Strings.FormInputError[UserSettings.CurrentLang]);
+        }
+        if (!EmailRegEx.test(EmailInput.value)) {
+          throw new Error(Strings.EmailFormatError[UserSettings.CurrentLang]);
+        }
+        if (UserNameRegex.test(UserNameInput.value)) {
+          throw new Error(Strings.UserNameFormatError[UserSettings.CurrentLang]);
+        }
+        if (!PasswordRegex.test(PasswordInput.value)) {
+          throw new Error(Strings.PasswordFormatError[UserSettings.CurrentLang]);
+        }
+        if (PasswordInput.value !== RepeatPasswordInput.value) {
+          throw new Error(Strings.ConfirmPasswordError[UserSettings.CurrentLang]);
+        }
+      } catch (Error) {
+        DisplayMessage("Error", Error);
+        return;
+      }
+      SignUpInfo.Email = EmailInput.value.toLowerCase().trim();
+      SignUpInfo.UserName = UserNameInput.value.toLowerCase().trim();
+      SignUpInfo.Password = PasswordInput.value.trim();
+      console.log(SignUpInfo);
+    });
+    LoginOption.addEventListener("click", CreateLoginSection);
+
+    SignUpForm.append(Title, InputContainer1, InputContainer2, InputContainer3, InputContainer4, Options, SignUpBtn);
+    InputContainer1.append(InputContainer1Badge, EmailInput);
+    InputContainer2.append(InputContainer2Badge, UserNameInput);
+    InputContainer3.append(InputContainer3Badge, PasswordInput);
+    InputContainer4.append(InputContainer4Badge, RepeatPasswordInput);
+    Options.append(LoginOption);
+    Modal.append(SignUpForm);
+  };
+  const CreateForgetPasswordSection = () => {
+    if (document.querySelector(".account-form")) {
+      document.querySelector(".account-form").remove();
+    }
+    const ForgetPasswordInfo = {
+      Email: null,
+    };
+  };
+
+  CreateModalTopBar();
+  CreateLoginSection();
+
+  document.body.append(Modal);
+  PositionModal(".account-modal");
+  ChooseActiveModal();
+  AddDragEventListenersToModal(".account-modal");
+}
+
 function NewTaskModal() {
   if (document.querySelector(".new-task-modal")) return;
 
@@ -859,7 +1096,7 @@ function NewTaskModal() {
     const TitleInputBadge = document.createElement("span");
     const CharacterLimitTag = document.createElement("section");
 
-    TitleSection.className = "task-title-section";
+    TitleSection.className = "input-container";
     TitleInput.className = "modal-input new-task-title-input";
     TitleInputBadge.className = "sticky-badge text";
     CharacterLimitTag.className = "character-limit new-task-title-input-charlimit text";
@@ -1038,7 +1275,7 @@ function EditTaskModal(ID) {
     const TitleInputBadge = document.createElement("span");
     const CharacterLimitTag = document.createElement("section");
 
-    TitleSection.className = "task-title-section";
+    TitleSection.className = "input-container";
     TitleInput.className = "modal-input edit-task-title-input";
     TitleInputBadge.className = "sticky-badge text";
     CharacterLimitTag.className = "character-limit edit-task-title-input-charlimit text";

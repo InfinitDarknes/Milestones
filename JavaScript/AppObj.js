@@ -21,6 +21,7 @@ let AppObj = {
     ".delete-category-modal",
     ".theme-tweaker-modal",
     ".backup-modal",
+    ".account-modal",
   ],
   UserCategoryPattern: /^UserCategory-[0-9]{8}$/,
   ThemePattern: /^[a-zA-Z0-9]+$/,

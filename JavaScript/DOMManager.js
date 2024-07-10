@@ -76,6 +76,18 @@ function ReturnSortFailedBtn(TargetWindow) {
   return Btn;
 }
 function AddDragAndDropEvents(Element, TargetWindow, Type, UserCategoryID) {
+  /*
+  Element : that element we want to set the drag events on.
+
+  TargetWindow : When you drag-drop a to do element to an element such as Today sort button , 
+  not only we need to change information about that to do but we also need to switch the window
+  to Home-Today or if it is in a category to UserCategory-[some number]-Today.
+
+  Type : What is this ? we do not mean the type of the to do , either it is unfinished or failed or completed etc..
+  we mean the type of the element that the drop event happens on for example type of Completed sort button is "Completed"
+  or type of Today sort button is "Today" , with this we can figure what operation we want to do on our dropped to do.
+
+  */
   Element.addEventListener("dragover", (Event) => {
     Event.preventDefault();
     if (Type !== "UserCategory") Element.style.backgroundColor = ThemeObj.Hovered.Themes[UserSettings.Theme].BgColor;
@@ -139,11 +151,8 @@ function AddDragAndDropEvents(Element, TargetWindow, Type, UserCategoryID) {
           break;
       }
     });
-    if (Type === "Trash") {
-      ChangeWindow("Trash-All");
-    } else if (Type === "UserCategory") {
+    if (Type === "UserCategory") {
       AppObj.SelectedUserCategory = UserCategoryID;
-      ChangeWindow(`${UserCategoryID}-Unfinished`);
     } else {
       ChangeWindow(TargetWindow);
     }
@@ -535,6 +544,18 @@ function ReturnUserCategoryWindow(ID) {
   return UserCategoryPage;
 }
 // Display each window
+
+/*
+Reason we pass a boolen value of FirstTime to this funcions is as follows:
+if you click on home-button multiple times while you are already in the home-window
+we need to check this and avoid unnecessary creation and appending new element right ? 
+how do we do that ? by checking the localStorage.getItem("LastWindow") so if your last window
+is the same one you are reqesting right now we just ignore your reqest 
+there is one problem though , what if your last window is home but then you refresh the page
+and though to the my app new feature we keep your last window in mind and load that after refresh
+the app proceeds to load the home page but the home-page we are reqesting is also our last window
+this causes our reqest to be ignored so we need to make an exception for the times you reload the page
+*/
 function DisplayHomeWindow(FirstTime) {
   if (!FirstTime) {
     if (AppObj.CurrentWindow.includes("Home")) return;
@@ -572,12 +593,18 @@ function DisplayUserCategoryWindow(ID) {
   });
 }
 function DisplayUserCategories() {
+  /*The elements in sidebar above settings button are called UserCategories or UGC witch 
+  stands for "User Generated Category" when you edit/delete/create on of them the 
+  ".user-category-container" needs to be updated */
   const UserCategoryContainer = document.querySelector(".user-category-container");
   UserCategoryContainer.innerHTML = "";
   UserCategoryContainer.append(ReturnUserCategorise());
 }
 // Appens all the task containers including normal/failed/completed/trashed
 function AppendTaskContainer(Tasks) {
+  /*Functions inside TaskManager.js that usally start with "Load" filter the AllTasksArray variable 
+  and splice a new array that they will pass to this function , those functions that start with "Load"
+  are mostly triggered by UpdateInbox() function*/
   const ListSection = document.querySelector(".list-section");
   let FragmentOfTaskContainers = document.createDocumentFragment();
   PrioritizePinnedTasks(Tasks).forEach((Task) => {
@@ -751,13 +778,17 @@ function AppendTaskContainer(Tasks) {
   ListSection.append(FragmentOfTaskContainers);
 }
 function ClearListSection() {
+  /* Clearing list section or the html element that contains to do element happens 
+  very often so it make sense to have a function for it */
   let ListSection = document.querySelector(".list-section");
   if (!ListSection) return;
   ListSection.innerHTML = "";
 }
 // Functionalities
 function EmptyBox(Text, TargetSelector) {
-  // Look into functions that Start with Load and End with Tasks inside TaskManager.js to trace proces of this function.
+  /* Look into functions that Start with Load and End with Tasks inside TaskManager.js to trace proces of this function.
+  It fires when you choose a window but there are not data avaiable for it for example if you choose Home-Today
+  but you have no tasks for today! */
   if (!TargetSelector) {
     DisplayMessage("Error", "DOMManager.js > EmptyBox(). No selector passed to emptybox");
     return;
@@ -781,6 +812,7 @@ function EmptyBox(Text, TargetSelector) {
 function HighLightSelectedSortButton() {
   const SortButton = document.querySelectorAll(".sort-buttons");
   SortButton.forEach((Button) => {
+    // We first un-hover everything before deciding witch element needs to be hovered based on AppoObj.CurrentWindow
     Button.classList.remove("hovered");
   });
   if (AppObj.CurrentWindow.includes("All")) {
@@ -806,8 +838,11 @@ function HighLightSelectedSortButton() {
   }
 }
 function HighLightSelectedSideBarItem() {
+  /* the sidebar items and open up a seperate window need to get highlighted so you know where you are
+  this does not include items such is New task or New category witch only open up a modal*/
   const SidebarItem = document.querySelectorAll(".side-bar-item");
   SidebarItem.forEach((Item) => {
+    // We first un-hover everything before deciding witch element needs to be hovered based on AppoObj.CurrentWindow
     Item.classList.remove("hovered");
   });
   if (AppObj.CurrentWindow.includes("Home")) {
@@ -826,6 +861,7 @@ function HighLightSelectedSideBarItem() {
   }
 }
 function DisplaySelectModeBar() {
+  // When you select a task a bar shows up at bottom showing you a Clear selection button and a text
   if (document.querySelector(".select-bar")) {
     const SelectedItemsElem = document.querySelector(".selected-items");
     SelectedItemsElem.innerText = `${PlacePersianNumbers(ReturnSelectedTasks().length)} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
@@ -892,7 +928,9 @@ function HideSelectModeBar() {
   if (SelectBar) SelectBar.remove();
   if (ListSection) ListSection.classList.remove("padding-bottom");
 }
+
 function FixDirection() {
+  // Based on the language being RTL or LTR we load different css files
   const MainStyleSheet = document.querySelector(".main-style-sheet");
   switch (UserSettings.CurrentLang) {
     case "en":
@@ -905,9 +943,11 @@ function FixDirection() {
 }
 // Styling and Colors and UI
 /* Note for dummies : all the styling around colors and background colors etc... is inserted dynamically
-here through insertRule() and the values are stored inside DevTools.js > ThemeObj object.
+here through insertRule() and the values are stored inside Json/Theme.json 
 */
+
 function HexToFilter(hex) {
+  // SVG icons can not get color property directly this function will turn a hex code into a css filter property
   class Color {
     constructor(r, g, b) {
       this.set(r, g, b);
@@ -1201,13 +1241,16 @@ function HexToFilter(hex) {
   let solver = new Solver(color);
   let result = solver.solve();
   let filterCSS = result.filter;
-  if (+result.loss.toFixed(1) !== 0) {
-    return HexToFilter(hex);
-  } else {
-    return filterCSS;
-  }
+  // if (+result.loss.toFixed(1) > 0.9) {
+  //   return HexToFilter(hex);
+  // } else {
+  //   return filterCSS;
+  // }
+  return filterCSS;
 }
 function HexToRgba(Hex, Opacity) {
+  /* Since i added the ability for user to change color and background-color 
+  of elements with an opacity this function is made to make the job easy */
   var c;
   if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(Hex)) {
     c = Hex.substring(1).split("");
@@ -1307,36 +1350,77 @@ function InsertRules() {
     if (BorderRule()) document.styleSheets[0].insertRule(BorderRule());
   }
 }
-function InitDisIntegrator() {
-  disintegrate.init();
-}
-function Wind() {
-  this.name = "Wind";
-  this.animationDuration = 1500;
-  this.size = 3;
-  this.startX = 0; // Add startX property
-  this.startY = 0; // Add startY property
-  this.start = 0; // Add start property
-  this.rgbArray = [255, 0, 0]; // Define rgbArray with sample values
-  this.first = true;
-  this.draw = (ctx) => {
-    if (this.first) {
-      this.startY += 1;
-      this.startX += 1;
-      this.first = false;
+// Window manager => we have different windows such as Home-Unfinished or Trash-All we use it to load tasks accordingly
+function ChangeWindow(Window, FirstTime) {
+  if (document.querySelector(".settings-container")) HideSettings();
+  function ReplaceText(String) {
+    // Regular expression to match the pattern
+    const RegEx = /(UserCategory-\d+)|(.*?)-.*/;
+    // Match the pattern in the string
+    const Match = String.match(RegEx);
+    if (Match) {
+      // If the match starts with 'UserCategory-', return it as is
+      if (Match[1] !== undefined) {
+        return Match[1];
+      } else {
+        // Otherwise, return the matched group 2
+        return Match[2];
+      }
     }
-    ctx.beginPath();
-    ctx.fillRect(this.startX - this.size / 2, this.startY - this.size / 2, this.size, this.size);
-    const r = this.rgbArray[0];
-    const g = this.rgbArray[1];
-    const b = this.rgbArray[2];
-    const a = 1 - percentComplete;
-    ctx.fillStyle = `rgba(${r}, ${g}, ${b},${a})`;
-    ctx.fill();
-    this.speedX *= 1.07;
-    this.speedY *= 1.07;
-    this.size *= 0.95;
-    this.startX += this.speedX;
-    this.startY += this.speedY;
-  };
+
+    return String;
+  }
+  ExitSelectMode();
+  if (!localStorage.getItem("LastWindow").includes(ReplaceText(Window)) || FirstTime) {
+    /*
+    In here we only need to know if we are eithr in Home/Trash/Notes or any category window
+    we don't need to know if we are in Home-Today or UserCategory-42441243-In2Days
+    because either way we need to create the DOM elements for that window. the usecase for this
+    is further explained in second comment.
+    */
+
+    /*
+    Very Important
+    !localStorage.getItem("LastWindow").includes(ReplaceText(Window)) || FirstTime
+    what is this condition and what is its use ? 
+    well this condition checks if the change of window is Internal or External 
+    for exmaple switching from Home-Today to Trash-All or Notes is External 
+    because you completly get rid of on window element and append new one
+    but switching from Home-Today to HomeIn2Days is internal because you still
+    use same DOM elements you just Update the content witch are the to dos 
+    if this condition is not checked everytime you do an Intenal switcing you 
+    unneccesarilly append new element and this is nor efficient nor user-friendly
+    so we only come inside this block if the app is loaded for first time or page is reloaded
+    or the change of window is external , for Internal changes we use UpdateInbox()
+    */
+
+    if (Window.includes("Home")) {
+      DisplayHomeWindow(true);
+    }
+    if (Window.includes("Notes")) {
+      DisplayNotesWindow(true);
+    }
+    if (Window.includes("Trash")) {
+      DisplayTrashBinWindow(true);
+    }
+    if (Window.includes("UserCategory")) {
+      let CategoryID = Window.slice(0, 21);
+      AppObj.SelectedUserCategory = CategoryID;
+      DisplayUserCategoryWindow(CategoryID);
+    }
+  }
+  AppObj.CurrentWindow = Window.toString();
+  localStorage.setItem("LastWindow", Window);
+  /* Do not make a mistak SelectedUserCategory variable and CurrentWindow are not duplicate
+  they each have their own usecase alot of times we need to find out witch category is now open
+  but if we just want to rely on CurrentWindow variable we need to do some regex on it everytime */
+  if (!Window.includes("UserCategory")) AppObj.SelectedUserCategory = "";
+  /* When you switch categories while having the New task modal open it is convinient to
+  change the value of category select box for the user */
+  if (AppObj.CurrentWindow.includes("UserCategory-") && DoesElementExist("new-task-modal")) {
+    SwitchValueOfCategorySelectBox(AppObj.SelectedUserCategory);
+  }
+  UpdateInbox();
+  HighLightSelectedSortButton();
+  HighLightSelectedSideBarItem();
 }

@@ -377,6 +377,18 @@ function CreateDatePicker(Selector) {
   HourInput.type = "text";
   MinuteInput.type = "text";
   // Set event listeners
+  HourInput.addEventListener("change", () => {
+    if (+HourInput.value >= 0 && +HourInput.value <= 24) {
+      DateObject.Hour = +HourInput.value;
+    }
+    UpdateDatePicker();
+  });
+  MinuteInput.addEventListener("change", () => {
+    if (+MinuteInput.value >= 0 && +MinuteInput.value <= 60) {
+      DateObject.Minute = +MinuteInput.value;
+      UpdateDatePicker();
+    }
+  });
   PickTodayButton.addEventListener("click", LoadToday);
   PickTomorrowButton.addEventListener("click", LoadTomorrow);
   PickIn2DaysButton.addEventListener("click", LoadIn2Days);

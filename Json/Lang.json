@@ -35,6 +35,62 @@
     "en": "Close",
     "fa": "بستن"
   },
+  "Login": {
+    "en": "Login",
+    "fa": "ورود"
+  },
+  "SignUp": {
+    "en": "Sign up",
+    "fa": "نام نویسی"
+  },
+  "LoginOption": {
+    "en": "Have an account ? Login",
+    "fa": "ورود به حساب کاربری"
+  },
+  "Email": {
+    "en": "Email",
+    "fa": "ایمیل"
+  },
+  "UserName": {
+    "en": "Username",
+    "fa": "نام کاربری"
+  },
+  "Password": {
+    "en": "Password",
+    "fa": "گذرواژه"
+  },
+  "RepeatPassword": {
+    "en": "Repeat password",
+    "fa": "تکرار گذرواژه"
+  },
+  "CreateAccount": {
+    "en": "Create account",
+    "fa": "حساب کاربری"
+  },
+  "ForgotPassword": {
+    "en": "Forgot password",
+    "fa": "فراموشی گذرواژه"
+  },
+  "EmailFormatError": {
+    "en": "Email format is invalid",
+    "fa": "ایمیل نامعتبر است"
+  },
+  "PasswordFormatError": {
+    "en": "Passowrd must be at least 8 characters and include digits and capital letters.",
+    "fa": "گذرواژه باید دستکم هشت کاراکتر باشد و شامل عدد و حروف بزرگ شود"
+  },
+  "UserNameFormatError": {
+    "en": "Username must be at lest 6 characters , and only include letters and digits",
+    "fa": "نام کاربری باید دستکم شش کاراکتر باشد و تنها شامل ارقام و حروف باشد"
+  },
+  "ConfirmPasswordError": {
+    "en": "Passwords do not match",
+    "fa": "گذرواژه ها با هم برابر نیستند"
+  },
+  "FormInputError": {
+    "en": "Please fill all the inputs",
+    "fa": "لطفا همه ورودی ها را تکمیل کنید"
+  },
   "NoteTitleInputPlaceHolder": {
     "en": "Title is required",
     "fa": "عنوان یادداشت اجباری است"
