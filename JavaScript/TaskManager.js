@@ -556,11 +556,11 @@ function ReturnTaskState(ID) {
 }
 // Restoring
 function RestoreFromText(Text) {
-  if (typeof Text !== "object" || Array.isArray(Text)) {
+  let TextObject = JSON.parse(Text);
+  if (typeof TextObject !== "object") {
     DisplayMessage("Error", "Input is not a valid JSON object");
     return;
   }
-  let TextObject = JSON.parse(Text);
   for (let n in TextObject) {
     localStorage.setItem(n.toString(), TextObject[n]);
   }
