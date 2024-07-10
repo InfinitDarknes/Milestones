@@ -416,21 +416,21 @@ function PinTask(ID) {
   let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
   SelectedTasks.forEach((Task) => {
     if (Task.UserCategory === AppObj.SelectedUserCategory) {
-      let PinnedTasks = AllTasksArray.filter((Task) => {
+      let PinnedTasks = ReturnUnfinishedTasks().filter((Task) => {
         return Task.PinnedInCategory && Task.UserCategory === AppObj.SelectedUserCategory;
       });
       if (PinnedTasks.length < 5) {
-        Task.PinnedInCategory = true;
+        AllTasksArray[FindIndexOfTask(Task.ID)].PinnedInCategory = true;
       } else {
         DisplayMessage("Error", Strings.PinMoreThan5TaskErrorMsg[UserSettings.CurrentLang]);
       }
     }
     if (AppObj.CurrentWindow.includes("Home")) {
-      let PinnedTasks = AllTasksArray.filter((Task) => {
+      let PinnedTasks = ReturnUnfinishedTasks().filter((Task) => {
         return Task.Pinned;
       });
       if (PinnedTasks.length < 5) {
-        Task.Pinned = true;
+        AllTasksArray[FindIndexOfTask(Task.ID)].Pinned = true;
       } else {
         DisplayMessage("Error", Strings.PinMoreThan5TaskErrorMsg[UserSettings.CurrentLang]);
       }
