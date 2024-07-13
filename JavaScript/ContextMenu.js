@@ -11,7 +11,7 @@ function DisplayUserCategoryContextMenu(Event) {
   EditUserCategoryText.className = "context-menu-text text";
   EditUserCategoryIcon.className = "context-menu-icon icon";
   EditUserCategoryIcon.src = "../Icons/edit-circle-line.svg";
-  EditUserCategoryText.innerText = Strings.Edit[UserSettings.CurrentLang];
+  EditUserCategoryText.innerText = Strings.Edit[UserSettings.Lang];
   EditUserCategoryButton.addEventListener("click", () => {
     EditCategoryModal(Event.target.id);
     HideContextMenu();
@@ -26,7 +26,7 @@ function DisplayUserCategoryContextMenu(Event) {
   DeleteUserCategoryText.className = "context-menu-text text";
   DeleteUserCategoryIcon.className = "context-menu-icon icon";
   DeleteUserCategoryIcon.src = "../Icons/delete-back-2-line.svg";
-  DeleteUserCategoryText.innerText = Strings.Delete[UserSettings.CurrentLang];
+  DeleteUserCategoryText.innerText = Strings.Delete[UserSettings.Lang];
   DeleteUserCategoryButton.addEventListener("click", () => {
     DeleteModal("DeleteCategory", Event.target.id);
     HideContextMenu();
@@ -66,7 +66,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   PinTaskText.className = "context-menu-text text";
   PinTaskIcon.className = "context-menu-icon icon";
   PinTaskIcon.src = "../Icons/pushpin-line.svg";
-  PinTaskText.innerText = Strings.Pin[UserSettings.CurrentLang];
+  PinTaskText.innerText = Strings.Pin[UserSettings.Lang];
   PinTaskButton.addEventListener("click", () => {
     PinTask(Event.target.id);
     HideContextMenu();
@@ -80,7 +80,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   UnPinTaskText.className = "context-menu-text text";
   UnPinTaskIcon.className = "context-menu-icon icon";
   UnPinTaskIcon.src = "../Icons/unpin-line.svg";
-  UnPinTaskText.innerText = Strings.UnPin[UserSettings.CurrentLang];
+  UnPinTaskText.innerText = Strings.UnPin[UserSettings.Lang];
   UnPinTaskButton.addEventListener("click", () => {
     UnPinTask(Event.target.id);
     HideContextMenu();
@@ -94,7 +94,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   DeSelectTaskText.className = "context-menu-text text";
   DeSelectTaskIcon.className = "context-menu-icon icon";
   DeSelectTaskIcon.src = "../Icons/navigation-line.svg";
-  DeSelectTaskText.innerText = Strings.DeSelect[UserSettings.CurrentLang];
+  DeSelectTaskText.innerText = Strings.DeSelect[UserSettings.Lang];
   DeSelectTaskButton.addEventListener("click", () => {
     DeSelectTask(Event.target.id);
     HideContextMenu();
@@ -108,7 +108,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   SelectTaskText.className = "context-menu-text text";
   SelectTaskIcon.className = "context-menu-icon icon";
   SelectTaskIcon.src = "../Icons/navigation-line.svg";
-  SelectTaskText.innerText = Strings.Select[UserSettings.CurrentLang];
+  SelectTaskText.innerText = Strings.Select[UserSettings.Lang];
   SelectTaskButton.addEventListener("click", () => {
     SelectTask(Event.target.id);
     HideContextMenu();
@@ -124,7 +124,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   EditTaskText.className = "context-menu-text text";
   EditTaskIcon.className = "context-menu-icon icon";
   EditTaskIcon.src = "../Icons/edit-circle-line.svg";
-  EditTaskText.innerText = Strings.Edit[UserSettings.CurrentLang];
+  EditTaskText.innerText = Strings.Edit[UserSettings.Lang];
   EditTaskButton.addEventListener("click", () => {
     EditTaskModal(Event.target.id);
     HideContextMenu();
@@ -138,7 +138,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   MoveToNextDayText.className = "context-menu-text text";
   MoveToNextDayIcon.className = "context-menu-icon icon";
   MoveToNextDayIcon.src = "../Icons/arrow-right-line.svg";
-  MoveToNextDayText.innerText = Strings.MoveToNextDay[UserSettings.CurrentLang];
+  MoveToNextDayText.innerText = Strings.MoveToNextDay[UserSettings.Lang];
   MoveToNextDayButton.addEventListener("click", () => {
     MoveToNextDay(Event.target.id);
     HideContextMenu();
@@ -152,7 +152,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   MoveToPreviousDayText.className = "context-menu-text text";
   MoveToPreviousDayIcon.className = "context-menu-icon icon";
   MoveToPreviousDayIcon.src = "../Icons/arrow-left-line.svg";
-  MoveToPreviousDayText.innerText = Strings.MoveToPreviousDay[UserSettings.CurrentLang];
+  MoveToPreviousDayText.innerText = Strings.MoveToPreviousDay[UserSettings.Lang];
   MoveToPreviousDayButton.addEventListener("click", () => {
     MoveToPreviousDay(Event.target.id);
     HideContextMenu();
@@ -166,7 +166,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   MoveToTodayText.className = "context-menu-text text";
   MoveToTodayIcon.className = "context-menu-icon icon";
   MoveToTodayIcon.src = "../Icons/calendar-check-line.svg";
-  MoveToTodayText.innerText = Strings.MoveToToday[UserSettings.CurrentLang];
+  MoveToTodayText.innerText = Strings.MoveToToday[UserSettings.Lang];
   MoveToTodayButton.addEventListener("click", () => {
     MoveToToday(Event.target.id);
     HideContextMenu();
@@ -180,7 +180,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   CompleteTaskText.className = "context-menu-text text";
   CompleteTaskIcon.className = "context-menu-icon icon";
   CompleteTaskIcon.src = "../Icons/checkbox-circle-line.svg";
-  CompleteTaskText.innerText = Strings.CompleteTask[UserSettings.CurrentLang];
+  CompleteTaskText.innerText = Strings.CompleteTask[UserSettings.Lang];
   CompleteTaskButton.addEventListener("click", () => {
     AppObj.SelectMode ? CompleteTask() : CompleteTask(Event.target.id);
     HideContextMenu();
@@ -194,7 +194,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   FailTaskText.className = "context-menu-text text";
   FailTaskIcon.className = "context-menu-icon icon";
   FailTaskIcon.src = "../Icons/close-circle-line.svg";
-  FailTaskText.innerText = Strings.FailTask[UserSettings.CurrentLang];
+  FailTaskText.innerText = Strings.FailTask[UserSettings.Lang];
   FailTaskButton.addEventListener("click", () => {
     AppObj.SelectMode ? FailTask() : FailTask(Event.target.id);
     HideContextMenu();
@@ -208,7 +208,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   RestoreTaskText.className = "context-menu-text text";
   RestoreTaskIcon.className = "context-menu-icon icon";
   RestoreTaskIcon.src = "../Icons/loop-left-line.svg";
-  RestoreTaskText.innerText = Strings.RestoreTask[UserSettings.CurrentLang];
+  RestoreTaskText.innerText = Strings.RestoreTask[UserSettings.Lang];
   RestoreTaskButton.addEventListener("click", () => {
     RestoreTasks(Event.target.id);
     HideContextMenu();
@@ -222,7 +222,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   MoveToTrashText.className = "context-menu-text text";
   MoveToTrashIcon.className = "context-menu-icon icon";
   MoveToTrashIcon.src = "../Icons/delete-bin-7-line.svg";
-  MoveToTrashText.innerText = Strings.MoveToTrash[UserSettings.CurrentLang];
+  MoveToTrashText.innerText = Strings.MoveToTrash[UserSettings.Lang];
   MoveToTrashButton.addEventListener("click", () => {
     AppObj.SelectMode ? MoveToTrash() : MoveToTrash(Event.target.id);
     HideContextMenu();
@@ -236,7 +236,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   OnlyShowInCategoryText.className = "context-menu-text text";
   OnlyShowInCategoryIcon.className = "context-menu-icon icon";
   OnlyShowInCategoryIcon.src = Target.OnlyShowInCategory ? "../Icons/eye-line.svg" : "../Icons/eye-off-line.svg";
-  OnlyShowInCategoryText.innerText = Target.OnlyShowInCategory ? Strings.ShowEveryWhere[UserSettings.CurrentLang] : Strings.OnlyShowInCategory[UserSettings.CurrentLang];
+  OnlyShowInCategoryText.innerText = Target.OnlyShowInCategory ? Strings.ShowEveryWhere[UserSettings.Lang] : Strings.OnlyShowInCategory[UserSettings.Lang];
   OnlyShowInCategoryButton.addEventListener("click", () => {
     LocalizeTask(Target.ID);
     HideContextMenu();
@@ -250,7 +250,7 @@ function DisplayTaskContextMenu(Event, TargetType) {
   DeleteTaskText.className = "context-menu-text text";
   DeleteTaskIcon.className = "context-menu-icon icon";
   DeleteTaskIcon.src = "../Icons/delete-back-2-line.svg";
-  DeleteTaskText.innerText = Strings.Delete[UserSettings.CurrentLang];
+  DeleteTaskText.innerText = Strings.Delete[UserSettings.Lang];
   DeleteTaskButton.addEventListener("click", () => {
     DeleteTaskButton.setAttribute("data-dis-trigger-for", Event.target.id);
     AppObj.SelectMode ? DeleteModal(TargetType, Event.target.id) : DeleteTask(Event.target.id);

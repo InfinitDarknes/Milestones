@@ -29,7 +29,7 @@ function AddTask(...Args) {
   AllTasksArray.push(NewTask);
   Save("Tasks");
   UpdateInbox();
-  DisplayMessage("Success", MessageBoxStrings.TaskSuccess[UserSettings.CurrentLang]);
+  DisplayMessage("Success", MessageBoxStrings.TaskSuccess[UserSettings.Lang]);
 }
 function DeleteTask(ID) {
   let SelectedTasks = AppObj.SelectMode ? ReturnSelectedTasks() : [AllTasksArray[FindIndexOfTask(ID)]];
@@ -93,7 +93,7 @@ function LocalizeTask(ID) {
         return Task.UserCategory === "None";
       })
     ) {
-      DisplayMessage("Error", MessageBoxStrings.UncategorizedTask[UserSettings.CurrentLang]);
+      DisplayMessage("Error", MessageBoxStrings.UncategorizedTask[UserSettings.Lang]);
       return;
     }
     ReturnSelectedTasks().forEach((Task) => {
@@ -144,7 +144,7 @@ function LoadUserCategorisedTasks(TargetArray = ReturnUnfinishedTasks()) {
     ClearListSection();
     AppendTaskContainer(ReturnUserCategorisedTasks(TargetArray));
   } else {
-    EmptyBox(Strings.NoTaskInUserCategory[UserSettings.CurrentLang], ".list-section");
+    EmptyBox(Strings.NoTaskInUserCategory[UserSettings.Lang], ".list-section");
   }
 }
 // sort and return tasks
@@ -223,42 +223,42 @@ function LoadUnfinishedTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnUnfinishedTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoTaskToDoMessage[UserSettings.CurrentLang], ".list-section");
+    EmptyBox(Strings.NoTaskToDoMessage[UserSettings.Lang], ".list-section");
   }
 }
 function LoadTodayTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnTodayTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoTaskForTodayMessage[UserSettings.CurrentLang], ".list-section");
+    EmptyBox(Strings.NoTaskForTodayMessage[UserSettings.Lang], ".list-section");
   }
 }
 function LoadTomorrowTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnTomorrowTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoTaskForTomorrowMessage[UserSettings.CurrentLang], ".list-section");
+    EmptyBox(Strings.NoTaskForTomorrowMessage[UserSettings.Lang], ".list-section");
   }
 }
 function LoadIn2DaysTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnIn2DaysTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.CurrentLang], ".list-section");
+    EmptyBox(Strings.NoTaskIn2DaysMessage[UserSettings.Lang], ".list-section");
   }
 }
 function LoadCompletedTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnCompletedTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoCompletedTaskMessage[UserSettings.CurrentLang], ".list-section");
+    EmptyBox(Strings.NoCompletedTaskMessage[UserSettings.Lang], ".list-section");
   }
 }
 function LoadFailedTasks() {
   ClearListSection();
   AppendTaskContainer(ReturnFailedTasks());
   if (GetCurrentlyLoadedTasks().length === 0) {
-    EmptyBox(Strings.NoFailedTaskMessage[UserSettings.CurrentLang], ".list-section");
+    EmptyBox(Strings.NoFailedTaskMessage[UserSettings.Lang], ".list-section");
   }
 }
 function LoadTrashedTasks(TargetArray = ReturnTrashedTasks()) {
@@ -422,7 +422,7 @@ function PinTask(ID) {
       if (PinnedTasks.length < 5) {
         AllTasksArray[FindIndexOfTask(Task.ID)].PinnedInCategory = true;
       } else {
-        DisplayMessage("Error", Strings.PinMoreThan5TaskErrorMsg[UserSettings.CurrentLang]);
+        DisplayMessage("Error", Strings.PinMoreThan5TaskErrorMsg[UserSettings.Lang]);
       }
     }
     if (AppObj.CurrentWindow.includes("Home")) {
@@ -432,7 +432,7 @@ function PinTask(ID) {
       if (PinnedTasks.length < 5) {
         AllTasksArray[FindIndexOfTask(Task.ID)].Pinned = true;
       } else {
-        DisplayMessage("Error", Strings.PinMoreThan5TaskErrorMsg[UserSettings.CurrentLang]);
+        DisplayMessage("Error", Strings.PinMoreThan5TaskErrorMsg[UserSettings.Lang]);
       }
     }
   });
@@ -505,21 +505,6 @@ function UpdateInbox() {
   console.log("Updated Inbox");
   ExitSelectMode();
 }
-// Saving
-function Save(Type) {
-  switch (Type) {
-    case "Tasks":
-      localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-      break;
-    case "UGC":
-      localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
-      break;
-    case "Notes":
-      localStorage.setItem("Notes", JSON.stringify(NotesArray));
-      break;
-  }
-  return `Saved ${Type} successfully`;
-}
 // Searching
 function Search(KeyWord) {
   if (!KeyWord) {
@@ -538,7 +523,7 @@ function Search(KeyWord) {
     AppendTaskContainer(Matches);
   } else {
     // DOMManager.js
-    EmptyBox(`${Strings.NoResultFor[UserSettings.CurrentLang]} "${KeyWord}" ${Strings.WasFound[UserSettings.CurrentLang]} :(`, ".list-section");
+    EmptyBox(`${Strings.NoResultFor[UserSettings.Lang]} "${KeyWord}" ${Strings.WasFound[UserSettings.Lang]} :(`, ".list-section");
   }
 }
 function ExitFromSearchMode() {

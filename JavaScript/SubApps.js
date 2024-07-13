@@ -3,7 +3,7 @@ let TextIndex = 0;
 function AutoWriter() {
   let DisplayText = document.querySelector(".display-text");
   let Texts, Text, LetterArray, LetterIndex, AutoWriterInterval;
-  switch (UserSettings.CurrentLang) {
+  switch (UserSettings.Lang) {
     case "en":
       Texts = TextArray.EnglishTextArray;
       break;
@@ -101,7 +101,7 @@ function FetchLocalStorge() {
 }
 function PlacePersianNumbers(String) {
   String = String.toString();
-  if (UserSettings.CurrentLang !== "fa") return String;
+  if (UserSettings.Lang !== "fa") return String;
   const PersianNumbers = [
     { English: "0", Persian: "۰" },
     { English: "1", Persian: "۱" },
@@ -153,15 +153,15 @@ function DisplayMessage(Type, Message) {
     case "Error":
       MsgTypeIcon.src = "../Icons/error-warning-line.svg";
       MsgTypeText.classList.add("error");
-      MsgTypeText.innerHTML = MessageBoxStrings.Error[UserSettings.CurrentLang];
+      MsgTypeText.innerHTML = MessageBoxStrings.Error[UserSettings.Lang];
       break;
     case "Success":
       MsgTypeIcon.src = "../Icons/checkbox-circle-line.svg";
       MsgTypeText.classList.add("success");
-      MsgTypeText.innerHTML = MessageBoxStrings.Success[UserSettings.CurrentLang];
+      MsgTypeText.innerHTML = MessageBoxStrings.Success[UserSettings.Lang];
       break;
     default:
-      MsgTypeText.innerHTML = MessageBoxStrings.Defualt[UserSettings.CurrentLang];
+      MsgTypeText.innerHTML = MessageBoxStrings.Defualt[UserSettings.Lang];
       break;
   }
   // Final

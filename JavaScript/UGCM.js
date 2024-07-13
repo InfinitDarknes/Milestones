@@ -14,7 +14,7 @@ function AddCategory(...Args) {
   UserCategoriesArray.push(NewCategoryConstructor(ID, Name, Color, Icon));
   Save("UGC");
   DisplayUserCategories();
-  DisplayMessage("Success", MessageBoxStrings.CategorySuccess[UserSettings.CurrentLang]);
+  DisplayMessage("Success", MessageBoxStrings.CategorySuccess[UserSettings.Lang]);
 }
 function DeleteCategory(ID) {
   let FilteredTasks = AllTasksArray.filter((Task) => {

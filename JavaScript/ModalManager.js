@@ -27,10 +27,10 @@ function ThemeTweakerModal() {
   DeleteThemeBtn.className = "theme-tweaker-modal-btn delete-btn";
   DefualtPalletButton.className = "theme-tweaker-modal-btn defualt-btn";
   // InnerText and src and placeholder
-  SearchBar.placeholder = Strings.Search[UserSettings.CurrentLang];
-  ApplyButton.innerText = Strings.Apply[UserSettings.CurrentLang];
+  SearchBar.placeholder = Strings.Search[UserSettings.Lang];
+  ApplyButton.innerText = Strings.Apply[UserSettings.Lang];
   DefualtPalletButton.innerText = "Defualt Pallet";
-  DeleteThemeBtn.innerText = `${Strings.Delete[UserSettings.CurrentLang]} ${Strings.Theme[UserSettings.CurrentLang].toLowerCase()}`;
+  DeleteThemeBtn.innerText = `${Strings.Delete[UserSettings.Lang]} ${Strings.Theme[UserSettings.Lang].toLowerCase()}`;
   HideModalIcon.src = "../Icons/close-large-line.svg";
   ApplyButton.title = "ShortCut : CTRL + S";
   DeleteThemeBtn.title = "ShortCut : DEL";
@@ -52,7 +52,7 @@ function ThemeTweakerModal() {
       ThemeBar.append(ThemeBtn);
     });
     const NewThemeBtn = document.createElement("button");
-    NewThemeBtn.innerText = `${Strings.Add[UserSettings.CurrentLang]} ${Strings.Theme[UserSettings.CurrentLang].toLowerCase()}`;
+    NewThemeBtn.innerText = `${Strings.Add[UserSettings.Lang]} ${Strings.Theme[UserSettings.Lang].toLowerCase()}`;
     NewThemeBtn.className = "new-theme-btn";
     NewThemeBtn.style.order = `${AppObj.Themes.length + 1}`;
     ThemeBar.append(NewThemeBtn);
@@ -84,8 +84,8 @@ function ThemeTweakerModal() {
 
         BgColorPicker.value = BgColor;
         BgColorInput.value = BgColor;
-        CssPropertyLabel.innerText = Strings.BackgroundColor[UserSettings.CurrentLang];
-        BgColorPicker.placeholder = Strings.BackgroundColor[UserSettings.CurrentLang];
+        CssPropertyLabel.innerText = Strings.BackgroundColor[UserSettings.Lang];
+        BgColorPicker.placeholder = Strings.BackgroundColor[UserSettings.Lang];
 
         BgColorPicker.type = "color";
         BgColorInput.type = "text";
@@ -117,7 +117,7 @@ function ThemeTweakerModal() {
         Row.append(Container);
       }
       if (Color !== undefined) {
-        Strings.BackgroundColor[UserSettings.CurrentLang];
+        Strings.BackgroundColor[UserSettings.Lang];
         const Container = document.createElement("div");
         const CssPropertyLabel = document.createElement("label");
         const CssProperyInputsContainer = document.createElement("div");
@@ -132,8 +132,8 @@ function ThemeTweakerModal() {
 
         ColorPicker.value = Color;
         ColorInput.value = Color;
-        CssPropertyLabel.innerText = Strings.Color[UserSettings.CurrentLang];
-        ColorPicker.placeholder = Strings.Color[UserSettings.CurrentLang];
+        CssPropertyLabel.innerText = Strings.Color[UserSettings.Lang];
+        ColorPicker.placeholder = Strings.Color[UserSettings.Lang];
 
         ColorPicker.type = "color";
         ColorInput.type = "text";
@@ -212,7 +212,7 @@ function ThemeTweakerModal() {
         StyleSelect.value = Border[2] || "None";
         ColorInput.value = Border[3];
         OpacityInput.value = +Border[4];
-        CssPropertyLabel.innerText = Strings.Border[UserSettings.CurrentLang];
+        CssPropertyLabel.innerText = Strings.Border[UserSettings.Lang];
 
         WidthInput.type = "number";
         ColorInput.type = "text";
@@ -295,8 +295,8 @@ function ThemeTweakerModal() {
         OpacityInput.className = "css-property-input";
 
         OpacityInput.value = Opacity;
-        CssPropertyLabel.innerText = `${Strings.BackgroundOpacity[UserSettings.CurrentLang]} (%)`;
-        OpacityInput.placeholder = `${Strings.BackgroundOpacity[UserSettings.CurrentLang]} (%)`;
+        CssPropertyLabel.innerText = `${Strings.BackgroundOpacity[UserSettings.Lang]} (%)`;
+        OpacityInput.placeholder = `${Strings.BackgroundOpacity[UserSettings.Lang]} (%)`;
         OpacityInput.min = 0;
         OpacityInput.max = 100;
 
@@ -330,8 +330,8 @@ function ThemeTweakerModal() {
         OpacityInput.className = "css-property-input";
 
         OpacityInput.value = TextOpacity;
-        CssPropertyLabel.innerText = `${Strings.TextOpacity[UserSettings.CurrentLang]} (%)`;
-        OpacityInput.placeholder = `${Strings.TextOpacity[UserSettings.CurrentLang]} (%)`;
+        CssPropertyLabel.innerText = `${Strings.TextOpacity[UserSettings.Lang]} (%)`;
+        OpacityInput.placeholder = `${Strings.TextOpacity[UserSettings.Lang]} (%)`;
         OpacityInput.min = 0;
         OpacityInput.max = 100;
 
@@ -366,8 +366,8 @@ function ThemeTweakerModal() {
         HoverBgColorPicker.className = "css-property-input";
         HoverBgColorInput.className = "css-property-input";
 
-        CssPropertyLabel.innerText = Strings.HoverBg[UserSettings.CurrentLang];
-        HoverBgColorInput.placeholder = Strings.HoverBg[UserSettings.CurrentLang];
+        CssPropertyLabel.innerText = Strings.HoverBg[UserSettings.Lang];
+        HoverBgColorInput.placeholder = Strings.HoverBg[UserSettings.Lang];
         HoverBgColorPicker.value = Hover;
         HoverBgColorInput.value = Hover;
 
@@ -616,8 +616,8 @@ function AddNoteModal() {
     TitleInput.className = "note-title-input modal-input";
     CharacterLimitTag.className = "character-limit note-title-input-charlimit text";
 
-    TitleBadge.innerText = Strings.Title[UserSettings.CurrentLang];
-    TitleInput.placeholder = Strings.NoteTitleInputPlaceHolder[UserSettings.CurrentLang];
+    TitleBadge.innerText = Strings.Title[UserSettings.Lang];
+    TitleInput.placeholder = Strings.NoteTitleInputPlaceHolder[UserSettings.Lang];
     TitleInput.maxLength = "30";
 
     TitleInput.addEventListener("input", () => {
@@ -637,7 +637,7 @@ function AddNoteModal() {
     NoteTextArea.className = "note-text-area";
     NoteBadge.className = "sticky-badge text";
 
-    NoteBadge.innerText = Strings.NoteBadge[UserSettings.CurrentLang];
+    NoteBadge.innerText = Strings.NoteBadge[UserSettings.Lang];
 
     NoteSection.append(NoteBadge, NoteTextArea);
     InputsContainer.append(NoteSection);
@@ -653,16 +653,16 @@ function AddNoteModal() {
     CancelBtn.className = "cancel-btn red-btn";
 
     ButtonContainer.style.order = "3";
-    ConfirmBtn.innerText = Strings.Create[UserSettings.CurrentLang];
-    CancelBtn.innerText = Strings.Return[UserSettings.CurrentLang];
+    ConfirmBtn.innerText = Strings.Create[UserSettings.Lang];
+    CancelBtn.innerText = Strings.Return[UserSettings.Lang];
     ConfirmBtn.title = "ShortCut : Enter";
 
     ConfirmBtn.addEventListener("click", function () {
       let RawNoteContent = tinymce.activeEditor.getContent({ format: "raw" });
       let Content = tinymce.activeEditor.getContent();
       try {
-        if (!NewNoteInfo.Title) throw MessageBoxStrings.EmptyNoteTitle[UserSettings.CurrentLang];
-        if (!Content) throw MessageBoxStrings.EmptyNoteText[UserSettings.CurrentLang];
+        if (!NewNoteInfo.Title) throw MessageBoxStrings.EmptyNoteTitle[UserSettings.Lang];
+        if (!Content) throw MessageBoxStrings.EmptyNoteText[UserSettings.Lang];
       } catch (Error) {
         DisplayMessage("Error", Error);
         return;
@@ -749,9 +749,9 @@ function ReadNoteModal(...Args) {
     if (UserSettings.Calendar === "Gregorian") {
       DateElem.innerText = `${PlacePersianNumbers(NumericToGregorian(Date))}    ${PlacePersianNumbers(NumericToTime(Date))}`;
     }
-    TitleLabel.innerText = `${Strings.Title[UserSettings.CurrentLang]} : `;
-    IDLabel.innerText = `${Strings.ID[UserSettings.CurrentLang]} : `;
-    DateLabel.innerText = `${Strings.DateOfCreation[UserSettings.CurrentLang]} : `;
+    TitleLabel.innerText = `${Strings.Title[UserSettings.Lang]} : `;
+    IDLabel.innerText = `${Strings.ID[UserSettings.Lang]} : `;
+    DateLabel.innerText = `${Strings.DateOfCreation[UserSettings.Lang]} : `;
 
     DateElem.setAttribute("dir", "ltr");
 
@@ -784,10 +784,10 @@ function ReadNoteModal(...Args) {
     CancelEditBtn.className = "cancel-note-edit-btn red-btn text";
     ApplyEditBtn.className = "apply-note-edit-btn green-btn text";
 
-    EditBtn.innerText = Strings.Edit[UserSettings.CurrentLang];
-    DeleteBtn.innerText = Strings.Delete[UserSettings.CurrentLang];
-    CancelEditBtn.innerText = Strings.Cancel[UserSettings.CurrentLang];
-    ApplyEditBtn.innerText = Strings.Apply[UserSettings.CurrentLang];
+    EditBtn.innerText = Strings.Edit[UserSettings.Lang];
+    DeleteBtn.innerText = Strings.Delete[UserSettings.Lang];
+    CancelEditBtn.innerText = Strings.Cancel[UserSettings.Lang];
+    ApplyEditBtn.innerText = Strings.Apply[UserSettings.Lang];
 
     ApplyEditBtn.title = "ShortCut : CTRL + S";
 
@@ -820,14 +820,13 @@ function ReadNoteModal(...Args) {
 }
 
 function AccountModal() {
+  alert("This feature is experimental it is not completed and functional do not enter your real information!");
   if (document.querySelector(".account-modal")) return;
 
   const Modal = document.createElement("section");
   Modal.className = "modal account-modal";
 
-  const EmailRegEx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-  const PasswordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-  const UserNameRegex = /^[A-Za-z0-9]{6,}$/;
+  let SignUpInProgressFlag = false;
 
   const CreateModalTopBar = () => {
     const ModalTopBar = document.createElement("div");
@@ -886,34 +885,51 @@ function AccountModal() {
     ForgotPasswordOption.className = "account-link";
     LoginBtn.className = "account-btn";
 
-    Title.innerText = Strings.Login[UserSettings.CurrentLang];
-    InputContainer1Badge.innerText = `${Strings.Email[UserSettings.CurrentLang]}/${Strings.UserName[UserSettings.CurrentLang]}`;
-    InputContainer2Badge.innerText = `${Strings.Password[UserSettings.CurrentLang]}`;
-    CreateAccountOption.innerText = Strings.CreateAccount[UserSettings.CurrentLang];
-    ForgotPasswordOption.innerText = Strings.ForgotPassword[UserSettings.CurrentLang];
-    LoginBtn.innerText = Strings.Login[UserSettings.CurrentLang];
+    Title.innerText = Strings.Login[UserSettings.Lang];
+    InputContainer1Badge.innerText = `${Strings.Email[UserSettings.Lang]}/${Strings.UserName[UserSettings.Lang]}`;
+    InputContainer2Badge.innerText = `${Strings.Password[UserSettings.Lang]}`;
+    CreateAccountOption.innerText = Strings.CreateAccount[UserSettings.Lang];
+    ForgotPasswordOption.innerText = Strings.ForgotPassword[UserSettings.Lang];
+    LoginBtn.innerText = Strings.Login[UserSettings.Lang];
 
-    Email_UserNameInput.placeholder = `${Strings.Email[UserSettings.CurrentLang]}/${Strings.UserName[UserSettings.CurrentLang]}`;
-    PasswordInput.placeholder = `${Strings.Password[UserSettings.CurrentLang]}`;
+    Email_UserNameInput.placeholder = `${Strings.Email[UserSettings.Lang]}/${Strings.UserName[UserSettings.Lang]}`;
+    PasswordInput.placeholder = `${Strings.Password[UserSettings.Lang]}`;
     LoginBtn.type = "submit";
+
+    Email_UserNameInput.type = "text";
+    PasswordInput.type = "password";
+
+    const ViewPasswordBtn = document.createElement("button");
+    const ViewPasswordBtnIcon = document.createElement("img");
+    ViewPasswordBtn.className = "view-pwd-btn";
+    ViewPasswordBtnIcon.className = "view-pwd-btn-icon icon";
+    ViewPasswordBtn.type = "button";
+    ViewPasswordBtnIcon.setAttribute("inert", "");
+    ViewPasswordBtnIcon.src = "../Icons/eye-line.svg";
+    ViewPasswordBtn.append(ViewPasswordBtnIcon);
+    ViewPasswordBtn.addEventListener("click", function () {
+      const Input = this.closest("div").querySelector("input");
+      Input.type = Input.type === "text" ? "password" : "text";
+      this.querySelector("img").src = Input.type === "text" ? "../Icons/eye-off-line.svg" : "../Icons/eye-line.svg";
+    });
 
     LoginForm.addEventListener("submit", (Event) => {
       Event.preventDefault();
       try {
         if (!Email_UserNameInput || !PasswordInput.value) {
-          throw new Error(Strings.FormInputError[UserSettings.CurrentLang]);
+          throw new Error(Strings.FormInputError[UserSettings.Lang]);
         }
         if (Email_UserNameInput.value.includes("@")) {
           if (!EmailRegEx.test(Email_UserNameInput.value)) {
-            throw new Error(Strings.EmailFormatError[UserSettings.CurrentLang]);
+            throw new Error(Strings.EmailFormatError[UserSettings.Lang]);
           }
         } else {
           if (!UserNameRegex.test(Email_UserNameInput.value)) {
-            throw new Error(Strings.UserNameFormatError[UserSettings.CurrentLang]);
+            throw new Error(Strings.UserNameFormatError[UserSettings.Lang]);
           }
         }
         if (!PasswordRegex.test(PasswordInput.value)) {
-          throw new Error(Strings.PasswordFormatError[UserSettings.CurrentLang]);
+          throw new Error(Strings.PasswordFormatError[UserSettings.Lang]);
         }
       } catch (Error) {
         DisplayMessage("Error", Error);
@@ -934,7 +950,7 @@ function AccountModal() {
 
     LoginForm.append(Title, InputContainer1, InputContainer2, Options, LoginBtn);
     InputContainer1.append(InputContainer1Badge, Email_UserNameInput);
-    InputContainer2.append(InputContainer2Badge, PasswordInput);
+    InputContainer2.append(InputContainer2Badge, PasswordInput, ViewPasswordBtn);
     Options.append(CreateAccountOption, ForgotPasswordOption);
     Modal.append(LoginForm);
   };
@@ -942,14 +958,17 @@ function AccountModal() {
     if (document.querySelector(".account-form")) {
       document.querySelector(".account-form").remove();
     }
+
     let SignUpInfo = {
       Email: null,
       UserName: null,
       Password: null,
+      UserData: null,
     };
 
     const SignUpForm = document.createElement("form");
     const Title = document.createElement("div");
+
     const InputContainer1 = document.createElement("div");
     const InputContainer2 = document.createElement("div");
     const InputContainer3 = document.createElement("div");
@@ -984,55 +1003,108 @@ function AccountModal() {
     LoginOption.className = "account-link";
     SignUpBtn.className = "account-btn";
 
-    Title.innerText = Strings.SignUp[UserSettings.CurrentLang];
-    InputContainer1Badge.innerText = Strings.Email[UserSettings.CurrentLang];
-    InputContainer2Badge.innerText = `${Strings.UserName[UserSettings.CurrentLang]}`;
-    InputContainer3Badge.innerText = `${Strings.Password[UserSettings.CurrentLang]}`;
-    InputContainer4Badge.innerText = `${Strings.RepeatPassword[UserSettings.CurrentLang]}`;
-    LoginOption.innerText = Strings.LoginOption[UserSettings.CurrentLang];
-    SignUpBtn.innerText = Strings.SignUp[UserSettings.CurrentLang];
+    Title.innerText = Strings.SignUp[UserSettings.Lang];
+    InputContainer1Badge.innerText = Strings.Email[UserSettings.Lang];
+    InputContainer2Badge.innerText = `${Strings.UserName[UserSettings.Lang]}`;
+    InputContainer3Badge.innerText = `${Strings.Password[UserSettings.Lang]}`;
+    InputContainer4Badge.innerText = `${Strings.RepeatPassword[UserSettings.Lang]}`;
+    LoginOption.innerText = Strings.LoginOption[UserSettings.Lang];
+    SignUpBtn.innerText = Strings.SignUp[UserSettings.Lang];
 
-    EmailInput.placeholder = Strings.Email[UserSettings.CurrentLang];
-    UserNameInput.placeholder = Strings.UserName[UserSettings.CurrentLang];
-    PasswordInput.placeholder = Strings.Password[UserSettings.CurrentLang];
-    RepeatPasswordInput.placeholder = Strings.RepeatPassword[UserSettings.CurrentLang];
+    EmailInput.placeholder = Strings.Email[UserSettings.Lang];
+    UserNameInput.placeholder = Strings.UserName[UserSettings.Lang];
+    PasswordInput.placeholder = Strings.Password[UserSettings.Lang];
+    RepeatPasswordInput.placeholder = Strings.RepeatPassword[UserSettings.Lang];
     SignUpBtn.type = "submit";
 
-    SignUpForm.addEventListener("submit", (Event) => {
+    EmailInput.type = "email";
+    PasswordInput.type = "password";
+    RepeatPasswordInput.type = "password";
+
+    SignUpForm.addEventListener("submit", async (Event) => {
       Event.preventDefault();
+      if (SignUpInProgressFlag) return;
+      CreateWaitningPage();
       try {
         if (!EmailInput || !PasswordInput.value || !RepeatPasswordInput.value || !UserNameInput.value) {
-          throw new Error(Strings.FormInputError[UserSettings.CurrentLang]);
+          throw new Error(Strings.FormInputError[UserSettings.Lang]);
         }
-        if (!EmailRegEx.test(EmailInput.value)) {
-          throw new Error(Strings.EmailFormatError[UserSettings.CurrentLang]);
+        if (!ValidateEmail(EmailInput.value)) {
+          throw new Error(Strings.EmailFormatError[UserSettings.Lang]);
         }
-        if (UserNameRegex.test(UserNameInput.value)) {
-          throw new Error(Strings.UserNameFormatError[UserSettings.CurrentLang]);
+        if (!ValidateUserName(UserNameInput.value)) {
+          throw new Error(Strings.UserNameFormatError[UserSettings.Lang]);
         }
-        if (!PasswordRegex.test(PasswordInput.value)) {
-          throw new Error(Strings.PasswordFormatError[UserSettings.CurrentLang]);
+        if (!ValidatePassword(PasswordInput.value)) {
+          throw new Error(Strings.PasswordFormatError[UserSettings.Lang]);
         }
         if (PasswordInput.value !== RepeatPasswordInput.value) {
-          throw new Error(Strings.ConfirmPasswordError[UserSettings.CurrentLang]);
+          throw new Error(Strings.ConfirmPasswordError[UserSettings.Lang]);
+        }
+
+        let EmailExist = await DoesEmailExist(EmailInput.value.toLowerCase().trim());
+        let UserNameExist = await DoesUserNameExist(UserNameInput.value.toLowerCase().trim());
+
+        if (EmailExist) {
+          throw new Error(Strings.EmailExistsError[UserSettings.Lang]);
+        }
+        if (UserNameExist) {
+          throw new Error(Strings.UserNameExistsError[UserSettings.Lang]);
         }
       } catch (Error) {
         DisplayMessage("Error", Error);
+        RemoveWaitingPage();
         return;
       }
       SignUpInfo.Email = EmailInput.value.toLowerCase().trim();
       SignUpInfo.UserName = UserNameInput.value.toLowerCase().trim();
       SignUpInfo.Password = PasswordInput.value.trim();
-      console.log(SignUpInfo);
+      SignUpInfo.UserData = FetchLocalStorge();
+      SignUpInProgressFlag = true;
+      SignUp(SignUpInfo)
+        .then((Reasponse) => {
+          SignUpInProgressFlag = false;
+          console.log(Reasponse);
+          DisplayMessage("Success", Strings.SignUpSuccessMessage[UserSettings.Lang]);
+        })
+        .catch((Error) => {
+          SignUpInProgressFlag = false;
+          console.log(Error);
+          DisplayMessage("Error", Error);
+        })
+        .finally(RemoveWaitingPage);
     });
+
+    const ViewPasswordBtn = document.createElement("button");
+    const ViewPasswordBtnIcon = document.createElement("img");
+    ViewPasswordBtn.className = "view-pwd-btn";
+    ViewPasswordBtnIcon.className = "view-pwd-btn-icon icon";
+    ViewPasswordBtn.type = "button";
+    ViewPasswordBtnIcon.setAttribute("inert", "");
+    ViewPasswordBtnIcon.src = "../Icons/eye-line.svg";
+    ViewPasswordBtn.append(ViewPasswordBtnIcon);
+    const ViewPasswordBtn1 = ViewPasswordBtn.cloneNode(true);
+    const ViewPasswordBtn2 = ViewPasswordBtn.cloneNode(true);
+    ViewPasswordBtn1.addEventListener("click", function () {
+      const Input = this.closest("div").querySelector("input");
+      Input.type = Input.type === "text" ? "password" : "text";
+      this.querySelector("img").src = Input.type === "text" ? "../Icons/eye-off-line.svg" : "../Icons/eye-line.svg";
+    });
+    ViewPasswordBtn2.addEventListener("click", function () {
+      const Input = this.closest("div").querySelector("input");
+      Input.type = Input.type === "text" ? "password" : "text";
+      this.querySelector("img").src = Input.type === "text" ? "../Icons/eye-off-line.svg" : "../Icons/eye-line.svg";
+    });
+
     LoginOption.addEventListener("click", CreateLoginSection);
 
     SignUpForm.append(Title, InputContainer1, InputContainer2, InputContainer3, InputContainer4, Options, SignUpBtn);
     InputContainer1.append(InputContainer1Badge, EmailInput);
     InputContainer2.append(InputContainer2Badge, UserNameInput);
-    InputContainer3.append(InputContainer3Badge, PasswordInput);
-    InputContainer4.append(InputContainer4Badge, RepeatPasswordInput);
+    InputContainer3.append(InputContainer3Badge, PasswordInput, ViewPasswordBtn1);
+    InputContainer4.append(InputContainer4Badge, RepeatPasswordInput, ViewPasswordBtn2);
     Options.append(LoginOption);
+
     Modal.append(SignUpForm);
   };
   const CreateForgetPasswordSection = () => {
@@ -1042,6 +1114,25 @@ function AccountModal() {
     const ForgetPasswordInfo = {
       Email: null,
     };
+  };
+  const CreateWaitningPage = () => {
+    const Page = document.createElement("div");
+    const LoadingText = document.createElement("span");
+    const Loader = document.createElement("div");
+
+    Page.className = "waiting-page";
+    LoadingText.className = "loading-text text";
+    LoadingText.innerText = Strings.Loading[UserSettings.Lang];
+    Loader.className = "loader";
+
+    Page.append(LoadingText, Loader);
+    Modal.append(Page);
+  };
+  const RemoveWaitingPage = () => {
+    const Page = document.querySelector(".account-modal .waiting-page");
+    if (Page) {
+      Page.remove();
+    }
   };
 
   CreateModalTopBar();
@@ -1101,9 +1192,9 @@ function NewTaskModal() {
     TitleInputBadge.className = "sticky-badge text";
     CharacterLimitTag.className = "character-limit new-task-title-input-charlimit text";
 
-    TitleInput.placeholder = Strings.TaskTitleInputPlaceHolder[UserSettings.CurrentLang];
+    TitleInput.placeholder = Strings.TaskTitleInputPlaceHolder[UserSettings.Lang];
     TitleInput.maxLength = "70";
-    TitleInputBadge.innerText = Strings.Title[UserSettings.CurrentLang];
+    TitleInputBadge.innerText = Strings.Title[UserSettings.Lang];
 
     TitleInput.addEventListener("input", () => {
       NewTaskInfo.Title = TitleInput.value;
@@ -1122,8 +1213,8 @@ function NewTaskModal() {
     DateInput.className = "new-task-date-input modal-input date-input";
     DateInputBadge.className = "sticky-badge text";
 
-    DateInputBadge.innerText = Strings.Date[UserSettings.CurrentLang];
-    DateInput.placeholder = Strings.TaskDateInputPlaceHolder[UserSettings.CurrentLang];
+    DateInputBadge.innerText = Strings.Date[UserSettings.Lang];
+    DateInput.placeholder = Strings.TaskDateInputPlaceHolder[UserSettings.Lang];
     DateInput.setAttribute("readonly", "");
 
     DateInput.addEventListener("click", () => {
@@ -1147,14 +1238,22 @@ function NewTaskModal() {
     InputsContainer.append(DateSection);
   };
   const CreateCategorySection = () => {
-    const CategorySelectBox = ReturnSelectBox();
+    let SelectBoxOptions = [];
+    UserCategoriesArray.forEach((Category) => {
+      SelectBoxOptions.push({ Name: Category.Name, Value: Category.ID });
+    });
+    let DefualtOption = SelectBoxOptions.find((Option) => {
+      return Option.Value === AppObj.SelectedUserCategory;
+    });
+
+    const CategorySelectBox = ReturnSelectBox(SelectBoxOptions, "task-modal-select-box", DefualtOption, true, false);
     const TaskCategorySection = document.createElement("section");
     const TaskCategorySectionBadge = document.createElement("span");
 
     TaskCategorySection.className = "select-category-section";
     TaskCategorySectionBadge.className = "sticky-badge text";
 
-    TaskCategorySectionBadge.innerText = Strings.SelectCategoryBadge[UserSettings.CurrentLang];
+    TaskCategorySectionBadge.innerText = Strings.SelectCategoryBadge[UserSettings.Lang];
 
     TaskCategorySection.append(TaskCategorySectionBadge, CategorySelectBox);
 
@@ -1181,8 +1280,8 @@ function NewTaskModal() {
     ConfirmBtn.title = "ShortCut : Enter";
 
     ButtonContainer.style.order = "3";
-    ConfirmBtn.innerText = Strings.Create[UserSettings.CurrentLang];
-    CancelBtn.innerText = Strings.Return[UserSettings.CurrentLang];
+    ConfirmBtn.innerText = Strings.Create[UserSettings.Lang];
+    CancelBtn.innerText = Strings.Return[UserSettings.Lang];
 
     ConfirmBtn.addEventListener("click", function () {
       try {
@@ -1280,9 +1379,9 @@ function EditTaskModal(ID) {
     TitleInputBadge.className = "sticky-badge text";
     CharacterLimitTag.className = "character-limit edit-task-title-input-charlimit text";
 
-    TitleInput.placeholder = Strings.TaskTitleInputPlaceHolder[UserSettings.CurrentLang];
+    TitleInput.placeholder = Strings.TaskTitleInputPlaceHolder[UserSettings.Lang];
     TitleInput.maxLength = "70";
-    TitleInputBadge.innerText = Strings.Title[UserSettings.CurrentLang];
+    TitleInputBadge.innerText = Strings.Title[UserSettings.Lang];
     TitleInput.value = TaskInfo.Title;
 
     TitleInput.addEventListener("input", () => {
@@ -1302,8 +1401,8 @@ function EditTaskModal(ID) {
     DateInput.className = "edit-task-date-input modal-input date-input";
     DateInputBadge.className = "sticky-badge text";
 
-    DateInputBadge.innerText = Strings.Date[UserSettings.CurrentLang];
-    DateInput.placeholder = Strings.TaskDateInputPlaceHolder[UserSettings.CurrentLang];
+    DateInputBadge.innerText = Strings.Date[UserSettings.Lang];
+    DateInput.placeholder = Strings.TaskDateInputPlaceHolder[UserSettings.Lang];
     DateInput.setAttribute("readonly", "");
     DateInput.addEventListener("click", () => {
       SetupTargetInput(".edit-task-date-input");
@@ -1326,14 +1425,22 @@ function EditTaskModal(ID) {
     InputsContainer.append(DateSection);
   };
   const CreateCategorySection = () => {
-    const CategorySelectBox = ReturnSelectBox(TaskInfo.Category);
+    let SelectBoxOptions = [];
+    UserCategoriesArray.forEach((Category) => {
+      SelectBoxOptions.push({ Name: Category.Name, Value: Category.ID });
+    });
+    let DefualtOption = SelectBoxOptions.find((Option) => {
+      return Option.Value === TaskInfo.Category;
+    });
+
+    const CategorySelectBox = ReturnSelectBox(SelectBoxOptions, "task-modal-select-box", DefualtOption, true, false);
     const TaskCategorySection = document.createElement("section");
     const TaskCategorySectionBadge = document.createElement("span");
 
     TaskCategorySection.className = "select-category-section";
     TaskCategorySectionBadge.className = "sticky-badge text";
 
-    TaskCategorySectionBadge.innerText = Strings.SelectCategoryBadge[UserSettings.CurrentLang];
+    TaskCategorySectionBadge.innerText = Strings.SelectCategoryBadge[UserSettings.Lang];
 
     TaskCategorySection.append(TaskCategorySectionBadge, CategorySelectBox);
 
@@ -1360,8 +1467,8 @@ function EditTaskModal(ID) {
     ConfirmBtn.title = "ShortCut : Enter";
 
     ButtonContainer.style.order = "3";
-    ConfirmBtn.innerText = Strings.Edit[UserSettings.CurrentLang];
-    CancelBtn.innerText = Strings.Return[UserSettings.CurrentLang];
+    ConfirmBtn.innerText = Strings.Edit[UserSettings.Lang];
+    CancelBtn.innerText = Strings.Return[UserSettings.Lang];
 
     ConfirmBtn.addEventListener("click", function () {
       try {
@@ -1451,8 +1558,8 @@ function NewCategoryModal() {
     CharacterLimitTag.className = "character-limit new-category-title-input-charlimit text";
 
     InputContainer.style.order = "2";
-    TitleInputBadge.innerText = Strings.Name[UserSettings.CurrentLang];
-    TitleInput.placeholder = Strings.WriteAName[UserSettings.CurrentLang];
+    TitleInputBadge.innerText = Strings.Name[UserSettings.Lang];
+    TitleInput.placeholder = Strings.WriteAName[UserSettings.Lang];
     TitleInput.maxLength = "32";
 
     TitleInput.addEventListener("input", () => {
@@ -1485,7 +1592,7 @@ function NewCategoryModal() {
 
     ColorSection.style.order = "3";
     ColorsContainer.style.gridTemplateColumns = `repeat(${CategoryColors.length},1fr)`;
-    PickColorBadge.innerText = Strings.PickColorBadge[UserSettings.CurrentLang];
+    PickColorBadge.innerText = Strings.PickColorBadge[UserSettings.Lang];
     ColorSlideLeftIcon.src = "../Icons/arrow-left-s-fill.svg";
     ColorSlideRightIcon.src = "../Icons/arrow-right-s-fill.svg";
 
@@ -1532,7 +1639,7 @@ function NewCategoryModal() {
 
     IconSection.style.order = "4";
     IconsContainer.style.gridTemplateColumns = `repeat(${CategoryIcons.length},1fr)`;
-    PickIconBadge.innerText = Strings.PickIconBadge[UserSettings.CurrentLang];
+    PickIconBadge.innerText = Strings.PickIconBadge[UserSettings.Lang];
     IconSlideLeftIcon.src = "../Icons/arrow-left-s-fill.svg";
     IconSlideRightIcon.src = "../Icons/arrow-right-s-fill.svg";
 
@@ -1571,8 +1678,8 @@ function NewCategoryModal() {
     ConfirmBtn.title = "ShortCut : Enter";
 
     ButtonContainer.style.order = "5";
-    ConfirmBtn.innerText = Strings.Create[UserSettings.CurrentLang];
-    CancelBtn.innerText = Strings.Return[UserSettings.CurrentLang];
+    ConfirmBtn.innerText = Strings.Create[UserSettings.Lang];
+    CancelBtn.innerText = Strings.Return[UserSettings.Lang];
 
     ConfirmBtn.addEventListener("click", function () {
       try {
@@ -1656,8 +1763,8 @@ function EditCategoryModal(ID) {
     TitleInput.className = "edit-category-title-input modal-input";
     CharacterLimitTag.className = "character-limit edit-category-title-input-charlimit text";
 
-    TitleInputBadge.innerText = Strings.Name[UserSettings.CurrentLang];
-    TitleInput.placeholder = Strings.WriteAName[UserSettings.CurrentLang];
+    TitleInputBadge.innerText = Strings.Name[UserSettings.Lang];
+    TitleInput.placeholder = Strings.WriteAName[UserSettings.Lang];
     TitleInput.maxLength = "32";
     TitleInput.value = UserCategoryInfo.Name;
 
@@ -1690,7 +1797,7 @@ function EditCategoryModal(ID) {
     ColorSlideRightIcon.className = "icon";
 
     ColorsContainer.style.gridTemplateColumns = `repeat(${CategoryColors.length},1fr)`;
-    PickColorBadge.innerText = Strings.PickColorBadge[UserSettings.CurrentLang];
+    PickColorBadge.innerText = Strings.PickColorBadge[UserSettings.Lang];
     ColorSlideLeftIcon.src = "../Icons/arrow-left-s-fill.svg";
     ColorSlideRightIcon.src = "../Icons/arrow-right-s-fill.svg";
 
@@ -1736,7 +1843,7 @@ function EditCategoryModal(ID) {
     IconSlideRightIcon.className = "icon";
 
     IconsContainer.style.gridTemplateColumns = `repeat(${CategoryIcons.length},1fr)`;
-    PickIconBadge.innerText = Strings.PickIconBadge[UserSettings.CurrentLang];
+    PickIconBadge.innerText = Strings.PickIconBadge[UserSettings.Lang];
     IconSlideLeftIcon.src = "../Icons/arrow-left-s-fill.svg";
     IconSlideRightIcon.src = "../Icons/arrow-right-s-fill.svg";
 
@@ -1774,8 +1881,8 @@ function EditCategoryModal(ID) {
     CancelBtn.className = "cancel-btn red-btn";
     ConfirmBtn.title = "ShortCut : Enter";
 
-    ConfirmBtn.innerText = Strings.Edit[UserSettings.CurrentLang];
-    CancelBtn.innerText = Strings.Return[UserSettings.CurrentLang];
+    ConfirmBtn.innerText = Strings.Edit[UserSettings.Lang];
+    CancelBtn.innerText = Strings.Return[UserSettings.Lang];
 
     ConfirmBtn.addEventListener("click", function () {
       try {
@@ -1876,7 +1983,7 @@ function BackUpModal() {
     InsertBackUpFileIcon.className = "modal-btn-icon icon";
     InsertBackUpFileText.className = "modal-btn-text text";
     InsertBackUpFile.className = "modal-btn insert-backup-file-button";
-    InsertBackUpFileText.innerText = Strings.InsertBackUpFile[UserSettings.CurrentLang];
+    InsertBackUpFileText.innerText = Strings.InsertBackUpFile[UserSettings.Lang];
     InsertBackUpFileIcon.src = "";
     InsertBackUpFile.addEventListener("click", () => {});
     InsertBackUpFile.append(InsertBackUpFileIcon, InsertBackUpFileText);
@@ -1888,7 +1995,7 @@ function BackUpModal() {
     const InsertBackUpTextText = document.createElement("span");
     const ReturnButton = document.createElement("button");
     const ReturnButtonIcon = document.createElement("img");
-    const ReturnButtonText = Strings.Return[UserSettings.CurrentLang];
+    const ReturnButtonText = Strings.Return[UserSettings.Lang];
     const ModalSubPage = document.createElement("section");
     const ModalTitle = document.createElement("span");
     const ModalDescription = document.createElement("p");
@@ -1906,12 +2013,12 @@ function BackUpModal() {
     ModalTextArea.className = "modal-text-area";
     RestoreButton.className = "restore-btn green-btn text";
 
-    InsertBackUpTextText.innerText = Strings.InsertBackUpText[UserSettings.CurrentLang];
-    RestoreButton.innerText = Strings.RestoreTask[UserSettings.CurrentLang];
-    ModalTitle.innerText = Strings.RestoreFromText[UserSettings.CurrentLang];
-    ModalDescription.innerText = Strings.RestoreFromTextDescription[UserSettings.CurrentLang];
+    InsertBackUpTextText.innerText = Strings.InsertBackUpText[UserSettings.Lang];
+    RestoreButton.innerText = Strings.RestoreTask[UserSettings.Lang];
+    ModalTitle.innerText = Strings.RestoreFromText[UserSettings.Lang];
+    ModalDescription.innerText = Strings.RestoreFromTextDescription[UserSettings.Lang];
 
-    ModalTextArea.placeholder = Strings.InsertBackUpTextPlaceHolder[UserSettings.CurrentLang];
+    ModalTextArea.placeholder = Strings.InsertBackUpTextPlaceHolder[UserSettings.Lang];
     InsertBackUpTextIcon.src = "";
     RestoreButton.title = "ShortCut : Enter";
 
@@ -1934,7 +2041,7 @@ function BackUpModal() {
     GenerateBackUpFileIcon.className = "modal-btn-icon icon";
     GenerateBackUpFileText.className = "modal-btn-text text";
     GenerateBackUpFile.className = "modal-btn generate-backup-file-button";
-    GenerateBackUpFileText.innerText = Strings.GenerateBackUpFile[UserSettings.CurrentLang];
+    GenerateBackUpFileText.innerText = Strings.GenerateBackUpFile[UserSettings.Lang];
     GenerateBackUpFileIcon.src = "";
     GenerateBackUpFile.addEventListener("click", () => {});
     GenerateBackUpFile.append(GenerateBackUpFileIcon, GenerateBackUpFileText);
@@ -1946,7 +2053,7 @@ function BackUpModal() {
     const GenerateBackUpTextText = document.createElement("span");
     const ReturnButton = document.createElement("button");
     const ReturnButtonIcon = document.createElement("img");
-    const ReturnButtonText = Strings.Return[UserSettings.CurrentLang];
+    const ReturnButtonText = Strings.Return[UserSettings.Lang];
     const ModalSubPage = document.createElement("section");
     const ModalTitle = document.createElement("span");
     const ModalDescription = document.createElement("p");
@@ -1964,10 +2071,10 @@ function BackUpModal() {
     ModalTextArea.className = "modal-text-area";
     CopyButton.className = "copy-to-clipboard-btn green-btn text";
 
-    GenerateBackUpTextText.innerText = Strings.GenerateBackUpText[UserSettings.CurrentLang];
-    ModalTitle.innerText = Strings.BackUpText[UserSettings.CurrentLang];
-    ModalDescription.innerText = Strings.BackUpTextDescription[UserSettings.CurrentLang];
-    CopyButton.innerText = Strings.CopyButton[UserSettings.CurrentLang];
+    GenerateBackUpTextText.innerText = Strings.GenerateBackUpText[UserSettings.Lang];
+    ModalTitle.innerText = Strings.BackUpText[UserSettings.Lang];
+    ModalDescription.innerText = Strings.BackUpTextDescription[UserSettings.Lang];
+    CopyButton.innerText = Strings.CopyButton[UserSettings.Lang];
 
     GenerateBackUpTextIcon.src = "";
     ModalTextArea.value = FetchLocalStorge();
@@ -2046,9 +2153,9 @@ function DeleteModal(Type, ID) {
   MoveToTrashCheckBox.type = "checkbox";
   MoveToTrashCheckBox.checked = true;
   HideModalIcon.src = "../Icons/close-large-line.svg";
-  MoveToTrashText.innerText = Strings.MoveToTrashText[UserSettings.CurrentLang];
-  ConfirmBtn.innerText = Strings.Delete[UserSettings.CurrentLang];
-  CancelBtn.innerText = Strings.Return[UserSettings.CurrentLang];
+  MoveToTrashText.innerText = Strings.MoveToTrashText[UserSettings.Lang];
+  ConfirmBtn.innerText = Strings.Delete[UserSettings.Lang];
+  CancelBtn.innerText = Strings.Return[UserSettings.Lang];
   ConfirmBtn.title = "ShortCut : Enter";
   HideModalBtn.title = "ShortCut : ESC";
 
@@ -2090,7 +2197,7 @@ function DeleteModal(Type, ID) {
     case "Failed":
       if (document.querySelector(".delete-task-modal")) return;
       Modal.classList.add("delete-task-modal");
-      ModalText.innerText = Strings.DeleteText[UserSettings.CurrentLang];
+      ModalText.innerText = Strings.DeleteText[UserSettings.Lang];
       Modal.append(MoveToTrashContainer);
       ChooseActiveModal();
       AddDragEventListenersToModal(".delete-task-modal");
@@ -2105,7 +2212,7 @@ function DeleteModal(Type, ID) {
     case "Trashed":
       if (document.querySelector(".delete-task-modal")) return;
       Modal.classList.add("delete-task-modal");
-      ModalText.innerText = Strings.DeleteTrashText[UserSettings.CurrentLang];
+      ModalText.innerText = Strings.DeleteTrashText[UserSettings.Lang];
       ChooseActiveModal();
       AddDragEventListenersToModal(".delete-task-modal");
       PositionModal(".delete-task-modal");
@@ -2119,7 +2226,7 @@ function DeleteModal(Type, ID) {
     case "DeleteCategory":
       if (document.querySelector(".delete-category-modal")) return;
       Modal.classList.add("delete-category-modal");
-      ModalText.innerText = Strings.DeleteCategoryText[UserSettings.CurrentLang];
+      ModalText.innerText = Strings.DeleteCategoryText[UserSettings.Lang];
       ChooseActiveModal();
       AddDragEventListenersToModal(".delete-category-modal");
       PositionModal(".delete-category-modal");
@@ -2133,71 +2240,6 @@ function DeleteModal(Type, ID) {
   }
 }
 
-function ReturnSelectBox(UserCategory) {
-  const SelectBox = document.createElement("div");
-  const SelectBoxText = document.createElement("div");
-  const SelectBoxOptionsContainer = document.createElement("div");
-  const NoneOption = document.createElement("div");
-  const SelectBoxIconContainer = document.createElement("div");
-  const SelectBoxIcon = document.createElement("img");
-
-  SelectBox.className = "select-box";
-  SelectBoxText.className = "select-box-text";
-  SelectBoxOptionsContainer.className = "options-container";
-  NoneOption.className = "option";
-  SelectBoxIconContainer.className = "select-box-icon-container";
-  SelectBoxIcon.className = "select-box-icon icon";
-
-  NoneOption.setAttribute("data-value", "None");
-  SelectBox.setAttribute("data-value", UserCategory ?? "None");
-  NoneOption.innerText = Strings.CategoryNoneOption[UserSettings.CurrentLang];
-  SelectBoxText.innerText = NoneOption.innerText;
-  SelectBoxIcon.src = "../Icons/arrow-down-s-fill.svg";
-
-  NoneOption.addEventListener("click", () => {
-    SelectBoxIconContainer.classList.toggle("show-select-box");
-    SelectBox.dataset.value = "None";
-    SelectBoxText.innerText = NoneOption.innerText;
-  });
-  SelectBoxIconContainer.addEventListener("click", () => {
-    SelectBoxIcon.classList.toggle("rotate-icon");
-    SelectBox.click();
-  });
-  SelectBox.addEventListener("click", () => {
-    SelectBoxIcon.classList.toggle("rotate-icon");
-    SelectBoxOptionsContainer.classList.toggle("show-select-box");
-  });
-
-  SelectBoxIconContainer.append(SelectBoxIcon);
-  SelectBox.append(SelectBoxOptionsContainer, SelectBoxText, SelectBoxIconContainer);
-  SelectBoxOptionsContainer.append(NoneOption);
-  UserCategoriesArray.forEach((Category) => {
-    const CategoryOption = document.createElement("div");
-    CategoryOption.className = "option";
-    CategoryOption.innerText = Category.Name;
-    CategoryOption.setAttribute("data-value", Category.ID);
-    CategoryOption.addEventListener("click", () => {
-      SelectBoxIconContainer.classList.toggle("show-select-box");
-      SelectBox.dataset.value = CategoryOption.dataset.value;
-      SelectBoxText.innerText = CategoryOption.innerText;
-    });
-    SelectBoxOptionsContainer.append(CategoryOption);
-    // Select Appropiate option based on selected task category
-    if (AppObj.CurrentWindow.includes("UserCategory-")) {
-      if (CategoryOption.dataset.value === AppObj.SelectedUserCategory) {
-        SelectBox.dataset.value = CategoryOption.dataset.value;
-        SelectBoxText.innerText = CategoryOption.innerText;
-      }
-    } else if (UserCategory) {
-      if (CategoryOption.dataset.value === UserCategory) {
-        SelectBox.dataset.value = CategoryOption.dataset.value;
-        SelectBoxText.innerText = CategoryOption.innerText;
-      }
-    }
-  });
-
-  return SelectBox;
-}
 function SwitchValueOfCategorySelectBox(UserCategory) {
   /* A function to quickly change value of UserCategory select box , what is the usecase ? 
   say you opened NewTaskModal and you are on category X so by defualt the app will think 

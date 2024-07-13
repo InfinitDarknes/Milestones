@@ -31,7 +31,19 @@ function LoadAppComponents() {
   const Body = document.body;
   const TopBar = ReturnTopBar();
   const Sidebar = ReturnSidebar();
-  Body.append(TopBar, Sidebar);
+  const BrightNessOverlay = ReturnBrightnessOverlay();
+  const BackgroundImage = ReturnBackgroundImage();
+  Body.append(TopBar, Sidebar, BrightNessOverlay);
+  /* Both BackgroundImage and BackgroundImageAnimation cover the entire screen
+  So if one of them is active we do not need the other on to have a background image*/
+  if (UserSettings.BgAnimation === "None") {
+    const ParticleJS = document.getElementById("particles-js");
+    ParticleJS.style.display = "none";
+    Body.append(BackgroundImage);
+  } else {
+    const ParticleJS = document.getElementById("particles-js");
+    ParticleJS.style.backgroundImage = `url(${UserSettings.Wallpaper})`;
+  }
   DisplayUserCategories();
   if (CheckForSave("LastWindow")) {
     ChangeWindow(localStorage.getItem("LastWindow"), true);
@@ -48,10 +60,6 @@ function LoadAppComponents() {
   window.addEventListener("keydown", (Event) => {
     ShortCutManager(Event);
   });
-  window.addEventListener("reset", (Event) => {
-    Event.preventDefault();
-    ReLoadWarning(Event);
-  });
 }
 function PreLoader() {
   const PreLoader = document.createElement("section");
@@ -61,7 +69,7 @@ function PreLoader() {
   PreLoaderIcon.src = IconsSrc.PreLoaderGif[UserSettings.Theme];
   const PreLoaderText = document.createElement("span");
   PreLoaderText.className = "preloader-text text";
-  PreLoaderText.innerText = Strings.Loading[UserSettings.CurrentLang];
+  PreLoaderText.innerText = Strings.Loading[UserSettings.Lang];
   PreLoader.append(PreLoaderIcon, PreLoaderText);
   document.body.append(PreLoader);
   setTimeout(HidePreLoader, 1000);
@@ -73,6 +81,24 @@ function HidePreLoader() {
     PreLoader.style.opacity = "0";
     PreLoader.remove();
   }, 1000);
+}
+// Saving
+function Save(Type) {
+  switch (Type) {
+    case "Tasks":
+      localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
+      break;
+    case "UGC":
+      localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
+      break;
+    case "Notes":
+      localStorage.setItem("Notes", JSON.stringify(NotesArray));
+      break;
+    case "UserSettings":
+      localStorage.setItem("UserSettings", JSON.stringify(UserSettings));
+      break;
+  }
+  return `Saved ${Type} successfully`;
 }
 function CheckForSave(Item) {
   let Save = localStorage.getItem(Item.toString());
@@ -92,28 +118,47 @@ function LoadSave() {
   if (CheckForSave("Themes")) {
     AppObj.Themes = JSON.parse(localStorage.getItem("Themes"));
   }
+  if (CheckForSave("UserSettings")) {
+    UserSettings = JSON.parse(localStorage.getItem("UserSettings"));
+  }
   KeepUpWithUpdates();
-  UserSettings.CurrentLang = localStorage.getItem("Lang") ?? "en";
-
-  UserSettings.Theme = localStorage.getItem("Theme") && AppObj.Themes.includes(localStorage.getItem("Theme")) ? localStorage.getItem("Theme") : "Dark";
-  document.body.className = UserSettings.Theme;
-
-  UserSettings.Calendar = localStorage.getItem("DatePickerType") ?? "Gregorian";
-  DatePickerSettings.type = localStorage.getItem("DatePickerType") ?? "Gregorian";
-
-  UserSettings.Brightness = localStorage.getItem("Brightness") ?? 100;
-  const Overlay = document.getElementById("overlay");
-  Overlay.style.opacity = 100 - UserSettings.Brightness + "%";
 }
 function KeepUpWithUpdates() {
-  console.log(AllTasksArray);
+  // Updaing UserSettings properties
+  const CheckUserSettingsObj = () => {
+    const Usermade_UserSettings = JSON.parse(localStorage.getItem("UserSettings"));
+    let Entries = Object.entries(UserSettings);
+    let CloneEntries = Object.entries(Usermade_UserSettings);
+    let Condition1 = Entries.every((Item) => {
+      return Usermade_UserSettings[Item[0]];
+    });
+    let Condition2 = CloneEntries.every((Item) => {
+      return UserSettings[Item[0]];
+    });
+    if (!Condition2) {
+      for (let i in Usermade_UserSettings) {
+        if (!UserSettings[i]) {
+          delete UserSettings[i];
+          Save("UserSettings");
+        }
+      }
+    }
+    if (!Condition1) {
+      for (let i in UserSettings) {
+        console.log(UserSettings[i]);
+        if (!Usermade_UserSettings[i]) {
+          Usermade_UserSettings[i] = UserSettings[i];
+          Save("UserSettings");
+        }
+      }
+    }
+  };
   /* sometimes a new property is added to the app objects or the objects representing tasks
   but that property is not included in previously created tasks or objects so here we check
   these stuff and try to add/remove properties. */
   const CheckThemeObj = () => {
     if (!CheckForSave("UserThemes")) return;
     let UserThemes = JSON.parse(localStorage.getItem("UserThemes"));
-    console.log(UserThemes);
     const OrgonizeObjects = () => {
       let Entries = Object.entries(ThemeObj);
       let CloneEntries = Object.entries(UserThemes);
@@ -139,13 +184,6 @@ function KeepUpWithUpdates() {
     let Condition2 = CloneEntries.every((Item) => {
       return ThemeObj[Item[0]];
     });
-    console.log("Main themes object entries");
-    console.table(Entries);
-    console.log("User themes object entries");
-    console.table(CloneEntries);
-    console.log(`User themes object has all the properties of main object : ${Condition1}`);
-    console.log(`User themes object has deprecated properties : ${!Condition2}`);
-    console.log("Are two objects equal in properties ? ", Condition1 && Condition2);
     if (!Condition2) {
       let DeprecatedProperties = [];
       for (let i in UserThemes) {
@@ -155,10 +193,6 @@ function KeepUpWithUpdates() {
           localStorage.setItem("UserThemes", JSON.stringify(UserThemes));
         }
       }
-      console.log(`Deprecated properties were found in the user themes theme by comparing the user themes object to main themes object
-        and all of them were removed from the user themes object`);
-      console.log("Deprecated properties array : ");
-      console.table(DeprecatedProperties);
     }
     if (!Condition1) {
       let NewProperties = [];
@@ -169,10 +203,6 @@ function KeepUpWithUpdates() {
           localStorage.setItem("UserThemes", JSON.stringify(UserThemes));
         }
       }
-      console.log(`New properties were added to the main themes object that did not existed in the user themes object so all of 
-        those properties were created by the app.`);
-      console.log(`New properties : `);
-      console.table(NewProperties);
     }
     // Syncing themes
     for (let i in UserThemes) {
@@ -187,7 +217,6 @@ function KeepUpWithUpdates() {
     for (let i in UserThemes) {
       for (let j in ThemeObj) {
         if (i === j && UserThemes[i].Selector !== ThemeObj[j].Selector) {
-          console.log(`Deprecated selector at UserThemes : ${UserThemes[i].Selector}. replaced with ${ThemeObj[j].Selector}`);
           UserThemes[i].Selector = ThemeObj[j].Selector;
           localStorage.setItem("UserThemes", JSON.stringify(UserThemes));
         }
@@ -213,11 +242,6 @@ function KeepUpWithUpdates() {
       }
     }
     ThemeObj = UserThemes;
-    console.log(`The main themes object and user themes object are synced and aligned together now.`);
-    console.log("Main themes object : ");
-    console.table(ThemeObj);
-    console.log("User themes object : ");
-    console.table(UserThemes);
   };
   const CheckTasksObject = () => {
     for (let i in AllTasksArray) {
@@ -230,6 +254,7 @@ function KeepUpWithUpdates() {
     }
     Save("Tasks");
   };
+  CheckUserSettingsObj();
   CheckThemeObj();
   CheckTasksObject();
 }

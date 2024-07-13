@@ -11,10 +11,6 @@ let DateObject = {
   Hour: null,
   Minute: null,
 };
-let DatePickerSettings = {
-  lang: "",
-  type: "",
-};
 function SetupTargetInput(Selector) {
   TargetInput = document.querySelector(Selector);
 }
@@ -39,7 +35,7 @@ function ToggleDatePicker(Selector, NumericDate) {
   }
 }
 function AssignWidthToDatePicker() {
-  let DatePicker = document.getElementById("date-picker");
+  let DatePicker = document.querySelector(".date-picker");
   let TargetInput = document.querySelector(TargetInputID);
   let TargetInputWidth = Number(getComputedStyle(TargetInput).width.replace("px", ""));
   let TargetInputPaddingRight = Number(getComputedStyle(TargetInput).paddingRight.replace("px", ""));
@@ -79,39 +75,39 @@ function LoadCurrentDate() {
   DateObject.Hour = new Date().getHours();
   DateObject.Minute = new Date().getMinutes();
   //
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     let FullSolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
     DateObject.SolarYear = FullSolarDate[0];
     DateObject.SolarMonth = FullSolarDate[1];
     DateObject.SolarDay = FullSolarDate[2];
     LoadGregorianDateFromSolar();
   }
-  if (DatePickerSettings.type === "Gregorian") {
+  if (UserSettings.Calendar === "Gregorian") {
     DateObject.GregorianYear = GregorianYear;
     DateObject.GregorianMonth = GregorianMonth;
     DateObject.GregorianDay = GregorianDay;
   }
 }
 function PickDays(Day) {
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     DateObject.SolarDay = Number(Day);
     LoadGregorianDateFromSolar();
   }
-  if (DatePickerSettings.type === "Gregorian") DateObject.GregorianDay = Number(Day);
+  if (UserSettings.Calendar === "Gregorian") DateObject.GregorianDay = Number(Day);
   UpdateDatePicker();
 }
 function LoadToday() {
   let GregorianYear = new Date().getFullYear();
   let GregorianMonth = new Date().getMonth() + 1;
   let GregorianDay = new Date().getDate();
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     let FullSolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
     DateObject.SolarYear = FullSolarDate[0];
     DateObject.SolarMonth = FullSolarDate[1];
     DateObject.SolarDay = FullSolarDate[2];
     LoadGregorianDateFromSolar();
   }
-  if (DatePickerSettings.type === "Gregorian") {
+  if (UserSettings.Calendar === "Gregorian") {
     DateObject.GregorianYear = GregorianYear;
     DateObject.GregorianMonth = GregorianMonth;
     DateObject.GregorianDay = GregorianDay;
@@ -126,14 +122,14 @@ function LoadTomorrow() {
   let GregorianDay = new Date(TomorrowNumericTime).getDate();
   let GregorianMonth = new Date(TomorrowNumericTime).getMonth() + 1;
   //
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     let FullSolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
     DateObject.SolarYear = FullSolarDate[0];
     DateObject.SolarMonth = FullSolarDate[1];
     DateObject.SolarDay = FullSolarDate[2];
     LoadGregorianDateFromSolar();
   }
-  if (DatePickerSettings.type === "Gregorian") {
+  if (UserSettings.Calendar === "Gregorian") {
     DateObject.GregorianYear = GregorianYear;
     DateObject.GregorianMonth = GregorianMonth;
     DateObject.GregorianDay = GregorianDay;
@@ -147,14 +143,14 @@ function LoadIn2Days() {
   let GregorianDay = new Date(In2DaysNumericTime).getDate();
   let GregorianMonth = new Date(In2DaysNumericTime).getMonth() + 1;
   //
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     let FullSolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
     DateObject.SolarYear = FullSolarDate[0];
     DateObject.SolarMonth = FullSolarDate[1];
     DateObject.SolarDay = FullSolarDate[2];
     LoadGregorianDateFromSolar();
   }
-  if (DatePickerSettings.type === "Gregorian") {
+  if (UserSettings.Calendar === "Gregorian") {
     DateObject.GregorianYear = GregorianYear;
     DateObject.GregorianMonth = GregorianMonth;
     DateObject.GregorianDay = GregorianDay;
@@ -162,7 +158,7 @@ function LoadIn2Days() {
   UpdateDatePicker();
 }
 function LoadNextMonth() {
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     if (DateObject.SolarMonth >= 12) {
       let NumYear = DateObject.SolarYear;
       DateObject.SolarYear = NumYear + 1;
@@ -174,7 +170,7 @@ function LoadNextMonth() {
     if (DateObject.SolarDay === 31) if (DateObject.SolarMonth > 6) DateObject.SolarDay = 30;
     LoadGregorianDateFromSolar();
   }
-  if (DatePickerSettings.type === "Gregorian") {
+  if (UserSettings.Calendar === "Gregorian") {
     if (DateObject.GregorianMonth >= 12) {
       DateObject.GregorianYear += 1;
       DateObject.GregorianMonth = 1;
@@ -186,7 +182,7 @@ function LoadNextMonth() {
   UpdateDatePicker();
 }
 function LoadPreviousMonth() {
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     if (DateObject.SolarMonth <= 1) {
       DateObject.SolarYear -= 1;
       DateObject.SolarMonth = 12;
@@ -196,7 +192,7 @@ function LoadPreviousMonth() {
     if (DateObject.SolarDay === 31) if (DateObject.SolarMonth > 6) DateObject.SolarDay = 30;
     LoadGregorianDateFromSolar();
   }
-  if (DatePickerSettings.type === "Gregorian") {
+  if (UserSettings.Calendar === "Gregorian") {
     if (DateObject.GregorianMonth <= 1) {
       DateObject.GregorianYear -= 1;
       DateObject.GregorianMonth = 12;
@@ -220,14 +216,14 @@ function LoadCustomDate(NumericDate) {
   DateObject.Hour = new Date(NumericDate).getHours();
   DateObject.Minute = new Date(NumericDate).getMinutes();
   //
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     let FullSolarDate = farvardin.gregorianToSolar(GregorianYear, GregorianMonth, GregorianDay, "array");
     DateObject.SolarYear = FullSolarDate[0];
     DateObject.SolarMonth = FullSolarDate[1];
     DateObject.SolarDay = FullSolarDate[2];
     LoadGregorianDateFromSolar();
   }
-  if (DatePickerSettings.type === "Gregorian") {
+  if (UserSettings.Calendar === "Gregorian") {
     DateObject.GregorianYear = GregorianYear;
     DateObject.GregorianMonth = GregorianMonth;
     DateObject.GregorianDay = GregorianDay;
@@ -329,10 +325,10 @@ function CreateDatePicker(Selector) {
   const DecreamenMinuteButtonIcon = document.createElement("img");
   // Assign class names
   TimePickerHourSection.className = "time-picker-inner-container";
-  HourInput.className = "time-picker-input";
+  HourInput.className = "time-picker-input task-hour-input";
+  MinuteInput.className = "time-picker-input task-minute-input";
   TweakHourButtonsContainer.className = "tweak-time-buttons";
   TimePickerMinuteSection.className = "time-picker-inner-container";
-  MinuteInput.className = "time-picker-input";
   TweakMinuteButtonsContainer.className = "tweak-time-buttons";
   NextMonthButtonIcon.className = "icon";
   PreviousMonthButtonIcon.className = "icon";
@@ -340,31 +336,28 @@ function CreateDatePicker(Selector) {
   DecreamentHourButtonIcon.className = "icon";
   IncreamentMinuteButtonIcon.className = "icon";
   DecreamenMinuteButtonIcon.className = "icon";
-  // Assign id
-  DatePickerElement.id = "date-picker";
-  DatePickerHeader.id = "date-picker-header";
-  PickTodayButton.id = "pick-today-button";
-  PickTomorrowButton.id = "pick-tomorrow-button";
-  PickIn2DaysButton.id = "pick-in-2-days-button";
-  PickYearMonthContainer.id = "pick-year-month-container";
-  NextMonthButton.id = "next-month";
-  PreviousMonthButton.id = "previous-month";
-  YearMonthContainer.id = "year-month-container";
-  Month.id = "month";
-  Year.id = "year";
-  DayButtonsContainer.id = "pick-days";
-  TimePickerElement.id = "time-picker";
-  HourInput.id = "task-hour-input";
-  IncreamentHourButton.id = "increament-hour";
-  DecreamentHourButton.id = "decreament-hour";
-  TimePickerSeperator.id = "time-picker-separator";
-  MinuteInput.id = "task-minute-input";
-  IncreamentMinuteButton.id = "increament-minute";
-  DecreamenMinuteButton.id = "decreament-minute";
+  DatePickerElement.className = "date-picker";
+  DatePickerHeader.className = "date-picker-header";
+  PickTodayButton.className = "pick-today-button date-picker-btn";
+  PickTomorrowButton.className = "pick-tomorrow-button date-picker-btn";
+  PickIn2DaysButton.className = "pick-in-2-days-button date-picker-btn";
+  PickYearMonthContainer.className = "pick-year-month-container";
+  NextMonthButton.className = "next-month date-picker-btn";
+  PreviousMonthButton.className = "previous-month date-picker-btn";
+  YearMonthContainer.className = "year-month-container";
+  Month.className = "month";
+  Year.className = "year";
+  DayButtonsContainer.className = "pick-days";
+  TimePickerElement.className = "time-picker";
+  IncreamentHourButton.className = "increament-hour date-picker-btn";
+  DecreamentHourButton.className = "decreament-hour date-picker-btn";
+  TimePickerSeperator.className = "time-picker-separator";
+  IncreamentMinuteButton.className = "increament-minute date-picker-btn";
+  DecreamenMinuteButton.className = "decreament-minute date-picker-btn";
   // Assign innertText
-  PickTodayButton.innerText = DPStrings.PickTodayButton[UserSettings.CurrentLang];
-  PickTomorrowButton.innerText = DPStrings.PickTomorrowButton[UserSettings.CurrentLang];
-  PickIn2DaysButton.innerText = DPStrings.PickIn2DaysButton[UserSettings.CurrentLang];
+  PickTodayButton.innerText = DPStrings.PickTodayButton[UserSettings.Lang];
+  PickTomorrowButton.innerText = DPStrings.PickTomorrowButton[UserSettings.Lang];
+  PickIn2DaysButton.innerText = DPStrings.PickIn2DaysButton[UserSettings.Lang];
   // Assign src
   NextMonthButtonIcon.src = "../Icons/arrow-right-s-fill.svg";
   PreviousMonthButtonIcon.src = "../Icons/arrow-left-s-fill.svg";
@@ -433,39 +426,39 @@ function CreateDatePicker(Selector) {
   AssignWidthToDatePicker();
 }
 function HideDatePicker() {
-  if (DoesElementExist("date-picker")) document.getElementById("date-picker").remove();
+  if (document.querySelector(".date-picker")) document.querySelector(".date-picker").remove();
 }
 function UpdateDatePicker() {
-  const DatePicker = document.getElementById("date-picker");
-  const TimePicker = document.getElementById("time-picker");
-  const Month = document.getElementById("month");
-  const Year = document.getElementById("year");
+  const DatePicker = document.querySelector(".date-picker");
+  const TimePicker = document.querySelector(".time-picker");
+  const Month = document.querySelector(".month");
+  const Year = document.querySelector(".year");
 
   const DayButtons = document.querySelectorAll(".pick-day-button");
   let SolarMonthArray = ["", "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
   let GregorianMonthArray = [
     "",
-    DPStrings.January[UserSettings.CurrentLang],
-    DPStrings.February[UserSettings.CurrentLang],
-    DPStrings.March[UserSettings.CurrentLang],
-    DPStrings.April[UserSettings.CurrentLang],
-    DPStrings.May[UserSettings.CurrentLang],
-    DPStrings.June[UserSettings.CurrentLang],
-    DPStrings.July[UserSettings.CurrentLang],
-    DPStrings.August[UserSettings.CurrentLang],
-    DPStrings.September[UserSettings.CurrentLang],
-    DPStrings.October[UserSettings.CurrentLang],
-    DPStrings.November[UserSettings.CurrentLang],
-    DPStrings.December[UserSettings.CurrentLang],
+    DPStrings.January[UserSettings.Lang],
+    DPStrings.February[UserSettings.Lang],
+    DPStrings.March[UserSettings.Lang],
+    DPStrings.April[UserSettings.Lang],
+    DPStrings.May[UserSettings.Lang],
+    DPStrings.June[UserSettings.Lang],
+    DPStrings.July[UserSettings.Lang],
+    DPStrings.August[UserSettings.Lang],
+    DPStrings.September[UserSettings.Lang],
+    DPStrings.October[UserSettings.Lang],
+    DPStrings.November[UserSettings.Lang],
+    DPStrings.December[UserSettings.Lang],
   ];
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     if (DatePicker) {
       Year.innerText = PlacePersianNumbers(DateObject.SolarYear);
       Month.innerText = SolarMonthArray[DateObject.SolarMonth];
       HighLightSelectedDay(`Day-${DateObject.SolarDay}`);
     }
   }
-  if (DatePickerSettings.type === "Gregorian") {
+  if (UserSettings.Calendar === "Gregorian") {
     if (DatePicker) {
       Year.innerText = PlacePersianNumbers(DateObject.GregorianYear);
       Month.innerText = GregorianMonthArray[DateObject.GregorianMonth];
@@ -476,14 +469,14 @@ function UpdateDatePicker() {
   if (DatePicker) CheckDaysOfTheMonth(DayButtons);
   DisplayDateStringIntoInput();
   if (TimePicker) {
-    const TaskHourInput = document.getElementById("task-hour-input");
-    const TaskMinuteInput = document.getElementById("task-minute-input");
+    const TaskHourInput = document.querySelector(".task-hour-input");
+    const TaskMinuteInput = document.querySelector(".task-minute-input");
     TaskHourInput.value = PlacePersianNumbers(DateObject.Hour.toString().padStart(2, "0"));
     TaskMinuteInput.value = PlacePersianNumbers(DateObject.Minute.toString().padStart(2, "0"));
   }
 }
 function CheckDaysOfTheMonth(DayButtons) {
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     if (DateObject.SolarMonth <= 6) {
       DayButtons[30].removeAttribute("inert");
       DayButtons[30].style = "";
@@ -493,7 +486,7 @@ function CheckDaysOfTheMonth(DayButtons) {
       DayButtons[30].style.opacity = "0.4";
     }
   }
-  if (DatePickerSettings.type === "Gregorian") {
+  if (UserSettings.Calendar === "Gregorian") {
     if (DateObject.GregorianMonth <= 6) {
       DayButtons[30].removeAttribute("inert");
       DayButtons[30].style = "";
@@ -505,10 +498,10 @@ function CheckDaysOfTheMonth(DayButtons) {
   }
 }
 function DisplayDateStringIntoInput() {
-  if (DatePickerSettings.type === "Solar") {
+  if (UserSettings.Calendar === "Solar") {
     if (TargetInput) TargetInput.value = PlacePersianNumbers(ExtractDate("Solar", "String"));
   }
-  if (DatePickerSettings.type === "Gregorian") {
+  if (UserSettings.Calendar === "Gregorian") {
     if (TargetInput) TargetInput.value = PlacePersianNumbers(ExtractDate("Gregorian", "String"));
   }
 }

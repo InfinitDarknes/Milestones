@@ -15,6 +15,26 @@
     "en": "Read",
     "fa": "خواندن"
   },
+  "BgAnimation": {
+    "en": "Background animation",
+    "fa": "انیمیشن پس زمینه"
+  },
+  "Particle": {
+    "en": "Particle",
+    "fa": "پارتیکل"
+  },
+  "Snow": {
+    "en": "Snow",
+    "fa": "برف"
+  },
+  "Nasa": {
+    "en": "Nasa",
+    "fa": "ناسا"
+  },
+  "Bubble": {
+    "en": "Bubble",
+    "fa": "حباب"
+  },
   "CompletedAt": {
     "en": "Completed at",
     "fa": "اتمام در"
@@ -90,6 +110,26 @@
   "FormInputError": {
     "en": "Please fill all the inputs",
     "fa": "لطفا همه ورودی ها را تکمیل کنید"
+  },
+  "UserNameExistsError": {
+    "en": "Username already exists",
+    "fa": "این نام کاربری قبلا ثبت شده"
+  },
+  "EmailExistsError": {
+    "en": "Email alredy exists",
+    "fa": "این ایمیل قبلا ثبت شده"
+  },
+  "YouAlreadyHaveThisEmailError": {
+    "en": "This email is the same as your current one",
+    "fa": "این ایمیل با ایمیل فعلیت یکسانه"
+  },
+  "YouAlreadyHaveThisUserNameError": {
+    "en": "This username is the same as your current one",
+    "fa": "این نام کاربری با نام کاربری فعلیت یکسانه"
+  },
+  "YouAlreadyHaveThisPasswordError": {
+    "en": "This password is the same as your current one",
+    "fa": "این گذرواژه با گذرواژه فعلیت یکسانه"
   },
   "NoteTitleInputPlaceHolder": {
     "en": "Title is required",
@@ -251,7 +291,7 @@
     "en": "Customize theme",
     "fa": "شخصی سازی تم"
   },
-  "CategoryNoneOption": {
+  "None": {
     "en": "None",
     "fa": "هیچکدام"
   },
@@ -270,6 +310,10 @@
   "SortUnfinished": {
     "en": "All",
     "fa": "همه"
+  },
+  "SignUpSuccessMessage": {
+    "en": "Sign up was successful",
+    "fa": "نام نویسی موفقیت آمیز بود"
   },
   "SortTodayButton": {
     "en": "Today",

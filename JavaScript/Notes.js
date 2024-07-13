@@ -16,7 +16,7 @@ function NewNote(Title, Text) {
   NotesArray.push(NewNote);
   Save("Notes");
   DisplayNotesIntoDOM();
-  DisplayMessage("Success", MessageBoxStrings.NoteSuccess[UserSettings.CurrentLang]);
+  DisplayMessage("Success", MessageBoxStrings.NoteSuccess[UserSettings.Lang]);
 }
 function DeleteNote(ID) {
   let NoteIndex = NotesArray.findIndex((Note) => {
@@ -51,7 +51,7 @@ function DisplayNotesIntoDOM() {
     //InnerText
     NoteTitle.innerText = Note.Title;
     NoteText.innerHTML = Note.Text;
-    ViewNoteBtn.innerText = Strings.Read[UserSettings.CurrentLang];
+    ViewNoteBtn.innerText = Strings.Read[UserSettings.Lang];
     //Events
     ViewNoteBtn.addEventListener("click", () => {
       ReadNote(Note.ID);
@@ -113,7 +113,7 @@ function ApplyEdit(NoteID) {
   });
   TargetNote.Text = tinymce.activeEditor.getContent({ format: "raw" });
   if (!NoteModalTitle.innerText) {
-    DisplayMessage("Error", MessageBoxStrings.EmptyNoteTitle[UserSettings.CurrentLang]);
+    DisplayMessage("Error", MessageBoxStrings.EmptyNoteTitle[UserSettings.Lang]);
     return;
   } else {
     TargetNote.Title = NoteModalTitle.innerText;

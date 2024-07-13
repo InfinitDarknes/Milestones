@@ -3,7 +3,7 @@ function ReturnSortAllBtn() {
   const Btn = document.createElement("button");
   Btn.className = "sort-buttons text";
   Btn.id = "sort-all-trash";
-  Btn.textContent = Strings.SortAllTrash[UserSettings.CurrentLang];
+  Btn.textContent = Strings.SortAllTrash[UserSettings.Lang];
   Btn.addEventListener("click", () => {
     ChangeWindow("Trash-All");
   });
@@ -13,7 +13,7 @@ function ReturnSortUnfinishedBtn(TargetWindow) {
   const Btn = document.createElement("button");
   Btn.className = "sort-buttons text";
   Btn.id = "sort-unfinished";
-  Btn.textContent = Strings.SortUnfinished[UserSettings.CurrentLang];
+  Btn.textContent = Strings.SortUnfinished[UserSettings.Lang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Unfinished`);
   });
@@ -24,7 +24,7 @@ function ReturnSortTodayBtn(TargetWindow) {
   const Btn = document.createElement("button");
   Btn.className = "sort-buttons text";
   Btn.id = "sort-today";
-  Btn.textContent = Strings.SortTodayButton[UserSettings.CurrentLang];
+  Btn.textContent = Strings.SortTodayButton[UserSettings.Lang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Today`);
   });
@@ -35,7 +35,7 @@ function ReturnSortTomorrowBtn(TargetWindow) {
   const Btn = document.createElement("button");
   Btn.className = "sort-buttons text";
   Btn.id = "sort-tomorrow";
-  Btn.textContent = Strings.SortTomorrowButton[UserSettings.CurrentLang];
+  Btn.textContent = Strings.SortTomorrowButton[UserSettings.Lang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Tomorrow`);
   });
@@ -46,7 +46,7 @@ function ReturnSortIn2DaysBtn(TargetWindow) {
   const Btn = document.createElement("button");
   Btn.className = "sort-buttons text";
   Btn.id = "sort-in-2-days";
-  Btn.textContent = Strings.SortIn2DaysButton[UserSettings.CurrentLang];
+  Btn.textContent = Strings.SortIn2DaysButton[UserSettings.Lang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-In2Days`);
   });
@@ -57,7 +57,7 @@ function ReturnSortCompletedBtn(TargetWindow) {
   const Btn = document.createElement("button");
   Btn.className = "sort-buttons text";
   Btn.id = "sort-completed";
-  Btn.textContent = Strings.CategoryCompletedButton[UserSettings.CurrentLang];
+  Btn.textContent = Strings.CategoryCompletedButton[UserSettings.Lang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Completed`);
   });
@@ -68,7 +68,7 @@ function ReturnSortFailedBtn(TargetWindow) {
   const Btn = document.createElement("button");
   Btn.className = "sort-buttons text";
   Btn.id = "sort-failed";
-  Btn.textContent = Strings.CategoryFailedButton[UserSettings.CurrentLang];
+  Btn.textContent = Strings.CategoryFailedButton[UserSettings.Lang];
   Btn.addEventListener("click", () => {
     ChangeWindow(`${TargetWindow}-Failed`);
   });
@@ -189,9 +189,9 @@ function ReturnTaskBar(Type) {
   SpanElement.className = "text";
   SearchBar.className = "search-bar text";
   // InnerText and other properties
-  SpanElement.textContent = Strings.SelectAllCheckBox[UserSettings.CurrentLang];
+  SpanElement.textContent = Strings.SelectAllCheckBox[UserSettings.Lang];
   CheckBox.type = "checkbox";
-  SearchBar.placeholder = Strings.Search[UserSettings.CurrentLang];
+  SearchBar.placeholder = Strings.Search[UserSettings.Lang];
   SearchBar.title = "ShortCut : CTRL + F";
   //Events
   CheckBox.addEventListener("change", (Event) => {
@@ -267,7 +267,7 @@ function ReturnSidebar() {
   HomeButtonText.className = "side-bar-item-text text";
 
   HomeButtonIcon.src = "../Icons/home-line.svg";
-  HomeButtonText.innerText = Strings.Home[UserSettings.CurrentLang];
+  HomeButtonText.innerText = Strings.Home[UserSettings.Lang];
   HomeButton.addEventListener("click", () => {
     ChangeWindow("Home-Unfinished");
   });
@@ -282,7 +282,7 @@ function ReturnSidebar() {
   NewTaskButtonText.className = "side-bar-item-text text";
 
   NewTaskButtonIcon.src = "../Icons/task-line.svg";
-  NewTaskButtonText.innerText = Strings.NewTask[UserSettings.CurrentLang];
+  NewTaskButtonText.innerText = Strings.NewTask[UserSettings.Lang];
   NewTaskButton.title = "ShortCut : F1";
 
   NewTaskButton.addEventListener("click", NewTaskModal);
@@ -298,7 +298,7 @@ function ReturnSidebar() {
 
   NewCategoryButton.addEventListener("click", NewCategoryModal);
   NewCategoryButtonIcon.src = "../Icons/apps-2-add-line.svg";
-  NewCategoryButtonText.innerText = Strings.NewCategory[UserSettings.CurrentLang];
+  NewCategoryButtonText.innerText = Strings.NewCategory[UserSettings.Lang];
   NewCategoryButton.title = "ShortCut : F2";
 
   NewCategoryButton.append(NewCategoryButtonIcon, NewCategoryButtonText);
@@ -312,7 +312,7 @@ function ReturnSidebar() {
   AnalysisText.className = "side-bar-item-text text";
 
   AnalysisIcon.src = "../Icons/bar-chart-line.svg";
-  AnalysisText.innerText = Strings.Analysis[UserSettings.CurrentLang];
+  AnalysisText.innerText = Strings.Analysis[UserSettings.Lang];
   Analysis.append(AnalysisIcon, AnalysisText);
   // Notes Button
   const Notes = document.createElement("button");
@@ -327,7 +327,7 @@ function ReturnSidebar() {
     ChangeWindow("Notes");
   });
   NotesIcon.src = "../Icons/sticky-note-line.svg";
-  NotesText.innerText = Strings.NotesButton[UserSettings.CurrentLang];
+  NotesText.innerText = Strings.NotesButton[UserSettings.Lang];
   Notes.append(NotesIcon, NotesText);
   // Alarms Button
   const Alarms = document.createElement("button");
@@ -339,7 +339,7 @@ function ReturnSidebar() {
   AlarmsText.className = "side-bar-item-text text";
 
   AlarmsIcon.src = "../Icons/time-line.svg";
-  AlarmsText.innerText = Strings.AlarmsButton[UserSettings.CurrentLang];
+  AlarmsText.innerText = Strings.AlarmsButton[UserSettings.Lang];
   Alarms.append(AlarmsIcon, AlarmsText);
   // Trash Bin Button
   const TrashBin = document.createElement("button");
@@ -355,7 +355,7 @@ function ReturnSidebar() {
   });
   AddDragAndDropEvents(TrashBin, "Trash-All", "Trash");
   TrashBinIcon.src = "../Icons/delete-bin-7-line.svg";
-  TrashBinText.innerText = Strings.TrashBinButton[UserSettings.CurrentLang];
+  TrashBinText.innerText = Strings.TrashBinButton[UserSettings.Lang];
   TrashBin.append(TrashBinIcon, TrashBinText);
   // Settings Button
   const SettingsButton = document.createElement("button");
@@ -368,7 +368,7 @@ function ReturnSidebar() {
 
   SettingsButton.addEventListener("click", DisplaySettings);
   SettingsButtonIcon.src = "../Icons/settings-5-line.svg";
-  SettingsButtonText.innerText = Strings.SettingsButton[UserSettings.CurrentLang];
+  SettingsButtonText.innerText = Strings.SettingsButton[UserSettings.Lang];
   SettingsButton.title = "ShortCut : F5";
 
   SettingsButton.append(SettingsButtonIcon, SettingsButtonText);
@@ -405,6 +405,96 @@ function ReturnListSection() {
     FreezScroll(Event);
   });
   return ListSection;
+}
+function ReturnSelectBox(Options, Class, DefualtOption, NoneOption, ChangeEvent) {
+  if (!Options) {
+    console.error("Options parameter is mandetory for ReturnSelectBox() function");
+    return;
+  }
+  if (!Class) {
+    console.error("Class parameter is mandetory for ReturnSelectBox() function");
+    return;
+  }
+  const SelectBox = document.createElement("div");
+  const SelectBoxText = document.createElement("div");
+  const SelectBoxOptionsContainer = document.createElement("div");
+  const SelectBoxIconContainer = document.createElement("div");
+  const SelectBoxIcon = document.createElement("img");
+
+  if (NoneOption) {
+    Options.unshift({ Name: Strings.None[UserSettings.Lang], Value: "None" });
+  }
+
+  SelectBox.className = `select-box ${Class}`;
+  SelectBoxText.className = "select-box-text";
+  SelectBoxOptionsContainer.className = "options-container";
+  SelectBoxIconContainer.className = "select-box-icon-container";
+  SelectBoxIcon.className = "select-box-icon icon";
+
+  SelectBox.setAttribute("data-value", DefualtOption?.Value ?? Options[0].Value);
+  SelectBoxText.innerText = DefualtOption?.Name ?? Options[0].Name;
+  SelectBoxIcon.src = "../Icons/arrow-down-s-fill.svg";
+
+  SelectBoxIconContainer.addEventListener("click", () => {
+    SelectBoxIcon.classList.toggle("rotate-icon");
+    SelectBox.click();
+  });
+
+  SelectBox.addEventListener("click", () => {
+    SelectBoxIcon.classList.toggle("rotate-icon");
+    SelectBoxOptionsContainer.classList.toggle("show-select-box");
+    SelectBox.classList.toggle("sharp-bottom-border-radius");
+    SelectBoxIconContainer.classList.toggle("sharp-bottom-border-radius");
+    SelectBoxOptionsContainer.style.top = `${SelectBox.getBoundingClientRect().height + 0.5}px`;
+  });
+
+  if (ChangeEvent) {
+    let SelectBoxAttributeObserver = new MutationObserver(function (Mutation) {
+      Mutation.forEach(function (Mutation) {
+        if (Mutation.type === "attributes" && Mutation.attributeName === "data-value") {
+          ChangeEvent(SelectBox.dataset.value);
+        }
+      });
+    });
+    SelectBoxAttributeObserver.observe(SelectBox, {
+      attributes: true,
+    });
+  }
+
+  SelectBoxIconContainer.append(SelectBoxIcon);
+  SelectBox.append(SelectBoxOptionsContainer, SelectBoxText, SelectBoxIconContainer);
+
+  Options.forEach((Option) => {
+    // Options is an object with two properties , Name and Value
+    const OptionElem = document.createElement("div");
+    OptionElem.className = "option";
+    OptionElem.innerText = Option.Name;
+    OptionElem.setAttribute("data-value", Option.Value);
+    OptionElem.addEventListener("click", () => {
+      SelectBoxIconContainer.classList.toggle("show-select-box");
+      // To avoid unnecessary change of value when the option is already selected
+      if (SelectBox.dataset.value === OptionElem.dataset.value) return;
+      SelectBox.dataset.value = OptionElem.dataset.value;
+      SelectBoxText.innerText = OptionElem.innerText;
+    });
+    SelectBoxOptionsContainer.append(OptionElem);
+  });
+
+  return SelectBox;
+}
+function ReturnBackgroundImage() {
+  const BgImage = document.createElement("img");
+  BgImage.className = "background-image";
+  BgImage.style.backgroundImage = `url(${UserSettings.Wallpaper})`;
+  BgImage.src = UserSettings.Wallpaper;
+  return BgImage;
+}
+function ReturnBrightnessOverlay() {
+  const BrightnessOverlay = document.createElement("img");
+  BrightnessOverlay.className = "brightness-overlay";
+  BrightnessOverlay.setAttribute("inert", "");
+  BrightnessOverlay.style.opacity = 100 - +UserSettings.Brightness + "%";
+  return BrightnessOverlay;
 }
 // Sort bars
 function ReturnHomeWindowSortBar() {
@@ -482,8 +572,8 @@ function ReturnNotesWindow() {
   AddNotesBtnText.className = "add-notes-btn-text text";
   AddNotesBtnIcon.className = "add-notes-btn-icon icon";
   // Innertext and Src
-  HeaderText.innerText = Strings.NotesButton[UserSettings.CurrentLang];
-  AddNotesBtnText.innerText = Strings.AddNote[UserSettings.CurrentLang];
+  HeaderText.innerText = Strings.NotesButton[UserSettings.Lang];
+  AddNotesBtnText.innerText = Strings.AddNote[UserSettings.Lang];
   HeaderIcon.src = "../Icons/sticky-note-line.svg";
   AddNotesBtnIcon.src = "../Icons/sticky-note-add-line.svg";
   // Events
@@ -509,7 +599,7 @@ function ReturnTrashBinWindow() {
   TrashBinTitle.className = "header-title text";
   // InnerText and other properties
   TrashBinIcon.src = "../Icons/delete-bin-7-line.svg";
-  TrashBinTitle.innerText = Strings.TrashBinTitle[UserSettings.CurrentLang];
+  TrashBinTitle.innerText = Strings.TrashBinTitle[UserSettings.Lang];
   // Final
   TrashBinHeader.append(TrashBinIcon, TrashBinTitle);
   TrashBinWindow.append(TrashBinHeader, ListSection, TaskBar);
@@ -544,7 +634,6 @@ function ReturnUserCategoryWindow(ID) {
   return UserCategoryPage;
 }
 // Display each window
-
 /*
 Reason we pass a boolen value of FirstTime to this funcions is as follows:
 if you click on home-button multiple times while you are already in the home-window
@@ -647,7 +736,7 @@ function AppendTaskContainer(Tasks) {
     if (ReturnTaskState(ID) === "Failed") {
       const FailedTaskBadge = document.createElement("span");
       FailedTaskBadge.className = "failed-task-badge text";
-      FailedTaskBadge.innerHTML = Strings.FailedTaskBadge[UserSettings.CurrentLang];
+      FailedTaskBadge.innerHTML = Strings.FailedTaskBadge[UserSettings.Lang];
       FailedTaskBadge.setAttribute("inert", "");
       TaskContainer.append(FailedTaskBadge);
       //
@@ -659,7 +748,7 @@ function AppendTaskContainer(Tasks) {
     if (ReturnTaskState(ID) === "Completed") {
       const CompletedTaskBadge = document.createElement("span");
       CompletedTaskBadge.className = "completed-task-badge text";
-      CompletedTaskBadge.innerHTML = Strings.CompletedTaskBadge[UserSettings.CurrentLang];
+      CompletedTaskBadge.innerHTML = Strings.CompletedTaskBadge[UserSettings.Lang];
       CompletedTaskBadge.setAttribute("inert", "");
       TaskContainer.append(CompletedTaskBadge);
       //
@@ -671,7 +760,7 @@ function AppendTaskContainer(Tasks) {
     if (ReturnTaskState(ID) === "Trashed") {
       const TrashedTaskBadge = document.createElement("span");
       TrashedTaskBadge.className = "trashed-task-badge text";
-      TrashedTaskBadge.innerHTML = Strings.TrashedTaskBadge[UserSettings.CurrentLang];
+      TrashedTaskBadge.innerHTML = Strings.TrashedTaskBadge[UserSettings.Lang];
       TrashedTaskBadge.setAttribute("inert", "");
       TaskContainer.append(TrashedTaskBadge);
       TaskContainer.addEventListener("contextmenu", (Event) => {
@@ -745,15 +834,15 @@ function AppendTaskContainer(Tasks) {
       TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(NumericDate))}`;
       if (Task.CompletedAt) {
         TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(NumericDate))}\u00A0\u00A0${
-          Strings.CompletedAt[UserSettings.CurrentLang]
+          Strings.CompletedAt[UserSettings.Lang]
         }\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(CompletedAt))}\u00A0\u00A0${NumericToTime(CompletedAt)}`;
       } else if (Task.FailedAt) {
         TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(NumericDate))}\u00A0\u00A0${
-          Strings.FailedAt[UserSettings.CurrentLang]
+          Strings.FailedAt[UserSettings.Lang]
         }\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(FailedAt))}\u00A0\u00A0${NumericToTime(FailedAt)}`;
       } else if (Task.TrashedAt) {
         TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(NumericDate))}\u00A0\u00A0${
-          Strings.TrashedAt[UserSettings.CurrentLang]
+          Strings.TrashedAt[UserSettings.Lang]
         }\u00A0\u00A0${PlacePersianNumbers(NumericToSolar(TrashedAt))}\u00A0\u00A0${NumericToTime(TrashedAt)}`;
       }
     }
@@ -761,15 +850,15 @@ function AppendTaskContainer(Tasks) {
       TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(NumericDate))}`;
       if (Task.CompletedAt) {
         TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(NumericDate))}\u00A0\u00A0${
-          Strings.CompletedAt[UserSettings.CurrentLang]
+          Strings.CompletedAt[UserSettings.Lang]
         }\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(CompletedAt))}\u00A0\u00A0${NumericToTime(CompletedAt)}`;
       } else if (Task.FailedAt) {
         TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(NumericDate))}\u00A0\u00A0${
-          Strings.FailedAt[UserSettings.CurrentLang]
+          Strings.FailedAt[UserSettings.Lang]
         }\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(FailedAt))}\u00A0\u00A0${NumericToTime(FailedAt)}`;
       } else if (Task.TrashedAt) {
         TaskExtraInfo.textContent = `${PlacePersianNumbers(NumericToTime(NumericDate))}\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(NumericDate))}\u00A0\u00A0${
-          Strings.TrashedAt[UserSettings.CurrentLang]
+          Strings.TrashedAt[UserSettings.Lang]
         }\u00A0\u00A0${PlacePersianNumbers(NumericToGregorian(TrashedAt))}\u00A0\u00A0${NumericToTime(TrashedAt)}`;
       }
     }
@@ -864,7 +953,7 @@ function DisplaySelectModeBar() {
   // When you select a task a bar shows up at bottom showing you a Clear selection button and a text
   if (document.querySelector(".select-bar")) {
     const SelectedItemsElem = document.querySelector(".selected-items");
-    SelectedItemsElem.innerText = `${PlacePersianNumbers(ReturnSelectedTasks().length)} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
+    SelectedItemsElem.innerText = `${PlacePersianNumbers(ReturnSelectedTasks().length)} ${Strings.ItemsSelected[UserSettings.Lang]}`;
     return;
   }
   const ListSection = document.querySelector(".list-section");
@@ -889,13 +978,13 @@ function DisplaySelectModeBar() {
   RestoreButton.className = "select-bar-task-btn text";
   ListSection.classList.add("padding-bottom");
   //InnerHTML
-  SelectedItemsElem.innerText = `${PlacePersianNumbers(ReturnSelectedTasks().length)} ${Strings.ItemsSelected[UserSettings.CurrentLang]}`;
-  ExistSelectModeButton.innerText = Strings.DeSelect[UserSettings.CurrentLang];
-  DeleteButton.innerText = Strings.Delete[UserSettings.CurrentLang];
-  MoveToTrashButton.innerText = Strings.MoveToTrash[UserSettings.CurrentLang];
-  FailButton.innerText = Strings.FailTask[UserSettings.CurrentLang];
-  CompleteButton.innerText = Strings.CompleteTask[UserSettings.CurrentLang];
-  RestoreButton.innerText = Strings.RestoreTask[UserSettings.CurrentLang];
+  SelectedItemsElem.innerText = `${PlacePersianNumbers(ReturnSelectedTasks().length)} ${Strings.ItemsSelected[UserSettings.Lang]}`;
+  ExistSelectModeButton.innerText = Strings.DeSelect[UserSettings.Lang];
+  DeleteButton.innerText = Strings.Delete[UserSettings.Lang];
+  MoveToTrashButton.innerText = Strings.MoveToTrash[UserSettings.Lang];
+  FailButton.innerText = Strings.FailTask[UserSettings.Lang];
+  CompleteButton.innerText = Strings.CompleteTask[UserSettings.Lang];
+  RestoreButton.innerText = Strings.RestoreTask[UserSettings.Lang];
   // Event listener
   ExistSelectModeButton.addEventListener("click", ExitSelectMode);
   MoveToTrashButton.addEventListener("click", MoveToTrash);
@@ -928,11 +1017,10 @@ function HideSelectModeBar() {
   if (SelectBar) SelectBar.remove();
   if (ListSection) ListSection.classList.remove("padding-bottom");
 }
-
 function FixDirection() {
   // Based on the language being RTL or LTR we load different css files
   const MainStyleSheet = document.querySelector(".main-style-sheet");
-  switch (UserSettings.CurrentLang) {
+  switch (UserSettings.Lang) {
     case "en":
       MainStyleSheet.href = "Styles/Main/style_ltr.css";
       break;
@@ -945,7 +1033,6 @@ function FixDirection() {
 /* Note for dummies : all the styling around colors and background colors etc... is inserted dynamically
 here through insertRule() and the values are stored inside Json/Theme.json 
 */
-
 function HexToFilter(hex) {
   // SVG icons can not get color property directly this function will turn a hex code into a css filter property
   class Color {

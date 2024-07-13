@@ -1,10 +1,10 @@
-#date-picker * {
+.date-picker * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   direction: rtl;
 }
-#date-picker .icon {
+.date-picker .icon {
   width: 30px;
   height: 30px;
 }
@@ -14,14 +14,14 @@
 button {
   cursor: pointer;
 }
-#task-date-input {
+.task-date-input {
   position: relative;
   cursor: pointer;
   user-select: none;
   font-size: 1em;
   direction: ltr !important;
 }
-#date-picker {
+.date-picker {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@ button {
   overflow: hidden;
   z-index: 99;
 }
-#pick-year-month-container {
+.pick-year-month-container {
   order: 2;
   display: flex;
   flex-direction: row-reverse;
@@ -42,16 +42,16 @@ button {
   height: 50px;
   padding: 5px;
 }
-#next-month {
+.next-month {
   order: 3;
 }
-#previous-month {
+.previous-month {
   order: 1;
 }
-#year-month-container {
+.year-month-container {
   order: 2;
 }
-#pick-year-month-container button {
+.pick-year-month-container button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,20 +62,20 @@ button {
   border: 0;
   transition: 0.3s;
 }
-#pick-year-month-container button:hover {
+.pick-year-month-container button:hover {
   transform: scale(1.2);
 }
-#pick-year-month-container button img {
+.pick-year-month-container button img {
   width: 24px;
   height: 24px;
 }
-#year,
-#month {
+.year,
+.month {
   font-size: 1.5em;
   font-weight: 400;
   margin: 0 5px;
 }
-#pick-days {
+.pick-days {
   order: 3;
   padding: 10px;
   display: grid;
@@ -97,7 +97,7 @@ button {
 .pick-day-button:hover {
   transform: scale(1.1);
 }
-#date-picker-header {
+.date-picker-header {
   order: 1;
   display: flex;
   flex-direction: row;
@@ -107,9 +107,9 @@ button {
   height: fit-content;
   padding: 10px;
 }
-#pick-today-button,
-#pick-tomorrow-button,
-#pick-in-2-days-button {
+.pick-today-button,
+.pick-tomorrow-button,
+.pick-in-2-days-button {
   width: fit-content;
   height: fit-content;
   padding: 5px 10px;
@@ -119,13 +119,13 @@ button {
   font-size: 1.2em;
   transition: 0.3s;
 }
-#pick-today-button:hover,
-#pick-tomorrow-button:hover,
-#pick-in-2-days-button:hover {
+.pick-today-button:hover,
+.pick-tomorrow-button:hover,
+.pick-in-2-days-button:hover {
   transform: scale(1.1);
 }
 
-#time-picker {
+.time-picker {
   order: 4;
   display: flex;
   flex-direction: row-reverse;
@@ -134,13 +134,13 @@ button {
   height: 92px;
   padding: 10px 0;
 }
-#time-picker-separator {
+.time-picker-separator {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 15px;
 }
-#time-picker-separator img {
+.time-picker-separator img {
   width: 25px;
   height: 25px;
 }
