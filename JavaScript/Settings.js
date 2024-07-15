@@ -4,7 +4,7 @@ let UserSettings = {
   Brightness: 100,
   Theme: "Dark",
   BgAnimation: "Particle",
-  Wallpaper: "Wallpaper/NSFWBG.jpg",
+  Wallpaper: "Wallpapers/NSFWBG.jpg",
 };
 function DisplaySettings() {
   if (document.querySelector(".settings-container")) return;
