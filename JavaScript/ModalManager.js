@@ -2240,7 +2240,7 @@ function DeleteModal(Type, ID) {
   }
 }
 
-function SwitchValueOfCategorySelectBox(UserCategory) {
+function SwitchValueOfCategorySelectBox(Value) {
   /* A function to quickly change value of UserCategory select box , what is the usecase ? 
   say you opened NewTaskModal and you are on category X so by defualt the app will think 
   the reason you tried to add a new task while you are on Category X is that this task is 
@@ -2250,10 +2250,15 @@ function SwitchValueOfCategorySelectBox(UserCategory) {
   function. */
   const CategoriesTasksSelectBox = document.querySelector(".select-box");
   const SelectBoxText = document.querySelector(".select-box-text");
-  CategoriesTasksSelectBox.dataset.value = UserCategory;
-  SelectBoxText.innerText = UserCategoriesArray.filter((Category) => {
-    return Category.ID === UserCategory;
-  })[0].Name;
+  if (AppObj.UserCategoryPattern.test(Value)) {
+    CategoriesTasksSelectBox.dataset.value = Value;
+    SelectBoxText.innerText = UserCategoriesArray.filter((Category) => {
+      return Category.ID === Value;
+    })[0].Name;
+  } else {
+    CategoriesTasksSelectBox.dataset.value = "None";
+    SelectBoxText.innerText = Strings.None[UserSettings.Lang];
+  }
 }
 function HideModal(Selector) {
   const Modal = document.querySelector(Selector);

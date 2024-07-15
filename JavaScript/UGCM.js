@@ -30,5 +30,7 @@ function DeleteCategory(ID) {
   });
   Save("UGC");
   DisplayUserCategories();
-  DisplayHomeWindow();
+  if (ID === AppObj.SelectedUserCategory) {
+    ChangeWindow("Home-Unfinished");
+  }
 }

@@ -27,6 +27,7 @@ async function FetchAppJsonFiles(Path) {
   const ParsedValue = await Reasponse.json();
   return ParsedValue;
 }
+document.querySelector(".number").sty;
 function LoadAppComponents() {
   const Body = document.body;
   const TopBar = ReturnTopBar();
@@ -126,6 +127,7 @@ function LoadSave() {
 function KeepUpWithUpdates() {
   // Updaing UserSettings properties
   const CheckUserSettingsObj = () => {
+    if (!CheckForSave("UserSettings")) return;
     const Usermade_UserSettings = JSON.parse(localStorage.getItem("UserSettings"));
     let Entries = Object.entries(UserSettings);
     let CloneEntries = Object.entries(Usermade_UserSettings);

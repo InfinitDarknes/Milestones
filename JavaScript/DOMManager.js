@@ -151,11 +151,7 @@ function AddDragAndDropEvents(Element, TargetWindow, Type, UserCategoryID) {
           break;
       }
     });
-    if (Type === "UserCategory") {
-      AppObj.SelectedUserCategory = UserCategoryID;
-    } else {
-      ChangeWindow(TargetWindow);
-    }
+    ChangeWindow(TargetWindow);
     Save("Tasks");
   });
 }
@@ -1504,8 +1500,10 @@ function ChangeWindow(Window, FirstTime) {
   if (!Window.includes("UserCategory")) AppObj.SelectedUserCategory = "";
   /* When you switch categories while having the New task modal open it is convinient to
   change the value of category select box for the user */
-  if (AppObj.CurrentWindow.includes("UserCategory-") && DoesElementExist("new-task-modal")) {
+  if (AppObj.CurrentWindow.includes("UserCategory-") && document.querySelector(".new-task-modal")) {
     SwitchValueOfCategorySelectBox(AppObj.SelectedUserCategory);
+  } else if (!AppObj.CurrentWindow.includes("UserCategory-") && document.querySelector(".new-task-modal")) {
+    SwitchValueOfCategorySelectBox("None");
   }
   UpdateInbox();
   HighLightSelectedSortButton();

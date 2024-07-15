@@ -76,7 +76,7 @@ function GetTime() {
   if (Hour === 0) Hour = 12;
   Time.innerText = `${PlacePersianNumbers(Hour.padStart(2, "0"))} : ${PlacePersianNumbers(Minutes.padStart(2, "0"))} : ${PlacePersianNumbers(Seconds.padStart(2, "0"))}`;
   if ((+Hour > 0 && +Hour < 5) || +Hour >= 18 || +Hour === 0) TimeIcon.src = "../Icons/moon-line.svg";
-  if (+Hour > 5 && +Hour < 18) TimeIcon.src = "../Icons/sun-line.svg";
+  if (+Hour >= 5 && +Hour < 18) TimeIcon.src = "../Icons/sun-line.svg";
 }
 function DoesElementExist(ID) {
   if (document.getElementById(ID)) return true;

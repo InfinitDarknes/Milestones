@@ -15,7 +15,7 @@ function SetupTargetInput(Selector) {
   TargetInput = document.querySelector(Selector);
 }
 function ToggleDatePicker(Selector, NumericDate) {
-  if (document.querySelector("#date-picker")) HideDatePicker();
+  if (document.querySelector(".date-picker")) HideDatePicker();
   else {
     CreateDatePicker(Selector);
     if (NumericDate) {

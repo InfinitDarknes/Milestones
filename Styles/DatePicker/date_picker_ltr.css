@@ -28,7 +28,6 @@ button {
   align-items: center;
   width: 300px;
   height: fit-content;
-  border-radius: 5px;
   overflow: hidden;
   z-index: 99;
 }
