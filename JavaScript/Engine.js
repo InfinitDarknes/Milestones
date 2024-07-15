@@ -27,7 +27,6 @@ async function FetchAppJsonFiles(Path) {
   const ParsedValue = await Reasponse.json();
   return ParsedValue;
 }
-document.querySelector(".number").sty;
 function LoadAppComponents() {
   const Body = document.body;
   const TopBar = ReturnTopBar();
