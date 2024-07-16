@@ -10,10 +10,11 @@ window.onload = async function () {
   InitializeApp();
 };
 async function InitializeApp() {
+  LoadUserSettings();
+  FixDirection();
   PreLoader();
   await PushUpdates();
   await GetUpdates();
-  FixDirection();
   LoadSave();
   LoadCurrentDate();
   HidePreLoader();
@@ -22,8 +23,14 @@ async function InitializeApp() {
   ShowDateAndClock();
   setInterval(GetTime, 1000);
   setInterval(ShowDateAndClock, 1000);
-  InsertRules();
   AutoWriter();
+  InsertRules();
+}
+function InistializeUI() {
+  FixDirection();
+  LoadAppComponents();
+  InsertRules();
+  AutoWriter(true);
 }
 async function FetchAppJsonFiles(Path) {
   const Reasponse = await fetch(Path);
@@ -32,6 +39,10 @@ async function FetchAppJsonFiles(Path) {
 }
 function LoadAppComponents() {
   const Body = document.body;
+  if (document.querySelector(".top-bar")) document.querySelector(".top-bar").remove();
+  if (document.querySelector(".side-bar")) document.querySelector(".side-bar").remove();
+  if (document.querySelector(".brightness-overlay")) document.querySelector(".brightness-overlay").remove();
+  if (document.querySelector(".background-image")) document.querySelector(".background-image").remove();
   const TopBar = ReturnTopBar();
   const Sidebar = ReturnSidebar();
   const BrightNessOverlay = ReturnBrightnessOverlay();
@@ -45,6 +56,7 @@ function LoadAppComponents() {
     Body.append(BackgroundImage);
   } else {
     const ParticleJS = document.getElementById("particles-js");
+    ParticleJS.style.display = "block";
     ParticleJS.style.backgroundImage = `url(${UserSettings.Wallpaper})`;
   }
   DisplayUserCategories();
@@ -65,19 +77,25 @@ function LoadAppComponents() {
   });
 }
 function PreLoader() {
-  const PreLoader = document.createElement("section");
-  PreLoader.className = "preloader";
-  const PreLoaderIcon = document.createElement("img");
-  PreLoaderIcon.className = "preloader-icon";
-  PreLoaderIcon.src = IconsSrc.PreLoaderGif[UserSettings.Theme];
+  const PreLoaderContainer = document.createElement("section");
+  const PreLoaderImage = document.createElement("img");
+  const Container = document.createElement("div");
+  const PreLoaderIcon = document.createElement("div");
   const PreLoaderText = document.createElement("span");
+  PreLoaderContainer.className = "preloader";
+  PreLoaderImage.className = "preloader-image";
+  Container.className = "container";
+  PreLoaderIcon.className = "loader";
   PreLoaderText.className = "preloader-text text";
   PreLoaderText.innerText = Strings.Loading[UserSettings.Lang];
-  PreLoader.append(PreLoaderIcon, PreLoaderText);
-  document.body.append(PreLoader);
+  PreLoaderImage.src = UserSettings.Wallpaper;
+  Container.append(PreLoaderIcon, PreLoaderText);
+  PreLoaderContainer.append(PreLoaderImage, Container);
+  document.body.append(PreLoaderContainer);
 }
 function HidePreLoader() {
   let PreLoader = document.querySelector(".preloader");
+  if (!PreLoader) return;
   PreLoader.style.opacity = "0";
   setTimeout(() => {
     PreLoader.style.opacity = "0";
@@ -89,24 +107,31 @@ async function Save(Type) {
   switch (Type) {
     case "Tasks":
       localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
+      await PushUpdates();
       break;
     case "UGC":
       localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
+      await PushUpdates();
       break;
     case "Notes":
       localStorage.setItem("Notes", JSON.stringify(NotesArray));
+      await PushUpdates();
       break;
     case "UserSettings":
       localStorage.setItem("UserSettings", JSON.stringify(UserSettings));
       break;
   }
-  await PushUpdates();
   return `Saved ${Type} successfully`;
 }
 function CheckForSave(Item) {
   let Save = localStorage.getItem(Item.toString());
   if (Save && Save.length >= 1) return true;
   else return false;
+}
+function LoadUserSettings() {
+  if (CheckForSave("UserSettings")) {
+    UserSettings = JSON.parse(localStorage.getItem("UserSettings"));
+  }
 }
 function LoadSave() {
   if (CheckForSave("AllTasks")) {
@@ -120,9 +145,6 @@ function LoadSave() {
   }
   if (CheckForSave("Themes")) {
     AppObj.Themes = JSON.parse(localStorage.getItem("Themes"));
-  }
-  if (CheckForSave("UserSettings")) {
-    UserSettings = JSON.parse(localStorage.getItem("UserSettings"));
   }
   KeepUpWithUpdates();
 }

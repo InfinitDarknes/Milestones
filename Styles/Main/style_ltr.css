@@ -15,6 +15,7 @@
 @import url("../DevTools/DevTools.css");
 @import url("../AccountModal/account_modal_ltr.css");
 @import url("../SelectBox/select_box_ltr.css");
+@import url("../PreLoader/pre_loader.css");
 
 @font-face {
   font-family: vazir;
@@ -37,6 +38,7 @@ input:focus {
   outline: 0;
 }
 .background-image {
+  background-size: cover;
   width: 100%;
   height: 100%;
   opacity: 1;
@@ -53,25 +55,6 @@ input:focus {
   z-index: 2000;
   background-color: #000;
   opacity: 0;
-}
-.preloader {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  z-index: 1000;
-  transition: 1s;
-}
-.preloader-gif {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 20px;
-}
-.preloader-text {
-  font-size: 1.8em;
 }
 button {
   border: none;
@@ -99,6 +82,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  width: 100vw;
   height: 100vh;
   direction: ltr;
   overflow: hidden;

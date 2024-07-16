@@ -6,7 +6,7 @@ let AppObj = {
   ActiveModalID: "",
   CurrentWindow: null,
   SelectedUserCategory: null,
-  Themes: ["Dark", "Light"],
+  Themes: ["Dark"],
   ValidWindowInput:
     /^(Trash-(All|Today|Tomorrow|In2Days)|Home-(Unfinished|Today|Tomorrow|In2Days|Failed|Completed)|Notes|UserCategory-[0-9]{8}-(Unfinished|Today|Tomorrow|In2Days|Completed|Failed))$/,
   ValidModalID: [

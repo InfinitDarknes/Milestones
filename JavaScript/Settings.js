@@ -194,18 +194,24 @@ async function LanguageSwitcher(Lang) {
   UserSettings.Lang = Lang;
   FixDirection();
   ShowDateAndClock();
-  await Save("UserSettings");
-  location.reload();
+  Save("UserSettings")
+    .then((Reasponse) => {
+      console.log(Reasponse);
+      InistializeUI();
+    })
+    .catch((Error) => {
+      DisplayMessage("Error", Error);
+    });
 }
 async function ThemeSwitcher(Theme) {
   UserSettings.Theme = Theme;
-  await Save("UserSettings");
-  location.reload();
+  Save("UserSettings");
+  InistializeUI();
 }
 function BgAnimationSwitcher(Animation) {
   UserSettings.BgAnimation = Animation;
   Save("UserSettings");
-  location.reload();
+  InistializeUI();
 }
 function ChangeBrightness(Brightness) {
   const Overlay = document.querySelector(".brightness-overlay");

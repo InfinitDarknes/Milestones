@@ -10,8 +10,6 @@
   width: 350px;
   height: fit-content;
   padding: 10px;
-  border-width: 2px;
-  border-style: solid;
 }
 .modal.active {
   z-index: 101;

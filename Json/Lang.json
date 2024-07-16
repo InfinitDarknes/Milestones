@@ -87,6 +87,10 @@
     "en": "Create account",
     "fa": "حساب کاربری"
   },
+  "PushUpdatesSuccess": {
+    "en": "Pushed updates successfully",
+    "fa": "دیتابیس بروز شد"
+  },
   "ForgotPassword": {
     "en": "Forgot password",
     "fa": "فراموشی گذرواژه"

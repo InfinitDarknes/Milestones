@@ -1,52 +1,63 @@
 let TextIndex = 0;
 // Sub Components
-function AutoWriter() {
+function AutoWriter(ReStart) {
   let DisplayText = document.querySelector(".display-text");
-  let Texts, Text, LetterArray, LetterIndex, AutoWriterInterval;
-  switch (UserSettings.Lang) {
-    case "en":
-      Texts = TextArray.EnglishTextArray;
-      break;
-    case "fa":
-      Texts = TextArray.PersianTextArray;
-      break;
+  let Texts, Text, LetterArray, LetterIndex, AutoWriterInterval, RemoveLetters;
+
+  function startAutoWriter() {
+    switch (UserSettings.Lang) {
+      case "en":
+        Texts = TextArray.EnglishTextArray;
+        break;
+      case "fa":
+        Texts = TextArray.PersianTextArray;
+        break;
+    }
+    if (ReStart) resetAutoWriter();
+    if (TextIndex < Texts.length) {
+      Text = Texts[TextIndex];
+      LetterArray = Text.split("");
+      LetterIndex = 0;
+      AutoWriterInterval = setInterval(() => {
+        if (LetterIndex < LetterArray.length) writeLetter();
+        else removeLetters();
+      }, 100);
+    } else resetAutoWriter();
   }
-  if (TextIndex < Texts.length) {
-    Text = Texts[TextIndex];
-    LetterArray = Text.split("");
-    LetterIndex = 0;
-    //
-    AutoWriterInterval = setInterval(() => {
-      if (LetterIndex < LetterArray.length) Write();
-      else Remove();
-    }, 100);
-  } else Reset();
-  function Write() {
+
+  function writeLetter() {
     DisplayText.append(LetterArray[LetterIndex]);
     LetterIndex++;
   }
-  function Reset() {
+
+  function resetAutoWriter() {
+    clearInterval(AutoWriterInterval);
+    clearInterval(RemoveLetters);
+    LetterIndex = 0;
     TextIndex = 0;
-    AutoWriter();
+    DisplayText.innerText = "";
   }
-  let RemoveLetters;
-  function Remove() {
+
+  function removeLetters() {
     clearInterval(AutoWriterInterval);
     setTimeout(() => {
       RemoveLetters = setInterval(() => {
-        let Text = DisplayText.innerText.trim();
-        if (!DisplayText.innerText) NextSentence();
-        else DisplayText.innerText = Text.substring(0, Text.length - 1);
+        let text = DisplayText.innerText.trim();
+        if (!DisplayText.innerText) nextSentence();
+        else DisplayText.innerText = text.substring(0, text.length - 1);
       }, 100);
     }, 5000);
   }
-  function NextSentence() {
+
+  function nextSentence() {
     clearInterval(RemoveLetters);
     setTimeout(() => {
       TextIndex++;
-      AutoWriter();
+      startAutoWriter();
     }, 1500);
   }
+
+  startAutoWriter();
 }
 function ShowDateAndClock() {
   const FullDate = document.querySelector(".full-date");
@@ -95,7 +106,7 @@ function FetchLocalStorage() {
   let Keys = Object.keys(localStorage);
   let LocalStorgeObject = {};
   Keys.forEach((Key) => {
-    LocalStorgeObject[Key] = localStorage.getItem(Key);
+    if (Key !== "UserSettings" || Key !== "UserThemes") LocalStorgeObject[Key] = localStorage.getItem(Key);
   });
   return JSON.stringify(LocalStorgeObject);
 }

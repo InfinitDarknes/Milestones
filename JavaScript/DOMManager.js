@@ -479,10 +479,9 @@ function ReturnSelectBox(Options, Class, DefualtOption, NoneOption, ChangeEvent)
   return SelectBox;
 }
 function ReturnBackgroundImage() {
-  const BgImage = document.createElement("img");
+  const BgImage = document.createElement("div");
   BgImage.className = "background-image";
   BgImage.style.backgroundImage = `url(${UserSettings.Wallpaper})`;
-  BgImage.src = UserSettings.Wallpaper;
   return BgImage;
 }
 function ReturnBrightnessOverlay() {
@@ -1431,6 +1430,14 @@ function InsertRules() {
     if (ColorRule()) document.styleSheets[0].insertRule(ColorRule());
     if (HoverBgColorRule()) document.styleSheets[0].insertRule(HoverBgColorRule());
     if (BorderRule()) document.styleSheets[0].insertRule(BorderRule());
+  }
+}
+function ClearStylesheet() {
+  let Stylesheet = document.styleSheets[0]; // Get the first stylesheet
+  let Rules = Stylesheet.cssRules; // Get all the rules in the stylesheet
+
+  for (var i = 0; i < Rules.length; i++) {
+    Stylesheet.deleteRule(i); // Remove each rule from the stylesheet
   }
 }
 // Window manager => we have different windows such as Home-Unfinished or Trash-All we use it to load tasks accordingly

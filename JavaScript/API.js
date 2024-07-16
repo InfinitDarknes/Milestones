@@ -374,21 +374,21 @@ function Login(Email_UserName, Password) {
         throw new Error(Strings.YouAreAlreadyLoggedIn[UserSettings.Lang]);
       }
     } catch (Error) {
-      console.log("Login rejected");
+      console.log("Login rejected", Error);
       Reject(Error);
       return;
     }
     localStorage.setItem("UserLoginInfo", JSON.stringify({ Email: User[1].Email, UserName: User[1].UserName, Password }));
     localStorage.setItem("UserDataBackUp", FetchLocalStorage());
     Resolve(Strings.LoginSuccessMessage[UserSettings.Lang]);
-    // RestoreFromText(User[1].UserData);
+    RestoreFromText(User[1].UserData);
+    InitializeApp();
   });
 }
 async function IsUserLoggedIn() {
   if (CheckForSave("UserLoginInfo")) {
     let UserLoginInfo = JSON.parse(localStorage.getItem("UserLoginInfo"));
     let Users = await GetAllUsers();
-    console.log(Users);
     let User = Users.find((User) => {
       return (
         User[1].UserName.toLowerCase().trim() === UserLoginInfo.UserName.toLowerCase().trim() && User[1].Email.toLowerCase().trim() === UserLoginInfo.Email.toLowerCase().trim()
@@ -422,6 +422,7 @@ async function PushUpdates() {
   UpdateUserData(User[1].UserName, FetchLocalStorage(), { signal: PushUpdatesSignal })
     .then((Reasponse) => {
       console.log("Pushed updates successfully", Reasponse);
+      DisplayMessage("Success", Strings.PushUpdatesSuccess[UserSettings.Lang]);
     })
     .catch((Error) => {
       console.error("Failed to push updates", Error);
