@@ -139,6 +139,26 @@
     "en": "You can not pin more than 5 tasks in each window!",
     "fa": "شما نمیتوانید در هر پنجره بیشتر از 5 رویداد را سنجاق کنید!"
   },
+  "YouAreAlreadyLoggedIn": {
+    "en": "You are already logged in",
+    "fa": "همین الان تو همین حساب کاربری هستی"
+  },
+  "IncorrectPassword": {
+    "en": "Incorrect password",
+    "fa": "گذرواژ] اشتباهه"
+  },
+  "FailedToPushUpdates": {
+    "en": "Failed to push updates.",
+    "fa": "آپدیت دیتا های حساب کاربری با شکست مواجه شد"
+  },
+  "UserOrEmailDoesNotExist": {
+    "en": "Username or email does not exist",
+    "fa": "این نام کاربری یا ایمیل وجود ندارد"
+  },
+  "LoginSuccessMessage": {
+    "en": "You are logged in",
+    "fa": "شما وارد حساب کاربری خود شدید"
+  },
   "Delete": {
     "en": "Delete",
     "fa": "حذف"

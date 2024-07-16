@@ -826,6 +826,7 @@ function AccountModal() {
   const Modal = document.createElement("section");
   Modal.className = "modal account-modal";
 
+  let LoginInProgressFlag = false;
   let SignUpInProgressFlag = false;
 
   const CreateModalTopBar = () => {
@@ -853,23 +854,17 @@ function AccountModal() {
     if (document.querySelector(".account-form")) {
       document.querySelector(".account-form").remove();
     }
-    let LoginInfo = {
-      Email: null,
-      UserName: null,
-      Password: null,
-    };
-
     const LoginForm = document.createElement("form");
     const Title = document.createElement("div");
+
     const InputContainer1 = document.createElement("div");
     const InputContainer2 = document.createElement("div");
     const InputContainer1Badge = document.createElement("span");
     const InputContainer2Badge = document.createElement("span");
-    const Email_UserNameInput = document.createElement("input");
+    const Email_UserName_Input = document.createElement("input");
     const PasswordInput = document.createElement("input");
     const Options = document.createElement("div");
-    const CreateAccountOption = document.createElement("a");
-    const ForgotPasswordOption = document.createElement("a");
+    const SignUpOption = document.createElement("a");
     const LoginBtn = document.createElement("button");
 
     LoginForm.className = "account-form";
@@ -878,26 +873,71 @@ function AccountModal() {
     InputContainer2.className = "input-container";
     InputContainer1Badge.className = "sticky-badge";
     InputContainer2Badge.className = "sticky-badge";
-    Email_UserNameInput.className = "account-input";
+    Email_UserName_Input.className = "account-input";
     PasswordInput.className = "account-input";
     Options.className = "account-options";
-    CreateAccountOption.className = "account-link";
-    ForgotPasswordOption.className = "account-link";
+    SignUpOption.className = "account-link";
     LoginBtn.className = "account-btn";
 
     Title.innerText = Strings.Login[UserSettings.Lang];
-    InputContainer1Badge.innerText = `${Strings.Email[UserSettings.Lang]}/${Strings.UserName[UserSettings.Lang]}`;
+    InputContainer1Badge.innerText = `${Strings.Email[UserSettings.Lang]} / ${Strings.UserName[UserSettings.Lang]}`;
     InputContainer2Badge.innerText = `${Strings.Password[UserSettings.Lang]}`;
-    CreateAccountOption.innerText = Strings.CreateAccount[UserSettings.Lang];
-    ForgotPasswordOption.innerText = Strings.ForgotPassword[UserSettings.Lang];
+    SignUpOption.innerText = Strings.CreateAccount[UserSettings.Lang];
     LoginBtn.innerText = Strings.Login[UserSettings.Lang];
 
-    Email_UserNameInput.placeholder = `${Strings.Email[UserSettings.Lang]}/${Strings.UserName[UserSettings.Lang]}`;
-    PasswordInput.placeholder = `${Strings.Password[UserSettings.Lang]}`;
+    Email_UserName_Input.placeholder = `${Strings.Email[UserSettings.Lang]} / ${Strings.UserName[UserSettings.Lang]}`;
+    PasswordInput.placeholder = Strings.Password[UserSettings.Lang];
     LoginBtn.type = "submit";
 
-    Email_UserNameInput.type = "text";
     PasswordInput.type = "password";
+
+    LoginForm.addEventListener("submit", async (Event) => {
+      Event.preventDefault();
+      if (LoginInProgressFlag) return;
+      CreateWaitningPage();
+      try {
+        if (!Email_UserName_Input || !PasswordInput.value) {
+          throw new Error(Strings.FormInputError[UserSettings.Lang]);
+        }
+        if (Email_UserName_Input.value.includes("@")) {
+          if (!ValidateEmail(Email_UserName_Input.value)) {
+            throw new Error(Strings.EmailFormatError[UserSettings.Lang]);
+          }
+          let EmailExist = await DoesEmailExist(Email_UserName_Input.value.toLowerCase().trim());
+          if (!EmailExist) {
+            throw new Error(Strings.UserOrEmailDoesNotExist[UserSettings.Lang]);
+          }
+        } else {
+          if (!ValidateUserName(Email_UserName_Input.value)) {
+            throw new Error(Strings.UserNameFormatError[UserSettings.Lang]);
+          }
+          let UserNameExist = await DoesUserNameExist(Email_UserName_Input.value.toLowerCase().trim());
+          if (!UserNameExist) {
+            throw new Error(Strings.UserOrEmailDoesNotExist[UserSettings.Lang]);
+          }
+        }
+        if (!ValidatePassword(PasswordInput.value)) {
+          throw new Error(Strings.PasswordFormatError[UserSettings.Lang]);
+        }
+      } catch (Error) {
+        DisplayMessage("Error", Error);
+        RemoveWaitingPage();
+        return;
+      }
+      LoginInProgressFlag = true;
+      Login(Email_UserName_Input.value, PasswordInput.value)
+        .then((Reasponse) => {
+          LoginInProgressFlag = false;
+          console.log(Reasponse);
+          DisplayMessage("Success", Reasponse);
+        })
+        .catch((Error) => {
+          LoginInProgressFlag = false;
+          console.log(Error);
+          DisplayMessage("Error", Error);
+        })
+        .finally(RemoveWaitingPage);
+    });
 
     const ViewPasswordBtn = document.createElement("button");
     const ViewPasswordBtnIcon = document.createElement("img");
@@ -913,45 +953,13 @@ function AccountModal() {
       this.querySelector("img").src = Input.type === "text" ? "../Icons/eye-off-line.svg" : "../Icons/eye-line.svg";
     });
 
-    LoginForm.addEventListener("submit", (Event) => {
-      Event.preventDefault();
-      try {
-        if (!Email_UserNameInput || !PasswordInput.value) {
-          throw new Error(Strings.FormInputError[UserSettings.Lang]);
-        }
-        if (Email_UserNameInput.value.includes("@")) {
-          if (!EmailRegEx.test(Email_UserNameInput.value)) {
-            throw new Error(Strings.EmailFormatError[UserSettings.Lang]);
-          }
-        } else {
-          if (!UserNameRegex.test(Email_UserNameInput.value)) {
-            throw new Error(Strings.UserNameFormatError[UserSettings.Lang]);
-          }
-        }
-        if (!PasswordRegex.test(PasswordInput.value)) {
-          throw new Error(Strings.PasswordFormatError[UserSettings.Lang]);
-        }
-      } catch (Error) {
-        DisplayMessage("Error", Error);
-        return;
-      }
-      if (EmailRegEx.test(Email_UserNameInput.value)) {
-        LoginInfo.Email = Email_UserNameInput.value.toLowerCase().trim();
-        LoginInfo.UserName = null;
-      } else {
-        LoginInfo.UserName = Email_UserNameInput.value.toLowerCase().trim();
-        LoginInfo.Email = null;
-      }
-      LoginInfo.Password = PasswordInput.value.trim();
-      console.log(LoginInfo);
-    });
-    CreateAccountOption.addEventListener("click", CreateSignUpSection);
-    ForgotPasswordOption.addEventListener("click", CreateForgetPasswordSection);
+    SignUpOption.addEventListener("click", CreateSignUpSection);
 
     LoginForm.append(Title, InputContainer1, InputContainer2, Options, LoginBtn);
-    InputContainer1.append(InputContainer1Badge, Email_UserNameInput);
+    InputContainer1.append(InputContainer1Badge, Email_UserName_Input);
     InputContainer2.append(InputContainer2Badge, PasswordInput, ViewPasswordBtn);
-    Options.append(CreateAccountOption, ForgotPasswordOption);
+    Options.append(SignUpOption);
+
     Modal.append(LoginForm);
   };
   const CreateSignUpSection = () => {
@@ -1059,7 +1067,7 @@ function AccountModal() {
       SignUpInfo.Email = EmailInput.value.toLowerCase().trim();
       SignUpInfo.UserName = UserNameInput.value.toLowerCase().trim();
       SignUpInfo.Password = PasswordInput.value.trim();
-      SignUpInfo.UserData = FetchLocalStorge();
+      SignUpInfo.UserData = FetchLocalStorage();
       SignUpInProgressFlag = true;
       SignUp(SignUpInfo)
         .then((Reasponse) => {
@@ -2023,7 +2031,10 @@ function BackUpModal() {
     RestoreButton.title = "ShortCut : Enter";
 
     ReturnButton.addEventListener("click", ReturnFromModalSubPage);
-    RestoreButton.addEventListener("click", () => RestoreFromText(ModalTextArea.value));
+    RestoreButton.addEventListener("click", () => {
+      RestoreFromText(ModalTextArea.value);
+      location.reload();
+    });
     InsertBackUpText.addEventListener("click", () => {
       BackUpModalOptions.style.display = "none";
       Modal.append(ModalSubPage);
@@ -2077,12 +2088,12 @@ function BackUpModal() {
     CopyButton.innerText = Strings.CopyButton[UserSettings.Lang];
 
     GenerateBackUpTextIcon.src = "";
-    ModalTextArea.value = FetchLocalStorge();
+    ModalTextArea.value = FetchLocalStorage();
 
     ReturnButton.addEventListener("click", ReturnFromModalSubPage);
     CopyButton.addEventListener("click", () => {
       navigator.clipboard
-        .writeText(FetchLocalStorge())
+        .writeText(FetchLocalStorage())
         .then(() => {
           DisplayMessage("Success", "Copied to clipboard successfully");
         })

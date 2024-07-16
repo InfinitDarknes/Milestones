@@ -549,5 +549,4 @@ function RestoreFromText(Text) {
   for (let n in TextObject) {
     localStorage.setItem(n.toString(), TextObject[n]);
   }
-  location.reload();
 }

@@ -9,11 +9,14 @@ window.onload = async function () {
   DPStrings = await FetchAppJsonFiles("Json/DatePickerStrings.json");
   InitializeApp();
 };
-function InitializeApp() {
-  LoadSave();
+async function InitializeApp() {
   PreLoader();
-  LoadCurrentDate();
+  await PushUpdates();
+  await GetUpdates();
   FixDirection();
+  LoadSave();
+  LoadCurrentDate();
+  HidePreLoader();
   LoadSavedNotes();
   LoadAppComponents();
   ShowDateAndClock();
@@ -72,7 +75,6 @@ function PreLoader() {
   PreLoaderText.innerText = Strings.Loading[UserSettings.Lang];
   PreLoader.append(PreLoaderIcon, PreLoaderText);
   document.body.append(PreLoader);
-  setTimeout(HidePreLoader, 1000);
 }
 function HidePreLoader() {
   let PreLoader = document.querySelector(".preloader");
@@ -83,7 +85,7 @@ function HidePreLoader() {
   }, 1000);
 }
 // Saving
-function Save(Type) {
+async function Save(Type) {
   switch (Type) {
     case "Tasks":
       localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
@@ -98,6 +100,7 @@ function Save(Type) {
       localStorage.setItem("UserSettings", JSON.stringify(UserSettings));
       break;
   }
+  await PushUpdates();
   return `Saved ${Type} successfully`;
 }
 function CheckForSave(Item) {

@@ -91,7 +91,7 @@ function GenerateUniqeID(Length) {
   let ID = Math.abs(Math.round(Math.random() * (Max - Min - 1)) + Min);
   return ID;
 }
-function FetchLocalStorge() {
+function FetchLocalStorage() {
   let Keys = Object.keys(localStorage);
   let LocalStorgeObject = {};
   Keys.forEach((Key) => {

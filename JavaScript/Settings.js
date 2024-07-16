@@ -190,17 +190,16 @@ function HideSettings() {
   SettingsContainer.classList.add("setting-out");
   setTimeout(() => SettingsContainer.remove(), 500);
 }
-function LanguageSwitcher(Lang) {
+async function LanguageSwitcher(Lang) {
   UserSettings.Lang = Lang;
   FixDirection();
   ShowDateAndClock();
-  Save("UserSettings");
+  await Save("UserSettings");
   location.reload();
 }
-function ThemeSwitcher(Theme) {
+async function ThemeSwitcher(Theme) {
   UserSettings.Theme = Theme;
-  Save("UserSettings");
-  document.body.className = Theme;
+  await Save("UserSettings");
   location.reload();
 }
 function BgAnimationSwitcher(Animation) {
@@ -212,7 +211,6 @@ function ChangeBrightness(Brightness) {
   const Overlay = document.querySelector(".brightness-overlay");
   Overlay.style.opacity = 100 - Brightness + "%";
   UserSettings.Brightness = Brightness;
-  Save("UserSettings");
 }
 function DatePickerSwitcher(Type) {
   UserSettings.Calendar = Type;

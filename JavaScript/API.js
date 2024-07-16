@@ -1,3 +1,6 @@
+let PushUpdatesController = new AbortController();
+let PushUpdatesSignal = PushUpdatesController.signal;
+
 function SignUp(DataObj) {
   return new Promise((Resolve, Reject) => {
     fetch("https://milestonesx-1998-default-rtdb.asia-southeast1.firebasedatabase.app/users.json", {
@@ -35,6 +38,26 @@ async function GetAllUsers() {
   let ParsedUsers = await Users.json();
   let UsersArray = ParsedUsers ? Object.entries(ParsedUsers) : null;
   return UsersArray;
+}
+async function GetUserByEmail(Email) {
+  let Users = await fetch("https://milestonesx-1998-default-rtdb.asia-southeast1.firebasedatabase.app/users.json");
+  let ParsedUsers = await Users.json();
+  let UsersArray = ParsedUsers ? Object.entries(ParsedUsers) : null;
+  if (!UsersArray) return null;
+  let User = UsersArray.find((User) => {
+    return User[1].Email.toLowerCase().trim() === Email.toLowerCase().trim();
+  });
+  return User;
+}
+async function GetUserByUserName(UserName) {
+  let Users = await fetch("https://milestonesx-1998-default-rtdb.asia-southeast1.firebasedatabase.app/users.json");
+  let ParsedUsers = await Users.json();
+  let UsersArray = ParsedUsers ? Object.entries(ParsedUsers) : null;
+  if (!UsersArray) return null;
+  let User = UsersArray.find((User) => {
+    return User[1].UserName.toLowerCase().trim() === UserName.toLowerCase().trim();
+  });
+  return User;
 }
 async function DeleteUser(UserName) {
   let Users = await GetAllUsers();
@@ -265,41 +288,42 @@ async function UpdateUserUserName(UserName, NewUserName) {
   });
 }
 async function UpdateUserData(UserName, NewData) {
-  if (!UserName.trim() || !NewPassword.trim()) {
-    DisplayMessage("Error", "Please pass both parameters to EditUserPassword(");
+  if (!UserName.trim() || !NewData.trim()) {
+    DisplayMessage("Error", "Please pass both parameters to UpdateUserData()");
     return;
   }
-  try {
-    if (ValidateUserName(UserName)) {
-      throw new Error("Invalid username format passed to EditUser()");
-    }
 
-    let Users = await GetAllUsers();
-    let User = Users.find((User) => {
+  UserName = UserName.trim().toLowerCase();
+
+  let UserDataBaseID;
+  let Users;
+  let User;
+
+  try {
+    if (!ValidateUserName(UserName)) {
+      throw new Error(Strings.UserNameFormatError[UserSettings.Lang]);
+    }
+    Users = await GetAllUsers();
+    User = Users.find((User) => {
       return User[1].UserName === UserName;
     });
     if (!User) {
       throw new Error(`Couldn't find ${UserName} in the database`);
     }
-
-    if (ValidatePassword(NewPassword)) {
-      throw new Error("Invalid password passed to EditUser()");
-    }
-    if (NewPassword === User[1].Password) {
-      throw new Error(Strings.YouAlreadyHaveThisPasswordError[UserSettings.Lang]);
-    }
+    UserDataBaseID = User[0];
   } catch (Error) {
     DisplayMessage("Error", Error);
+    return;
   }
   // All the above code are not actually meant to be inside this function they will be inside an EditUser modal
   let NewUserObj = {
-    UserName: User[1].UserName,
+    UserName: UserName,
     Email: User[1].Email,
-    Password: NewPassword,
-    UserData: User[1].UserData,
+    Password: User[1].Password,
+    UserData: NewData,
   };
   return new Promise((Resolve, Reject) => {
-    fetch(`https://milestonesx-1998-default-rtdb.asia-southeast1.firebasedatabase.app/users/${DatabaseID}.json`, {
+    fetch(`https://milestonesx-1998-default-rtdb.asia-southeast1.firebasedatabase.app/users/${UserDataBaseID}.json`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
@@ -333,4 +357,87 @@ async function DoesEmailExist(Email) {
   });
   return Flag;
 }
-function Login() {}
+function Login(Email_UserName, Password) {
+  return new Promise(async (Resolve, Reject) => {
+    let Users = await GetAllUsers();
+    let User = Users.find((User) => {
+      return User[1].UserName === Email_UserName.toLowerCase().trim() || User[1].Email === Email_UserName.toLowerCase().trim();
+    });
+    try {
+      if (!User) {
+        throw new Error(Strings.EmailOrUserDoesNotExist[UserSettings.Lang]);
+      }
+      if (User[1].Password !== Password) {
+        throw new Error(Strings.IncorrectPassword[UserSettings.Lang]);
+      }
+      if (await IsUserLoggedIn()) {
+        throw new Error(Strings.YouAreAlreadyLoggedIn[UserSettings.Lang]);
+      }
+    } catch (Error) {
+      console.log("Login rejected");
+      Reject(Error);
+      return;
+    }
+    localStorage.setItem("UserLoginInfo", JSON.stringify({ Email: User[1].Email, UserName: User[1].UserName, Password }));
+    localStorage.setItem("UserDataBackUp", FetchLocalStorage());
+    Resolve(Strings.LoginSuccessMessage[UserSettings.Lang]);
+    // RestoreFromText(User[1].UserData);
+  });
+}
+async function IsUserLoggedIn() {
+  if (CheckForSave("UserLoginInfo")) {
+    let UserLoginInfo = JSON.parse(localStorage.getItem("UserLoginInfo"));
+    let Users = await GetAllUsers();
+    console.log(Users);
+    let User = Users.find((User) => {
+      return (
+        User[1].UserName.toLowerCase().trim() === UserLoginInfo.UserName.toLowerCase().trim() && User[1].Email.toLowerCase().trim() === UserLoginInfo.Email.toLowerCase().trim()
+      );
+    });
+    if (!User) {
+      return false;
+    }
+    if (User[1].Password !== UserLoginInfo.Password) {
+      return false;
+    }
+    if (User && User[1].Password === UserLoginInfo.Password) {
+      return true;
+    }
+  } else {
+    return false;
+  }
+}
+async function PushUpdates() {
+  if (!(await IsUserLoggedIn())) {
+    console.log("User not logged in quiting PushUpdates()");
+    return;
+  }
+  PushUpdatesController.abort();
+  let UserLoginInfo = JSON.parse(localStorage.getItem("UserLoginInfo"));
+  let User = await GetUserByUserName(UserLoginInfo.UserName);
+  if (User[1].UserData === FetchLocalStorage()) {
+    console.log("UserLocalStorage is already synced with cloud storage data quiting PushUpdates()");
+    return;
+  }
+  UpdateUserData(User[1].UserName, FetchLocalStorage(), { signal: PushUpdatesSignal })
+    .then((Reasponse) => {
+      console.log("Pushed updates successfully", Reasponse);
+    })
+    .catch((Error) => {
+      console.error("Failed to push updates", Error);
+    });
+}
+async function GetUpdates() {
+  if (!(await IsUserLoggedIn())) {
+    console.log("User not logged in quiting GetUpdates()");
+    return;
+  }
+  let UserLoginInfo = JSON.parse(localStorage.getItem("UserLoginInfo"));
+  let User = await GetUserByUserName(UserLoginInfo.UserName);
+  if (User[1].UserData === FetchLocalStorage()) {
+    console.log("UserLocalStorage is already synced with cloud storage data quiting GetUpdates()");
+    return;
+  }
+  console.log("Recived updates successfully");
+  RestoreFromText(User[1].UserData);
+}
