@@ -391,7 +391,8 @@ async function IsUserLoggedIn() {
     let Users = await GetAllUsers();
     let User = Users.find((User) => {
       return (
-        User[1].UserName.toLowerCase().trim() === UserLoginInfo.UserName.toLowerCase().trim() && User[1].Email.toLowerCase().trim() === UserLoginInfo.Email.toLowerCase().trim()
+        User[1].UserName.toLowerCase().trim() === UserLoginInfo.UserName.toLowerCase().trim() &&
+        User[1].Email.toLowerCase().trim() === UserLoginInfo.Email.toLowerCase().trim()
       );
     });
     if (!User) {
@@ -408,37 +409,62 @@ async function IsUserLoggedIn() {
   }
 }
 async function PushUpdates() {
-  if (!(await IsUserLoggedIn())) {
-    console.log("User not logged in quiting PushUpdates()");
-    return;
-  }
-  PushUpdatesController.abort();
-  let UserLoginInfo = JSON.parse(localStorage.getItem("UserLoginInfo"));
-  let User = await GetUserByUserName(UserLoginInfo.UserName);
-  if (User[1].UserData === FetchLocalStorage()) {
-    console.log("UserLocalStorage is already synced with cloud storage data quiting PushUpdates()");
-    return;
-  }
-  UpdateUserData(User[1].UserName, FetchLocalStorage(), { signal: PushUpdatesSignal })
-    .then((Reasponse) => {
-      console.log("Pushed updates successfully", Reasponse);
-      DisplayMessage("Success", Strings.PushUpdatesSuccess[UserSettings.Lang]);
-    })
-    .catch((Error) => {
-      console.error("Failed to push updates", Error);
-    });
+  return new Promise(async (Resolve, Reject) => {
+    try {
+      if (!(await IsUserLoggedIn())) {
+        console.log("User not logged in, quitting PushUpdates()");
+        Resolve(); // Resolve without pushing updates since the user is not logged in
+        return;
+      }
+
+      PushUpdatesController.abort();
+      let UserLoginInfo = JSON.parse(localStorage.getItem("UserLoginInfo"));
+      let User = await GetUserByUserName(UserLoginInfo.UserName);
+
+      if (User[1].UserData === FetchLocalStorage()) {
+        console.log("UserLocalStorage is already synced with cloud storage data, quitting PushUpdates()");
+        Resolve();
+        return;
+      }
+
+      UpdateUserData(User[1].UserName, FetchLocalStorage(), { signal: PushUpdatesSignal })
+        .then((Response) => {
+          console.log("Pushed updates successfully", Response);
+          DisplayMessage("Success", Strings.PushUpdatesSuccess[UserSettings.Lang]);
+          Resolve();
+        })
+        .catch((Error) => {
+          console.error("Failed to push updates", Error);
+          Reject(Error);
+        });
+    } catch (Error) {
+      console.warn("Failed to push updates", Error);
+      Reject(Error);
+    }
+  });
 }
 async function GetUpdates() {
-  if (!(await IsUserLoggedIn())) {
-    console.log("User not logged in quiting GetUpdates()");
-    return;
-  }
-  let UserLoginInfo = JSON.parse(localStorage.getItem("UserLoginInfo"));
-  let User = await GetUserByUserName(UserLoginInfo.UserName);
-  if (User[1].UserData === FetchLocalStorage()) {
-    console.log("UserLocalStorage is already synced with cloud storage data quiting GetUpdates()");
-    return;
-  }
-  console.log("Recived updates successfully");
-  RestoreFromText(User[1].UserData);
+  return new Promise(async (Resolve, Reject) => {
+    if (!(await IsUserLoggedIn())) {
+      console.log("User not logged in quiting GetUpdates()");
+      Resolve();
+      return;
+    }
+    let UserLoginInfo = JSON.parse(localStorage.getItem("UserLoginInfo"));
+    let User;
+    try {
+      User = await GetUserByUserName(UserLoginInfo.UserName);
+    } catch (Error) {
+      Reject();
+      return;
+    }
+    if (User[1].UserData === FetchLocalStorage()) {
+      console.log("UserLocalStorage is already synced with cloud storage data quiting GetUpdates()");
+      Resolve();
+      return;
+    }
+    console.log("Recived updates successfully");
+    RestoreFromText(User[1].UserData);
+    Resolve();
+  });
 }

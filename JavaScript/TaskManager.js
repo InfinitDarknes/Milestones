@@ -541,7 +541,6 @@ function ReturnTaskState(ID) {
 }
 // Restoring
 function RestoreFromText(Text) {
-  console.trace();
   let TextObject = JSON.parse(Text);
   if (typeof TextObject !== "object") {
     DisplayMessage("Error", "Input is not a valid JSON object");
@@ -549,7 +548,6 @@ function RestoreFromText(Text) {
   }
   for (let n in TextObject) {
     if (["Notes", "UserCategories", "AllTasks"].includes(n)) {
-      console.log(n);
       localStorage.setItem(n.toString(), TextObject[n]);
     }
   }

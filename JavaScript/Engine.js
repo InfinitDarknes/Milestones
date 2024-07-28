@@ -13,8 +13,15 @@ async function InitializeApp() {
   LoadUserSettings();
   FixDirection();
   PreLoader();
-  await PushUpdates();
-  await GetUpdates();
+
+  try {
+    await PushUpdates();
+    await GetUpdates();
+  } catch (Error) {
+    console.warn("Failed to sync with the database. Use a VPN", Error);
+    DisplayMessage("Error", "Failed to connect to cloud storage, using local storage now");
+  }
+  // Proceed with loading the app regardless of PushUpdates and GetUpdates success
   LoadSave();
   LoadCurrentDate();
   HidePreLoader();
@@ -107,15 +114,30 @@ async function Save(Type) {
   switch (Type) {
     case "Tasks":
       localStorage.setItem("AllTasks", JSON.stringify(AllTasksArray));
-      await PushUpdates();
+      try {
+        await PushUpdates();
+      } catch (Error) {
+        console.warn("Failed to push updates", Error);
+        DisplayMessage("Error", "Failed to push updates");
+      }
       break;
     case "UGC":
       localStorage.setItem("UserCategories", JSON.stringify(UserCategoriesArray));
-      await PushUpdates();
+      try {
+        await PushUpdates();
+      } catch (Error) {
+        console.warn("Failed to push updates", Error);
+        DisplayMessage("Error", "Failed to push updates");
+      }
       break;
     case "Notes":
       localStorage.setItem("Notes", JSON.stringify(NotesArray));
-      await PushUpdates();
+      try {
+        await PushUpdates();
+      } catch (Error) {
+        console.warn("Failed to push updates", Error);
+        DisplayMessage("Error", "Failed to push updates");
+      }
       break;
     case "UserSettings":
       localStorage.setItem("UserSettings", JSON.stringify(UserSettings));
